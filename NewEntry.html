@@ -1,0 +1,81 @@
+<table align='center'>
+    <tr>
+        <td>RO no.:</td>
+        <td>
+            <input type='text' numbers-only ng-model='newEntry.RONum' placeholder='Enter RO'/>
+        </td>
+    </tr>
+    <tr>
+        <td>Location :</td>
+        <td>
+            <select ng-model='newEntry.Location'>
+                <option value='Technician'>Technician</option>
+                <option value='Shelf'>Shelf</option>
+                <option value='Bumper Rack'>Bumper Rack</option>
+                <option value='Right Wall'>Right Wall</option>
+                <option value='Back Wall'>Back Wall</option>
+                <option value='Detail Dept'>Detail Department</option>
+            </select>
+        </td>
+    </tr>
+    <tr ng-show='newEntry.Location == "Technician"'>
+        <td>Technician:</td>
+        <td>
+            <select ng-model='newEntry.Technician'>
+                <option value='Jerry'>Jerry</option>
+                <option value='Nacho'>Nacho</option>
+                <option value='Brian'>Brian</option>
+                <option value='Jose'>Jose</option>
+                <option value='Van'>Van</option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td>Customer:</td>
+        <td>
+            <input type='text' ng-model='newEntry.Customer' placeholder='Enter Customer Name'/>
+        </td>
+    </tr>
+    <tr>
+        <td>Vehicle:</td>
+        <td>
+            <input type=text ng-model='newEntry.Vehicle' placeholder="Enter Vehicle Make & Model" />
+        </td>
+    </tr>
+    <!--tr>
+        <td>Receive Date:</td>
+        <td>
+            <input type='text' msodel='newEntry.ReceiveDate | date:"medium"' readonly />
+        </td>
+    </tr-->
+    <tr>
+        <td>Vendor:</td>
+        <td>
+            <select ng-model='newEntry.Vendor'>
+                <option value='Simi Valley Toyota'>Simi Valley Toyota</option>
+                <option value='1st Nissan'>1st Nissan</option>
+                <option value='1st Honda'>1st Honda</option>
+                <option value='1st Kia'>1st Kia</option>
+                <option value='LKQ'>LKQ</option>
+                <option value='Antelope Valley Chevrolet'>Antelope Valley Chevrolet</option>
+                <option value='Honda of Thousand Oaks'>Honda of Thousand Oaks</option>
+                <option value='Neftin Mazda Westlake Village'>Neftin Mazda Westlake Village</option>
+                <option value='Kirby Subaru'>Kirby Subaru</option>
+                <option value='Bob Smith BMW'>Bob Smith BMW</option>
+                <option value='Audi Pasadena'>Audi Pasadena</option>
+                <option value='Toyota of Thousand Oaks'>Toyota of Thousand Oaks</option>
+                <option value='Other'>Other</option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td>Notes:</td>
+        <td>
+            <input type=text ng-model='newEntry.Notes' />
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <input type='button' value='Add Entry' ng-click='AddEntry("");' />
+    </tr>
+</table>
