@@ -1,5 +1,9 @@
 <?php
 
+    class Delivery{
+
+    };
+
     header("Access-Allow-Control-Origin: *");
     $method = $_SERVER['REQUEST_METHOD'];   // See if it is a GET, POST, DELETE, etc
 
@@ -15,26 +19,61 @@
 
         case "GET":
   //         echo 'GET';
-  //         $qString = $_GET["id"];
-           $patientList = ProcessGET();
-           echo json_encode($deliveryList);
+           $id = $_GET[""];
+           //$deliveries = ProcessGET();
+           ProcessGET('x');
+           //echo json_encode($deliveries);
            break;
 
         default:
             break;
-    }
+    }   // switch()
+
+
+    function ProcessGET($id){
+
+        require('db_open.php');
+
+//        if ($id > ''){
+//            ;// Get just one record
+//        } else {
+
+            $sql = "SELECT id, RONum, Customer, Vehicle, Location, " .
+                    "Technician, DATE_FORMAT(ReceiveDate, '%c/%d %l:%i%p') AS ReceiveDate, " .
+                    "Vendor, Notes FROM Deliveries";
+
+            try{
+
+                $result = $conn->query($sql);
+                $records = $result->fetchAll(PDO::FETCH_ASSOC);
+                echo json_encode($records);
+
+            } catch(PDOException $pe){
+
+                echo "Fetching deliveries failed." . $pe->getMessage();
+
+            } finally {
+                //echo "reached finally";
+                $conn = null;
+            }   // try-catch{}
+
+
+//        }   // if-else {}
+
+        //$conn = null;
+
+    }   // ProcessGET()
+
 
     function ProcessPOST($delivery){
 
-       require('db_open.php');
-
-       $tsql = "INSERT INTO Deliveries " .
+        require('db_open.php');
+        $tsql = "INSERT INTO Deliveries " .
                 "(RONum, Location, Customer, Vehicle, Technician, Vendor, Notes) " .
                 "VALUES ($delivery->RONum, '$delivery->Location', " .
                          "'$delivery->Customer', '$delivery->Vehicle', " .
                          "'$delivery->Technician', '$delivery->Vendor', " .
                          "'$delivery->Notes')";
-
        //echo $tsql;
        try{
            $result = $conn->query($tsql);
@@ -44,8 +83,7 @@
        }
 
        $conn = null;        // close the database
-
-   }
+   }    // ProcessPOST()
 
 
 ?>

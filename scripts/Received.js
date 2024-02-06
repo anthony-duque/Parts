@@ -2,7 +2,7 @@
    .module("myModule", [])
      .controller("myController", function($scope, $http, InventoryService){
 
-         $scope.receivedParts = InventoryService.PartsInWarehouse;
+         //$scope.receivedParts = InventoryService.PartsInWarehouse;
 
          $scope.sortField = "DateReceived";
          $scope.sortDescend = false;
@@ -37,14 +37,14 @@
              }
          }
 
+        GetDeliveries();
+
          function AddDelivery(newDelivery){
              $http.post('./php/Delivery.php', JSON.stringify(newDelivery))
                    .then(function(response) {
                             if (response.data){
                                console.log("New Delivery added successfully!");
                                console.log(response.data);
-                               //window.location.href = 'PatientSearch.html';
-                               //console.log(response.data);
                             }
                          },
                          function(response) {
@@ -55,6 +55,24 @@
                          }
                    );   // .then()
          }
+
+         function GetDeliveries(){
+            $http.get('./php/Delivery.php')
+                  .then(function(response) {
+                           if (response.data){
+                              console.log("Delivery records fetched successfully!");
+                              console.log(response.data);
+                              $scope.receivedParts = response.data;
+                           }
+                        },
+                        function(response) {
+                           console.log("Service does not Exists");
+                           console.log(response.status);
+                           console.log(response.statusText);
+                           console.log(response.headers());
+                        }
+                  );   // .then()
+         }     // GetDeliveries()
 
       })
       .directive('numbersOnly', function () {

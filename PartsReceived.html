@@ -19,7 +19,7 @@
         <th>Vendor</th>
         <th>Notes</th>
     </tr>
-    <tr ng-repeat='eachPart in receivedParts | orderBy: sortField : sortDescend | filter : searchText'>
+    <tr ng-repeat='eachPart in receivedParts | orderBy: sortField : sortDescend | filter : searchText' >
         <td>{{ eachPart.RONum }}</td>
         <td>{{ eachPart.Customer }}</td>
         <td>{{ eachPart.Vehicle }}</td>
