@@ -12,17 +12,16 @@
         case 'POST':
 //            echo 'POST';
             $rcvdJson = file_get_contents('php://input');
+            //echo $rcvdJson;
             $data = json_decode($rcvdJson);
             ProcessPOST($data);
-            //echo $rcvdJson;
             break;
 
         case "GET":
   //         echo 'GET';
            $id = $_GET[""];
-           //$deliveries = ProcessGET();
-           ProcessGET('x');
-           //echo json_encode($deliveries);
+           $deliveries = ProcessGET('x');
+           echo json_encode($deliveries);
            break;
 
         default:
@@ -33,6 +32,8 @@
     function ProcessGET($id){
 
         require('db_open.php');
+
+        $records = null;
 
 //        if ($id > ''){
 //            ;// Get just one record
@@ -46,7 +47,6 @@
 
                 $result = $conn->query($sql);
                 $records = $result->fetchAll(PDO::FETCH_ASSOC);
-                echo json_encode($records);
 
             } catch(PDOException $pe){
 
@@ -57,10 +57,8 @@
                 $conn = null;
             }   // try-catch{}
 
-
 //        }   // if-else {}
-
-        //$conn = null;
+            return $records;
 
     }   // ProcessGET()
 
