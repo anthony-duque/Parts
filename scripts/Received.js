@@ -1,6 +1,6 @@
  var app = angular
    .module("myModule", [])
-     .controller("myController", function($scope, $http, InventoryService){
+     .controller("myController", function($scope, $http){
 
          //$scope.receivedParts = InventoryService.PartsInWarehouse;
 
@@ -56,23 +56,29 @@
                    );   // .then()
          }
 
+         function handleSuccess(response)
+         {
+             if (response.data){
+              console.log("Delivery records fetched successfully!");
+              console.log(response.data);
+              $scope.receivedParts = response.data;
+             }
+         }
+
+         function handleError(response)
+         {
+             console.log("Delivery records not fetched.");
+             //console.log(response.status);
+             //console.log(response.statusText);
+             //console.log(response.headers());
+         }
+
          function GetDeliveries(){
-            $http.get('./php/Delivery.php')
-                  .then(function(response) {
-                           if (response.data){
-                              console.log("Delivery records fetched successfully!");
-                              console.log(response.data);
-                              $scope.receivedParts = response.data;
-                           }
-                        },
-                        function(response) {
-                           console.log("Service does not Exists");
-                           console.log(response.status);
-                           console.log(response.statusText);
-                           console.log(response.headers());
-                        }
-                  );   // .then()
-         }     // GetDeliveries()
+
+             $http.get('./php/Delivery.php')
+                   .then(handleSuccess)
+                   .catch(handleError);   // .then()
+        }
 
       })
       .directive('numbersOnly', function () {
