@@ -22,9 +22,8 @@
        }
    }
 
-
    set_exception_handler('exceptionHandler');
-
+/*
    // Establishes the connection.
    $connect_string = "mysql:server=localhost;port=3306;dbname=CarStar";
 
@@ -34,9 +33,25 @@
        $conn = null;
        echo "DB Connection could not be established.";
    }
+*/
+
+
    // $conn = sqlsrv_connect($serverName, $connectOptions);
    // if ($conn == false){
    //   die(formatErrors(sqlsrv_errors()));
    // }
 
-?>
+   $serverName = "localhost\mysql";
+   $connectionInfo = array( "Database"=>"CarStar", "UID"=>"username", "PWD"=>"password" );
+   $conn = sqlsrv_connect( $serverName, $connectionInfo);
+   if( $conn === false ) {
+        die( print_r( sqlsrv_errors(), true));
+   }
+
+   $sql = "INSERT INTO Table_1 (id, data) VALUES (?, ?)";
+   $params = array(1, "some data");
+
+   $stmt = sqlsrv_query( $conn, $sql, $params);
+   if( $stmt === false ) {
+        die( print_r( sqlsrv_errors(), true));
+   }?>

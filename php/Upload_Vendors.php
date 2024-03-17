@@ -1,7 +1,6 @@
 <?php
 
-
-    const FILENAME = "Vendors.csv";
+    const FILENAME = "../extract_files/Vendors.csv";
 
     const NAME 		= 0;
     const PHONE 	= 1;
@@ -68,7 +67,6 @@
     $tsql = str_replace(")(", "),(", $tsql);
     $tsql = $tsql . ';';
     echo $tsql;
-//    exit;
 
     $servername = "localhost";
     $username = "root";
