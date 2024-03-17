@@ -9,12 +9,14 @@
 
          $scope.ReceivePage = 'PartsReceived.html';
 
-         $scope.sortColumn = function(sortBy){
+         $scope.sortColumn = function(sortBy)
+         {
              $scope.sortField = sortBy;
              $scope.sortDescend = !$scope.sortDescend;
          }
 
-         $scope.AddEntry = function(fromClick){
+         $scope.AddEntry = function(fromClick)
+         {
 
              if(fromClick == 'new'){
                  lastEntry = $scope.receivedParts.slice(-1);
@@ -39,7 +41,8 @@
 
         GetDeliveries();
 
-         function AddDelivery(newDelivery){
+         function AddDelivery(newDelivery)
+         {
              $http.post('./php/Delivery.php', JSON.stringify(newDelivery))
                    .then(function(response) {
                             if (response.data){
@@ -73,7 +76,8 @@
              //console.log(response.headers());
          }
 
-         function GetDeliveries(){
+         function GetDeliveries()
+         {
 
              $http.get('./php/Delivery.php')
                    .then(handleSuccess)
