@@ -1,8 +1,8 @@
 <?php
 
-    class Delivery{
-
-    };
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
 
     header("Access-Allow-Control-Origin: *");
     $method = $_SERVER['REQUEST_METHOD'];   // See if it is a GET, POST, DELETE, etc
@@ -48,9 +48,9 @@
                 $result = $conn->query($sql);
                 $records = $result->fetchAll(PDO::FETCH_ASSOC);
 
-            } catch(PDOException $pe){
+            } catch(Exception $e){
 
-                echo "Fetching deliveries failed." . $pe->getMessage();
+                echo "Fetching deliveries failed." . $e->getMessage();
 
             } finally {
                 //echo "reached finally";
@@ -66,6 +66,13 @@
     function ProcessPOST($delivery){
 
         require('db_open.php');
+
+        "INSERT INTO Vehicles (email, name)
+        SELECT 'example@example.com', 'John Doe'
+        WHERE NOT EXISTS (
+          SELECT 1 FROM users WHERE email = 'example@example.com'
+        );"
+
         $tsql = "INSERT INTO Deliveries " .
                 "(RONum, Location, Customer, Vehicle, Technician, Vendor, Notes) " .
                 "VALUES ($delivery->RONum, '$delivery->Location', " .
