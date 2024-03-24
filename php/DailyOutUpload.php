@@ -36,7 +36,7 @@ if (($handle = fopen(FILENAME, "r")) !== FALSE) {
         if ($data[VEHICLE_IN] > ''){
             $dateObj = date_create($data[VEHICLE_IN]);
             $mySqlDate = "'" . date_format($dateObj, "Y-m-d H:i:s") . "'";
-        } else {
+        } elsrecordse {
             $mySqlDate = 'NULL';
         }
 

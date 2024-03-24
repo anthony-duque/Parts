@@ -2,9 +2,10 @@
 <head>
     <script src="./scripts/angularjs.js"></script>
     <script src="./scripts/NewDelivery.js"></script>
+    <script src="./scripts/SampleROs.js"></script>
 </head>
 <body ng-controller="NewDeliveryController">
-    <table>
+    <table align='center'>
         <tr>
             <th colspan='2'>New Delivery</th>
         </tr>
@@ -13,7 +14,20 @@
                 RO Number:
             </th>
             <td>
-                <input type='number' size='5' min='1000' max='9999'></input>
+                <input type='number' size='5' min='1000' max='9999'
+                        ng-model='RO.Number' ng-blur='GetROInfo(RO.Number);'></input>
+            </td>
+            <th>
+                Owner:
+            </th>
+            <td>
+                <input type='text' ng-model=RO.Owner ng-readonly=RO.Found></input>
+            </td>
+            <th>
+                Vehicle:
+            </th>
+            <td>
+                <input type='text' ng-model=RO.Vehicle ng-readonly=RO.Found></input>
             </td>
         </tr>
     </table>
