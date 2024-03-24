@@ -66,7 +66,7 @@
 
     $tsql = str_replace(")(", "),(", $tsql);
     $tsql = $tsql . ';';
-    echo $tsql;
+    //echo $tsql;
 
     $servername = "localhost";
     $username = "root";
