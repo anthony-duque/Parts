@@ -13,6 +13,11 @@ var NewDeliveryController =
             Found: false
         };
 
+        $scope.Deliveries = [
+            {"Description":"Description", "Location":"Rack", "Rack": 5},
+            {"Description":"Description", "Location":"Jerry", "Rack": 5}
+        ];
+
         $scope.GetROInfo = function(roNum){
 
             for(var i = 0; i < RepairOrders.length; ++i){

@@ -7,7 +7,7 @@
 <body ng-controller="NewDeliveryController">
     <table align='center'>
         <tr>
-            <th colspan='2'>New Delivery</th>
+            <th colspan='6'>New Delivery</th>
         </tr>
         <tr>
             <th>
@@ -21,13 +21,51 @@
                 Owner:
             </th>
             <td>
-                <input type='text' ng-model=RO.Owner ng-readonly=RO.Found></input>
+                <input type='text' ng-model='RO.Owner' ng-readonly='RO.Found'></input>
             </td>
             <th>
                 Vehicle:
             </th>
             <td>
-                <input type='text' ng-model=RO.Vehicle ng-readonly=RO.Found></input>
+                <input type='text' ng-model='RO.Vehicle' ng-readonly='RO.Found'></input>
+            </td>
+            <td>
+            </td>
+        </tr>
+        <tr>
+            <td colspan=6>
+                <table align='center'>
+                    <tr>
+                        <th>Description</th>
+                        <th>Location</th>
+                        <th>Rack</th>
+                    </tr>
+                    <tr ng-repeat='Item in Deliveries'>
+                        <td>
+                            <input type='text' ng-model='Item.Description' maxlength=20 size=20></input>
+                        </td>
+                        <td>
+                            <select ng-model=Item.Location>
+                                <option value="Shelf">Shelf</option>
+                                <option value="Rack">Rack</option>
+                                <option value="Jerry">Jerry</option>
+                                <option value="Jose">Jose</option>
+                                <option value="Nacho">Nacho</option>
+                                <option value="Brian">Brian</option>
+                                <option value="Van">Van</option>
+                                <option value="Chad">Chad</option>
+                                <option value="Paint">Paint</option>
+                            </select>
+                            <!--input type='text' ></input -->
+                        </td>
+                        <td>
+                            <input type='number' size='2' maxlength='2' min=0 max=10 ng-model='Item.Rack'></input>
+                        </td>
+                        <td>
+                            <input type='button' value='Delete' ng-click='Deliveries.splice($index, 1);'/>
+                        </td>
+                    </tr>
+                </table>
             </td>
         </tr>
     </table>
