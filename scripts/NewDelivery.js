@@ -25,13 +25,13 @@ var NewDeliveryController =
 
             console.log('Saving the delivery');
 
-            var len = $scope.Deliveries.length;
+            var len = $scope.Delivery.Items.length;
             for(var i = 0; i < len; ++i){
-                if($scope.Deliveries[i].Description.trim() == ''){
-                    $scope.Deliveries.splice(i, 1); // delete last item if empty
+                if($scope.Delivery.Items[i].Description.trim() == ''){
+                    $scope.Delivery.Items.splice(i, 1); // delete last item if empty
                 };
             }
-            console.log($scope.Deliveries);
+            console.log($scope.Delivery);
         }
 
         $scope.Add_Item = function(){
