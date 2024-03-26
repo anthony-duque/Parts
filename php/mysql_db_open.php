@@ -11,17 +11,37 @@
     if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
     } else {
-        echo("Connection successful!");
+        //echo("Connection successful!");
     }
 
-/*    $sql = "INSERT INTO MyGuests (firstname, lastname, email)
-    VALUES ('John', 'Doe', 'john@example.com')";
+    $sql = "SELECT id, name FROM Vendors";
+    $s = mysqli_query($conn, $sql);
+    $rows = array();
 
-    if ($conn->query($sql) === TRUE) {
-      echo "New record created successfully";
+    while($r = mysqli_fetch_assoc($s)){
+        $rows[] = $r;
+    }
+
+    echo json_encode($rows);
+
+//    $stmt = $conn->connection->prepare($sql);
+//    $stmt->execute();
+//    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    //$result = $conn->query($sql);
+    //$records = $result->fetch(PDO::FETCH_ASSOC);
+    //echo json_encode($result);
+    /*
+    if ($result->num_rows > 0){
+
+        while($row = $result->fetch_assoc()){
+            echo "RONum = " . $row["RONum"];
+        }
     } else {
-      echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "No result.";
     }
-*/
-//    $conn->close();
+
+    */
+
+    $conn->close();
 ?>

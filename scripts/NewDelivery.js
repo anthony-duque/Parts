@@ -19,7 +19,8 @@ var NewDeliveryController =
             "Items":[]
         };
 
-        $scope.Vendors = Vendors;   // load from Vendors.js
+        //$scope.Vendors = Vendors;   // load from Vendors.js
+        GetVendors();
 
         $scope.SaveNewDelivery = function(){
 
@@ -52,6 +53,31 @@ var NewDeliveryController =
                 }
             }   // for (var i = 0...)
         }   // GetROInfo()
+
+        function handleSuccess(response)
+        {
+            if (response.data){
+             console.log("Vendors fetched successfully!");
+             console.log(response.data);
+             $scope.Vendors = response.data;
+            }
+        }
+
+        function handleError(response)
+        {
+            console.log("Delivery records not fetched.");
+            //console.log(response.status);
+            //console.log(response.statusText);
+            //console.log(response.headers());
+        }
+
+        function GetVendors()
+        {
+            $http.get('./php/mysql_db_open.php')
+                  .then(handleSuccess)
+                  .catch(handleError);   // .then()
+       }
+
     }       // function($scope, $http)
 
 NewDeliveryModule.controller("NewDeliveryController", NewDeliveryController);
