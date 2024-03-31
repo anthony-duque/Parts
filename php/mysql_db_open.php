@@ -10,9 +10,10 @@
     // Check connection
     if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-    } else {
+//    } else {
         //echo("Connection successful!");
     }
+
 
     $sql = "SELECT id, name FROM Vendors";
     $s = mysqli_query($conn, $sql);
@@ -31,7 +32,7 @@
     //$result = $conn->query($sql);
     //$records = $result->fetch(PDO::FETCH_ASSOC);
     //echo json_encode($result);
-    /*
+/*
     if ($result->num_rows > 0){
 
         while($row = $result->fetch_assoc()){
@@ -43,5 +44,5 @@
 
     */
 
-    $conn->close();
+//    $conn->close();
 ?>

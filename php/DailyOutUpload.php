@@ -1,26 +1,43 @@
 <?php
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-	const FILENAME = "../extract_files/Daily_Out_Report.csv";
+const FILENAME = "../extract_files/Daily_Out_Report.csv";
 
-	const RO_NUM           = 0;
-	const OWNER            = 1;
-	const VEHICLE_IN       = 2;
-	const VEHICLE          = 3;
-	const ESTIMATOR        = 4;
-	const CURRENT_PHASE    = 6;
-	const PARTS_RCVD       = 9;
-	const TECHNICIAN       = 13;
+const RO_NUM           = 0;
+const OWNER            = 1;
+const VEHICLE_IN       = 2;
+const VEHICLE          = 3;
+const ESTIMATOR        = 4;
+const CURRENT_PHASE    = 6;
+const PARTS_RCVD       = 9;
+const TECHNICIAN       = 13;
 
+require('db_open.php');
+
+	// Refresh the table of Repairs with Current RepairOrders
+
+$tsql = "DELETE FROM Repairs";
+
+//echo $tsql;
+
+if ($conn->query($tsql) === TRUE) {
+	echo "Repairs Table cleared.";
+} else {
+  echo "Error: " . $tsql . "<br>" . $conn->error;
+  exit;
+}
+
+/*
 $row = 0;
 
 if (($handle = fopen(FILENAME, "r")) !== FALSE) {
 
     $tsql = "INSERT INTO Repairs " .
-            "(RONum, Owner, Vehicle, Estimator," .
-            " Vehicle_In, PartsReceived, CurrentPhase, Technician) " .
+            "(RONum, Owner, Vehicle, Estimator, " .
+            "Vehicle_In, PartsReceived, CurrentPhase, Technician) " .
             "VALUES ";
 
     while (($data = fgetcsv($handle, 500, ",")) !== FALSE) {
@@ -52,11 +69,18 @@ if (($handle = fopen(FILENAME, "r")) !== FALSE) {
         $values = "(". $ro_num .", '". $owner . "', '" . $vehicle . "', '" . $estimator . "', " .
                   $vehicle_in . ", " . $parts_received . ", '" . $current_phase . "', '" . $technician . "')";
 
-        $tsql = $tsql . $values;
+        $insert_sql = $tsql . $values;
 
+		if ($conn->query($insert_sql) === TRUE) {
+	      echo $ro_num . " uploaded<br/>";
+	    } else {
+	      echo "Error: " . $insert_sql . "<br>" . $conn->error;
+	    }
     }
 
     fclose($handle);
+	$conn = null;
+
 
     $tsql = str_replace(")(", "),(", $tsql);
     $tsql = $tsql . ';';
@@ -77,18 +101,10 @@ if (($handle = fopen(FILENAME, "r")) !== FALSE) {
         echo("Connection successful!");
     }
 
-    /*    $sql = "INSERT INTO MyGuests (firstname, lastname, email)
-    VALUES ('John', 'Doe', 'john@example.com')";
-    */
+    $sql = "INSERT INTO MyGuests (firstname, lastname, email)
+    	VALUES ('John', 'Doe', 'john@example.com')";
+*/
 
-    if ($conn->query($tsql) === TRUE) {
-      echo $row . " vendors successfully uploaded!";
-    } else {
-      echo "Error: " . $tsql . "<br>" . $conn->error;
-    }
-
-    $conn->close();
-
-}
+//}
 ?>
-Total Records Read: <?= $row ?>
+Total Records Read: <? //= $row ?>
