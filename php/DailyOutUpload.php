@@ -19,28 +19,30 @@ require('db_open.php');
 
 	// Refresh the table of Repairs with Current RepairOrders
 
-$tsql = "DELETE FROM Repairs";
+	$tsql = "DELETE FROM Repairs";
 
-//echo $tsql;
+	//echo $tsql;
 
-if ($conn->query($tsql) === TRUE) {
-	echo "Repairs Table cleared.";
-} else {
-  echo "Error: " . $tsql . "<br>" . $conn->error;
-  exit;
-}
+	if ($conn->query($tsql) === TRUE) {
+		echo "Repairs Table cleared.";
+	} else {
+	  echo "Error: " . $tsql . "<br>" . $conn->error;
+	  exit;
+	}
 
-/*
-$row = 0;
-
-if (($handle = fopen(FILENAME, "r")) !== FALSE) {
+	if (($handle = fopen(FILENAME, "r")) === FALSE) {
+		echo "Error in opening " . FILENAME;
+		exit;
+	}
 
     $tsql = "INSERT INTO Repairs " .
             "(RONum, Owner, Vehicle, Estimator, " .
             "Vehicle_In, PartsReceived, CurrentPhase, Technician) " .
             "VALUES ";
 
-    while (($data = fgetcsv($handle, 500, ",")) !== FALSE) {
+	$row = 0;	// record counter
+
+	while (($data = fgetcsv($handle, 500, ",")) !== FALSE) {
 
         $second_field = trim($data[1]);
 
@@ -53,7 +55,7 @@ if (($handle = fopen(FILENAME, "r")) !== FALSE) {
         if ($data[VEHICLE_IN] > ''){
             $dateObj = date_create($data[VEHICLE_IN]);
             $mySqlDate = "'" . date_format($dateObj, "Y-m-d H:i:s") . "'";
-        } elsrecordse {
+        } else {
             $mySqlDate = 'NULL';
         }
 
@@ -81,7 +83,7 @@ if (($handle = fopen(FILENAME, "r")) !== FALSE) {
     fclose($handle);
 	$conn = null;
 
-
+/*
     $tsql = str_replace(")(", "),(", $tsql);
     $tsql = $tsql . ';';
     echo $tsql;
@@ -93,7 +95,8 @@ if (($handle = fopen(FILENAME, "r")) !== FALSE) {
     $dbname = "CarStar";
 
     // Create connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
+    $conn = new mysqli($servername, $us	$row = 0;
+ername, $password, $dbname);
     // Check connection
     if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
@@ -105,6 +108,5 @@ if (($handle = fopen(FILENAME, "r")) !== FALSE) {
     	VALUES ('John', 'Doe', 'john@example.com')";
 */
 
-//}
 ?>
-Total Records Read: <? //= $row ?>
+Total Records Read: <?= $row ?>
