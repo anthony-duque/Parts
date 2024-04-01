@@ -4,7 +4,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-const FILENAME = "../extract_files/Daily_Out_Report.csv";
+const FILENAME = "../extract_files/Daily_Out.csv";
 
 const RO_NUM           = 0;
 const OWNER            = 1;
@@ -24,9 +24,9 @@ require('db_open.php');
 	//echo $tsql;
 
 	if ($conn->query($tsql) === TRUE) {
-		echo "Repairs Table cleared.";
+		echo "<br/>Repairs Table cleared.<br/>";
 	} else {
-	  echo "Error: " . $tsql . "<br>" . $conn->error;
+	  echo "Error: " . $tsql . "<br> - " . $conn->error;
 	  exit;
 	}
 
