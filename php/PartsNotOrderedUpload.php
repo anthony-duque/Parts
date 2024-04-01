@@ -17,7 +17,7 @@ require('db_open.php');
 	//echo $tsql;
 
 	if ($conn->query($tsql) === TRUE) {
-		echo "Parts Not Ordered Table cleared.";
+		echo "Parts Not Ordered Table cleared.<br/>";
 	} else {
 	  echo "Error: " . $tsql . "<br>" . $conn->error;
 	  exit;
