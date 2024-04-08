@@ -3,7 +3,7 @@ var app = angular
   .module("prodModule", [])
     .controller("prodController", function($scope, $http){
 
-        $scope.productionView = 'All_View.html';
+        $scope.productionView = 'Estimator_View.html';
 
         GetRepairOrders();
 
@@ -55,11 +55,7 @@ var app = angular
                 default:
                     $scope.productionView = 'All_View.html';
                     break;
-
             }
-
         }
-
-
 
     });

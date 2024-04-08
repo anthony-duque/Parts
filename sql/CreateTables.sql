@@ -74,7 +74,28 @@ ALTER TABLE Repairs ADD PartsReceived FLOAT NULL;
 ALTER TABLE Repairs ADD Estimator varchar(30) NULL;
 
 
-INSERT INTO Technicians 
-(Name)
-VALUES
-{}
+CREATE TABLE CarStar.PartsStatusExtract (
+	id INT UNSIGNED auto_increment NOT NULL,
+	RO_Info varchar(100) NOT NULL,
+	Part_Number varchar(30) NULL,
+	Part_Description varchar(75) NULL,
+	Part_Type varchar(20) NULL,
+	RO_Quantity SMALLINT NULL,
+	Vendor_Name varchar(75) NULL,
+	PO_Num varchar(15) NULL,
+	Ordered_Qty SMALLINT NULL,
+	Expected_Delivery DATE NULL,
+	Received_Qty SMALLINT NULL,
+	Returned_Qty SMALLINT NULL,
+	RO_Status varchar(10) NULL,
+	PRIMARY KEY (id) 
+)
+ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_0900_ai_ci
+COMMENT='Dump table for extract file Parts_Status.csv.';
+
+
+
+UPDATE PartsStatusExtract 
+SET RO_Num = CONVERT(SUBSTRING_INDEX(RO_Info, " (", 1), UNSIGNED)
