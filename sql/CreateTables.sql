@@ -73,7 +73,6 @@ ALTER TABLE Repairs ADD CurrentPhase varchar(20) NOT NULL;
 ALTER TABLE Repairs ADD PartsReceived FLOAT NULL;
 ALTER TABLE Repairs ADD Estimator varchar(30) NULL;
 
-INSERT INTO Repairs (RONum, Owner, Vehicle, Estimator, Vehicle_In, PartsReceived, CurrentPhase, Technician) VALUES (1004, 'MECHANICAL INVOICES', '2011 TOYO Camry LE Automatic', 'Chad White', '2023-04-10 08:00:00', 0.875, '[Completed]', '')
 
 INSERT INTO Technicians 
 (Name)

@@ -73,12 +73,6 @@
 
         require('db_open.php');
 
-        "INSERT INTO Vehicles (email, name)
-        SELECT 'example@example.com', 'John Doe'
-        WHERE NOT EXISTS (
-          SELECT 1 FROM users WHERE email = 'example@example.com'
-        );"
-
         $tsql = "INSERT INTO Deliveries " .
                 "(RONum, Location, Customer, Vehicle, Technician, Vendor, Notes) " .
                 "VALUES ($delivery->RONum, '$delivery->Location', " .

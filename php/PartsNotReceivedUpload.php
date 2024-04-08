@@ -41,7 +41,7 @@ require('db_open.php');
 	while (($data = fgetcsv($handle, 500, ",")) !== FALSE) {
 
         $second_field = trim($data[3]);
-
+			// To delete any lines before the column names
         if (($second_field == '') || ($second_field == 'Line')) {
             continue;
         }

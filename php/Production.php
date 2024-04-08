@@ -19,9 +19,9 @@
 
         case "GET":
   //         echo 'GET';
-           $id = $_GET[""];
-           $deliveries = ProcessGET('x');
-           echo json_encode($deliveries);
+//           $id = $_GET[""];
+           $repairs = ProcessGET();
+           echo json_encode($repairs);
            break;
 
         default:
@@ -29,7 +29,7 @@
     }   // switch()
 
 
-    function ProcessGET($id){
+    function ProcessGET(){
 
         require('db_open.php');
 
@@ -39,18 +39,23 @@
 //            ;// Get just one record
 //        } else {
 
-            $sql = "SELECT id, RONum, Customer, Vehicle, Location, " .
-                    "Technician, DATE_FORMAT(ReceiveDate, '%c/%d %l:%i%p') AS ReceiveDate, " .
-                    "Vendor, Notes FROM Deliveries";
+            $sql = "SELECT RONum, Owner, Technician, Estimator " .
+                    "FROM Repairs";
 
             try{
 
-                $result = $conn->query($sql);
-                $records = $result->fetchAll(PDO::FETCH_ASSOC);
+                $s = mysqli_query($conn, $sql);
+                $rows = array();
+
+                while($r = mysqli_fetch_assoc($s)){
+                    $rows[] = $r;
+                }
+
+                return $rows;
 
             } catch(Exception $e){
 
-                echo "Fetching deliveries failed." . $e->getMessage();
+                echo "Fetching repairs failed." . $e->getMessage();
 
             } finally {
                 //echo "reached finally";
@@ -58,7 +63,6 @@
             }   // try-catch{}
 
 //        }   // if-else {}
-            return $records;
 
     }   // ProcessGET()
 
@@ -66,13 +70,7 @@
     function ProcessPOST($delivery){
 
         require('db_open.php');
-/*
-        "INSERT INTO Vehicles (email, name)
-        SELECT 'example@example.com', 'John Doe'
-        WHERE NOT EXISTS (
-          SELECT 1 FROM users WHERE email = 'example@example.com'
-        );"
-*/
+
         $tsql = "INSERT INTO Deliveries " .
                 "(RONum, Location, Customer, Vehicle, Technician, Vendor, Notes) " .
                 "VALUES ($delivery->RONum, '$delivery->Location', " .
