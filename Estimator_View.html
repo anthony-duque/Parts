@@ -7,19 +7,19 @@
         <td>
             <table>
                 <tr>
-                    <td ng-repeat="eachCar in eachEst.cars">
-                        <table border='1'>
+                    <td ng-repeat="eachCar in eachEst.cars" height='100%'>
+                        <table border='1' width=150 height=100%>
                             <tr>
-                                <th>{{ eachCar.ro_num }}</th>
+                                <td>{{ eachCar.ro_num }}</td>
                             </tr>
                             <tr>
-                                <th>{{ eachCar.owner }}</th>
+                                <td>{{ eachCar.owner }}</td>
                             </tr>
                             <tr>
-                                <th>{{ eachCar.vehicle }}</th>
+                                <td>{{ eachCar.vehicle.split(' ')[1] + " " + eachCar.vehicle.split(' ')[2] }}</td>
                             </tr>
                             <tr>
-                                <th>{{ eachCar.technician }}</th>
+                                <td>{{ eachCar.technician.split(' ')[0] }}</td>
                             </tr>
                         </table>
                     </td>
