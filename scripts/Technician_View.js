@@ -1,5 +1,5 @@
 
-var EstimatorViewCtrlr =
+var TechnicianViewCtrlr =
 
     function($scope, $http){
 
@@ -10,7 +10,7 @@ var EstimatorViewCtrlr =
             if (response.data){
              console.log("Repair records fetched successfully!");
              console.log(response.data);
-             $scope.estimators = response.data;
+             $scope.technicians = response.data;
             }
         }
 
@@ -24,10 +24,10 @@ var EstimatorViewCtrlr =
 
         function GetRepairOrders()
         {
-            $http.get('./php/Estimator_View.php')
+            $http.get('./php/Technician_View.php')
                   .then(handleSuccess)
                   .catch(handleError);   // .then()
         }
     };
 
-app.controller("EstimatorViewController", EstimatorViewCtrlr);
+app.controller("TechnicianViewController", TechnicianViewCtrlr);
