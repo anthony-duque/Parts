@@ -25,12 +25,10 @@ var EstimatorViewCtrlr =
 
         function GetRepairOrders()
         {
-
             $http.get('./php/Production.php')
                   .then(handleSuccess)
                   .catch(handleError);   // .then()
         }
-
     };
 
 app.controller("EstimatorViewController", EstimatorViewCtrlr);

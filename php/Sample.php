@@ -14,6 +14,17 @@
 //            ;// Get just one record
 //        } else {
 
+        function CreateCar($carRec){
+
+            $car = new Car();
+            $car->ro_num = $carRec["RONum"];
+            $car->owner = $carRec["Owner"];
+            $car->vehicle = $carRec["Vehicle"];
+            $car->technician = $carRec["Technician"];
+
+            return $car;
+        }
+
         class Car{
             public $ro_num;
             public $owner;
@@ -37,14 +48,18 @@
             $est = "";
 
             while($r = mysqli_fetch_assoc($s)){
-
                 if ($r["Estimator"] !== $est){
+                    if ($est !== ''){
+                        array_push($repairs, $repair);
+                    }
                     $est = $r["Estimator"];
                     $repair = new Repair();
                     $repair->estimator = $est;
-                    array_push($repairs, $repair);
                 }
+                $repair->cars[] = CreateCar($r);
             }
+
+            array_push($repairs, $repair);
 
             return $repairs;
 
