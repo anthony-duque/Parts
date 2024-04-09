@@ -2,10 +2,26 @@
 <table id='EstimatorCars' border=1 width='100%' ng-controller="EstimatorViewController">
     <tr ng-repeat="eachEst in estimators">
         <td>
-            <table id='Sep_Cars'>
+            {{ eachEst.estimator }}
+        </td>
+        <td>
+            <table>
                 <tr>
-                    <td>
-                        Sep Cars {{ eachEst.estimator }}
+                    <td ng-repeat="eachCar in eachEst.cars">
+                        <table border='1'>
+                            <tr>
+                                <th>{{ eachCar.ro_num }}</th>
+                            </tr>
+                            <tr>
+                                <th>{{ eachCar.owner }}</th>
+                            </tr>
+                            <tr>
+                                <th>{{ eachCar.vehicle }}</th>
+                            </tr>
+                            <tr>
+                                <th>{{ eachCar.technician }}</th>
+                            </tr>
+                        </table>
                     </td>
                 </tr>
             </table>
