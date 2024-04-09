@@ -2,6 +2,7 @@
 var EstimatorViewCtrlr =
 
     function($scope, $http){
+
         $scope.sample = "Estimators";
 
         GetRepairOrders();
@@ -25,7 +26,7 @@ var EstimatorViewCtrlr =
 
         function GetRepairOrders()
         {
-            $http.get('./php/Sample.php')
+            $http.get('./php/Estimator_View.php')
                   .then(handleSuccess)
                   .catch(handleError);   // .then()
         }
