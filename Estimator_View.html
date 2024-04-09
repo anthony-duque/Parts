@@ -1,55 +1,11 @@
 <script src="./scripts/Estimator_View.js"></script>
 <table id='EstimatorCars' border=1 width='100%' ng-controller="EstimatorViewController">
-    <tr>
+    <tr ng-repeat="eachEst in estimators">
         <td>
             <table id='Sep_Cars'>
                 <tr>
                     <td>
-                        Sep Cars {{ sample }}
-                    </td>
-                </tr>
-            </table>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <table id='Tony_Cars'>
-                <tr>
-                    <td>
-                        Tony Cars
-                    </td>
-                </tr>
-            </table>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <table id='Anthony_Cars'>
-                <tr>
-                    <td>
-                        Anthony Cars
-                    </td>
-                </tr>
-            </table>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <table id='Jim_Cars'>
-                <tr>
-                    <td>
-                        Jim Cars
-                    </td>
-                </tr>
-            </table>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <table id='Chad_Cars'>
-                <tr>
-                    <td>
-                        Chad Cars
+                        Sep Cars {{ eachEst.estimator }}
                     </td>
                 </tr>
             </table>

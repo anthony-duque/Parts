@@ -11,7 +11,7 @@ var EstimatorViewCtrlr =
             if (response.data){
              console.log("Repair records fetched successfully!");
              console.log(response.data);
-             $scope.repairOrders = response.data;
+             $scope.estimators = response.data;
             }
         }
 
@@ -25,7 +25,7 @@ var EstimatorViewCtrlr =
 
         function GetRepairOrders()
         {
-            $http.get('./php/Production.php')
+            $http.get('./php/Sample.php')
                   .then(handleSuccess)
                   .catch(handleError);   // .then()
         }

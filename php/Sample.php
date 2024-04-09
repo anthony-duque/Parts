@@ -3,6 +3,28 @@
     $repairs = ProcessGET('Estimators');
     echo json_encode($repairs);
 
+    class Car{
+        public $ro_num;
+        public $owner;
+        public $vehicle;
+        public $technician;
+    }
+
+    class Repair{
+        public $estimator;
+        public $cars = [];
+    };
+
+    function CreateCar($carRec){
+
+        $car = new Car();
+        $car->ro_num = $carRec["RONum"];
+        $car->owner = $carRec["Owner"];
+        $car->vehicle = $carRec["Vehicle"];
+        $car->technician = $carRec["Technician"];
+
+        return $car;
+    }
 
     function ProcessGET($grouping){
 
@@ -13,29 +35,6 @@
 //        if ($id > ''){
 //            ;// Get just one record
 //        } else {
-
-        function CreateCar($carRec){
-
-            $car = new Car();
-            $car->ro_num = $carRec["RONum"];
-            $car->owner = $carRec["Owner"];
-            $car->vehicle = $carRec["Vehicle"];
-            $car->technician = $carRec["Technician"];
-
-            return $car;
-        }
-
-        class Car{
-            public $ro_num;
-            public $owner;
-            public $vehicle;
-            public $technician;
-        }
-
-        class Repair{
-            public $estimator;
-            public $cars = [];
-        };
 
         $repairs = [];
 
@@ -73,5 +72,4 @@
         }   // try-catch{}
 //        }   // if-else {}
     }   // ProcessGET()
-
 ?>
