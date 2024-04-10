@@ -3,49 +3,20 @@
     <title>Production Board</title>
     <script src='./scripts/angularjs.js'></script>
     <script src='./scripts/Production.js'></script>
-    <script src="./scripts/Estimator_View.js"></script>    
+    <script src='./scripts/Estimator_View.js'></script>
+    <script src='./scripts/Technician_View.js'></script>
 </head>
 <body ng-controller='prodController'>
     <table id='Technicians' width='100%'>
         <tr>
             <th width='20%'>
-                <input type='button' value='Jerry' ng-click="chooseView('Jerry');" />
+                <input type='button' value='Technicians' ng-click="chooseView('Jerry');" />
             </th>
             <th width='20%'>
-                <input type='button' value='Jose' ng-click="chooseView('Jose');" />
-            </th>
-            <th width='20%'>
-                <input type='button' value='Nacho' ng-click="chooseView('Nacho');" />
-            </th>
-            <th width='20%'>
-                <input type='button' value='Brian' ng-click="chooseView('Brian');" />
-            </th>
-            <th width='20%'>
-                <input type='button' value='Van' ng-click="chooseView('Van');" />
+                <input type='button' value='Estimators' ng-click="chooseView('Sep');" />
             </th>
         </tr>
     </table>
-    <br/>
-    <table id='Estimators' width='100%'>
-        <tr>
-            <td width='20%'>
-                <input type='button' value='Sep' ng-click="chooseView('Sep');" />
-            </td>
-            <td width='20%'>
-                <input type='button' value='Tony' ng-click="chooseView('Tony');" />
-            </td>
-            <td width='20%'>
-                <input type='button' value='Anthony' ng-click="chooseView('Anthony');" />
-            </td>
-            <td width='20%'>
-                <input type='button' value='Jim' ng-click="chooseView('Jim');" />
-            </td>
-            <td width='20%'>
-                <input type='button' value='Chad' ng-click="chooseView('Chad');" />
-            </td>
-        </tr>
-    </table>
-    <br/>
     <div ng-include=productionView></div>
 </body>
 </html>

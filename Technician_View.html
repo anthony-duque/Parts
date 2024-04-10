@@ -1,0 +1,30 @@
+<!-- script src="./scripts/Technician_View.js"></script -->
+<table id='TechnicianCars' border=1 width='100%' ng-controller="TechnicianViewController">
+    <tr ng-repeat='eachTech in technicians'>
+        <th align='center'>
+            {{ eachTech.technician }}
+        </th>
+        <td>
+            <table border=1>
+                <tr>
+                    <td ng-repeat="eachCar in eachTech.cars" height='100%'>
+                        <table width=150 height=100%>
+                            <tr>
+                                <td align='center'>{{ eachCar.ro_num }}</td>
+                            </tr>
+                            <tr>
+                                <td align='center'>{{ eachCar.owner }}</td>
+                            </tr>
+                            <tr>
+                                <td align='center'>{{ eachCar.vehicle.split(' ')[1] + " " + eachCar.vehicle.split(' ')[2] }}</td>
+                            </tr>
+                            <tr>
+                                <td align='center'>&nbsp;{{ eachCar.estimator.split(' ')[0] }}</td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>

@@ -22,7 +22,7 @@ var app = angular
                 case 'Jerry':
                 case 'Nacho':
                 case 'Brian':
-                    $scope.productionView = 'Tech_View.html';
+                    $scope.productionView = 'Technician_View.html';
                     break;
 
                 default:
