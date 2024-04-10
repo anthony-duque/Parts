@@ -1,0 +1,28 @@
+<table align='center' ng-controller="carController">
+    <tr>
+        <td>
+            <table width=150 height=100%>
+                <tr>
+                    <th>RO:</th>
+                    <td align='center'>{{ car.ro_num }}</td>
+                </tr>
+                <tr>
+                    <th>Owner:</th>
+                    <td align='center'>{{ car.owner }}</td>
+                </tr>
+                <tr>
+                    <th>Vehicle:</th>
+                    <td align='center'>{{ car.vehicle.split(' ')[1] + " " + car.vehicle.split(' ')[2] }}</td>
+                </tr>
+                <tr>
+                    <th>Technician:</th>
+                    <td align='center'>&nbsp;{{ car.technician.split(' ')[0] }}</td>
+                </tr>
+                <tr>
+                    <th>Estimator:</th>
+                    <td align='center'>&nbsp;{{ car.estimator.split(' ')[0] }}</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>

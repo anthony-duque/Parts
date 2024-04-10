@@ -1,8 +1,9 @@
 
-var app = angular
-  .module("prodModule", [])
-    .controller("prodController", function($scope, $http){
+var app = angular.module("prodModule", []);
 
-        $scope.productionView = 'Technician_View.html';
+var prodController = function($scope){
 
-    });
+    $scope.productionView = 'Car_View.html';
+}   // prodController()
+
+app.controller("prodController", prodController);
