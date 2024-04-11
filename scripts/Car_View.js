@@ -1,4 +1,6 @@
-var carController = function($scope, $http){
+var app = angular.module("carViewModule", []);
+
+var carViewCtrlr = function($scope, $http){
 
     $scope.sample = "sample";
 
@@ -12,4 +14,4 @@ var carController = function($scope, $http){
 
 }
 
-app.controller("carController", carController);
+app.controller("carViewController", carViewCtrlr);

@@ -1,6 +1,6 @@
 <!-- script src="./scripts/Estimator_View.js"></script -->
 <table id='EstimatorCars' border=1 width='100%' ng-controller="EstimatorViewController">
-    <tr ng-repeat="eachEst in estimators">
+    <tr ng-repeat="eachEst in estimators | filter : searchText">
         <th align='center'>
             {{ eachEst.estimator }}
         </th>

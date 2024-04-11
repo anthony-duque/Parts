@@ -1,6 +1,6 @@
 <!-- script src="./scripts/Technician_View.js"></script -->
 <table id='TechnicianCars' border=1 width='100%' ng-controller="TechnicianViewController">
-    <tr ng-repeat='eachTech in technicians'>
+    <tr ng-repeat='eachTech in technicians | filter : searchText'>
         <th align='center'>
             {{ eachTech.technician }}
         </th>
@@ -8,7 +8,7 @@
             <table border=1>
                 <tr>
                     <td ng-repeat="eachCar in eachTech.cars | filter: searchText" height='100%'>
-                        <a href="http://www.yahoo.com" target="_blank">
+                        <a href="Car_View.html" target="_blank">
                         <table width=150 height=100%>
                             <tr>
                                 <td align='center'>{{ eachCar.ro_num }}</td>
