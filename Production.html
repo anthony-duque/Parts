@@ -8,7 +8,7 @@
     <script src='./scripts/Car_View.js'></script>
 </head>
 <body ng-controller='prodController'>
-    <table id='Technicians' width='100%'>
+    <table id='Menu' width='100%'>
         <tr>
             <th width='20%'>
                 <input type='button' value='Estimators' ng-click="productionView = 'Estimator_View.html'" />
@@ -16,6 +16,10 @@
             <th width='20%'>
                 <input type='button' value='Technicians' ng-click="productionView = 'Technician_View.html'" />
             </th>
+        </tr>
+        <tr>
+            <td align='right'>Search:</td>
+            <td align='left'><input type='text' ng-model='searchText'></td>
         </tr>
     </table>
     <div ng-include=productionView></div>

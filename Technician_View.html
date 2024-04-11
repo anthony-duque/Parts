@@ -7,7 +7,8 @@
         <td>
             <table border=1>
                 <tr>
-                    <td ng-repeat="eachCar in eachTech.cars" height='100%'>
+                    <td ng-repeat="eachCar in eachTech.cars | filter: searchText" height='100%'>
+                        <a href="http://www.yahoo.com" target="_blank">
                         <table width=150 height=100%>
                             <tr>
                                 <td align='center'>{{ eachCar.ro_num }}</td>
@@ -22,6 +23,7 @@
                                 <td align='center'>&nbsp;{{ eachCar.estimator.split(' ')[0] }}</td>
                             </tr>
                         </table>
+                        </a>
                     </td>
                 </tr>
             </table>

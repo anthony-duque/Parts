@@ -1,7 +1,7 @@
 
 var TechnicianViewCtrlr =
 
-    function($scope, $http){
+    function($scope, $rootScope, $http){
 
         GetRepairOrders();
 
@@ -27,6 +27,11 @@ var TechnicianViewCtrlr =
             $http.get('./php/Technician_View.php')
                   .then(handleSuccess)
                   .catch(handleError);   // .then()
+        }
+
+        $scope.ViewCar = function(){
+            console.log("In View Car.");
+            $rootScope.productionView = 'Car_View.html';
         }
     };
 

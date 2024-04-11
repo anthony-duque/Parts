@@ -1,4 +1,4 @@
-<script src="./scripts/Estimator_View.js"></script>
+<!-- script src="./scripts/Estimator_View.js"></script -->
 <table id='EstimatorCars' border=1 width='100%' ng-controller="EstimatorViewController">
     <tr ng-repeat="eachEst in estimators">
         <th align='center'>
@@ -7,7 +7,7 @@
         <td>
             <table border=1>
                 <tr>
-                    <td ng-repeat="eachCar in eachEst.cars" height='100%'>
+                    <td ng-repeat="eachCar in eachEst.cars | filter: searchText" height='100%'>
                         <table width=150 height=100%>
                             <tr>
                                 <td align='center'>{{ eachCar.ro_num }}</td>
