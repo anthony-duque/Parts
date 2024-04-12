@@ -24,9 +24,9 @@
     function CreatePartsList($partRec){
 
         $part = new Part();
-        $part->part_number      = $partRec["part_number"];
-        $part->part_description = $partRec["part_description"];
-        $part->vendor_name      = $partRec["vendor_name"];
+        $part->part_number      = $partRec["Part_Number"];
+        $part->part_description = $partRec["Part_Description"];
+        $part->vendor_name      = $partRec["Vendor_Name"];
 
         return $partRec;
     }   // CreateCarEstimator
@@ -44,8 +44,6 @@
                 " FROM PartsStatusExtract" .
                 " WHERE RO_Num = " . $roNum;
 
-        $sql = $sql;
-
         try{
 
             $parts = [];
@@ -54,7 +52,9 @@
 
             while($r = mysqli_fetch_assoc($s)){
 
-                echo $r["Part_Description"] . "<br/>";
+//                echo $r["Part_Description"] . "<br/>";
+
+                $part = CreatePartsList($r);
 /*
                 if ($r["Technician"] === $repair->technician){
                     $repair->cars[] = CreateCar($r);
@@ -64,11 +64,15 @@
                     $repair->technician = $r["Technician"];
                     $repair->cars[] = CreateCar($r);
                 }
-*/
+                */
+                array_push($parts, $part);
             }
-//            array_push($repairs, $repair);
 
-//            return $repairs;
+            $Car = new Car();
+            $Car->ro_num = $roNum;
+            $Car->partsList = $parts;
+
+            return $Car;
 
         } catch(Exception $e){
 
