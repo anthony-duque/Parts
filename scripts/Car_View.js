@@ -4,16 +4,10 @@ var carViewCtrlr = function($scope, $http){
 
     var params = getQueryParams(window.location.href);
 
-    $scope.sample = params.roNum;
+    var roNum = params.roNum;
 
+    GetAllPartsForRO(roNum);
 
-    $scope.car = {
-        "ro_num"    : 2594,
-        "owner"     : "Mansfield",
-        "vehicle"   : "2008 Toyota Tacoma",
-        "technician": "Jerry Saucedo",
-        "estimator" : "Sep Sadhegi"
-    };
 
     function getQueryParams(url) {
 
@@ -27,6 +21,31 @@ var carViewCtrlr = function($scope, $http){
       }
       return params;
     }
+
+    function handleSuccess(response)
+    {
+        if (response.data){
+         console.log("Car Parts records fetched successfully!");
+         console.log(response.data);
+         $scope.allParts = response.data;
+        }
+    }
+
+    function handleError(response)
+    {
+        console.log("Car parts records not fetched.");
+        //console.log(response.status);
+        //console.log(response.statusText);
+        //console.log(response.headers());
+    }
+
+    function GetAllPartsForRO(roNum)
+    {
+        $http.get('./php/Car_View.php?roNum=' + roNum)
+              .then(handleSuccess)
+              .catch(handleError);   // .then()
+    }
+
 }
 
 app.controller("carViewController", carViewCtrlr);

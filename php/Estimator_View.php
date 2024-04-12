@@ -32,8 +32,6 @@
 
         require('db_open.php');
 
-        $records = null;
-
 //        if ($id > ''){
 //            ;// Get just one record
 //        } else {
