@@ -8,7 +8,6 @@ var carViewCtrlr = function($scope, $http){
 
     GetAllPartsForRO(roNum);
 
-
     function getQueryParams(url) {
 
       const queryString = url.split('?')[1];
@@ -27,7 +26,7 @@ var carViewCtrlr = function($scope, $http){
         if (response.data){
          console.log("Car Parts records fetched successfully!");
          console.log(response.data);
-         $scope.allParts = response.data;
+         $scope.car = response.data;
         }
     }
 

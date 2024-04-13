@@ -5,34 +5,54 @@
     <script src="./scripts/Car_View.js"></script>
 </head>
 <body ng-controller="carViewController">
-    {{ sample }}
-    <table align='center'>
-        <tr>
-            <td>
-                <table width=150 height=100%>
-                    <tr>
-                        <th>RO:</th>
-                        <td align='center'>{{ car.ro_num }}</td>
-                    </tr>
-                    <tr>
-                        <th>Owner:</th>
-                        <td align='center'>{{ car.owner }}</td>
-                    </tr>
-                    <tr>
-                        <th>Vehicle:</th>
-                        <td align='center'>{{ car.vehicle.split(' ')[1] + " " + car.vehicle.split(' ')[2] }}</td>
-                    </tr>
-                    <tr>
-                        <th>Technician:</th>
-                        <td align='center'>&nbsp;{{ car.technician.split(' ')[0] }}</td>
-                    </tr>
-                    <tr>
-                        <th>Estimator:</th>
-                        <td align='center'>&nbsp;{{ car.estimator.split(' ')[0] }}</td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-    </table>
+
+<table width=150 width='100%' align=center>
+    <tr>
+        <th>RO:</th>
+        <td align='center'>{{ car.ro_num }}</td>
+        <th>Owner:</th>
+        <td align='center'>{{ car.owner }}</td>
+    </tr>
+    <tr>
+        <th>Vehicle:</th>
+        <td align='center'>{{ car.vehicle.split(' ')[1] + " " + car.vehicle.split(' ')[2] }}</td>
+        <th>Technician:</th>
+        <td align='center'>&nbsp;{{ car.technician.split(' ')[0] }}</td>
+    </tr>
+    <tr>
+        <th>Estimator:</th>
+        <td align='center'>&nbsp;{{ car.estimator.split(' ')[0] }}</td>
+    </tr>
+    <tr>
+        <td colspan='2' align='center'>
+            <table width=100% align='center' id='carParts'>
+                <tr>
+                    <th>
+                        Part Number
+                    </th>
+                    <th>
+                        Part Description
+                    </th>
+                    <th>
+                        Vendor Name
+                    </th>
+                </tr>
+                <tr ng-repeat='eachPart in car.partsList'>
+                    <td>
+                        <a href='http://www.google.com/search?q={{ eachPart.Part_Number }}' target='_blank' >
+                            {{ eachPart.Part_Number }}
+                        </a>
+                    </td>
+                    <td>
+                        {{ eachPart.Part_Description }}
+                    </td>
+                    <td>
+                        {{ eachPart.Vendor_Name }}
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
 </body>
 </html>
