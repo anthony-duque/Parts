@@ -1,28 +1,36 @@
-<!-- script src="./scripts/Estimator_View.js"></script -->
+<style>
+    .partsComplete{
+        background-color: lightgreen;
+    }
+
+    .waitingForParts{
+        background-color: lightyellow;
+    }
+
+    .noParts{
+        background-color: pink;
+    }
+
+</style>
+
 <table id='EstimatorCars' border=1 width='100%' ng-controller="EstimatorViewController">
     <tr ng-repeat="eachEst in estimators | filter : searchText">
         <th align='center'>
             {{ eachEst.estimator }}
         </th>
-        <td>
-            <table border=1>
+        <td ng-repeat="eachCar in eachEst.cars | filter: searchText" height='100%'>
+            <table width='150' height='100%' ng-class='CheckParts(eachCar.partsRcvd);'>
                 <tr>
-                    <td ng-repeat="eachCar in eachEst.cars | filter: searchText" height='100%'>
-                        <table width=150 height=100%>
-                            <tr>
-                                <td align='center'>{{ eachCar.ro_num }}</td>
-                            </tr>
-                            <tr>
-                                <td align='center'>{{ eachCar.owner }}</td>
-                            </tr>
-                            <tr>
-                                <td align='center'>{{ eachCar.vehicle.split(' ')[1] + " " + eachCar.vehicle.split(' ')[2] }}</td>
-                            </tr>
-                            <tr>
-                                <td align='center'>&nbsp;{{ eachCar.technician.split(' ')[0] }}</td>
-                            </tr>
-                        </table>
-                    </td>
+                    <td align='center'>{{ eachCar.ro_num }} - {{ eachCar.partsRcvd }}</td>
+                </tr>
+                <tr>
+                    <td align='center'>{{ eachCar.owner }}</td>
+                </tr>
+                <tr>
+                    <td align='center'>{{ eachCar.vehicle.split(' ')[1] + " " + eachCar.vehicle.split(' ')[2] }}</td>
+                </tr>
+                <tr>
+                    <td align='center'>&nbsp;{{ eachCar.technician.split(' ')[0] }}</td>
                 </tr>
             </table>
         </td>

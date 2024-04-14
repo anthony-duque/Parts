@@ -28,6 +28,28 @@ var EstimatorViewCtrlr =
                   .then(handleSuccess)
                   .catch(handleError);   // .then()
         }
+
+        $scope.CheckParts = function(x){
+
+            var bgColor = '';
+
+            switch(true){
+
+                case x == 0:
+                    bgColor = 'noParts';
+                    break;
+
+                case x == 1:
+                    bgColor = 'partsComplete';
+                    break;
+
+                default:
+                    bgColor = 'waitingForParts';
+                    break;
+
+            }
+            return bgColor;
+        }
     };
 
 app.controller("EstimatorViewController", EstimatorViewCtrlr);

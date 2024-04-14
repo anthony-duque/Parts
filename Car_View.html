@@ -6,7 +6,7 @@
 </head>
 <body ng-controller="carViewController">
 
-<table width=150 width='100%' align=center>
+<table width='100%' align=center border=1>
     <tr>
         <th>RO:</th>
         <td align='center'>{{ car.ro_num }}</td>
@@ -23,34 +23,31 @@
         <th>Estimator:</th>
         <td align='center'>&nbsp;{{ car.estimator.split(' ')[0] }}</td>
     </tr>
+</table>
+<br/>
+<table width=100% align='center' id='carParts'>
     <tr>
-        <td colspan='2' align='center'>
-            <table width=100% align='center' id='carParts'>
-                <tr>
-                    <th>
-                        Part Number
-                    </th>
-                    <th>
-                        Part Description
-                    </th>
-                    <th>
-                        Vendor Name
-                    </th>
-                </tr>
-                <tr ng-repeat='eachPart in car.partsList'>
-                    <td>
-                        <a href='http://www.google.com/search?q={{ eachPart.Part_Number }}' target='_blank' >
-                            {{ eachPart.Part_Number }}
-                        </a>
-                    </td>
-                    <td>
-                        {{ eachPart.Part_Description }}
-                    </td>
-                    <td>
-                        {{ eachPart.Vendor_Name }}
-                    </td>
-                </tr>
-            </table>
+        <th style='border-bottom-style: groove'>
+            Part Number
+        </th>
+        <th style='border-bottom-style: groove'>
+            Part Description
+        </th>
+        <th style='border-bottom-style: groove'>
+            Vendor Name
+        </th>
+    </tr>
+    <tr ng-repeat='eachPart in car.partsList'>
+        <td align='center'>
+            <a href='http://www.google.com/search?q={{ eachPart.Part_Number }}' target='_blank' >
+                {{ eachPart.Part_Number }}
+            </a>
+        </td>
+        <td align='center'>
+            {{ eachPart.Part_Description }}
+        </td>
+        <td align='center'>
+            {{ eachPart.Vendor_Name }}
         </td>
     </tr>
 </table>

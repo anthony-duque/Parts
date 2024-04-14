@@ -9,6 +9,7 @@
         public $owner;
         public $vehicle;
         public $technician;
+        public $partsRcvd;
     }
 
     class Repair{
@@ -23,6 +24,7 @@
         $car->owner = $carRec["Owner"];
         $car->vehicle = $carRec["Vehicle"];
         $car->technician = $carRec["Technician"];
+        $car->partsRcvd = $carRec["PartsReceived"];
 
         return $car;
     }   // CreateCarEstimator
@@ -39,7 +41,7 @@
         $repairs = [];
 
         $sql = "SELECT id, Estimator, RONum, SUBSTRING_INDEX(Owner, ',', 1) AS Owner, " .
-                "Vehicle, Technician " .
+                "Vehicle, Technician, PartsReceived " .
                 "FROM Repairs ORDER BY Estimator, Owner";
 
         $sql = $sql;
