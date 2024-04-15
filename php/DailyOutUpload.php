@@ -4,13 +4,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-$extractFile = $_POST["DailyOutCSV"];
-
-if (trim($extractFile) === ''){
-	echo "No extract file specified.";
-	header("Location: ./Upload_DailyOut.html");
-}
-const FILENAME = "../extract_files/Daily_Out.csv";
+const FILEPATH = "../extract_files/";
 
 const RO_NUM           = 0;
 const OWNER            = 1;
@@ -20,6 +14,13 @@ const ESTIMATOR        = 4;
 const CURRENT_PHASE    = 6;
 const PARTS_RCVD       = 9;
 const TECHNICIAN       = 13;
+
+$extractFile = FILEPATH . $_POST["DailyOutCSV"];
+
+if (trim($extractFile) === ''){
+	echo "No extract file specified.";
+	header("Location: ./Upload_DailyOut.html");
+}
 
 require('db_open.php');
 
@@ -36,8 +37,8 @@ require('db_open.php');
 	  exit;
 	}
 
-	if (($handle = fopen(FILENAME, "r")) === FALSE) {
-		echo "Error in opening " . FILENAME;
+	if (($handle = fopen($extractFile, "r")) === FALSE) {
+		echo "Error in opening " . $extractFile;
 		exit;
 	}
 

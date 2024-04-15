@@ -1,6 +1,10 @@
 <?php
 
-const FILENAME = "../extract_files/Parts_Status.csv";
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+const FILEPATH = "../extract_files/";
 
 const RO_INFO			= 0;
 const LINE            	= 1;
@@ -15,6 +19,13 @@ const EXPECTED_DELIVERY = 11;
 const RECEIVED_QTY		= 12;
 const RETURNED_QTY		= 13;
 const RO_STATUS			= 16;
+
+$extractFile = FILEPATH . $_POST["PartsStatusCSV"];
+
+if (trim($extractFile) === ''){
+	echo "No extract file specified.";
+	header("Location: ./Upload_PartsStatus.html");
+}
 
 require('db_open.php');
 
@@ -31,7 +42,7 @@ require('db_open.php');
 	  exit;
 	}
 
-	if (($handle = fopen(FILENAME, "r")) === FALSE) {
+	if (($handle = fopen($extractFile, "r")) === FALSE) {
 		echo "Error small in opening " . FILENAME;
 		exit;
 	}
