@@ -10,7 +10,6 @@
     .noParts{
         background-color: pink;
     }
-
 </style>
 
 <table id='EstimatorCars' border=1 width='100%' ng-controller="EstimatorViewController">
@@ -18,8 +17,9 @@
         <th align='center'>
             {{ eachEst.estimator }}
         </th>
-        <td ng-repeat="eachCar in eachEst.cars | filter: searchText" height='100%'>
-            <table width='150' height='100%' ng-class='CheckParts(eachCar.partsRcvd);'>
+        <td height='100%' ng-repeat="eachCar in eachEst.cars | filter: searchText" ng-class='CheckParts(eachCar.partsRcvd);'>
+            <a href="Car_View.html?roNum={{ eachCar.ro_num }}" target="CarStatus">
+            <table width='150' height='100%' >
                 <tr>
                     <td align='center'>{{ eachCar.ro_num }} - {{ eachCar.partsRcvd }}</td>
                 </tr>
@@ -33,6 +33,7 @@
                     <td align='center'>&nbsp;{{ eachCar.technician.split(' ')[0] }}</td>
                 </tr>
             </table>
+            </a>
         </td>
     </tr>
 </table>

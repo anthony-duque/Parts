@@ -28,11 +28,33 @@ var TechnicianViewCtrlr =
                   .then(handleSuccess)
                   .catch(handleError);   // .then()
         }
-
+/*
         $scope.ViewCar = function(){
-            console.log("In View Car.");
             $rootScope.productionView = 'Car_View.html';
         }
+*/
+        $scope.CheckParts = function(x){
+
+            var bgColor = '';
+
+            switch(true){
+
+                case x == 0:
+                    bgColor = 'noParts';
+                    break;
+
+                case x == 1:
+                    bgColor = 'partsComplete';
+                    break;
+
+                default:
+                    bgColor = 'waitingForParts';
+                    break;
+
+            }
+            return bgColor;
+        }   // CheckParts()
+
     };
 
 app.controller("TechnicianViewController", TechnicianViewCtrlr);
