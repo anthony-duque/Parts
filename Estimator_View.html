@@ -1,17 +1,3 @@
-<style>
-    .partsComplete{
-        background-color: lightgreen;
-    }
-
-    .waitingForParts{
-        background-color: lightyellow;
-    }
-
-    .noParts{
-        background-color: pink;
-    }
-</style>
-
 <table id='EstimatorCars' border=1 width='100%' ng-controller="EstimatorViewController">
     <tr ng-repeat="eachEst in estimators | filter : searchText">
         <th align='center'>

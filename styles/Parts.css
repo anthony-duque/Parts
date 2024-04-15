@@ -1,0 +1,12 @@
+
+.partsComplete{
+    background-color: lightgreen;
+}
+
+.waitingForParts{
+    background-color: lightyellow;
+}
+
+.noParts{
+    background-color: pink;
+}

@@ -50,8 +50,8 @@ var TechnicianViewCtrlr =
                 default:
                     bgColor = 'waitingForParts';
                     break;
-
             }
+            
             return bgColor;
         }   // CheckParts()
 
