@@ -3,6 +3,7 @@
     <title>Car Parts Status</title>
     <script src="./scripts/angularjs.js"></script>
     <script src="./scripts/Car_View.js"></script>
+    <link rel='stylesheet' href="./styles/Parts.css" />
 </head>
 <body ng-controller="carViewController">
 
@@ -46,7 +47,7 @@
             Returned<br/>Qty
         </th>
     </tr>
-    <tr ng-repeat='eachPart in car.partsList'>
+    <tr ng-repeat='eachPart in car.partsList' ng-class="PartStatus(eachPart.ordered_quantity, eachPart.received_quantity, eachPart.returned_quantity)">
         <td align='center'>
             <a href='http://www.google.com/search?q={{ eachPart.part_number }}' target='_blank' >
                 {{ eachPart.part_number }}

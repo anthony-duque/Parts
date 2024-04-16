@@ -45,6 +45,30 @@ var carViewCtrlr = function($scope, $http){
               .catch(handleError);   // .then()
     }
 
+    $scope.PartStatus = function(ord_qty, rcvd_qty, ret_qty){
+
+        var bkgrnd_class = '';  // Background class
+
+        switch (true) {
+
+            case (ord_qty == rcvd_qty) && (ret_qty == 0):
+                bkgrnd_class = "partsComplete";
+                break;
+
+            case (ord_qty > 0) && (rcvd_qty == 0):
+                bkgrnd_class = "waitingForParts";
+                break;
+
+//         case (ro_qty > 0) && (ord_qty == 0):
+//              break;
+
+            default:
+                bkgrnd_class = "noParts";
+                break
+        }
+        return bkgrnd_class;
+    }   // PartStatus()
+
 }
 
 app.controller("carViewController", carViewCtrlr);
