@@ -44,8 +44,6 @@
                 "Vehicle, Technician, PartsReceived " .
                 "FROM Repairs ORDER BY Estimator, Owner";
 
-        $sql = $sql;
-
         try{
 
             $s = mysqli_query($conn, $sql);

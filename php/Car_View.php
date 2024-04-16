@@ -65,11 +65,39 @@
 
             echo "Fetching RO parts failed." . $e->getMessage();
 
-        } finally {
-            //echo "reached finally";
-            $dbConn = null;
         }   // try-catch{}
+
     }   // GetPartsList()
+
+
+    function Get_RO_Info(&$car, $dbConn){
+
+        $sql = "SELECT RONum, Owner, Vehicle, Estimator, Technician" .
+                " FROM Repairs WHERE RONum = " . $car->ro_num;
+
+        try{
+
+            $s = mysqli_query($dbConn, $sql);
+            $r = mysqli_fetch_assoc($s);
+
+            //$part->part_description = strtolower($partRec["Part_Description"]);
+            //$part->part_description = ucwords($part->part_description); // to camel case
+            $car->owner = strtolower($r["Owner"]);
+            $car->owner = ucwords($car->owner);     // camel case
+
+            $car->vehicle = $r["Vehicle"];
+            $car->estimator = $r["Estimator"];
+
+            $car->technician = strtolower($r["Technician"]);
+            $car->technician = ucwords($car->technician);
+
+        } catch(Exception $e){
+
+            echo "Fetching RO details failed." . $e->getMessage();
+
+        }   // try-catch{}
+
+    }   // Get_RO_Info()
 
 
     function ProcessGET($roNum){
@@ -78,7 +106,11 @@
 
         $Car = new Car();
         $Car->ro_num = $roNum;
+        Get_RO_Info($Car, $conn);
+
         $Car->partsList = GetPartsList($roNum, $conn);
+
+        $conn = null;
 
         return $Car;
 //        }   // if-else {}
