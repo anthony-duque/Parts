@@ -36,18 +36,36 @@
         <th style='border-bottom-style: groove'>
             Vendor Name
         </th>
+        <th style='border-bottom-style: groove'>
+            Ordered<br/>Qty
+        </th>
+        <th style='border-bottom-style: groove'>
+            Received<br/>Qty
+        </th>
+        <th style='border-bottom-style: groove'>
+            Returned<br/>Qty
+        </th>
     </tr>
     <tr ng-repeat='eachPart in car.partsList'>
         <td align='center'>
-            <a href='http://www.google.com/search?q={{ eachPart.Part_Number }}' target='_blank' >
-                {{ eachPart.Part_Number }}
+            <a href='http://www.google.com/search?q={{ eachPart.part_number }}' target='_blank' >
+                {{ eachPart.part_number }}
             </a>
         </td>
         <td align='center'>
-            {{ eachPart.Part_Description }}
+            {{ eachPart.part_description }}
         </td>
         <td align='center'>
-            {{ eachPart.Vendor_Name }}
+            {{ eachPart.vendor_name }}
+        </td>
+        <td align='center'>
+            {{ eachPart.ordered_quantity }}
+        </td>
+        <td align='center'>
+            {{ eachPart.received_quantity }}
+        </td>
+        <td align='center'>
+            {{ eachPart.returned_quantity }}
         </td>
     </tr>
 </table>

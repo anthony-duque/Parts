@@ -115,11 +115,19 @@ require('db_open.php');
 		//echo $insert_sql . '<br/><br/>';
 
 		if ($conn->query($insert_sql) === TRUE) {
-	      echo $ro_info . " - " . $part_number . " inserted<br/>";
+	      echo $part_number . " inserted<br/>";
 	    } else {
 	      echo "Error: " . $insert_sql . "<br>" . $conn->error;
 	    }
+    }
 
+	$sql = 'UPDATE PartsStatusExtract ' .
+			'SET RO_Num = CONVERT(SUBSTRING_INDEX(RO_Info, " (", 1), UNSIGNED)';
+
+	if ($conn->query($sql) === TRUE) {
+      echo "RO Num fields populated. <br/>";
+    } else {
+      echo "Error: " . $insert_sql . "<br>" . $conn->error;
     }
 
     fclose($handle);

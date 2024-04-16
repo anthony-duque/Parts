@@ -19,16 +19,22 @@
         public $part_number;
         public $part_description;
         public $vendor_name;
+        public $ordered_quantity;
+        public $received_quantity;
+        public $returned_quantity;
     };
 
-    function CreatePartsList($partRec){
+    function CreatePartEntry($partRec){
 
         $part = new Part();
         $part->part_number      = $partRec["Part_Number"];
         $part->part_description = $partRec["Part_Description"];
         $part->vendor_name      = $partRec["Vendor_Name"];
+        $part->ordered_quantity = $partRec["Ordered_Qty"];
+        $part->received_quantity = $partRec["Received_Qty"];
+        $part->returned_quantity = $partRec["Returned_Qty"];
 
-        return $partRec;
+        return $part;
     }   // CreateCarEstimator
 
 
@@ -40,7 +46,8 @@
 //            ;// Get just one record
 //        } else {
 
-        $sql = "SELECT Part_Number, Part_Description, Vendor_Name " .
+        $sql = "SELECT Part_Number, Part_Description, Vendor_Name, " .
+                " Ordered_Qty, Received_Qty, Returned_Qty " .
                 " FROM PartsStatusExtract" .
                 " WHERE RO_Num = " . $roNum;
 
@@ -54,7 +61,7 @@
 
 //                echo $r["Part_Description"] . "<br/>";
 
-                $part = CreatePartsList($r);
+                $part = CreatePartEntry($r);
 /*
                 if ($r["Technician"] === $repair->technician){
                     $repair->cars[] = CreateCar($r);
