@@ -7,22 +7,24 @@
 </head>
 <body ng-controller="carViewController">
 
-<table width='100%' align=center border=0>
+<table width='100%' align=center border=0 class='heading'>
     <tr>
-        <th>RO:</th>
-        <td align='left'>{{ car.ro_num }}</td>
-        <th>Estimator:</th>
-        <td align='left'>&nbsp;{{ car.estimator }}</td>
+        <td>RO #:</td>
+        <th align='left'>
+            {{ car.ro_num }}
+        </th>
+        <td>Estimator:</td>
+        <th align='left'>&nbsp;{{ car.estimator }}</th>
     </tr>
     <tr>
-        <th>Vehicle:</th>
-        <td align='left'>{{ car.vehicle }}</td>
-        <th>Technician:</th>
-        <td align='left'>&nbsp;{{ car.technician }}</td>
+        <td>Vehicle:</td>
+        <th align='left'>{{ car.vehicle }}</th>
+        <td>Technician:</td>
+        <th align='left'>&nbsp;{{ car.technician }}</th>
     </tr>
     <tr>
-        <th>Owner:</th>
-        <td align='left'>{{ car.owner }}</td>
+        <td>Owner:</td>
+        <th align='left'>{{ car.owner }}</th>
     </tr>
 </table>
 <br/>

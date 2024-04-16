@@ -2,11 +2,46 @@ var app = angular.module("carViewModule", []);
 
 var carViewCtrlr = function($scope, $http){
 
+        // get the value of ro num from the queryString
     var params = getQueryParams(window.location.href);
-
     var roNum = params.roNum;
 
     GetAllPartsForRO(roNum);
+
+    function GetAllPartsForRO(roNum)
+    {
+        $http.get('./php/Car_View.php?roNum=' + roNum)
+              .then(handleSuccess)
+              .catch(handleError);   // .then()
+    }     // GetAllPartsForRO()
+
+    // Computes the background color for a row
+    // based on ordered, received, and returned quantities.
+    $scope.PartStatus = function(ord_qty, rcvd_qty, ret_qty){
+
+        var bkgrnd_class = '';  // Background class
+
+        switch (true) {
+
+            case (rcvd_qty >= ord_qty):
+            case (ord_qty == rcvd_qty) && (ret_qty == 0):
+                bkgrnd_class = "partsComplete";
+                break;
+
+            case (ord_qty > 0) && (rcvd_qty == 0):
+                bkgrnd_class = "waitingForParts";
+                break;
+
+    //         case (ro_qty > 0) && (ord_qty == 0):
+    //              break;
+
+            default:
+                bkgrnd_class = "noParts";
+                break
+        }   // switch()
+
+        return bkgrnd_class;
+    }   // PartStatus()
 
     function getQueryParams(url) {
 
@@ -37,38 +72,6 @@ var carViewCtrlr = function($scope, $http){
         //console.log(response.statusText);
         //console.log(response.headers());
     }
-
-    function GetAllPartsForRO(roNum)
-    {
-        $http.get('./php/Car_View.php?roNum=' + roNum)
-              .then(handleSuccess)
-              .catch(handleError);   // .then()
-    }
-        // Computes the background color for a row
-        // based on ordered, received, and returned quantities.
-    $scope.PartStatus = function(ord_qty, rcvd_qty, ret_qty){
-
-        var bkgrnd_class = '';  // Background class
-
-        switch (true) {
-
-            case (ord_qty == rcvd_qty) && (ret_qty == 0):
-                bkgrnd_class = "partsComplete";
-                break;
-
-            case (ord_qty > 0) && (rcvd_qty == 0):
-                bkgrnd_class = "waitingForParts";
-                break;
-
-//         case (ro_qty > 0) && (ord_qty == 0):
-//              break;
-
-            default:
-                bkgrnd_class = "noParts";
-                break
-        }
-        return bkgrnd_class;
-    }   // PartStatus()
 
 }
 
