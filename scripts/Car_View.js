@@ -15,8 +15,31 @@ var carViewCtrlr = function($scope, $http){
               .catch(handleError);   // .then()
     }     // GetAllPartsForRO()
 
-    // Computes the background color for a row
-    // based on ordered, received, and returned quantities.
+    $scope.sortField = "+ordered_quantity";
+
+    $scope.SortParts = function(sortBy){
+
+       switch($scope.sortOrder){
+
+          case '+':
+             $scope.sortOrder = '-';
+             break;
+
+          case '-':
+             $scope.sortOrder = '+';
+             break;
+
+          default:
+             $scope.sortOrder = '+';
+             break;
+
+       } // switch()
+
+       $scope.sortField = $scope.sortOrder + sortBy;
+    }  // SortPatients()
+
+        // Computes the background color for a row
+        // based on ordered, received, and returned quantities.
     $scope.PartStatus = function(ord_qty, rcvd_qty, ret_qty){
 
         var bkgrnd_class = '';  // Background class

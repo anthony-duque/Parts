@@ -22,6 +22,7 @@
         public $ordered_quantity;
         public $received_quantity;
         public $returned_quantity;
+        public $ro_quantity;
     };
 
     function CreatePartEntry($partRec){
@@ -33,6 +34,7 @@
         //$part->part_description = ucwords($part->part_description); // to camel case
         $part->vendor_name      = strtolower($partRec["Vendor_Name"]);
         $part->vendor_name      =  ucwords($part->vendor_name);
+        $part->ro_quantity      = $partRec["RO_Qty"];
         $part->ordered_quantity = $partRec["Ordered_Qty"];
         $part->received_quantity = $partRec["Received_Qty"];
         $part->returned_quantity = $partRec["Returned_Qty"];
@@ -43,10 +45,11 @@
     function GetPartsList($ro, $dbConn){
 
         $sql = "SELECT Part_Number, Part_Description, Vendor_Name, " .
-                " Ordered_Qty, Received_Qty, Returned_Qty " .
+                " RO_Qty, Ordered_Qty, Received_Qty, Returned_Qty " .
                 " FROM PartsStatusExtract" .
                 " WHERE RO_Num = " . $ro .
                 " ORDER BY Ordered_Qty ASC";
+        //console.log($sql);
         try{
 
             $parts = [];

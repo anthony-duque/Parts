@@ -30,36 +30,42 @@
 <br/>
 <table width=100% align='center' id='carParts'>
     <tr>
-        <th style='border-bottom-style: groove'>
+        <th style='border-bottom-style: groove' ng-click="SortParts('part_number');">
             Part Number
         </th>
-        <th style='border-bottom-style: groove'>
+        <th style='border-bottom-style: groove' ng-click="SortParts('part_description');">
             Part Description
         </th>
-        <th style='border-bottom-style: groove'>
+        <th style='border-bottom-style: groove' ng-click="SortParts('vendor_name');">
             Vendor Name
         </th>
-        <th style='border-bottom-style: groove'>
+        <th style='border-bottom-style: groove' ng-click="SortParts('ro_quantity');">
+            RO<br/>Qty
+        </th>
+        <th style='border-bottom-style: groove' ng-click="SortParts('ordered_quantity');">
             Ordered<br/>Qty
         </th>
-        <th style='border-bottom-style: groove'>
+        <th style='border-bottom-style: groove' ng-click="SortParts('received_quantity');">
             Received<br/>Qty
         </th>
-        <th style='border-bottom-style: groove'>
+        <th style='border-bottom-style: groove' ng-click="SortParts('returned_quantity');">
             Returned<br/>Qty
         </th>
     </tr>
-    <tr ng-repeat='eachPart in car.partsList' ng-class="PartStatus(eachPart.ordered_quantity, eachPart.received_quantity, eachPart.returned_quantity)">
+    <tr ng-repeat='eachPart in car.partsList | orderBy: sortField' ng-class="PartStatus(eachPart.ordered_quantity, eachPart.received_quantity, eachPart.returned_quantity)">
         <td align='center'>
             <a href='http://www.google.com/search?q={{ eachPart.part_number }}' target='_blank' >
                 {{ eachPart.part_number }}
             </a>
         </td>
-        <td align='center'>
+        <td align='left'>
             {{ eachPart.part_description }}
         </td>
         <td align='center'>
             {{ eachPart.vendor_name }}
+        </td>
+        <td align='center'>
+            {{ eachPart.ro_quantity }}
         </td>
         <td align='center'>
             {{ eachPart.ordered_quantity }}
