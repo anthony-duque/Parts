@@ -8,9 +8,9 @@ var carViewCtrlr = function($scope, $http){
 
     GetAllPartsForRO(roNum);
 
-    function GetAllPartsForRO(roNum)
+    function GetAllPartsForRO(ROnum)
     {
-        $http.get('./php/Car_View.php?roNum=' + roNum)
+        $http.get('./php/Car_View.php?roNum=' + ROnum)
               .then(handleSuccess)
               .catch(handleError);   // .then()
     }     // GetAllPartsForRO()

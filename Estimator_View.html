@@ -7,7 +7,7 @@
             <a href="Car_View.html?roNum={{ eachCar.ro_num }}" target="CarStatus">
             <table width='150' height='100%' >
                 <tr>
-                    <td align='center'>{{ eachCar.ro_num }} - {{ eachCar.partsRcvd }}</td>
+                    <td align='center'>{{ eachCar.ro_num }}</td>
                 </tr>
                 <tr>
                     <td align='center'>{{ eachCar.owner }}</td>
@@ -17,6 +17,11 @@
                 </tr>
                 <tr>
                     <td align='center'>&nbsp;{{ eachCar.technician.split(' ')[0] }}</td>
+                </tr>
+                <tr>
+                    <td align='center'>
+                        ({{ (eachCar.partsRcvd * 100) }} %)
+                    </td>
                 </tr>
             </table>
             </a>

@@ -9,17 +9,17 @@
 
 <table width='100%' align=center border=0 class='heading'>
     <tr>
-        <td>RO #:</td>
-        <th align='left'>
-            {{ car.ro_num }}
+        <td width='10%'>RO #:</td>
+        <th align='left' width='40%'>
+            <input type='number' value='{{ car.ro_num }}' />
         </th>
-        <td>Estimator:</td>
-        <th align='left'>&nbsp;{{ car.estimator }}</th>
+        <td align='right' width='40%'>Estimator:</td>
+        <th align='left' width='10%'>&nbsp;{{ car.estimator }}</th>
     </tr>
     <tr>
         <td>Vehicle:</td>
         <th align='left'>{{ car.vehicle }}</th>
-        <td>Technician:</td>
+        <td align='right'>Technician:</td>
         <th align='left'>&nbsp;{{ car.technician }}</th>
     </tr>
     <tr>
