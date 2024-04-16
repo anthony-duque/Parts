@@ -8,10 +8,10 @@
 
     class Car{
         public $ro_num;
-//        public $owner;
-//        public $vehicle;
-//        public $estimator;
-//        public $technician;
+        public $owner;
+        public $vehicle;
+        public $estimator;
+        public $technician;
         public $partsList = [];
     }
 
@@ -29,7 +29,10 @@
         $part = new Part();
         $part->part_number      = $partRec["Part_Number"];
         $part->part_description = $partRec["Part_Description"];
-        $part->vendor_name      = $partRec["Vendor_Name"];
+        //$part->part_description = strtolower($partRec["Part_Description"]);
+        //$part->part_description = ucwords($part->part_description); // to camel case
+        $part->vendor_name      = strtolower($partRec["Vendor_Name"]);
+        $part->vendor_name      =  ucwords($part->vendor_name);
         $part->ordered_quantity = $partRec["Ordered_Qty"];
         $part->received_quantity = $partRec["Received_Qty"];
         $part->returned_quantity = $partRec["Returned_Qty"];
@@ -37,58 +40,47 @@
         return $part;
     }   // CreateCarEstimator
 
+    function GetPartsList($ro, $dbConn){
+
+        $sql = "SELECT Part_Number, Part_Description, Vendor_Name, " .
+                " Ordered_Qty, Received_Qty, Returned_Qty " .
+                " FROM PartsStatusExtract" .
+                " WHERE RO_Num = " . $ro .
+                " ORDER BY Ordered_Qty ASC";
+        try{
+
+            $parts = [];
+
+            $s = mysqli_query($dbConn, $sql);
+
+            while($r = mysqli_fetch_assoc($s)){
+
+                $part = CreatePartEntry($r);
+                array_push($parts, $part);
+            }   // while()
+
+            return $parts;
+
+        } catch(Exception $e){
+
+            echo "Fetching RO parts failed." . $e->getMessage();
+
+        } finally {
+            //echo "reached finally";
+            $dbConn = null;
+        }   // try-catch{}
+    }   // GetPartsList()
+
 
     function ProcessGET($roNum){
 
         require('db_open.php');
 
-//        if ($id > ''){
-//            ;// Get just one record
-//        } else {
+        $Car = new Car();
+        $Car->ro_num = $roNum;
+        $Car->partsList = GetPartsList($roNum, $conn);
 
-        $sql = "SELECT Part_Number, Part_Description, Vendor_Name, " .
-                " Ordered_Qty, Received_Qty, Returned_Qty " .
-                " FROM PartsStatusExtract" .
-                " WHERE RO_Num = " . $roNum;
-
-        try{
-
-            $parts = [];
-
-            $s = mysqli_query($conn, $sql);
-
-            while($r = mysqli_fetch_assoc($s)){
-
-//                echo $r["Part_Description"] . "<br/>";
-
-                $part = CreatePartEntry($r);
-/*
-                if ($r["Technician"] === $repair->technician){
-                    $repair->cars[] = CreateCar($r);
-                } else {
-                    array_push($repairs, $repair);
-                    $repair = new Repair();
-                    $repair->technician = $r["Technician"];
-                    $repair->cars[] = CreateCar($r);
-                }
-                */
-                array_push($parts, $part);
-            }
-
-            $Car = new Car();
-            $Car->ro_num = $roNum;
-            $Car->partsList = $parts;
-
-            return $Car;
-
-        } catch(Exception $e){
-
-            echo "Fetching repairs failed." . $e->getMessage();
-
-        } finally {
-            //echo "reached finally";
-            $conn = null;
-        }   // try-catch{}
+        return $Car;
 //        }   // if-else {}
     }   // ProcessGET()
 ?>

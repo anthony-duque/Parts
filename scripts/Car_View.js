@@ -44,7 +44,8 @@ var carViewCtrlr = function($scope, $http){
               .then(handleSuccess)
               .catch(handleError);   // .then()
     }
-
+        // Computes the background color for a row
+        // based on ordered, received, and returned quantities.
     $scope.PartStatus = function(ord_qty, rcvd_qty, ret_qty){
 
         var bkgrnd_class = '';  // Background class
