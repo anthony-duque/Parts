@@ -34,6 +34,11 @@
 <br/>
 <table width=100% align='center' id='carParts'>
     <tr>
+        <td align='center' colspan='7'>
+            Search: <input type='text' ng-model='searchText' />
+        </td>
+    </tr>
+    <tr>
         <th style='border-bottom-style: groove' ng-click="SortParts('part_number');">
             Part Number
         </th>
@@ -56,7 +61,7 @@
             Returned<br/>Qty
         </th>
     </tr>
-    <tr ng-repeat='eachPart in car.partsList | orderBy: sortField' ng-class="PartStatus(eachPart.ordered_quantity, eachPart.received_quantity, eachPart.returned_quantity)">
+    <tr ng-repeat='eachPart in car.partsList | orderBy: sortField | filter: searchText' ng-class="PartStatus(eachPart.ordered_quantity, eachPart.received_quantity, eachPart.returned_quantity)">
         <td align='center'>
             <a href='http://www.google.com/search?q={{ eachPart.part_number }}' target='_blank' >
                 {{ eachPart.part_number }}
