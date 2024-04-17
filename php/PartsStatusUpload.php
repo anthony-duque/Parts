@@ -20,12 +20,12 @@ const RECEIVED_QTY		= 12;
 const RETURNED_QTY		= 13;
 const RO_STATUS			= 16;
 
-$extractFile = FILEPATH . $_POST["PartsStatusCSV"];
+	$extractFile = FILEPATH . $_POST["PartsStatusCSV"];
 
-if (trim($extractFile) === ''){
-	echo "No extract file specified.";
-	header("Location: ./Upload_PartsStatus.html");
-}
+	if (trim($extractFile) === ''){
+		echo "No extract file specified.";
+		header("Location: ./Upload_PartsStatus.html");
+	}
 
 require('db_open.php');
 
@@ -55,13 +55,13 @@ require('db_open.php');
 
 	$row = 0;	// record counter
 
-
 	while (($data = fgetcsv($handle, 500, ",")) !== FALSE) {
 
 
         $second_field = trim($data[1]);
 		$second_field = strtoupper($second_field);
 
+//		echo $second_field;
         if (($second_field == '') || ($second_field === 'LINE')) {
             continue;
         }
@@ -112,7 +112,7 @@ require('db_open.php');
 				  $returned_quantity . "," . $ro_status . ")";
 
         $insert_sql = $tsql . $values;
-		//echo $insert_sql . '<br/><br/>';
+//		echo $insert_sql . '<br/><br/>';
 
 		if ($conn->query($insert_sql) === TRUE) {
 	      echo $part_number . " inserted<br/>";
