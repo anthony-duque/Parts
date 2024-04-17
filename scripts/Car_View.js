@@ -4,16 +4,25 @@ var carViewCtrlr = function($scope, $http){
 
         // get the value of ro num from the queryString
     var params = getQueryParams(window.location.href);
-    var roNum = params.roNum;
+    $scope.roNum = params.roNum;
 
-    GetAllPartsForRO(roNum);
+    $scope.GetAllPartsForRO = function(ROnum)
+    {
+        $http.get('./php/Car_View.php?roNum=' + ROnum)
+              .then(handleSuccess)
+              .catch(handleError);   // .then()
+    }     // GetAllPartsForRO()
 
+    $scope.GetAllPartsForRO($scope.roNum);
+
+/*
     function GetAllPartsForRO(ROnum)
     {
         $http.get('./php/Car_View.php?roNum=' + ROnum)
               .then(handleSuccess)
               .catch(handleError);   // .then()
     }     // GetAllPartsForRO()
+*/
 
     $scope.sortField = "+ordered_quantity";
 
