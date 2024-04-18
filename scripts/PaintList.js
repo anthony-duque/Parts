@@ -13,9 +13,15 @@ var paintListCtrlr = function($scope, $http){
               .catch(handleError);   // .then()
     }
 
+    $scope.AddCarToPaintList = function (car, techIndex){
 
-    $scope.AddCarToPaintList = function (car){
-        $scope.paintList.push(car);
+        var carObj = {
+            "techIndex": techIndex,
+            "car": car
+        };
+
+        $scope.paintList.push(carObj);
+        $scope.techList.splice(techIndex, 1);
     }
 
 

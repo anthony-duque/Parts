@@ -18,16 +18,16 @@
                         <td>
                             <table width='150' height='100%'>
                                 <tr>
-                                    <td align='center'>{{ eachCar.ro_num }}</td>
+                                    <td align='center'>{{ eachCar.car.ro_num }}</td>
                                 </tr>
                                 <tr>
-                                    <td align='center'>{{ eachCar.owner }}</td>
+                                    <td align='center'>{{ eachCar.car.owner }}</td>
                                 </tr>
                                 <tr>
-                                    <td align='center'>{{ eachCar.vehicle.split(' ')[1] + " " + eachCar.vehicle.split(' ')[2] }}</td>
+                                    <td align='center'>{{ eachCar.car.vehicle.split(' ')[1] + " " + eachCar.vehicle.split(' ')[2] }}</td>
                                 </tr>
                                 <tr>
-                                    <td align='center'>&nbsp;{{ eachCar.estimator.split(' ')[0] }}</td>
+                                    <td align='center'>&nbsp;{{ eachCar.car.estimator.split(' ')[0] }}</td>
                                 </tr>
                             </table>
                         </td>
@@ -41,7 +41,7 @@
                             {{ eachTech.technician }}
                         </th>
                         <td ng-repeat="eachCar in eachTech.cars | filter: searchText" height='100%'>
-                            <table width='150' height='100%' ng-click='AddCarToPaintList(eachCar);'>
+                            <table width='150' height='100%' ng-click='AddCarToPaintList(eachCar, $index);'>
                                 <tr>
                                     <td align='center'>{{ eachCar.ro_num }}</td>
                                 </tr>
