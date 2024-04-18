@@ -13,7 +13,7 @@ var paintListCtrlr = function($scope, $http){
               .catch(handleError);   // .then()
     }
 
-    $scope.AddCarToPaintList = function (car, techIndex){
+    $scope.AddCarToPaintList = function (car, techIndex, carIndex){
 
         var carObj = {
             "techIndex": techIndex,
@@ -21,7 +21,14 @@ var paintListCtrlr = function($scope, $http){
         };
 
         $scope.paintList.push(carObj);
-        $scope.techList.splice(techIndex, 1);
+        $scope.techList[techIndex].cars.splice(carIndex, 1);
+    }
+
+
+    $scope.DeleteFromPaintList = function(carObj, listIndex){
+
+        $scope.techList[carObj.techIndex].cars.push(carObj.car);
+        $scope.paintList.splice(listIndex, 1);
     }
 
 

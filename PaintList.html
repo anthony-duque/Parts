@@ -16,7 +16,7 @@
                     </tr>
                     <tr ng-repeat='eachCar in paintList'>
                         <td>
-                            <table width='150' height='100%'>
+                            <table width='150' height='100%' ng-click='DeleteFromPaintList(eachCar, $index);'>
                                 <tr>
                                     <td align='center'>{{ eachCar.car.ro_num }}</td>
                                 </tr>
