@@ -41,7 +41,7 @@
                             {{ eachTech.technician }}
                         </th>
                         <td ng-repeat="eachCar in eachTech.cars | filter: searchText" height='100%'>
-                            <table width='150' height='100%' ng-click='AddCarToPaintList(eachCar, $index);'>
+                            <table width='150' height='100%' ng-click='AddCarToPaintList(eachCar, $parent.$index, $index);'>
                                 <tr>
                                     <td align='center'>{{ eachCar.ro_num }}</td>
                                 </tr>

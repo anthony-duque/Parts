@@ -17,6 +17,7 @@ var paintListCtrlr = function($scope, $http){
 
         var carObj = {
             "techIndex": techIndex,
+            "carIndex": carIndex,
             "car": car
         };
 
@@ -27,7 +28,7 @@ var paintListCtrlr = function($scope, $http){
 
     $scope.DeleteFromPaintList = function(carObj, listIndex){
 
-        $scope.techList[carObj.techIndex].cars.push(carObj.car);
+        $scope.techList[carObj.techIndex].cars.splice(carObj.carIndex, 0, carObj.car);
         $scope.paintList.splice(listIndex, 1);
     }
 
