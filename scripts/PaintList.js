@@ -9,16 +9,13 @@ var paintListCtrlr = function($scope, $http){
         if (response.data){
          console.log("Car records fetched successfully!");
          console.log(response.data);
-         $scope.carList = response.data;
+         $scope.techList = response.data;
         }
     }
 
     function handleError(response)
     {
         console.log("Repair records not fetched.");
-        //console.log(response.status);
-        //console.log(response.statusText);
-        //console.log(response.headers());
     }
 
     function GetCarList()
@@ -28,6 +25,6 @@ var paintListCtrlr = function($scope, $http){
               .catch(handleError);   // .then()
     }
 
-}
+}   // paintListCtrlr()
 
 paintListApp.controller("PaintListController", paintListCtrlr);
