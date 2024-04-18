@@ -1,0 +1,24 @@
+<html ng-app="SampleApp">
+<head>
+    <title>Sample Page</title>
+    <script src='./scripts/angularjs.js'></script>
+    <script src='./scripts/Sample.js'></script>
+</head>
+<body ng-controller='SampleCtrlr' border=1>
+    <table id="TechList" border='1'>
+        <tr ng-repeat='eachCar in techList'>
+            <td ng-dblclick='AddToPaintList(eachCar);'>
+                {{ eachCar }} - {{ $index }}
+            </td>
+        </tr>
+    </table>
+    <br/>
+    <table border=1 >
+        <tr>
+            <td ng-repeat='eachCar in paintList' ng-click='DeleteFromPaintList(eachCar);'>
+                <div>{{ eachCar }} - {{ $index }}</div>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
