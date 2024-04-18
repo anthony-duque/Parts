@@ -5,14 +5,17 @@
     <script src='./scripts/PaintList.js'></script>
 </head>
 <body ng-controller='PaintListController'>
+
+    Search: <input type='text' ng-model='searchText' /> <input type='button' value='Clear' ng-click='searchText = ""' />
+
     <table id='MainTable' border=1>
         <tr>
             <td valign='top'>
-                <table id='PaintList' border=1>
+                <table id='PaintList' border='1'  width='150'>
                     <tr>
-                        <td colspan='2'>
-                            Sergio's List
-                        </td>
+                        <th colspan='2'>
+                            Sergio's Priority List
+                        </th>
                     </tr>
                     <tr ng-repeat='eachCar in paintList'>
                         <td>
@@ -34,7 +37,7 @@
                     </tr>
                 </table>
             </td>
-            <td>
+            <td align=center>
                 <table id='TechList' border=1>
                     <tr ng-repeat='eachTech in techList | filter : searchText'>
                         <th align='center'>
