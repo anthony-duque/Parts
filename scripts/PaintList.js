@@ -2,7 +2,22 @@ var paintListApp = angular.module("PaintListApp", []);
 
 var paintListCtrlr = function($scope, $http){
 
+    $scope.paintList = [];
+
     GetCarList();
+
+    function GetCarList()
+    {
+        $http.get('./php/Technician_View.php')
+              .then(handleSuccess)
+              .catch(handleError);   // .then()
+    }
+
+
+    $scope.AddCarToPaintList = function (car){
+        $scope.paintList.push(car);
+    }
+
 
     function handleSuccess(response)
     {
@@ -18,12 +33,6 @@ var paintListCtrlr = function($scope, $http){
         console.log("Repair records not fetched.");
     }
 
-    function GetCarList()
-    {
-        $http.get('./php/Technician_View.php')
-              .then(handleSuccess)
-              .catch(handleError);   // .then()
-    }
 
 }   // paintListCtrlr()
 

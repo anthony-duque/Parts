@@ -10,16 +10,27 @@
             <td valign='top'>
                 <table id='PaintList' border=1>
                     <tr>
-                        <td>Sergio's List</td>
+                        <td colspan='2'>
+                            Sergio's List
+                        </td>
                     </tr>
-                    <tr>
-                        <td>Car 1</td>
-                    </tr>
-                    <tr>
-                        <td>Car 2</td>
-                    </tr>
-                    <tr>
-                        <td>Car 3</td>
+                    <tr ng-repeat='eachCar in paintList'>
+                        <td>
+                            <table width='150' height='100%'>
+                                <tr>
+                                    <td align='center'>{{ eachCar.ro_num }}</td>
+                                </tr>
+                                <tr>
+                                    <td align='center'>{{ eachCar.owner }}</td>
+                                </tr>
+                                <tr>
+                                    <td align='center'>{{ eachCar.vehicle.split(' ')[1] + " " + eachCar.vehicle.split(' ')[2] }}</td>
+                                </tr>
+                                <tr>
+                                    <td align='center'>&nbsp;{{ eachCar.estimator.split(' ')[0] }}</td>
+                                </tr>
+                            </table>
+                        </td>
                     </tr>
                 </table>
             </td>
@@ -30,7 +41,7 @@
                             {{ eachTech.technician }}
                         </th>
                         <td ng-repeat="eachCar in eachTech.cars | filter: searchText" height='100%'>
-                            <table width='150' height='100%'>
+                            <table width='150' height='100%' ng-click='AddCarToPaintList(eachCar);'>
                                 <tr>
                                     <td align='center'>{{ eachCar.ro_num }}</td>
                                 </tr>
