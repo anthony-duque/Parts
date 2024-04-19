@@ -54,11 +54,15 @@ var carViewCtrlr = function($scope, $http){
 
         // Computes the background color for a row
         // based on ordered, received, and returned quantities.
-    $scope.PartStatus = function(ro_qty, ord_qty, rcvd_qty, ret_qty){
+    $scope.PartStatus = function(ro_qty, ord_qty, rcvd_qty, ret_qty, ven_name, part_num){
 
         var bkgrnd_class = '';  // Background class
 
         switch (true) {
+
+            case (ven_name.length == 0):
+                bkgrnd_class = "partsComplete";
+                break;
 
             case ro_qty == 0:
                 bkgrnd_class = "partsComplete";
