@@ -6,14 +6,14 @@ var carViewCtrlr = function($scope, $http){
     var params = getQueryParams(window.location.href);
     $scope.roNum = params.roNum;
 
-    $scope.GetAllPartsForRO = function(ROnum)
+    var GetAllPartsForRO = function(ROnum)
     {
         $http.get('./php/Car_View.php?roNum=' + ROnum)
               .then(handleSuccess)
               .catch(handleError);   // .then()
     }     // GetAllPartsForRO()
 
-    $scope.GetAllPartsForRO($scope.roNum);
+    GetAllPartsForRO($scope.roNum);
 
 /*
     function GetAllPartsForRO(ROnum)
@@ -23,6 +23,11 @@ var carViewCtrlr = function($scope, $http){
               .catch(handleError);   // .then()
     }     // GetAllPartsForRO()
 */
+    $scope.GoBackToMainPage = function(){
+        self.close();
+        opener.location.reload();
+    }
+
 
     $scope.sortField = "+ordered_quantity";
 
@@ -100,9 +105,6 @@ var carViewCtrlr = function($scope, $http){
     function handleError(response)
     {
         console.log("Car parts records not fetched.");
-        //console.log(response.status);
-        //console.log(response.statusText);
-        //console.log(response.headers());
     }
 
 }
