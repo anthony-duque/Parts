@@ -23,6 +23,7 @@
         public $received_quantity;
         public $returned_quantity;
         public $ro_quantity;
+        public $expected_delivery;
     };
 
     function CreatePartEntry($partRec){
@@ -30,14 +31,15 @@
         $part = new Part();
         $part->part_number      = $partRec["Part_Number"];
         $part->part_description = $partRec["Part_Description"];
-        //$part->part_description = strtolower($partRec["Part_Description"]);
-        //$part->part_description = ucwords($part->part_description); // to camel case
+
         $part->vendor_name      = strtolower($partRec["Vendor_Name"]);
         $part->vendor_name      =  ucwords($part->vendor_name);
+
         $part->ro_quantity      = $partRec["RO_Qty"];
         $part->ordered_quantity = $partRec["Ordered_Qty"];
         $part->received_quantity = $partRec["Received_Qty"];
         $part->returned_quantity = $partRec["Returned_Qty"];
+        $part->expected_delivery = $partRec["Expected_Delivery"];
 
         return $part;
     }   // CreateCarEstimator
@@ -45,7 +47,8 @@
     function GetPartsList($ro, $dbConn){
 
         $sql = "SELECT Part_Number, Part_Description, Vendor_Name, " .
-                " RO_Qty, Ordered_Qty, Received_Qty, Returned_Qty " .
+                " RO_Qty, Ordered_Qty, Received_Qty, Returned_Qty, " .
+                " Expected_Delivery" .
                 " FROM PartsStatusExtract" .
                 " WHERE RO_Num = " . $ro .
                 " ORDER BY Ordered_Qty ASC";

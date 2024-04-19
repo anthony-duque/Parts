@@ -32,7 +32,32 @@ var paintListCtrlr = function($scope, $http){
         $scope.paintList.splice(listIndex, 1);
     }
 
+/*
+    $scope.SavePaintList = function(){
 
+        var carList = [];
+
+        $scope.paintList.foreach(eachCar)=> {
+            carList.push(eachCar.car.ro_num);
+        }
+
+        $http.post('./php/PaintList.php', JSON.stringify(carList))
+            .then(function(response) {
+                     if (response.data){
+                        console.log("Paint List written to database!");
+                        //alert("Patient Record created!");
+                        window.location.href = 'PaintList.html';
+                        //console.log(response.data);
+                     }
+                  },
+                  function(response) {
+                     console.log("Service does not Exists");
+                     console.log(response.status);
+                     console.log(response.statusText);
+                     console.log(response.headers());
+                  });
+    }         // SavePaintList()
+*/
     function handleSuccess(response)
     {
         if (response.data){

@@ -60,6 +60,9 @@
         <th style='border-bottom-style: groove' ng-click="SortParts('returned_quantity');">
             Returned<br/>Qty
         </th>
+        <th style='border-bottom-style: groove' ng-click="SortParts('returned_quantity');">
+            Expected<br/>Delivery
+        </th>
     </tr>
     <tr ng-repeat='eachPart in car.partsList | orderBy: sortField | filter: searchText' ng-class="PartStatus(eachPart.ordered_quantity, eachPart.received_quantity, eachPart.returned_quantity)">
         <td align='center'>
@@ -84,6 +87,9 @@
         </td>
         <td align='center'>
             {{ eachPart.returned_quantity }}
+        </td>
+        <td align='center'>
+            {{ eachPart.expected_delivery }}
         </td>
     </tr>
 </table>
