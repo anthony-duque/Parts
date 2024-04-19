@@ -36,10 +36,6 @@
 
         $records = null;
 
-//        if ($id > ''){
-//            ;// Get just one record
-//        } else {
-
         $sql = "SELECT Technician, RONum, SUBSTRING_INDEX(Owner, ',', 1) AS Owner, " .
                 "Vehicle, Estimator, PartsReceived FROM Repairs " .
                 "WHERE Technician > '' " .

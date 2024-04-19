@@ -17,9 +17,6 @@ var TechnicianViewCtrlr =
         function handleError(response)
         {
             console.log("Repair records not fetched.");
-            //console.log(response.status);
-            //console.log(response.statusText);
-            //console.log(response.headers());
         }
 
         function GetRepairOrders()
@@ -28,11 +25,7 @@ var TechnicianViewCtrlr =
                   .then(handleSuccess)
                   .catch(handleError);   // .then()
         }
-/*
-        $scope.ViewCar = function(){
-            $rootScope.productionView = 'Car_View.html';
-        }
-*/
+
         $scope.CheckParts = function(x){
 
             var bgColor = '';
@@ -51,7 +44,7 @@ var TechnicianViewCtrlr =
                     bgColor = 'waitingForParts';
                     break;
             }
-            
+
             return bgColor;
         }   // CheckParts()
 

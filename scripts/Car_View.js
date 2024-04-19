@@ -54,23 +54,31 @@ var carViewCtrlr = function($scope, $http){
 
         // Computes the background color for a row
         // based on ordered, received, and returned quantities.
-    $scope.PartStatus = function(ord_qty, rcvd_qty, ret_qty){
+    $scope.PartStatus = function(ro_qty, ord_qty, rcvd_qty, ret_qty){
 
         var bkgrnd_class = '';  // Background class
 
         switch (true) {
 
-            case (rcvd_qty >= ord_qty):
-            case (ord_qty == rcvd_qty) && (ret_qty == 0):
+            case ro_qty == 0:
                 bkgrnd_class = "partsComplete";
                 break;
+
+            case (ret_qty == rcvd_qty) && (ret_qty > 0):
+                bkgrnd_class = "noParts";
+                break
+
+            case (rcvd_qty == ro_qty) && (ro_qty > 0):
+                bkgrnd_class = "partsComplete";
+                break;
+
+        //    case (rcvd_qty == ord_qty) && (rcvd_qty > 0):
+        //        bkgrnd_class = "partsComplete";
+        //        break;
 
             case (ord_qty > 0) && (rcvd_qty == 0):
                 bkgrnd_class = "waitingForParts";
                 break;
-
-    //         case (ro_qty > 0) && (ord_qty == 0):
-    //              break;
 
             default:
                 bkgrnd_class = "noParts";

@@ -67,7 +67,7 @@
             Expected<br/>Delivery
         </th>
     </tr>
-    <tr ng-repeat='eachPart in car.partsList | orderBy: sortField | filter: searchText' ng-class="PartStatus(eachPart.ordered_quantity, eachPart.received_quantity, eachPart.returned_quantity)">
+    <tr ng-repeat='eachPart in car.partsList | orderBy: sortField | filter: searchText' ng-class="PartStatus(eachPart.ro_quantity, eachPart.ordered_quantity, eachPart.received_quantity, eachPart.returned_quantity)">
         <td align='center'>
             <a href='http://www.google.com/search?q={{ eachPart.part_number }}' target='_blank' >
                 {{ eachPart.part_number }}
