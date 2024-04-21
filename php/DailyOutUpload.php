@@ -90,30 +90,7 @@ require('db_open.php');
     fclose($handle);
 	$conn = null;
 
-/*
-    $tsql = str_replace(")(", "),(", $tsql);
-    $tsql = $tsql . ';';
-    echo $tsql;
-    exit;
-
-    $servername = "localhost";
-    $username = "root";
-    $password = "Al@d5150";
-    $dbname = "CarStar";
-
-    // Create connection
-    $conn = new mysqli($servername, $us	$row = 0;
-ername, $password, $dbname);
-    // Check connection
-    if ($conn->connect_error) {
-      die("Connection failed: " . $conn->connect_error);
-    } else {
-        echo("Connection successful!");
-    }
-
-    $sql = "INSERT INTO MyGuests (firstname, lastname, email)
-    	VALUES ('John', 'Doe', 'john@example.com')";
-*/
-
 ?>
 Total Records Read: <?= $row ?>
+<br/>
+<input type='button' value='Back to Main Menu' onclick='location.href = "../index.html";'>

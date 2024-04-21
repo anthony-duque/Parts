@@ -1,21 +1,29 @@
 <form action="./php/DailyOutUpload.php" method='POST'>
     <table align='center'>
+        <caption>
+            <b><u>Daily Out Extract Upload</u></b>
+        </caption>
         <tr>
-            <th colspan=2>
-                NOTE: Place the CSV file in /var/www/html/Parts
-            </th>
-        </tr>        
-        <tr>
-            <th>
-                Daily Out CSV file location:
-            </th>
-            <td>
-                <input type='file' name='DailyOutCSV' />
+            <td align='center'>
+                <br/>
+                NOTE: Place the Daily Out Extract file in:
+                <br/><br/>
+                    <b>/var/www/html/Parts/extract_files</b>
+                <br/><br/>
+                    directory before proceeding.
+                    <br/><br/>
             </td>
         </tr>
         <tr>
-            <td colspan=2 align='center'>
-                <input type='submit' value='Upload'/>
+            <th>
+                Daily Out CSV file location:
+                <input type='file' name='DailyOutCSV' />
+            </th>
+        </tr>
+        <tr>
+            <td align='center'>
+                <br/>
+                <input type='submit' value='Start Upload'/>
             </td>
         </tr>
     </table>

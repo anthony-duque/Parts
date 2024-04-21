@@ -1,22 +1,27 @@
 <form action="./php/PartsStatusUpload.php" method='POST'>
     <table align='center'>
+        <caption>
+            <b><u>Parts Status Extract Upload</u></b>
+        </caption>
         <tr>
-            <th colspan=2>
-                NOTE: Place the CSV file in
-                        /var/www/html/Parts
-                    before proceeding.
-            </th>
+            <td align='center'>
+                <br/>
+                NOTE: Place the Parts Status Extract file in:
+                <br/><br/>
+                    <b>/var/www/html/Parts/extract_files</b>
+                <br/><br/>
+                    directory before proceeding.
+            </td>
         </tr>
         <tr>
             <th>
                 Parts Status CSV filename:
-            </th>
-            <td>
                 <input type='file' name='PartsStatusCSV' />
-            </td>
+            </th>
         </tr>
         <tr>
-            <td colspan=2 align='center'>
+            <td align='center'>
+                <br/>
                 <input type='submit' value='Upload'/>
             </td>
         </tr>
