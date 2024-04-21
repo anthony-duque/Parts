@@ -145,6 +145,6 @@ fclose($handle);
 $conn = null;
 
 ?>
-Total records uploaded: <?= $row ?>
+Total parts uploaded: <?= $row ?>
 <br/>
 <input type='button' value='Back to Main Menu' onclick='location.href = "../index.html";'>

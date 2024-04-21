@@ -81,7 +81,7 @@ require('db_open.php');
         $insert_sql = $tsql . $values;
 
 		if ($conn->query($insert_sql) === TRUE) {
-	      echo $ro_num . " uploaded<br/>";
+	      ; //echo $ro_num . " uploaded<br/>";
 	    } else {
 	      echo "Error: " . $insert_sql . "<br>" . $conn->error;
 	    }
@@ -91,6 +91,6 @@ require('db_open.php');
 	$conn = null;
 
 ?>
-Total Records Read: <?= $row ?>
+Total Repair Orders Uploaded: <?= $row ?>
 <br/>
 <input type='button' value='Back to Main Menu' onclick='location.href = "../index.html";'>

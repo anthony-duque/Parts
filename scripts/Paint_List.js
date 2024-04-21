@@ -25,12 +25,14 @@ var paintListCtrlr = function($scope, $http){
         $scope.techList[techIndex].cars.splice(carIndex, 1);
     }
 
-
     $scope.DeleteFromPaintList = function(carObj, listIndex){
 
+            // insert back the car to it's original place in the tech list
         $scope.techList[carObj.techIndex].cars.splice(carObj.carIndex, 0, carObj.car);
+            // delete from the
         $scope.paintList.splice(listIndex, 1);
     }
+
 
 /*
     $scope.SavePaintList = function(){
@@ -41,7 +43,7 @@ var paintListCtrlr = function($scope, $http){
             carList.push(eachCar.car.ro_num);
         }
 
-        $http.post('./php/PaintList.php', JSON.stringify(carList))
+        $http.post('./php/Paint_List.php', JSON.stringify(carList))
             .then(function(response) {
                      if (response.data){
                         console.log("Paint List written to database!");

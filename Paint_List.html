@@ -2,24 +2,31 @@
 <head>
     <title>Production - Paint List</title>
     <script src='./scripts/angularjs.js'></script>
-    <script src='./scripts/PaintList.js'></script>
+    <script src='./scripts/Paint_List.js'></script>
 </head>
 <body ng-controller='PaintListController'>
 
     Search: <input type='text' ng-model='searchText' /> <input type='button' value='Clear' ng-click='searchText = ""' />
-
+    <br/>
+    <input type=button value='Save List' ng-click='SavePaintList();' ng-show='paintList.length > 0'/>
+    <br/>
     <table id='MainTable' border=1>
         <tr>
-            <td valign='top'>
-                <table id='PaintList' border='1'  width='150'>
+            <td align=center>
+                <table id='TechList' border=1>
                     <tr>
-                        <th colspan='2'>
-                            Sergio's Priority List
+                        <th width='150'>
+                            <br/>
+                            Sergio's
+                            <br/>
+                            Priority
+                            <br/>
+                            List
+                            <br/>
+                            <br/>
                         </th>
-                    </tr>
-                    <tr ng-repeat='eachCar in paintList'>
-                        <td>
-                            <table width='150' height='100%' ng-click='DeleteFromPaintList(eachCar, $index);'>
+                        <td ng-repeat='eachCar in paintList'>
+                            <table width='150' height='100%' ng-dblclick='DeleteFromPaintList(eachCar, $index);'>
                                 <tr>
                                     <td align='center'>{{ eachCar.car.ro_num }}</td>
                                 </tr>
@@ -27,7 +34,7 @@
                                     <td align='center'>{{ eachCar.car.owner }}</td>
                                 </tr>
                                 <tr>
-                                    <td align='center'>{{ eachCar.car.vehicle.split(' ')[1] + " " + eachCar.vehicle.split(' ')[2] }}</td>
+                                    <td align='center'>{{ eachCar.car.vehicle.split(' ')[1] + " " + eachCar.car.vehicle.split(' ')[2] }}</td>
                                 </tr>
                                 <tr>
                                     <td align='center'>&nbsp;{{ eachCar.car.estimator.split(' ')[0] }}</td>
@@ -35,21 +42,15 @@
                             </table>
                         </td>
                     </tr>
-                    <tr>
-                        <td colspan=2 align=center>
-                            <input type=button value='Save List' ng-click='SavePaintList();' ng-show='paintList.length > 0'/>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-            <td align=center>
-                <table id='TechList' border=1>
                     <tr ng-repeat='eachTech in techList | filter : searchText'>
                         <th align='center'>
+                            <br/>
                             {{ eachTech.technician }}
+                            <br/>
+                            <br/>
                         </th>
                         <td ng-repeat="eachCar in eachTech.cars | filter: searchText" height='100%'>
-                            <table width='150' height='100%' ng-click='AddCarToPaintList(eachCar, $parent.$index, $index);'>
+                            <table width='150' height='100%' ng-dblclick='AddCarToPaintList(eachCar, $parent.$index, $index);'>
                                 <tr>
                                     <td align='center'>{{ eachCar.ro_num }}</td>
                                 </tr>
