@@ -60,33 +60,23 @@ var carViewCtrlr = function($scope, $http){
 
         switch (true) {
 
-            case (ven_name.length == 0):
+            case (ven_name.length == 0) && (part_num.length == 0):
                 bkgrnd_class = "partsComplete";
                 break;
 
-            case ro_qty == 0:
-                bkgrnd_class = "partsComplete";
-                break;
-
-            case (ret_qty == rcvd_qty) && (ret_qty > 0):
+            case (rcvd_qty == ret_qty) && (ret_qty > 0):
+            case (rcvd_qty == 0) && (ord_qty == 0) && (ro_qty > 0):
                 bkgrnd_class = "noParts";
-                break
-
-            case (rcvd_qty == ro_qty) && (ro_qty > 0):
-                bkgrnd_class = "partsComplete";
                 break;
 
-        //    case (rcvd_qty == ord_qty) && (rcvd_qty > 0):
-        //        bkgrnd_class = "partsComplete";
-        //        break;
-
-            case (ord_qty > 0) && (rcvd_qty == 0):
+            case (rcvd_qty == 0) && ((ord_qty > 0) || (ro_qty > 0)):
                 bkgrnd_class = "waitingForParts";
                 break;
 
             default:
-                bkgrnd_class = "noParts";
-                break
+                bkgrnd_class = "partsComplete";
+                break;
+
         }   // switch()
 
         return bkgrnd_class;
