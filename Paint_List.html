@@ -3,9 +3,10 @@
     <title>Production - Paint List</title>
     <script src='./scripts/angularjs.js'></script>
     <script src='./scripts/Paint_List.js'></script>
+    <link rel='stylesheet' href="./styles/Parts.css">
 </head>
 <body ng-controller='PaintListController'>
-    <table align='center'>
+    <table align='center' ngRtClick='alert("Right Click");'>
         <tr>
             <th>
                 <h1>Paint List</h1>
@@ -34,7 +35,7 @@
                             <br/>
                         </th>
                         <td ng-repeat='eachCar in paintList'>
-                            <table width='150' height='100%' ng-dblclick='DeleteFromPaintList(eachCar, $index);'>
+                            <table width='150' height='100%' ng-dblclick='DeleteFromPaintList(eachCar, $index);' ng-click='ChangeStatus(eachCar);' ng-class='eachCar.status'>
                                 <tr>
                                     <td align='center'>{{ eachCar.car.ro_num }}</td>
                                 </tr>

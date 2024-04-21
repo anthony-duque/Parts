@@ -15,3 +15,15 @@
     background-color: black;
     color: lightblue;
 }
+
+.workComplete {
+    background-color: lightgreen;
+}
+
+.workUnderway {
+    background-color: yellow;
+}
+
+.workNotStarted {
+    background-color: pink;
+}

@@ -18,7 +18,8 @@ var paintListCtrlr = function($scope, $http){
         var carObj = {
             "techIndex": techIndex,
             "carIndex": carIndex,
-            "car": car
+            "car": car,
+            "status": 'workNotStarted'
         };
 
         $scope.paintList.push(carObj);
@@ -41,6 +42,25 @@ var paintListCtrlr = function($scope, $http){
         }
     }   // ClearPaintList()
 
+    $scope.ChangeStatus = function(car){
+
+        switch(car.status){
+
+            case 'workNotStarted':
+                car.status = 'workUnderway';
+                break;
+
+            case 'workUnderway':
+                car.status = 'workComplete';
+                break;
+
+            case 'workComplete':
+                car.status = 'workNotStarted';
+                break;
+
+        };
+//        car.status = 'partsComplete';
+    }
 /*
     $scope.SavePaintList = function(){
 
@@ -80,7 +100,6 @@ var paintListCtrlr = function($scope, $http){
     {
         console.log("Repair records not fetched.");
     }
-
 
 }   // paintListCtrlr()
 
