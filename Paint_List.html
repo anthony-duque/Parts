@@ -5,10 +5,18 @@
     <script src='./scripts/Paint_List.js'></script>
 </head>
 <body ng-controller='PaintListController'>
-
+    <table align='center'>
+        <tr>
+            <th>
+                <h1>Paint List</h1>
+            </th>
+        </tr>
+    </table>
     Search: <input type='text' ng-model='searchText' /> <input type='button' value='Clear' ng-click='searchText = ""' />
     <br/>
     <input type=button value='Save List' ng-click='SavePaintList();' ng-show='paintList.length > 0'/>
+    &nbsp;&nbsp;
+    <input type=button value='Clear List' ng-click='ClearPaintList();' ng-show='paintList.length > 0'/>
     <br/>
     <table id='MainTable' border=1>
         <tr>

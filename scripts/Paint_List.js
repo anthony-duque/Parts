@@ -26,13 +26,20 @@ var paintListCtrlr = function($scope, $http){
     }
 
     $scope.DeleteFromPaintList = function(carObj, listIndex){
-
             // insert back the car to it's original place in the tech list
         $scope.techList[carObj.techIndex].cars.splice(carObj.carIndex, 0, carObj.car);
             // delete from the
         $scope.paintList.splice(listIndex, 1);
-    }
+    }   // DeleteFromPaintList()
 
+
+    $scope.ClearPaintList = function(){
+
+        while($scope.paintList.length > 0){
+            var carObj = $scope.paintList.shift();
+            $scope.techList[carObj.techIndex].cars.splice(carObj.carIndex, 0, carObj.car);
+        }
+    }   // ClearPaintList()
 
 /*
     $scope.SavePaintList = function(){
