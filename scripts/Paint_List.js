@@ -72,7 +72,8 @@ var paintListCtrlr = function($scope, $http){
                         "RONum"     : eachCar.car.ro_num,
                         "Priority"  : index,
                         "TechIndex" : eachCar.techIndex,
-                        "CarIndex"  : eachCar.carIndex
+                        "CarIndex"  : eachCar.carIndex,
+                        "Status"    : eachCar.status
                 };
                 carList.push(car);
         });
