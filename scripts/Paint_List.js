@@ -57,7 +57,6 @@ var paintListCtrlr = function($scope, $http){
             case 'workComplete':
                 car.status = 'workNotStarted';
                 break;
-
         };
     }
 
@@ -66,8 +65,16 @@ var paintListCtrlr = function($scope, $http){
 
         var carList = [];
 
-        $scope.paintList.forEach((eachCar)=> {
-            carList.push(eachCar.car.ro_num);
+        $scope.paintList.forEach(
+
+            function BuildCarList(eachCar, index){
+                var car = {
+                        "RONum"     : eachCar.car.ro_num,
+                        "Priority"  : index,
+                        "TechIndex" : eachCar.techIndex,
+                        "CarIndex"  : eachCar.carIndex
+                };
+                carList.push(car);
         });
 
         $http.post('./php/Paint_List.php', JSON.stringify(carList))
