@@ -59,23 +59,24 @@ var paintListCtrlr = function($scope, $http){
                 break;
 
         };
-//        car.status = 'partsComplete';
     }
-/*
+
+
     $scope.SavePaintList = function(){
 
         var carList = [];
 
-        $scope.paintList.foreach(eachCar)=> {
+        $scope.paintList.forEach((eachCar)=> {
             carList.push(eachCar.car.ro_num);
-        }
+        });
 
         $http.post('./php/Paint_List.php', JSON.stringify(carList))
             .then(function(response) {
                      if (response.data){
+                        alert(response.data);
                         console.log("Paint List written to database!");
                         //alert("Patient Record created!");
-                        window.location.href = 'PaintList.html';
+                        //window.location.href = 'Paint_List.html';
                         //console.log(response.data);
                      }
                   },
@@ -86,7 +87,8 @@ var paintListCtrlr = function($scope, $http){
                      console.log(response.headers());
                   });
     }         // SavePaintList()
-*/
+
+
     function handleSuccess(response)
     {
         if (response.data){

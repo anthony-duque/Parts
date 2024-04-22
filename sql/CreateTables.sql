@@ -99,3 +99,16 @@ COMMENT='Dump table for extract file Parts_Status.csv.';
 
 UPDATE PartsStatusExtract 
 SET RO_Num = CONVERT(SUBSTRING_INDEX(RO_Info, " (", 1), UNSIGNED)
+
+
+CREATE TABLE CarStar.WorkPriorities (
+	id INTEGER UNSIGNED auto_increment NOT NULL,
+	RONum INTEGER UNSIGNED NOT NULL,
+	Priority TINYINT NOT NULL,
+	Tech_Index TINYINT UNSIGNED NULL,
+	Car_Index TINYINT UNSIGNED NULL,
+	PRIMARY KEY (id)
+)
+ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_0900_ai_ci;
