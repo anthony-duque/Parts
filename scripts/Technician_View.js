@@ -26,8 +26,8 @@ var TechnicianViewCtrlr =
                   .catch(handleError);   // .then()
         }
 
-        $scope.CheckParts = function(x){
-
+        $scope.CheckParts = function(x, y){
+/*
             var bgColor = '';
 
             switch(true){
@@ -43,6 +43,12 @@ var TechnicianViewCtrlr =
                 default:
                     bgColor = 'waitingForParts';
                     break;
+            }
+*/
+            if (((x + y) % 2) == 1){
+                bgColor = 'lightBlue';  // temporary until actual status is computed
+            } else {
+                bgColor = 'white';
             }
 
             return bgColor;

@@ -4,7 +4,7 @@
         <th align='center'>
             {{ eachTech.technician }}
         </th>
-        <td ng-repeat="eachCar in eachTech.cars | filter: searchText" height='100%' ng-class='CheckParts(eachCar.partsRcvd);'>
+        <td ng-repeat="eachCar in eachTech.cars | filter: searchText" height='100%' ng-class='CheckParts($parent.$index, $index);'>
             <a href="Car_View.html?roNum={{ eachCar.ro_num }}" target="CarStatus">
             <table width='150' height='100%''>
                 <tr>
@@ -21,6 +21,7 @@
                 </tr>
                 <tr>
                     <td align='center'>
+                        {{ eachCar.partsRcvd * 100 }}
                     </td>
                 </tr>
             </table>
