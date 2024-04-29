@@ -42,7 +42,7 @@ if ($conn->query($tsql) === TRUE) {
 }
 
 if (($handle = fopen($extractFile, "r")) === FALSE) {
-	echo "Error small in opening " . FILENAME;
+	echo "Error in opening " . $extractFile;
 	exit;
 }
 

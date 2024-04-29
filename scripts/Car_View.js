@@ -15,19 +15,10 @@ var carViewCtrlr = function($scope, $http){
 
     GetAllPartsForRO($scope.roNum);
 
-/*
-    function GetAllPartsForRO(ROnum)
-    {
-        $http.get('./php/Car_View.php?roNum=' + ROnum)
-              .then(handleSuccess)
-              .catch(handleError);   // .then()
-    }     // GetAllPartsForRO()
-*/
     $scope.GoBackToMainPage = function(){
         self.close();
         opener.location.reload();
     }
-
 
     $scope.sortField = "+ordered_quantity";
 
@@ -55,7 +46,7 @@ var carViewCtrlr = function($scope, $http){
         // Computes the background color for a row
         // based on ordered, received, and returned quantities.
     $scope.PartStatus = function(ro_qty, ord_qty, rcvd_qty, ret_qty, ven_name, part_num){
-
+//    $scope.PartStatus = function($parent.$index, $index){
         var bkgrnd_class = '';  // Background class
 
         switch (true) {
@@ -64,11 +55,11 @@ var carViewCtrlr = function($scope, $http){
                 bkgrnd_class = "partsComplete";
                 break;
 
-            case (rcvd_qty == ret_qty) && (ret_qty > 0):
             case (rcvd_qty == 0) && (ord_qty == 0) && (ro_qty > 0):
                 bkgrnd_class = "noParts";
                 break;
 
+            case (rcvd_qty == ret_qty) && (ret_qty > 0):
             case (rcvd_qty == 0) && ((ord_qty > 0) || (ro_qty > 0)):
                 bkgrnd_class = "waitingForParts";
                 break;

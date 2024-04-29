@@ -16,6 +16,7 @@
     }
 
     class Part{
+        public $line_num;
         public $part_number;
         public $part_description;
         public $vendor_name;
@@ -29,6 +30,7 @@
     function CreatePartEntry($partRec){
 
         $part = new Part();
+        $part->line_num = $partRec["Line"];
         $part->part_number      = $partRec["Part_Number"];
         $part->part_description = $partRec["Part_Description"];
 
@@ -46,11 +48,11 @@
 
     function GetPartsList($ro, $dbConn){
 
-        $sql = "SELECT Part_Number, Part_Description, Vendor_Name, " .
+        $sql = "SELECT Line, Part_Number, Part_Description, Vendor_Name, " .
                 " RO_Qty, Ordered_Qty, Received_Qty, Returned_Qty, " .
                 " Expected_Delivery" .
                 " FROM PartsStatusExtract" .
-                " WHERE RO_Num = " . $ro .
+                " WHERE RO_Num = " . $ro . " AND (Line > 0) AND (Part_Number > '' OR Vendor_Name > '')" .
                 " ORDER BY Ordered_Qty ASC";
         //console.log($sql);
         try{

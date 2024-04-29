@@ -27,8 +27,9 @@ var TechnicianViewCtrlr =
         }
 
         $scope.CheckParts = function(x, y){
-/*
+
             var bgColor = '';
+/*
 
             switch(true){
 

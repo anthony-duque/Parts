@@ -42,6 +42,9 @@
         </td>
     </tr>
     <tr>
+        <th style='border-bottom-style: groove' ng-click="SortParts('line_num');">
+            Line
+        </th>
         <th style='border-bottom-style: groove' ng-click="SortParts('part_number');">
             Part Number
         </th>
@@ -68,6 +71,9 @@
         </th>
     </tr>
     <tr ng-repeat='eachPart in car.partsList | orderBy: sortField | filter: searchText' ng-class="PartStatus(eachPart.ro_quantity, eachPart.ordered_quantity, eachPart.received_quantity, eachPart.returned_quantity, eachPart.vendor_name, eachPart.part_number)">
+        <td align='center'>
+            {{ eachPart.line_num }}
+        </td>
         <td align='center'>
             <a href='http://www.google.com/search?q={{ eachPart.part_number }}' target='_blank' >
                 {{ eachPart.part_number }}
