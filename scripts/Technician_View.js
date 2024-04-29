@@ -26,7 +26,7 @@ var TechnicianViewCtrlr =
                   .catch(handleError);   // .then()
         }
 
-        $scope.CheckParts = function(x, y){
+        $scope.CheckParts = function(x, y, percentRcvd){
 
             var bgColor = '';
 /*
@@ -46,10 +46,19 @@ var TechnicianViewCtrlr =
                     break;
             }
 */
-            if (((x + y) % 2) == 1){
-                bgColor = 'lightBlue';  // temporary until actual status is computed
-            } else {
-                bgColor = 'white';
+            switch(true){
+
+                case (percentRcvd == 1):
+                    bgColor = 'partsComplete';
+                    break;
+
+                case (((x + y) % 2) == 1):
+                    bgColor = 'lightBlue';  // temporary until actual status is computed
+                    break;
+
+                default:
+                    bgColor = 'white';
+                    break;
             }
 
             return bgColor;

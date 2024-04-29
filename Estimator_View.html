@@ -1,9 +1,11 @@
+
 <table id='EstimatorCars' border=1 width='100%' ng-controller="EstimatorViewController">
+
     <tr ng-repeat="eachEst in estimators | filter : searchText">
         <th align='center'>
             {{ eachEst.estimator }}
         </th>
-        <td height='100%' ng-repeat="eachCar in eachEst.cars | filter: searchText" ng-class='CheckParts($parent.$index, $index);'>
+        <td height='100%' ng-repeat="eachCar in eachEst.cars | filter: searchText" ng-class='CheckParts($parent.$index, $index, eachCar.partsRcvd);'>
             <a href="Car_View.html?roNum={{ eachCar.ro_num }}" target="CarStatus">
             <table width='150' height='100%' >
                 <tr>
