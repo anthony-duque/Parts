@@ -6,19 +6,19 @@ error_reporting(E_ALL);
 
 const FILEPATH = "../extract_files/";
 
-const RO_INFO			= 0;
-const LINE            	= 1;
+const RO_NUMBER			= 0;
+const LINE           	= 1;
 const PART_NUMBER		= 2;
 const PART_DESCRIPTION	= 3;
 const PART_TYPE    		= 4;
-const RO_QUANTITY 		= 5;
-const VENDOR_NAME     	= 7;
-const PO_NUM 			= 8;
-const ORDERED_QUANTITY  = 9;
-const EXPECTED_DELIVERY = 11;
-const RECEIVED_QTY		= 12;
-const RETURNED_QTY		= 13;
-const RO_STATUS			= 16;
+const VENDOR_NAME     	= 5;
+const RO_QUANTITY 		= 6;
+const ORDERED_QUANTITY  = 7;
+const ORDER_DATE		= 8;
+const EXPECTED_DELIVERY = 9;
+const RECEIVED_QTY		= 10;
+const INVOICE_DATE		= 11;
+const RETURNED_QTY		= 12;
 
 $extractFile = FILEPATH . $_POST["PartsStatusCSV"];
 
@@ -26,6 +26,8 @@ if (trim($extractFile) === ''){
 	echo "No extract file specified.";
 	header("Location: ./Upload_PartsStatus.html");
 }
+
+require('Utility_Scripts.php');
 
 require('db_open.php');
 
@@ -47,15 +49,14 @@ if (($handle = fopen($extractFile, "r")) === FALSE) {
 }
 
 $tsql = "INSERT INTO PartsStatusExtract " .
-        "(RO_Info, Line, Part_Number, Part_Description, Part_Type, " .
-		"RO_Qty, Vendor_Name, PO_Number, Ordered_Qty, " .
-		"Expected_Delivery, Received_Qty, Returned_Qty, RO_Status) " .
+        "(RO_Num, Line, Part_Number, Part_Description, Part_Type, " .
+		"Vendor_Name, RO_Qty, Ordered_Qty, Order_Date, " .
+		"Expected_Delivery, Received_Qty, Invoice_Date, Returned_Qty) " .
         "VALUES ";
 
 $row = 0;	// record counter
 
 while (($data = fgetcsv($handle, 500, ",")) !== FALSE) {
-
 
     $second_field = trim($data[1]);
 	$second_field = strtoupper($second_field);
@@ -67,9 +68,7 @@ while (($data = fgetcsv($handle, 500, ",")) !== FALSE) {
 
     ++$row;
 
-	$ro_info	= preg_replace('/[\x00-\x1F\x80-\xFF]/', '',  $data[RO_INFO]);
-	$ro_info	= str_replace("'", "\'",  $ro_info);
-	$ro_info		= "'" . $ro_info . "'";
+	$ro_number 			= $data[RO_NUMBER];
 
 	$line 				= $data[LINE];
 
@@ -81,37 +80,33 @@ while (($data = fgetcsv($handle, 500, ",")) !== FALSE) {
 
 	$part_type			= "'" . $data[PART_TYPE] . "'";
 
-	$ro_quantity 		= $data[RO_QUANTITY];
-
 	$vendor_name	= preg_replace('/[\x00-\x1F\x80-\xFF]/', '',  $data[VENDOR_NAME]);
 	$vendor_name	= str_replace("'", "\'",  $vendor_name);
 	$vendor_name		= "'" . $vendor_name . "'";
 
-	$PO_Number			= "'" . $data[PO_NUM] . "'";
+	$ro_quantity 		= $data[RO_QUANTITY];
 
 	$ordered_quantity 	= $data[ORDERED_QUANTITY];
 
-	if (trim($data[EXPECTED_DELIVERY]) > ''){
-        $dateObj = date_create($data[EXPECTED_DELIVERY]);
-        $mySqlDate = "'" . date_format($dateObj, "Y-m-d H:i:s") . "'";
-    } else {
-        $mySqlDate = 'NULL';
-    }
+	$order_date 		= Get_SQL_date($data[ORDER_DATE]);
 
-	$expected_delivery	= $mySqlDate;
+	$expected_delivery	= Get_SQL_date($data[EXPECTED_DELIVERY]);
 
 	$received_quantity 	= $data[RECEIVED_QTY];
-	$returned_quantity 	= $data[RETURNED_QTY];
-	$ro_status 			= "'" . $data[RO_STATUS] . "'";
 
-    $values = "(" . $ro_info . ", " . $line .", ". $part_number . ", " .
-              $part_description . ", " . $part_type . ", " . $ro_quantity . ", " .
-			  $vendor_name . ", " . $PO_Number . ", " . $ordered_quantity . ", " .
+	$invoice_date 		= Get_SQL_date($data[INVOICE_DATE]);
+
+	$returned_quantity 	= $data[RETURNED_QTY];
+
+
+    $values = "(" . $ro_number . ", " . $line . ", " . $part_number . ", " .
+              $part_description . ", " . $part_type . ", " . $vendor_name . ", " .
+			  $ro_quantity . ", " . $ordered_quantity . ", " . $order_date . ", " .
 			  $expected_delivery . ", ". $received_quantity . ", " .
-			  $returned_quantity . "," . $ro_status . ")";
+			  $invoice_date . "," . $returned_quantity . ")";
 
     $insert_sql = $tsql . $values;
-//		echo $insert_sql . '<br/><br/>';
+//	echo $insert_sql . '<br/><br/>';
 
 	if ($conn->query($insert_sql) === TRUE) {
 		;
@@ -121,17 +116,7 @@ while (($data = fgetcsv($handle, 500, ",")) !== FALSE) {
     }
 }
 
-	// populates the RO Num field from the RO Information field
-$sql = 'UPDATE PartsStatusExtract ' .
-		'SET RO_Num = CONVERT(SUBSTRING_INDEX(RO_Info, " (", 1), UNSIGNED)';
 
-if ($conn->query($sql) === TRUE) {
-  echo "Vendor Names updated. <br/>";
-} else {
-  echo "Error: " . $sql . "<br>" . $conn->error;
-}
-
-	// populates the RO Num field from the RO Information field
 $sql = 'UPDATE PartsStatusExtract ' .
 		'SET Vendor_Name = SUBSTRING_INDEX(Vendor_Name, " - ", 1)';
 
@@ -140,6 +125,7 @@ if ($conn->query($sql) === TRUE) {
 } else {
   echo "Error: " . $sql . "<br>" . $conn->error;
 }
+
 
 fclose($handle);
 $conn = null;
