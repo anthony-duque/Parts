@@ -38,7 +38,7 @@
 
         $sql = "SELECT Estimator, RONum, SUBSTRING_INDEX(Owner, ',', 1) AS Owner, " .
                 "Vehicle, Technician, PartsReceived " .
-                "FROM Repairs ORDER BY Estimator, Owner";
+                "FROM Repairs ORDER BY Estimator, PartsReceived DESC";
 
         try{
 

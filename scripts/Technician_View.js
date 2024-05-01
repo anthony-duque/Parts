@@ -30,7 +30,6 @@ var TechnicianViewCtrlr =
 
             var bgColor = '';
 /*
-
             switch(true){
 
                 case x == 0:

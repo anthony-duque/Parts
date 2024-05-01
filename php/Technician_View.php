@@ -36,10 +36,10 @@
 
         $records = null;
 
-        $sql = "SELECT id, Technician, RONum, SUBSTRING_INDEX(Owner, ',', 1) AS Owner, " .
+        $sql = "SELECT Technician, RONum, SUBSTRING_INDEX(Owner, ',', 1) AS Owner, " .
                 "Vehicle, Estimator, PartsReceived FROM Repairs " .
                 "WHERE Technician > '' " .
-                "ORDER BY Technician, Owner ";
+                "ORDER BY Technician, PartsReceived DESC";
 
         $sql = $sql;
 
@@ -56,7 +56,7 @@
             $repair->cars[] = CreateCar($r);
 
             while($r = mysqli_fetch_assoc($s)){
-    //            echo $r["Technician"] . "<br/>";
+
                 if ($r["Technician"] === $repair->technician){
                     $repair->cars[] = CreateCar($r);
                 } else {
@@ -78,6 +78,6 @@
             //echo "reached finally";
             $conn = null;
         }   // try-catch{}
-//        }   // if-else {}
+
     }   // ProcessGET()
 ?>
