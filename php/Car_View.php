@@ -1,5 +1,7 @@
 <?php
 
+require('Utility_Scripts.php');
+
     $ro_num = $_GET["roNum"];
 
     $CarParts = ProcessGET($ro_num);
@@ -10,6 +12,10 @@
         public $ro_num;
         public $owner;
         public $vehicle;
+        public $vehicle_color;
+        public $license_plate;
+        public $vehicle_in;
+        public $scheduled_out;
         public $estimator;
         public $technician;
         public $partsList = [];
@@ -80,24 +86,38 @@
 
     function Get_RO_Info(&$car, $dbConn){
 
-        $sql = "SELECT RONum, Owner, Vehicle, Estimator, Technician" .
-                " FROM Repairs WHERE RONum = " . $car->ro_num;
+        $sql = "SELECT RONum, Owner, Vehicle, Estimator, Technician, " .
+                "Vehicle_Color, License_Plate, Vehicle_In, Scheduled_Out " .
+                "FROM Repairs WHERE RONum = " . $car->ro_num;
 
         try{
 
             $s = mysqli_query($dbConn, $sql);
             $r = mysqli_fetch_assoc($s);
 
-            //$part->part_description = strtolower($partRec["Part_Description"]);
-            //$part->part_description = ucwords($part->part_description); // to camel case
-            $car->owner = strtolower($r["Owner"]);
-            $car->owner = ucwords($car->owner);     // camel case
+            $car->owner         = toProperCase($r["Owner"]);
 
-            $car->vehicle = $r["Vehicle"];
-            $car->estimator = $r["Estimator"];
+            $car->vehicle       = $r["Vehicle"];
 
-            $car->technician = strtolower($r["Technician"]);
-            $car->technician = ucwords($car->technician);
+            $car->vehicle_color = toProperCase($r["Vehicle_Color"]);
+
+            $car->license_plate = $r["License_Plate"];
+
+            $car->vehicle_in        = "";
+            if ($r["Vehicle_In"] > ''){
+                $dateObj            = date_create($r["Vehicle_In"]);
+                $car->vehicle_in    = date_format($dateObj, "M j g:i A");
+            }
+
+            $car->scheduled_out     = "";
+            if ($r["Scheduled_Out"] > ''){
+                $dateObj            = date_create();
+                $car->scheduled_out = date_format($dateObj, "M j g:i A");
+            }
+
+            $car->estimator     = $r["Estimator"];
+
+            $car->technician    = toProperCase($r["Technician"]);
 
         } catch(Exception $e){
 

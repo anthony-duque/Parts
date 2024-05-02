@@ -9,29 +9,58 @@
 
 <table width='100%' align=center border=0 class='heading'>
     <tr>
-        <td width='10%'>RO #:</td>
-        <th align='left' width='40%'>
+        <th width='5%' align='left'>
             {{ car.ro_num }}
         </th>
-        <td align='right' width='40%'>
-            Estimator:
+        <th align='left' width='35%'>
+            {{ car.owner }}
+        </th>
+        <td align='right' width='5%'>
+            Color:
         </td>
         <th align='left' width='10%'>
+            {{ car.vehicle_color }}
+        </th>
+        <td align='right' width='5%'>
+            Estimator:
+        </td>
+        <th align='left' width='15%'>
             &nbsp;{{ car.estimator }}
+        </th>
+        <td align='right' width='10%'>
+            Vehicle In:
+        </td>
+        <th width='15%'>
+            {{ car.vehicle_in }}
         </th>
     </tr>
     <tr>
-        <td>Vehicle:</td>
-        <th align='left'>{{ car.vehicle }}</th>
-        <td align='right'>Technician:</td>
-        <th align='left'>&nbsp;{{ car.technician }}</th>
-    </tr>
-    <tr>
-        <td>Owner:</td>
-        <th align='left'>{{ car.owner }}</th>
+        <th align='left' colspan="2">
+            {{ car.vehicle }}
+        </th>
+        <td align='right'>
+            License:
+        </td>
+        <th align='left'>
+             {{ car.license_plate }}
+        </th>
+        <td align='right'>
+            Technician:
+        </td>
+        <th align='left'>
+            &nbsp;{{ car.technician }}
+        </th>
+        <td align='right'>
+            Scheduled Out:
+        </td>
+        <th>
+            {{ car.scheduled_out }}
+        </th>
     </tr>
 </table>
+
 <br/>
+
 <table width=100% align='center' id='carParts'>
     <tr>
         <td align='left'>

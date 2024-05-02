@@ -23,6 +23,19 @@ function Cleanup_Text($str){
 	$cleanText	= str_replace("'", "\'",  $cleanText);
 
 	return $cleanText;
+
 }	// Cleanup_Text()
+
+
+function toProperCase($str){
+
+	$newString = '';
+
+	$newString = strtolower($str);
+	$newString = ucwords($newString);
+
+	return $newString;
+
+}	// toProperCase()
 
 ?>

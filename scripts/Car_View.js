@@ -46,7 +46,7 @@ var carViewCtrlr = function($scope, $http){
         // Computes the background color for a row
         // based on ordered, received, and returned quantities.
     $scope.PartStatus = function(ro_qty, ord_qty, rcvd_qty, ret_qty, ven_name, part_num){
-//    $scope.PartStatus = function($parent.$index, $index){
+
         var bkgrnd_class = '';  // Background class
 
         switch (true) {
@@ -90,7 +90,7 @@ var carViewCtrlr = function($scope, $http){
     {
         if (response.data){
          console.log("Car Parts records fetched successfully!");
-         console.log(response.data);
+         console.log(response.data);  // uncomment for troubleshooting
          $scope.car = response.data;
         }
     }
