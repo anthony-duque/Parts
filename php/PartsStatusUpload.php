@@ -56,7 +56,7 @@ $tsql = "INSERT INTO PartsStatusExtract " .
 
 $row = 0;	// record counter
 
-while (($data = fgetcsv($handle, 500, ",")) !== FALSE) {
+while (($data = fgetcsv($handle, 500, ",")) !== FALSE){
 
     $second_field = trim($data[1]);
 	$second_field = strtoupper($second_field);
@@ -74,15 +74,11 @@ while (($data = fgetcsv($handle, 500, ",")) !== FALSE) {
 
 	$part_number		= "'" . $data[PART_NUMBER] . "'";
 
-	$part_description	= preg_replace('/[\x00-\x1F\x80-\xFF]/', '',  $data[PART_DESCRIPTION]);
-	$part_description	= str_replace("'", "\'",  $part_description);
-	$part_description	= "'" . $part_description . "'";
+	$part_description	= "'" . Cleanup_Text($data[PART_DESCRIPTION]) . "'";
 
 	$part_type			= "'" . $data[PART_TYPE] . "'";
 
-	$vendor_name	= preg_replace('/[\x00-\x1F\x80-\xFF]/', '',  $data[VENDOR_NAME]);
-	$vendor_name	= str_replace("'", "\'",  $vendor_name);
-	$vendor_name		= "'" . $vendor_name . "'";
+	$vendor_name		=  "'" . Cleanup_Text($data[VENDOR_NAME]) . "'";
 
 	$ro_quantity 		= $data[RO_QUANTITY];
 
@@ -98,7 +94,6 @@ while (($data = fgetcsv($handle, 500, ",")) !== FALSE) {
 
 	$returned_quantity 	= $data[RETURNED_QTY];
 
-
     $values = "(" . $ro_number . ", " . $line . ", " . $part_number . ", " .
               $part_description . ", " . $part_type . ", " . $vendor_name . ", " .
 			  $ro_quantity . ", " . $ordered_quantity . ", " . $order_date . ", " .
@@ -106,7 +101,7 @@ while (($data = fgetcsv($handle, 500, ",")) !== FALSE) {
 			  $invoice_date . "," . $returned_quantity . ")";
 
     $insert_sql = $tsql . $values;
-//	echo $insert_sql . '<br/><br/>';
+	echo $insert_sql . '<br/><br/>';
 
 	if ($conn->query($insert_sql) === TRUE) {
 		;
@@ -116,7 +111,7 @@ while (($data = fgetcsv($handle, 500, ",")) !== FALSE) {
     }
 }
 
-
+	// to take out the dash and numbers after the actual vendor name
 $sql = 'UPDATE PartsStatusExtract ' .
 		'SET Vendor_Name = SUBSTRING_INDEX(Vendor_Name, " - ", 1)';
 
@@ -125,7 +120,6 @@ if ($conn->query($sql) === TRUE) {
 } else {
   echo "Error: " . $sql . "<br>" . $conn->error;
 }
-
 
 fclose($handle);
 $conn = null;

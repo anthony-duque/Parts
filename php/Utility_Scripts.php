@@ -10,8 +10,19 @@ function Get_SQL_date($dateString){
 	} else {
 		$mySqlDate = 'NULL';
 	}
-	
+
 	return $mySqlDate;
 }	// Get_SQL_date()
+
+
+function Cleanup_Text($str){
+
+	$cleanText = '';
+
+	$cleanText	= preg_replace('/[\x00-\x1F\x80-\xFF]/', '',  $str);
+	$cleanText	= str_replace("'", "\'",  $cleanText);
+
+	return $cleanText;
+}	// Cleanup_Text()
 
 ?>
