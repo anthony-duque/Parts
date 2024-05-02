@@ -101,7 +101,7 @@ while (($data = fgetcsv($handle, 500, ",")) !== FALSE){
 			  $invoice_date . "," . $returned_quantity . ")";
 
     $insert_sql = $tsql . $values;
-	echo $insert_sql . '<br/><br/>';
+//	echo $insert_sql . '<br/><br/>';
 
 	if ($conn->query($insert_sql) === TRUE) {
 		;

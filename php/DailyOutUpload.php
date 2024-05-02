@@ -5,16 +5,6 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 const FILEPATH = "../extract_files/";
-/*
-const RO_NUM           = 0;
-const OWNER            = 1;
-const VEHICLE_IN       = 2;
-const VEHICLE          = 3;
-const ESTIMATOR        = 4;
-const CURRENT_PHASE    = 6;
-const PARTS_RCVD       = 9;
-const TECHNICIAN       = 13;
-*/
 
 const RO_NUM           	= 0;
 const OWNER            	= 1;
@@ -39,8 +29,7 @@ require('Utility_Scripts.php');
 
 require('db_open.php');
 
-	// Refresh the table of Repairs with Current RepairOrders
-
+		// Refresh the table of Repairs with Current RepairOrders
 	$tsql = "DELETE FROM Repairs";
 
 	echo $tsql . "<br/>";
@@ -75,30 +64,39 @@ require('db_open.php');
         ++$row;
 
 		$ro_num 		= $data[RO_NUM];
-		$owner 			= str_replace("'", "\'", $data[OWNER]);
-		$vehicle 		= str_replace("'", "\'", $data[VEHICLE]);
-		$vehicle_color 	= str_replace("'", "\'", $data[VEHICLE_COLOR]);
-		$license_plate 	= str_replace("'", "\'", $data[LICENSE_PLATE]);
-		$parts_received = $data[PARTS_RCVD];
-		$vehicle_in 	= Get_SQL_date($data[VEHICLE_IN]);
-		$current_phase 	= $data[CURRENT_PHASE];
-		$scheduled_out	= Get_SQL_date($data[SCHEDULED_OUT]);
-		$technician     = str_replace("'", "\'", $data[TECHNICIAN]);
-		$estimator		= str_replace("'", "\'", $data[ESTIMATOR]);
 
-        $values = "(". $ro_num . ", '" . $owner . "', '" . $vehicle . "', '" . $vehicle_color  . "', " .
-					"'" . $license_plate . "', " . $parts_received . ", " . $vehicle_in . ", " .
-                  	"'" . $current_phase . "', " . $scheduled_out . ", '" . $technician . "', '" . $estimator . "')";
+		$owner			= "'" . Cleanup_Text($data[OWNER]) . "'";
+
+		$vehicle		= "'" . Cleanup_Text($data[VEHICLE]) . "'";
+
+		$vehicle_color 	= "'" . Cleanup_Text($data[VEHICLE_COLOR]) . "'";
+
+		$license_plate 	= "'" . Cleanup_Text($data[LICENSE_PLATE]) . "'";
+
+		$parts_received = $data[PARTS_RCVD];
+
+		$vehicle_in 	= Get_SQL_date($data[VEHICLE_IN]);
+
+		$current_phase 	= "'" . $data[CURRENT_PHASE] . "'";
+
+		$scheduled_out	= Get_SQL_date($data[SCHEDULED_OUT]);
+
+		$technician     = "'" . Cleanup_Text($data[TECHNICIAN]) . "'";
+
+		$estimator		= "'" . Cleanup_Text($data[ESTIMATOR]) . "'";
+
+        $values = "(". $ro_num . ", " . $owner . ", " . $vehicle . ", " . $vehicle_color  . ", " .
+					$license_plate . ", " . $parts_received . ", " . $vehicle_in . ", " .
+                  	$current_phase . ", " . $scheduled_out . ", " . $technician . ", " . $estimator . ")";
 
         $insert_sql = $tsql . $values;
-		//echo $insert_sql . '<br/>';
+//		echo $insert_sql . '<br/>';
 
 		if ($conn->query($insert_sql) === TRUE) {
 	      ; //echo $ro_num . " uploaded<br/>";
 	    } else {
 	      echo "Error: " . $insert_sql . "<br>" . $conn->error;
 	    }
-
     }
 
     fclose($handle);
