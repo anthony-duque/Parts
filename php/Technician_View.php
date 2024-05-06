@@ -36,7 +36,7 @@
 
         $records = null;
 
-        $sql = "SELECT Technician, RONum, SUBSTRING_INDEX(Owner, ',', 1) AS Owner, " .
+        $sql = "SELECT SUBSTRING_INDEX(Technician, ' ', 1) AS Technician, RONum, SUBSTRING_INDEX(Owner, ',', 1) AS Owner, " .
                 "Vehicle, Estimator, PartsReceived FROM Repairs " .
                 "WHERE Technician > '' " .
                 "ORDER BY Technician, PartsReceived DESC";

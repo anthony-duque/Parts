@@ -33,22 +33,6 @@ var EstimatorViewCtrlr =
 
             var bgColor = '';
 
-/*
-            switch(true){
-
-                case x == 0:
-                    bgColor = 'noParts';
-                    break;
-
-                case x == 1:
-                    bgColor = 'partsComplete';
-                    break;
-
-                default:
-                    bgColor = 'waitingForParts';
-                    break;
-            }
-*/
             switch(true){
 
                 case (partsRcvd == 1):

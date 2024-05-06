@@ -36,7 +36,8 @@
 
         $repairs = [];
 
-        $sql = "SELECT Estimator, RONum, SUBSTRING_INDEX(Owner, ',', 1) AS Owner, " .
+        $sql = "SELECT SUBSTRING_INDEX(Estimator, ' ', 1) AS Estimator, " .
+                "RONum, SUBSTRING_INDEX(Owner, ',', 1) AS Owner, " .
                 "Vehicle, Technician, PartsReceived " .
                 "FROM Repairs ORDER BY Estimator, PartsReceived DESC";
 
