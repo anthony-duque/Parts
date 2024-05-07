@@ -49,7 +49,10 @@ require('Utility_Scripts.php');
                 " RO_Qty, Ordered_Qty, Received_Qty, Returned_Qty, " .
                 " Expected_Delivery, Order_Date, Invoice_Date " .
                 " FROM PartsStatusExtract " .
-                " WHERE (Line > 0) AND (Part_Number > '' OR Vendor_Name > '')";
+                " WHERE (Line > 0) AND (Part_Number > '' OR Vendor_Name > '') " .
+                " AND Vendor_Name NOT IN ('**in-house', 'Airtight Auto Glass'," .
+                " 'Big Brand', 'Jim''s Tire Center', 'Pro Tech Diagnostics', 'Astech') " .
+                " AND Part_Number NOT IN ('Sublet')";
 
         // echo $sql;
         $parts = [];
