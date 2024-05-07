@@ -2,7 +2,7 @@ var app = angular.module("PartsSearchApp", []);
 
 var PartsSearchCtrlr = function($scope, $http){
 
-    GetAllRepairParts();
+    GetAllParts();
 
     function handleSuccess(response)
     {
@@ -13,18 +13,19 @@ var PartsSearchCtrlr = function($scope, $http){
         }
     }
 
+
     function handleError(response)
     {
         console.log("Parts records not fetched.");
     }
 
 
-    function GetAllRepairParts()
+    function GetAllParts()
     {
         $http.get('./php/Parts_Search.php')
-              .then(handleSuccess)
-              .catch(handleError);   // .then()
-    }
+          .then(handleSuccess)
+          .catch(handleError);   // .then()
+    } // GetAll
 
 }
 

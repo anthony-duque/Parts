@@ -38,4 +38,16 @@ function toProperCase($str){
 
 }	// toProperCase()
 
+function GetDisplayDate($dateStr){
+
+	$displayDate = '';
+
+	if ($dateStr > ''){
+		$dateObj            = date_create($dateStr);
+		$displayDate    = date_format($dateObj, "M j g:i A");
+	}
+	return $displayDate;
+}
+
+
 ?>

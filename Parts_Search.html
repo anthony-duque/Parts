@@ -5,6 +5,32 @@
     <script src='./scripts/Parts_Search.js'></script>
 </head>
 <body ng-controller='PartsSearchController'>
-    {{ x }}
+
+    <table align='center' width='90%' border=1>
+        <tr>
+            <th>RO</th>
+            <th>Part No.</th>
+            <th>Part Description</th>
+            <th>Vendor</th>
+            <th>RO Qty</th>
+            <th>Ordered</th>
+            <th>Date</th>
+            <th>Received</th>
+            <th>Date</th>
+            <th>Returned</th>
+        </tr>
+        <tr ng-repeat='eachPart in allParts'>
+            <td>{{ eachPart.ro_num }}</td>
+            <td align='center'>{{ eachPart.part_number }}</td>
+            <td>{{ eachPart.part_description }}</td>
+            <td align='center'>{{ eachPart.vendor_name }}</td>
+            <td align='center'>{{ eachPart.ro_quantity }}</td>
+            <td align='center'>{{ eachPart.ordered_quantity }}</td>
+            <td>{{ eachPart.order_date }}</td>
+            <td align='center'>{{ eachPart.received_quantity }}</td>
+            <td align='center'>{{ eachPart.invoice_date }}</td>
+            <td align='center'>{{ eachPart.returned_quantity }}</td>
+        </tr>
+    </table>
 </body>
 </html>

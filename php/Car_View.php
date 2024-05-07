@@ -103,17 +103,9 @@ require('Utility_Scripts.php');
 
             $car->license_plate = $r["License_Plate"];
 
-            $car->vehicle_in        = "";
-            if ($r["Vehicle_In"] > ''){
-                $dateObj            = date_create($r["Vehicle_In"]);
-                $car->vehicle_in    = date_format($dateObj, "M j g:i A");
-            }
+            $car->vehicle_in    = GetDisplayDate($r["Vehicle_In"]);
 
-            $car->scheduled_out     = "";
-            if ($r["Scheduled_Out"] > ''){
-                $dateObj            = date_create();
-                $car->scheduled_out = date_format($dateObj, "M j g:i A");
-            }
+            $car->scheduled_out = GetDisplayDate($r["Scheduled_Out"]);
 
             $car->estimator     = $r["Estimator"];
 
