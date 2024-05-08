@@ -1,6 +1,8 @@
 var app = angular.module("PartsSearchApp", []);
 
-var PartsSearchCtrlr = function($scope, $http){
+var PartsSearchCtrlr = function($scope, $http, utility){
+
+    $scope.sortFld = '+ro_num';
 
     GetAllParts();
 
@@ -26,6 +28,11 @@ var PartsSearchCtrlr = function($scope, $http){
           .then(handleSuccess)
           .catch(handleError);   // .then()
     } // GetAll
+
+
+    $scope.SortParts = function(sortFld){
+        $scope.sortFld = utility.SortField(sortFld, $scope.sortFld);
+    }
 
 }
 

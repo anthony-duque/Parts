@@ -3,33 +3,82 @@
     <title>Parts Search</title>
     <script src='./scripts/angularjs.js'></script>
     <script src='./scripts/Parts_Search.js'></script>
+    <script src='./scripts/UtilityFunctions.js'></script>
 </head>
 <body ng-controller='PartsSearchController'>
 
+    <table align='center'>
+        <tr>
+            <td align='center'>
+                Search: <input type='text' ng-model='searchText' />
+            </td>
+        </tr>
+    </table>
+
     <table align='center' width='90%' border=1>
         <tr>
-            <th>RO</th>
-            <th>Part No.</th>
-            <th>Part Description</th>
-            <th>Vendor</th>
-            <th>RO Qty</th>
-            <th>Ordered</th>
-            <th>Date</th>
-            <th>Received</th>
-            <th>Date</th>
-            <th>Returned</th>
+            <th ng-click='SortParts("ro_num");'>
+                RO
+            </th>
+            <th ng-click='SortParts("part_number");'>
+                Part No.
+            </th>
+            <th ng-click='SortParts("part_description");'>
+                Part Description
+            </th>
+            <th ng-click='SortParts("vendor_name");'>
+                Vendor
+            </th>
+            <th ng-click='SortParts("ro_quantity");'>
+                RO Qty
+            </th>
+            <th ng-click='SortParts("ordered_quantity");'>
+                Ordered
+            </th>
+            <th ng-click='SortParts("order_date");'>
+                Date
+            </th>
+            <th ng-click='SortParts("received_quantity");'>
+                Received
+            </th>
+            <th ng-click='SortParts("invoice_date");'>
+                Date
+            </th>
+            <th ng-click='SortParts("returned_quantity");'>
+                Returned
+            </th>
         </tr>
-        <tr ng-repeat='eachPart in allParts'>
-            <td>{{ eachPart.ro_num }}</td>
-            <td align='center'>{{ eachPart.part_number }}</td>
-            <td>{{ eachPart.part_description }}</td>
-            <td align='center'>{{ eachPart.vendor_name }}</td>
-            <td align='center'>{{ eachPart.ro_quantity }}</td>
-            <td align='center'>{{ eachPart.ordered_quantity }}</td>
-            <td>{{ eachPart.order_date }}</td>
-            <td align='center'>{{ eachPart.received_quantity }}</td>
-            <td align='center'>{{ eachPart.invoice_date }}</td>
-            <td align='center'>{{ eachPart.returned_quantity }}</td>
+        <tr ng-repeat='eachPart in allParts | filter: searchText | orderBy: sortFld'>
+            <td>
+                {{ eachPart.ro_num }}
+            </td>
+            <td align='center'>
+                {{ eachPart.part_number }}
+            </td>
+            <td>
+                {{ eachPart.part_description }}
+            </td>
+            <td align='center'>
+                {{ eachPart.vendor_name }}
+            </td>
+            <td align='center'>
+                {{ eachPart.ro_quantity }}
+            </td>
+            <td align='center'>
+                {{ eachPart.ordered_quantity }}
+            </td>
+            <td>
+                {{ eachPart.order_date }}
+            </td>
+            <td align='center'>
+                {{ eachPart.received_quantity }}
+            </td>
+            <td align='center'>
+                {{ eachPart.invoice_date }}
+            </td>
+            <td align='center'>
+                {{ eachPart.returned_quantity }}
+            </td>
         </tr>
     </table>
 </body>
