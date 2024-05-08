@@ -3,6 +3,7 @@
     <title>Car Parts Status</title>
     <script src="./scripts/angularjs.js"></script>
     <script src="./scripts/Car_View.js"></script>
+    <script src='./scripts/UtilityFunctions.js'></script>
     <link rel='stylesheet' href="./styles/Parts.css" />
 </head>
 <body ng-controller="carViewController">
@@ -95,7 +96,7 @@
         <th style='border-bottom-style: groove' ng-click="SortParts('returned_quantity');">
             Returned<br/>Qty
         </th>
-        <th style='border-bottom-style: groove' ng-click="SortParts('returned_quantity');">
+        <th style='border-bottom-style: groove' ng-click="SortParts('expected_delivery');">
             Expected<br/>Delivery
         </th>
     </tr>

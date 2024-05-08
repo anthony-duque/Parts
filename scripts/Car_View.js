@@ -1,6 +1,6 @@
 var app = angular.module("carViewModule", []);
 
-var carViewCtrlr = function($scope, $http){
+var carViewCtrlr = function($scope, $http, utility){
 
         // get the value of ro num from the queryString
     var params = getQueryParams(window.location.href);
@@ -20,27 +20,10 @@ var carViewCtrlr = function($scope, $http){
         opener.location.reload();
     }
 
-    $scope.sortField = "+ordered_quantity";
+    $scope.sortField = "+received_quantity"; // initially sort list by received qty
 
-    $scope.SortParts = function(sortBy){
-
-       switch($scope.sortOrder){
-
-          case '+':
-             $scope.sortOrder = '-';
-             break;
-
-          case '-':
-             $scope.sortOrder = '+';
-             break;
-
-          default:
-             $scope.sortOrder = '+';
-             break;
-
-       } // switch()
-
-       $scope.sortField = $scope.sortOrder + sortBy;
+    $scope.SortParts = function(sortFld){
+        $scope.sortField = utility.SortField(sortFld, $scope.sortField);
     }  // SortPatients()
 
         // Computes the background color for a row

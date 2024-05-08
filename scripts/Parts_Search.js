@@ -4,7 +4,7 @@ var PartsSearchCtrlr = function($scope, $http, utility){
 
     $scope.sortFld = '+ro_num';
 
-    GetAllParts();
+    GetAllParts();    
 
     function handleSuccess(response)
     {
@@ -13,13 +13,13 @@ var PartsSearchCtrlr = function($scope, $http, utility){
          console.log(response.data);
          $scope.allParts = response.data;
         }
-    }
+    }   // handleSuccess()
 
 
     function handleError(response)
     {
         console.log("Parts records not fetched.");
-    }
+    }   // handleError()
 
 
     function GetAllParts()
@@ -27,12 +27,12 @@ var PartsSearchCtrlr = function($scope, $http, utility){
         $http.get('./php/Parts_Search.php')
           .then(handleSuccess)
           .catch(handleError);   // .then()
-    } // GetAll
+    } // GetAllParts()
 
 
     $scope.SortParts = function(sortFld){
         $scope.sortFld = utility.SortField(sortFld, $scope.sortFld);
-    }
+    }   // SortParts()
 
 }
 

@@ -17,9 +17,6 @@ var EstimatorViewCtrlr =
         function handleError(response)
         {
             console.log("Repair records not fetched.");
-            //console.log(response.status);
-            //console.log(response.statusText);
-            //console.log(response.headers());
         }
 
         function GetRepairOrders()
