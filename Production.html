@@ -11,11 +11,14 @@
 <body ng-controller='prodController'>
     <table id='Menu' width='100%' border=0>
         <tr>
-            <th width='50%' colspan="2">
-                <input type='button' value='Estimators' ng-click="productionView = 'Estimator_View.html'" />
+            <th align='right'>
+                View by:
             </th>
-            <th width='50%'>
-                <input type='button' value='Technicians' ng-click="productionView = 'Technician_View.html'" />
+            <th>
+                Estimator <input type='radio' ng-model="productionView" value="Estimator_View.html" />
+            </th>
+            <th>
+                Technician <input type='radio' ng-model="productionView" value="Technician_View.html" />
             </th>
         </tr>
         <tr>
