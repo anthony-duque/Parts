@@ -1,7 +1,7 @@
 
 var EstimatorViewCtrlr =
 
-    function($scope, $http){
+    function($scope, $http, utility){
 
         GetRepairOrders();
 
@@ -25,27 +25,9 @@ var EstimatorViewCtrlr =
                   .then(handleSuccess)
                   .catch(handleError);   // .then()
         }
-
+            // changes the background color of car depending on Parts received
         $scope.CheckParts = function(x, y, partsRcvd){
-
-            var bgColor = '';
-
-            switch(true){
-
-                case (partsRcvd == 1):
-                    bgColor = 'partsComplete';
-                    break;
-
-                case (((x + y) % 2) == 1):
-                    bgColor = 'lightBlue';  // temporary until actual status is computed
-                    break;
-
-                default:
-                    bgColor = 'white';
-                    break;
-            }
-
-            return bgColor;
+            return utility.CheckPartStatus(x, y, partsRcvd);
         }
     };
 

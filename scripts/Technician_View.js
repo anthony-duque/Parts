@@ -26,6 +26,7 @@ var TechnicianViewCtrlr =
                   .catch(handleError);   // .then()
         }
 
+            // changes the background color of car depending on Parts received
         $scope.CheckParts = function(x, y, percentRcvd){
             return utility.CheckPartStatus(x, y, percentRcvd);
         }   // CheckParts()
