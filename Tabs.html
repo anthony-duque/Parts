@@ -1,25 +1,9 @@
 <html ng-app='TabsApp'>
 <head>
     <title>Tabs</title>
+    <link rel="stylesheet" href="./styles/Parts.css">
     <script src='./scripts/angularjs.js'></script>
     <script src='./scripts/Tabs.js'></script>
-    <style>
-
-        .active{
-            background-color: white;
-            color: black;
-        }
-
-        .inactive{
-            background-color: gray;
-            color: white
-        }
-
-        .red{
-            background-color: red;
-            color: white
-        }
-    </style>
 </head>
 <body ng-controller='TabsController'>
     <table border='1'>
@@ -27,16 +11,17 @@
             <td ng-class='Tabs.Production' ng-click='PickTab("Production");'>
                 Production
             </td>
-            <td ng-class='Tabs.PartSearch' ng-click='PickTab("PartSearch");'>
+            <td ng-class='Tabs.PartsSearch' ng-click='PickTab("PartsSearch");'>
                 Parts Search
             </td>
             <td ng-class='Tabs.PaintList' ng-click='PickTab("PaintList");'>
                 Paint List
             </td>
             <td ng-class='Tabs.Upload' ng-click='PickTab("Upload");'>
-                Upload
+                Upload a
             </td>
         </tr>
     </table>
+    <div ng-include='tabView'></div>
 </body>
 </html>
