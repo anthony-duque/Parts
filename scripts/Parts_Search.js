@@ -4,7 +4,7 @@ var PartsSearchCtrlr = function($scope, $http, utility){
 
     $scope.sortFld = '+ro_num';
 
-    GetAllParts();    
+    GetAllParts();
 
     function handleSuccess(response)
     {
@@ -29,8 +29,14 @@ var PartsSearchCtrlr = function($scope, $http, utility){
           .catch(handleError);   // .then()
     } // GetAllParts()
 
+    $scope.PartStatus = function(roQty, ordQty, rcvdQty, retQty, venName, partNum){
+
+        return utility.ColorPartStatus(roQty, ordQty, rcvdQty, retQty, venName, partNum);
+
+    }   // PartStatus()
 
     $scope.SortParts = function(sortFld){
+
         $scope.sortFld = utility.SortField(sortFld, $scope.sortFld);
     }   // SortParts()
 

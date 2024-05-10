@@ -49,5 +49,34 @@ app.factory('utility', function(){
 
     }   // CheckParts()
 
+
+    util_Obj.ColorPartStatus = function(ro_qty, ord_qty, rcvd_qty, ret_qty, ven_name, part_num){
+
+        var bkgrnd_class = '';  // Background class
+
+        switch (true) {
+
+            case (ven_name.length == 0) && (part_num.length == 0):
+                bkgrnd_class = "partsComplete";
+                break;
+
+            case (rcvd_qty == 0) && (ord_qty == 0) && (ro_qty > 0):
+                bkgrnd_class = "noParts";
+                break;
+
+            case (rcvd_qty == ret_qty) && (ret_qty > 0):
+            case (rcvd_qty == 0) && ((ord_qty > 0) || (ro_qty > 0)):
+                bkgrnd_class = "waitingForParts";
+                break;
+
+            default:
+                bkgrnd_class = "partsComplete";
+                break;
+
+        }   // switch()
+
+        return bkgrnd_class;
+    }
+
     return util_Obj;
 });

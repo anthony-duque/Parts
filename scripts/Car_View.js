@@ -28,33 +28,12 @@ var carViewCtrlr = function($scope, $http, utility){
 
         // Computes the background color for a row
         // based on ordered, received, and returned quantities.
-    $scope.PartStatus = function(ro_qty, ord_qty, rcvd_qty, ret_qty, ven_name, part_num){
+    $scope.PartStatus = function(roQty, ordQty, rcvdQty, retQty, venName, partNum){
 
-        var bkgrnd_class = '';  // Background class
+        return utility.ColorPartStatus(roQty, ordQty, rcvdQty, retQty, venName, partNum);
 
-        switch (true) {
-
-            case (ven_name.length == 0) && (part_num.length == 0):
-                bkgrnd_class = "partsComplete";
-                break;
-
-            case (rcvd_qty == 0) && (ord_qty == 0) && (ro_qty > 0):
-                bkgrnd_class = "noParts";
-                break;
-
-            case (rcvd_qty == ret_qty) && (ret_qty > 0):
-            case (rcvd_qty == 0) && ((ord_qty > 0) || (ro_qty > 0)):
-                bkgrnd_class = "waitingForParts";
-                break;
-
-            default:
-                bkgrnd_class = "partsComplete";
-                break;
-
-        }   // switch()
-
-        return bkgrnd_class;
     }   // PartStatus()
+
 
     function getQueryParams(url) {
 
