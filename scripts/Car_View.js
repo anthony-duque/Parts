@@ -24,7 +24,7 @@ var carViewCtrlr = function($scope, $http, utility){
 
     $scope.SortParts = function(sortFld){
         $scope.sortField = utility.SortField(sortFld, $scope.sortField);
-    }  // SortPatients()
+    }  // SortParts()
 
         // Computes the background color for a row
         // based on ordered, received, and returned quantities.

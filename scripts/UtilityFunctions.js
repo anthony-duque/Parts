@@ -4,7 +4,6 @@ app.factory('utility', function(){
 
     util_Obj.SortField = function(sortField, prevField){
 
-//        var prevField = oldField.substring(1);
         var prevOrder = prevField.substring(0,1);
 
         switch(prevOrder){
@@ -25,6 +24,30 @@ app.factory('utility', function(){
 
        return sortOrder + sortField;
     }    // SortField()
+
+
+    util_Obj.CheckPartStatus = function(x, y, percentRcvd){
+
+        var bgColor = '';
+
+        switch(true){
+
+            case (percentRcvd == 1):
+                bgColor = 'partsComplete';
+                break;
+
+            case (((x + y) % 2) == 1):
+                bgColor = 'lightBlue';  // temporary until actual status is computed
+                break;
+
+            default:
+                bgColor = 'white';
+                break;
+        }
+
+        return bgColor;
+
+    }   // CheckParts()
 
     return util_Obj;
 });
