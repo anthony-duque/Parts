@@ -50,9 +50,11 @@
             </th>
         </tr>
         <tr ng-repeat='eachPart in allParts | filter: searchText | orderBy: sortFld'
-            ng-class="PartStatus(eachPart.ro_quantity, eachPart.ordered_quantity, eachPart.received_quantity, eachPart.returned_quantity, eachPart.vendor_name, eachPart.part_number);">
+            ng-class="PartStatus(eachPart);">
             <td>
-                {{ eachPart.ro_num }}
+                <a href="Car_View.html?roNum={{ eachPart.ro_num }}" target="CarStatus">
+                    {{ eachPart.ro_num }}
+                </a>
             </td>
             <td align='center'>
                 {{ eachPart.part_number }}

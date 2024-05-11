@@ -34,7 +34,6 @@ var carViewCtrlr = function($scope, $http, utility){
 
     }   // PartStatus()
 
-
     function getQueryParams(url) {
 
       const queryString = url.split('?')[1];

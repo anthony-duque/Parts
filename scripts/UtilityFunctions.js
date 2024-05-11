@@ -50,22 +50,22 @@ app.factory('utility', function(){
     }   // CheckParts()
 
 
-    util_Obj.ColorPartStatus = function(ro_qty, ord_qty, rcvd_qty, ret_qty, ven_name, part_num){
+    util_Obj.ColorPartStatus = function(partObj){
 
         var bkgrnd_class = '';  // Background class
 
-        switch (true) {
+        switch (true){
 
-            case (ven_name.length == 0) && (part_num.length == 0):
+            case (partObj.vendor_name.length == 0) && (partObj.part_number.length == 0):
                 bkgrnd_class = "partsComplete";
                 break;
 
-            case (rcvd_qty == 0) && (ord_qty == 0) && (ro_qty > 0):
+            case (partObj.received_quantity == 0) && (partObj.ordered_quantity == 0) && (partObj.ro_quantity > 0):
                 bkgrnd_class = "noParts";
                 break;
 
-            case (rcvd_qty == ret_qty) && (ret_qty > 0):
-            case (rcvd_qty == 0) && ((ord_qty > 0) || (ro_qty > 0)):
+            case (partObj.received_quantity == partObj.returned_quantity) && (partObj.returned_quantity > 0):
+            case (partObj.received_quantity == 0) && ((partObj.ordered_quantity > 0) || (partObj.ro_quantity > 0)):
                 bkgrnd_class = "waitingForParts";
                 break;
 

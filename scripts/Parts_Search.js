@@ -29,9 +29,9 @@ var PartsSearchCtrlr = function($scope, $http, utility){
           .catch(handleError);   // .then()
     } // GetAllParts()
 
-    $scope.PartStatus = function(roQty, ordQty, rcvdQty, retQty, venName, partNum){
+    $scope.PartStatus = function(partInfo){
 
-        return utility.ColorPartStatus(roQty, ordQty, rcvdQty, retQty, venName, partNum);
+        return utility.ColorPartStatus(partInfo);
 
     }   // PartStatus()
 
@@ -41,5 +41,7 @@ var PartsSearchCtrlr = function($scope, $http, utility){
     }   // SortParts()
 
 }
+
+app.filter('filterByStatus');
 
 app.controller("PartsSearchController", PartsSearchCtrlr);
