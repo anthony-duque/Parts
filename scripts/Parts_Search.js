@@ -42,6 +42,22 @@ var PartsSearchCtrlr = function($scope, $http, utility){
 
 }
 
-app.filter('filterByStatus');
+    // To filter a list of parts by status (Ordered, Received, Not Ordered)
+app.filter('PartsByStatus', function(utility){
+    return function(parts, status){
+        var filteredParts = [];
+        if (status){
+            angular.forEach(parts, function(part){
+                if (utility.ColorPartStatus(part) == status){
+                    filteredParts.push(part);
+                }
+            });
+        } else {
+            filteredParts = parts;
+        }
+        return filteredParts;
+    }
+});
+
 
 app.controller("PartsSearchController", PartsSearchCtrlr);
