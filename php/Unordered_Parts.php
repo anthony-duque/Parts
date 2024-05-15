@@ -56,6 +56,17 @@ require('Utility_Scripts.php');
         }   // Part()
     }   // Part{}
 */
+class Estimator{
+
+    public $name;
+    public $parts = [];
+
+    function __construct($rec){
+        // Estimator
+        $this->name        = $rec["Estimator"];
+    }   // Estimator()
+}   // Estimator{}
+
 
 class Part{
 
@@ -71,9 +82,6 @@ class Part{
     public $order_date;
 
     function __construct($rec){
-
-            // Estimator
-        $this->estimator        = $rec["Estimator"];
 
             // Vehicle
         $this->ro_num           = $rec["RONum"];
@@ -107,17 +115,35 @@ class Part{
         //echo $sql;
         try{
 
+            $estimators = [];
             $parts = [];
+            $prev_estimator = '';
 
             $s = mysqli_query($conn, $sql);
 
             while($r = mysqli_fetch_assoc($s)){
 
+                $curr_estimator = $r["Estimator"];
+
+                if ($curr_estimator !== $prev_estimator){
+
+                    if ($prev_estimator > ''){
+
+                        $estimator->parts = $parts;
+                        array_push($estimators, $estimator);
+                        $parts = [];    // empty the array
+                    }
+
+                    $prev_estimator = $curr_estimator;
+                    $estimator = new Estimator($r);
+                }
+
                 $part = new Part($r);
                 array_push($parts, $part);
+
             }   // while()
 
-            return $parts;
+            return $estimators;
 
         } catch(Exception $e){
 

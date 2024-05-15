@@ -2,13 +2,13 @@
 
 <table width='100%'>
 <tr>
-    <td ng-repeat>
+    <td>
     </td>
 </tr>
 </table>
 
 <table border=1>
-    <tr>
+    <!-- tr>
         <th>Estimator</th>
         <th>R.O.</th>
         <th>Owner</th>
@@ -20,40 +20,27 @@
         <th>Ordered Qty</th>
         <th>Received Qty</th>
         <th>Order Date</th>
-    </tr>
-    <tr ng-repeat='part in parts'>
+    </tr -->
+
+    <tr ng-repeat='est in estimators'>
         <td>
-            {{ part.estimator }}
+            {{ est.name }}
         </td>
         <td>
-            {{ part.ro_num }}
-        </td>
-        <td>
-            {{ part.owner }}
-        </td>
-        <td>
-            {{ part.vehicle }}
-        </td>
-        <td>
-            {{ part.part_number }}
-        </td>
-        <td>
-            {{ part.part_description }}
-        </td>
-        <td>
-            {{ part.line_num }}
-        </td>
-        <td>
-            {{ part.ro_qty }}
-        </td>
-        <td>
-            {{ part.ordered_qty }}
-        </td>
-        <td>
-            {{ part.received_qty }}
-        </td>
-        <td>
-            {{ part.order_date }}
+            <table>
+                <tr ng-repeat='eachPart in est.parts'>
+                    <td>{{ eachPart.ro_num }}</td>
+                    <td>{{ eachPart.owner }}</td>
+                    <td>{{ eachPart.vehicle }}</td>
+                    <td>{{ eachPart.part_number }}</td>
+                    <td>{{ eachPart.part_description }}</td>
+                    <td>{{ eachPart.line_num }}</td>
+                    <td>{{ eachPart.ro_qty }}</td>
+                    <td>{{ eachPart.ordered_qty }}</td>
+                    <td>{{ eachPart.received_qty }}</td>
+                    <td>{{ eachPart.order_date }}</td>
+                </tr>
+            </table>
         </td>
     </tr>
 </table>
