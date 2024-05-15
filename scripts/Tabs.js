@@ -3,7 +3,12 @@ var app = angular.module("TabsApp", []);
 var TabsCtrlr = function($scope){
 
     $scope.Tabs =
-        { 'Production':"active", 'PartsSearch':"inactive", 'PaintList': "inactive", 'Upload':"inactive" };
+        {   'Production':"active",
+            'PartsSearch':"inactive",
+            'PaintList': "inactive",
+            'Upload':"inactive",
+            'UnorderedParts': "inactive"
+         };
 
     $scope.PickTab = function(tabName){
 
@@ -22,6 +27,18 @@ var TabsCtrlr = function($scope){
 
             case 'PartsSearch':
                 tabView = 'Parts_Search.html';
+                break;
+
+            case 'PaintList':
+                tabView = 'Paint_List.html';
+                break;
+
+            case 'Upload':
+                tabView = 'index.html';
+                break;
+
+            case 'UnorderedParts':
+                tabView = 'Unordered_Parts.html';
                 break;
 
             default:
