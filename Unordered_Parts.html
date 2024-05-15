@@ -1,20 +1,61 @@
-<table ng-controller='UnorderedPartsController'>
+<div ng-controller='UnorderedPartsController'>
+
+<table width='100%'>
 <tr>
-    <th></th>
-    <th></th>
-    <th></th>
-    <th></th>
-    <th></th>
-    <th></th>
-    <th></th>
-    <th></th>
-    <th></th>
-    <th></th>
-    <th></th>
-</tr>
-<tr ng-repeat='part in parts'>
-    <td>
-        {{ part.estimator }}
+    <td ng-repeat>
     </td>
 </tr>
 </table>
+
+<table border=1>
+    <tr>
+        <th>Estimator</th>
+        <th>R.O.</th>
+        <th>Owner</th>
+        <th>Vehicle</th>
+        <th>Part No.</th>
+        <th>Description</th>
+        <th>Line</th>
+        <th>RO Qty</th>
+        <th>Ordered Qty</th>
+        <th>Received Qty</th>
+        <th>Order Date</th>
+    </tr>
+    <tr ng-repeat='part in parts'>
+        <td>
+            {{ part.estimator }}
+        </td>
+        <td>
+            {{ part.ro_num }}
+        </td>
+        <td>
+            {{ part.owner }}
+        </td>
+        <td>
+            {{ part.vehicle }}
+        </td>
+        <td>
+            {{ part.part_number }}
+        </td>
+        <td>
+            {{ part.part_description }}
+        </td>
+        <td>
+            {{ part.line_num }}
+        </td>
+        <td>
+            {{ part.ro_qty }}
+        </td>
+        <td>
+            {{ part.ordered_qty }}
+        </td>
+        <td>
+            {{ part.received_qty }}
+        </td>
+        <td>
+            {{ part.order_date }}
+        </td>
+    </tr>
+</table>
+
+</div>

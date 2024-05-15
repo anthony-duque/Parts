@@ -6,12 +6,35 @@ require('Utility_Scripts.php');
 
     echo json_encode($unorderedParts);
 
-    class Part{
+/*
+    class Estimator{
 
-        public $estimator;
+        public $name;
+        public $cars = [];
+
+        function __construct($rec){
+            $this->name = $rec["Estimator"];
+        }   // Estimator()
+    }   // Estimator{}
+
+
+    class Car{
+
         public $ro_num;
         public $owner;
         public $vehicle;
+        public $parts = [];
+
+        function __construct($rec){
+            $this->ro_num           = $rec["RONum"];
+            $this->owner            = $rec["Owner"];
+            $this->vehicle          = $rec["Vehicle"];
+        }   // Car()
+    }   // Car{}
+
+
+    class Part{
+
         public $part_number;
         public $part_description;
         public $line_num;
@@ -20,29 +43,61 @@ require('Utility_Scripts.php');
         public $received_qty;
         public $order_date;
 
-        function __construct($partRec){
+        function __construct($rec){
 
-            $this->estimator        = $partRec["Estimator"];
-            $this->ro_num           = $partRec["RONum"];
-            $this->owner            = $partRec["Owner"];
-            $this->vehicle          = $partRec["Vehicle"];
-            $this->part_number      = $partRec["Part_Number"];
-            $this->part_description = $partRec["Part_Description"];
-            $this->line_num         = $partRec["Line"];
-            $this->ro_qty           = $partRec["RO_Qty"];
-            $this->ordered_qty      = $partRec["Ordered_Qty"];
-            $this->received_qty     = $partRec["Received_Qty"];
-            $this->order_date       = $partRec["Order_Date"];
+            $this->part_number      = $rec["Part_Number"];
+            $this->part_description = $rec["Part_Description"];
+            $this->line_num         = $rec["Line"];
+            $this->ro_qty           = $rec["RO_Qty"];
+            $this->ordered_qty      = $rec["Ordered_Qty"];
+            $this->received_qty     = $rec["Received_Qty"];
+            $this->order_date       = $rec["Order_Date"];
 
-        }   // constructor()
+        }   // Part()
     }   // Part{}
+*/
+
+class Part{
+
+    public $ro_num;
+    public $owner;
+    public $vehicle;
+    public $part_number;
+    public $part_description;
+    public $line_num;
+    public $ro_qty;
+    public $ordered_qty;
+    public $received_qty;
+    public $order_date;
+
+    function __construct($rec){
+
+            // Estimator
+        $this->estimator        = $rec["Estimator"];
+
+            // Vehicle
+        $this->ro_num           = $rec["RONum"];
+        $this->owner            = $rec["Owner"];
+        $this->vehicle          = $rec["Vehicle"];
+
+            // Part
+        $this->part_number      = $rec["Part_Number"];
+        $this->part_description = $rec["Part_Description"];
+        $this->line_num         = $rec["Line"];
+        $this->ro_qty           = $rec["RO_Qty"];
+        $this->ordered_qty      = $rec["Ordered_Qty"];
+        $this->received_qty     = $rec["Received_Qty"];
+        $this->order_date       = $rec["Order_Date"];
+
+    }   // Part()
+}   // Part{}
 
     function GetPartsList(){
 
         require('db_open.php');
 
         $sql =
-            "SELECT SUBSTRING_INDEX(r.Estimator, ' ', 1) AS Estimator, r.RONum, SUBSTRING_INDEX(r.Owner, ',', 1) AS Owner, " .
+            "SELECT r.id, SUBSTRING_INDEX(r.Estimator, ' ', 1) AS Estimator, r.RONum, SUBSTRING_INDEX(r.Owner, ',', 1) AS Owner, " .
     		"SUBSTRING_INDEX(SUBSTRING(r.Vehicle, INSTR(r.Vehicle,' ') + 1), ' ', 2) AS Vehicle, pse.Part_Description, pse.Part_Number, pse.Line, " .
                 " pse.RO_Qty, pse.Ordered_Qty, pse.Received_Qty, pse.Order_Date " .
             "FROM Repairs r INNER JOIN PartsStatusExtract pse " .
