@@ -19,7 +19,6 @@ echo json_encode($unorderedParts);
         }   // Estimator()
     }   // Estimator{}
 
-/*
 
     class Car{
 
@@ -35,7 +34,7 @@ echo json_encode($unorderedParts);
         }   // Car()
     }   // Car{}
 
-
+/*
     class Part{
 
         public $part_number;
@@ -137,6 +136,60 @@ function GetEstimators(&$estimatorList, $dbConn){
 
 }   // GetEstimatorList()
 
+function Get_ROs_Per_Estimator($estimatorName, $dbConn){
+
+    $ROList = [];
+
+    $sql = <<<strSQL
+        SELECT DISTINCT pse.RO_Num
+        FROM PartsStatusExtract pse INNER JOIN Repairs r
+    	   ON pse.RO_Num = r.RONum
+        WHERE r.Estimator = '
+    strSQL . $estimatorName . "'";
+
+//    echo $estimatorName . ':' ;
+    try {
+
+        $s = mysqli_query($dbConn, $sql);
+        while($r = mysqli_fetch_assoc($s)){
+            array_push($ROList, $r["RO_Num"]);
+        }   //while{}
+
+    } catch(Exception $e){
+        echo "Fetching List of Cars failed.";
+    }   // try-catch
+
+    return $ROList;
+}   // GetROsForEstimator
+
+
+function GetCarInfoForRO($roNum, $dbConn){
+
+    $sql = <<<strSQL
+        SELECT RONum, Owner, Vehicle
+        FROM Repairs
+        WHERE RONum =
+    strSQL . $roNum;
+
+    $r = null;
+
+    try {
+
+        $s = mysqli_query($dbConn, $sql);
+        $r = mysqli_fetch_assoc($s);
+
+    } catch(Exception $e) {
+
+        echo "Fetching Car Info for RO num ' . $roNum .' failed.";
+
+    } finally {
+
+        return $r;
+
+    }   // try-catch{}
+
+}   // GetCarInfoForRO()
+
 
 function GetPartsList(){
 
@@ -147,7 +200,22 @@ function GetPartsList(){
         // Get list of estimators
     GetEstimators($estimators, $conn);
 
+    foreach($estimators as &$eachEstimator){
+
+        $ros_per_est = [];  // will contain all ro's per estimator
+        $ros_per_est = Get_ROs_Per_Estimator($eachEstimator->name, $conn);
+
+//        echo $eachEstimator->name . ' = ' . var_dump($ros_per_est);
+
+        foreach($ros_per_est as $eachRO){
+            $rec = GetCarInfoForRO($eachRO, $conn);
+            $car = new Car($rec);
+            array_push($eachEstimator->cars, $car);
+        }
+    }   // foreach()
+
     $conn = null;
+    var_dump($estimators);
     return $estimators;
 
 /*
