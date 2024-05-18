@@ -90,7 +90,11 @@ function Get_ROs_Per_Estimator($estimatorName, $dbConn){
         SELECT DISTINCT pse.RO_Num
         FROM PartsStatusExtract pse INNER JOIN Repairs r
     	   ON pse.RO_Num = r.RONum
-        WHERE r.Estimator = '
+        WHERE (RO_Qty > 0) AND (Ordered_Qty = 0)
+            AND (Received_Qty = 0) AND (Part_Number > '')
+            AND (Part_Type <> 'Sublet')
+            AND (Part_Number NOT LIKE 'Aftermarket%')
+            AND r.Estimator = '
     strSQL . $estimatorName . "'";
 
 //    echo $estimatorName . ':' ;
@@ -143,7 +147,11 @@ function GetAllPartsForRO($roNum, $dbConn){
         SELECT Part_Number, Part_Description, Line,
             RO_Qty, Ordered_Qty, Received_Qty, Order_Date
         FROM PartsStatusExtract
-        WHERE RO_Num =
+        WHERE (RO_Qty > 0) AND (Ordered_Qty = 0)
+            AND (Received_Qty = 0) AND (Part_Number > '')
+            AND (Part_Type <> 'Sublet')
+            AND (Part_Number NOT LIKE 'Aftermarket%')
+            AND RO_Num =
     strSQL . $roNum;
 
 //    echo $sql;

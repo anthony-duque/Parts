@@ -5,22 +5,22 @@
     <script src='./scripts/UnorderedParts.js'></script>
 </head>
 <body ng-controller="UnorderedPartsController">
-    <table border=1>
+    <table border=1 width='100%'>
         <tr ng-repeat='estimator in estimators'>
             <td width='5%'>{{ estimator.name }}</td>
             <td width='95%'>
-                <table border=1>
+                <table border=1 width='100%'>
                     <tr>
                         <th width='5%'>RO</th>
                         <th width='15%'>Owner</th>
                         <th width='20%'>Vehicle</th>
                         <th width='60%'>
-                            <table align='center' width='100%' border='1'>
+                            <table align='center' width='100%' border='1'  bordercolor=''>
                                 <tr>
-                                    <th width='15%'>Part No.</th>
-                                    <th width='25%'>Part Description</th>
+                                    <th width='20%'>Part No.</th>
+                                    <th width='30%'>Part Description</th>
                                     <th width='10%'>Line No.</th>
-                                    <th width='10%'>RO</th>
+                                    <th width='10%'>Required</th>
                                     <th width='10%'>Ordered</th>
                                     <th width='10%'>Received</th>
                                     <th>Order Date</th>
@@ -29,19 +29,39 @@
                         </th>
                     </tr>
                     <tr ng-repeat='eachCar in estimator.cars'>
-                        <td>{{ eachCar.ro_num }}</td>
-                        <td>{{ eachCar.owner }}</td>
-                        <td>{{ eachCar.vehicle }}</td>
+                        <td valign='top' align='center'>
+                            {{ eachCar.ro_num }}
+                        </td>
+                        <td valign='top' align='center'>
+                            {{ eachCar.owner }}
+                        </td>
+                        <td valign='top'>
+                            {{ eachCar.vehicle }}
+                        </td>
                         <td>
-                            <table width='100%' border='1'>
+                            <table width='100%' border='1' bordercolor=''>
                                 <tr ng-repeat='eachPart in eachCar.parts'>
-                                    <td width='15%'>{{ eachPart.part_number }}</td>
-                                    <td width='25%'>{{ eachPart.part_description }}</td>
-                                    <td width='10%'>{{ eachPart.line_num }}</td>
-                                    <td width='10%'>{{ eachPart.ro_qty }}</td>
-                                    <td width='10%'>{{ eachPart.ordered_qty }}</td>
-                                    <td width='10%'>{{ eachPart.received_qty }}</td>
-                                    <td>{{ eachPart.order_date }}</td>
+                                    <td width='20%'>
+                                        {{ eachPart.part_number }}
+                                    </td>
+                                    <td width='30%'>
+                                        {{ eachPart.part_description }}
+                                    </td>
+                                    <td width='10%' align='center'>
+                                        {{ eachPart.line_num }}
+                                    </td>
+                                    <td width='10%' align='center'>
+                                        {{ eachPart.ro_qty }}
+                                    </td>
+                                    <td width='10%' align='center'>
+                                        {{ eachPart.ordered_qty }}
+                                    </td>
+                                    <td width='10%' align='center'>
+                                        {{ eachPart.received_qty }}
+                                    </td>
+                                    <td>
+                                        {{ eachPart.order_date }}
+                                    </td>
                                 </tr>
                             </table>
                         </td>
