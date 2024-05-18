@@ -22,7 +22,9 @@
                             <table width='100%'>
                                 <tr>
                                     <th align='left' width='5%'>
-                                        {{ eachCar.ro_num }}
+                                        <a href="Car_View.html?roNum={{ eachCar.ro_num }}" target="CarStatus">
+                                            {{ eachCar.ro_num }}
+                                        </a>
                                     </th>
                                     <th align='left' width='20%'>
                                         {{ eachCar.owner }}
@@ -60,7 +62,9 @@
                             <table width='100%' border='1'>
                                 <tr ng-repeat='eachPart in eachCar.parts' ng-show='eachCar.showParts' ng-class='ToggleRow($index);'>
                                     <td width='20%' align='center'>
-                                        {{ eachPart.part_number }}
+                                        <a href='http://www.google.com/search?q={{ eachPart.part_number }}' target='_blank' >
+                                            {{ eachPart.part_number }}
+                                        </a>
                                     </td>
                                     <td width='30%'>
                                         {{ eachPart.part_description }}

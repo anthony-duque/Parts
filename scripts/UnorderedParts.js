@@ -31,9 +31,19 @@ function UnorderedPartsCtrlr($scope, $http, utility){
 
     $scope.ShowHideParts = function(estimator){
 
-        estimator.cars.forEach((car) => car.showParts = !car.showParts);
+        var showParts = false;
 
-    }
+        estimator.cars.forEach((car) => {
+            if (car.showParts == true){
+                showParts = true;
+            }
+        });
+
+        estimator.cars.forEach((car) => {
+            car.showParts = !showParts
+        });
+        
+    }   // ShowHideParts()
 
 }   // UnorderedPartsCtrlr()
 
