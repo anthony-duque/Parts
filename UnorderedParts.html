@@ -3,6 +3,8 @@
     <title>Unordered Parts</title>
     <script src='./scripts/angularjs.js'></script>
     <script src='./scripts/UnorderedParts.js'></script>
+    <script src='./scripts/UtilityFunctions.js'></script>
+    <link rel="stylesheet" href="./styles/Parts.css">
 </head>
 <body ng-controller="UnorderedPartsController">
     <table border=1 width='100%'>
@@ -10,7 +12,9 @@
             <h3>Unordered Parts</h3>
         </caption>
         <tr ng-repeat='estimator in estimators'>
-            <td width='10%' align='center'>{{ estimator.name }}</td>
+            <td width='10%' align='center' ng-class='ToggleRow($index);'>
+                {{ estimator.name }}
+            </td>
             <td width='90%'>
                 <table border=1 width='100%'>
                     <tr ng-repeat='eachCar in estimator.cars'>
@@ -24,7 +28,7 @@
                                         {{ eachCar.owner }}
                                     </th>
                                     <th align='left'>
-                                        ({{ eachCar.vehicle }})
+                                        {{ eachCar.vehicle }}
                                     </th>
                                 </tr>
                             </table>
@@ -54,7 +58,7 @@
                                 </tr>
                             </table>
                             <table width='100%' border='1'>
-                                <tr ng-repeat='eachPart in eachCar.parts' ng-show='eachCar.showParts'>
+                                <tr ng-repeat='eachPart in eachCar.parts' ng-show='eachCar.showParts' ng-class='ToggleRow($index);'>
                                     <td width='20%' align='center'>
                                         {{ eachPart.part_number }}
                                     </td>

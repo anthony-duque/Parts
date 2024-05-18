@@ -26,6 +26,25 @@ app.factory('utility', function(){
     }    // SortField()
 
 
+    util_Obj.ToggleRows = function(x){
+
+        var bgColor = '';
+
+        if ((x % 2) == 1){
+
+            bgColor = 'white';
+
+        } else {
+
+            bgColor = 'lightBlue';  // temporary until actual status is computed
+
+        }
+
+        return bgColor;
+
+    }   // CheckParts()
+
+
     util_Obj.CheckPartStatus = function(x, y, percentRcvd){
 
         var bgColor = '';
