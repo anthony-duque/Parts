@@ -5,10 +5,31 @@
     <script src='./scripts/UnorderedParts.js'></script>
 </head>
 <body ng-controller="UnorderedPartsController">
-
-    <table>
+    <table border=1>
         <tr ng-repeat='estimator in estimators'>
             <td>{{ estimator.name }}</td>
+            <td>
+                <table border=1>
+                    <tr ng-repeat='eachCar in estimator.cars'>
+                        <td>{{ eachCar.ro_num }}</td>
+                        <td>{{ eachCar.owner }}</td>
+                        <td>{{ eachCar.vehicle }}</td>
+                        <td>
+                            <table>
+                                <tr ng-repeat='eachPart in eachCar.parts'>
+                                    <td>{{ eachPart.part_number }}</td>
+                                    <td>{{ eachPart.part_description }}</td>
+                                    <td>{{ eachPart.line_num }}</td>
+                                    <td>{{ eachPart.ro_qty }}</td>
+                                    <td>{{ eachPart.ordered_qty }}</td>
+                                    <td>{{ eachPart.received_qty }}</td>
+                                    <td>{{ eachPart.order_date }}</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
         </tr>
     </table>
 </body>
