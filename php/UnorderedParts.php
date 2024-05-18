@@ -153,7 +153,7 @@ function GetAllPartsForRO($roNum, $dbConn){
     try {
 
         $s = mysqli_query($dbConn, $sql);
-        $r = mysqli_fetch_assoc($s);
+//        $r = mysqli_fetch_assoc($s);
 
     } catch(Exception $e) {
 
@@ -161,7 +161,7 @@ function GetAllPartsForRO($roNum, $dbConn){
 
     } finally {
 
-        return $r;
+        return $s;
 
     }   // try-catch{}
 
@@ -191,9 +191,15 @@ function GetPartsList(){
 
             // Get Parts list for each car
         foreach($eachEstimator->cars as &$eachCar){
-            $rec = GetAllPartsForRO($eachCar->ro_num, $conn);
-            $part = new Part($rec);
-            array_push($eachCar->parts, $part);
+
+            $rows = GetAllPartsForRO($eachCar->ro_num, $conn);
+
+            while($row = mysqli_fetch_assoc($rows)){
+
+                $part = new Part($row);
+                array_push($eachCar->parts, $part);
+
+            }   // while()
         }
     }   // foreach()
 
