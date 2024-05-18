@@ -27,11 +27,13 @@ echo json_encode($unorderedParts);
         public $owner;
         public $vehicle;
         public $parts = [];
+        public $showParts;
 
         function __construct($rec){
             $this->ro_num           = $rec["RONum"];
             $this->owner            = $rec["Owner"];
             $this->vehicle          = $rec["Vehicle"];
+            $this->showParts       = false;
         }   // Car()
     }   // Car{}
 

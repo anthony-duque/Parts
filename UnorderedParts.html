@@ -6,22 +6,29 @@
 </head>
 <body ng-controller="UnorderedPartsController">
     <table border=1 width='100%'>
+        <caption>
+            <h3>Unordered Parts</h3>
+        </caption>
         <tr ng-repeat='estimator in estimators'>
-            <td width='5%'>{{ estimator.name }}</td>
-            <td width='95%'>
+            <td width='10%' align='center'>{{ estimator.name }}</td>
+            <td width='90%'>
                 <table border=1 width='100%'>
                     <tr ng-repeat='eachCar in estimator.cars'>
-                        <td>
+                        <td ng-click='eachCar.showParts = !eachCar.showParts'>
                             <table width='100%'>
                                 <tr>
-                                    <th width='100%' align='center'>
-                                        {{ eachCar.ro_num }} - {{ eachCar.owner }}
-                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <th align='left' width='5%'>
+                                        {{ eachCar.ro_num }}
+                                    </th>
+                                    <th align='left' width='20%'>
+                                        {{ eachCar.owner }}
+                                    </th>
+                                    <th align='left'>
                                         ({{ eachCar.vehicle }})
                                     </th>
                                 </tr>
                             </table>
-                            <table align='center' width='100%' border='1'>
+                            <table align='center' width='100%' border='1' ng-show='eachCar.showParts'>
                                 <tr>
                                     <td width='20%' align='center'>
                                         Part No.
@@ -47,7 +54,7 @@
                                 </tr>
                             </table>
                             <table width='100%' border='1'>
-                                <tr ng-repeat='eachPart in eachCar.parts'>
+                                <tr ng-repeat='eachPart in eachCar.parts' ng-show='eachCar.showParts'>
                                     <td width='20%' align='center'>
                                         {{ eachPart.part_number }}
                                     </td>
