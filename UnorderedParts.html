@@ -10,38 +10,45 @@
             <td width='5%'>{{ estimator.name }}</td>
             <td width='95%'>
                 <table border=1 width='100%'>
-                    <tr>
-                        <th width='5%'>RO</th>
-                        <th width='15%'>Owner</th>
-                        <th width='20%'>Vehicle</th>
-                        <th width='60%'>
-                            <table align='center' width='100%' border='1'  bordercolor=''>
+                    <tr ng-repeat='eachCar in estimator.cars'>
+                        <td>
+                            <table width='100%'>
                                 <tr>
-                                    <th width='20%'>Part No.</th>
-                                    <th width='30%'>Part Description</th>
-                                    <th width='10%'>Line No.</th>
-                                    <th width='10%'>Required</th>
-                                    <th width='10%'>Ordered</th>
-                                    <th width='10%'>Received</th>
-                                    <th>Order Date</th>
+                                    <th width='100%' align='center'>
+                                        {{ eachCar.ro_num }} - {{ eachCar.owner }}
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                        ({{ eachCar.vehicle }})
+                                    </th>
                                 </tr>
                             </table>
-                        </th>
-                    </tr>
-                    <tr ng-repeat='eachCar in estimator.cars'>
-                        <td valign='top' align='center'>
-                            {{ eachCar.ro_num }}
-                        </td>
-                        <td valign='top' align='center'>
-                            {{ eachCar.owner }}
-                        </td>
-                        <td valign='top'>
-                            {{ eachCar.vehicle }}
-                        </td>
-                        <td>
-                            <table width='100%' border='1' bordercolor=''>
+                            <table align='center' width='100%' border='1'>
+                                <tr>
+                                    <td width='20%' align='center'>
+                                        Part No.
+                                    </td>
+                                    <td width='30%' align='center'>
+                                        Part Description
+                                    </td>
+                                    <td width='10%' align='center'>
+                                        Line No.
+                                    </td>
+                                    <td width='10%' align='center'>
+                                        Required
+                                    </td>
+                                    <td width='10%' align='center'>
+                                        Ordered
+                                    </td>
+                                    <td width='10%' align='center'>
+                                        Received
+                                    </td>
+                                    <td align='center'>
+                                        Order Date
+                                    </td>
+                                </tr>
+                            </table>
+                            <table width='100%' border='1'>
                                 <tr ng-repeat='eachPart in eachCar.parts'>
-                                    <td width='20%'>
+                                    <td width='20%' align='center'>
                                         {{ eachPart.part_number }}
                                     </td>
                                     <td width='30%'>
