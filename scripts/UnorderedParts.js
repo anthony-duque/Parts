@@ -29,6 +29,12 @@ function UnorderedPartsCtrlr($scope, $http, utility){
         return utility.ToggleRows(x);
     }   // CheckParts()
 
+    $scope.ShowHideParts = function(estimator){
+
+        estimator.cars.forEach((car) => car.showParts = !car.showParts);
+
+    }
+
 }   // UnorderedPartsCtrlr()
 
 app.controller("UnorderedPartsController", UnorderedPartsCtrlr);

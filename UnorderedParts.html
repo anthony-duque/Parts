@@ -12,7 +12,7 @@
             <h3>Unordered Parts</h3>
         </caption>
         <tr ng-repeat='estimator in estimators'>
-            <td width='10%' align='center' ng-class='ToggleRow($index);'>
+            <td width='10%' align='center' ng-class='ToggleRow($index);' ng-click='ShowHideParts(estimator);'>
                 {{ estimator.name }}
             </td>
             <td width='90%'>
