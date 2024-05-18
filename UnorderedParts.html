@@ -1,0 +1,15 @@
+<html ng-app="UnorderedPartsApp">
+<head>
+    <title>Unordered Parts</title>
+    <script src='./scripts/angularjs.js'></script>
+    <script src='./scripts/UnorderedParts.js'></script>
+</head>
+<body ng-controller="UnorderedPartsController">
+
+    <table>
+        <tr ng-repeat='estimator in estimators'>
+            <td>{{ estimator.name }}</td>
+        </tr>
+    </table>
+</body>
+</html>
