@@ -7,17 +7,32 @@
     <link rel="stylesheet" href="./styles/Parts.css">
 </head>
 <body ng-controller="UnorderedPartsController">
+    <table width='100%'>
+        <tr>
+            <td>
+                <input type='radio' ng-model='carsInOut' value='all'>
+                    All Cars
+                </input>
+                <input type='radio' ng-model='carsInOut' value='inShop'>
+                    Cars In Shop
+                </input>
+                <input type='radio' ng-model='carsInOut' value='preOrder'>
+                    Pre-order
+                </input>
+            </td>
+        </tr>
+    </table>
     <table border=1 width='100%'>
         <caption>
             <h3>Unordered Parts</h3>
         </caption>
         <tr ng-repeat='estimator in estimators'>
-            <td width='10%' align='center' ng-class='ToggleRow($index);' ng-click='ShowHideParts(estimator);'>
+            <td width='10%' align='center' valign='top' ng-class='ToggleRow($index);' ng-click='ShowHideParts(estimator);'>
                 {{ estimator.name }}
             </td>
             <td width='90%'>
                 <table border=1 width='100%'>
-                    <tr ng-repeat='eachCar in estimator.cars'>
+                    <tr ng-repeat='eachCar in estimator.cars | FilterInOutCars : carsInOut'>
                         <td ng-click='eachCar.showParts = !eachCar.showParts'>
                             <table width='100%'>
                                 <tr>

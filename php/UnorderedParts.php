@@ -10,56 +10,58 @@ $unorderedParts = GetPartsList();
 
 echo json_encode($unorderedParts);
 
-    class Estimator{
+class Estimator{
 
-        public $name;
-        public $cars = [];
+    public $name;
+    public $cars = [];
 
-        function __construct($rec){
-            $this->name = $rec["Estimator"];
-        }   // Estimator()
-    }   // Estimator{}
-
-
-    class Car{
-
-        public $ro_num;
-        public $owner;
-        public $vehicle;
-        public $parts = [];
-        public $showParts;
-
-        function __construct($rec){
-            $this->ro_num           = $rec["RONum"];
-            $this->owner            = $rec["Owner"];
-            $this->vehicle          = $rec["Vehicle"];
-            $this->showParts       = false;
-        }   // Car()
-    }   // Car{}
+    function __construct($rec){
+        $this->name = $rec["Estimator"];
+    }   // Estimator()
+}   // Estimator{}
 
 
-    class Part{
+class Car{
 
-        public $part_number;
-        public $part_description;
-        public $line_num;
-        public $ro_qty;
-        public $ordered_qty;
-        public $received_qty;
-        public $order_date;
+    public $ro_num;
+    public $owner;
+    public $vehicle;
+    public $vehicle_in;
+    public $parts = [];
+    public $showParts;
 
-        function __construct($rec){
+    function __construct($rec){
+        $this->ro_num       = $rec["RONum"];
+        $this->owner        = $rec["Owner"];
+        $this->vehicle      = $rec["Vehicle"];
+        $this->vehicle_in   = $rec["Vehicle_In"];
+        $this->showParts    = false;
+    }   // Car()
+}   // Car{}
 
-            $this->part_number      = $rec["Part_Number"];
-            $this->part_description = $rec["Part_Description"];
-            $this->line_num         = $rec["Line"];
-            $this->ro_qty           = $rec["RO_Qty"];
-            $this->ordered_qty      = $rec["Ordered_Qty"];
-            $this->received_qty     = $rec["Received_Qty"];
-            $this->order_date       = $rec["Order_Date"];
 
-        }   // Part()
-    }   // Part{}
+class Part{
+
+    public $part_number;
+    public $part_description;
+    public $line_num;
+    public $ro_qty;
+    public $ordered_qty;
+    public $received_qty;
+    public $order_date;
+
+    function __construct($rec){
+
+        $this->part_number      = $rec["Part_Number"];
+        $this->part_description = $rec["Part_Description"];
+        $this->line_num         = $rec["Line"];
+        $this->ro_qty           = $rec["RO_Qty"];
+        $this->ordered_qty      = $rec["Ordered_Qty"];
+        $this->received_qty     = $rec["Received_Qty"];
+        $this->order_date       = $rec["Order_Date"];
+
+    }   // Part()
+}   // Part{}
 
 
     // Get list of Estimators
@@ -118,7 +120,7 @@ function Get_ROs_Per_Estimator($estimatorName, $dbConn){
 function GetCarInfoForRO($roNum, $dbConn){
 
     $sql = <<<strSQL
-        SELECT RONum, Owner, Vehicle
+        SELECT RONum, Owner, Vehicle, Vehicle_In
         FROM Repairs
         WHERE RONum =
     strSQL . $roNum;
@@ -156,14 +158,11 @@ function GetAllPartsForRO($roNum, $dbConn){
             AND RO_Num =
     strSQL . $roNum;
 
-//    echo $sql;
-
     $r = null;
 
     try {
 
         $s = mysqli_query($dbConn, $sql);
-//        $r = mysqli_fetch_assoc($s);
 
     } catch(Exception $e) {
 
