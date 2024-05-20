@@ -26,8 +26,17 @@ var EstimatorViewCtrlr =
                   .catch(handleError);   // .then()
         }
             // changes the background color of car depending on Parts received
-        $scope.CheckParts = function(x, y, partsRcvd){
-            return utility.CheckPartStatus(x, y, partsRcvd);
+        $scope.CheckParts = function(x, y, percentRcvd){
+
+            var bgClass = '';
+
+            if (percentRcvd == 1){
+                bgClass = 'partsComplete';
+            } else {
+                bgClass = utility.ToggleRows(x + y);
+            }
+
+            return bgClass;
         }
     };
 
