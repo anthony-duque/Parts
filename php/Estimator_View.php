@@ -13,11 +13,13 @@
         public $partsRcvd;
 
         function __construct($rec){
+
             $this->ro_num       = $rec["RONum"];
             $this->owner        = $rec["Owner"];
             $this->vehicle      = $rec["Vehicle"];
             $this->technician   = $rec["Technician"];
             $this->partsRcvd    = $rec["PartsReceived"];
+
         }   // Car($rec)
 
     }   // Car{}

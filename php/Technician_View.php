@@ -5,29 +5,33 @@
     echo json_encode($repairs);
 
     class Car{
+
         public $ro_num;
         public $owner;
         public $vehicle;
         public $estimator;
         public $partsRcvd;
-    }
+
+        function __construct($rec){
+            $this->ro_num       = $rec["RONum"];
+            $this->owner        = $rec["Owner"];
+            $this->vehicle      = $rec["Vehicle"];
+            $this->estimator    = $rec["Estimator"];
+            $this->partsRcvd    = $rec["PartsReceived"];
+        }   // Car($rec)
+
+    }   // Car{}
 
     class Repair{
+
         public $technician;
         public $cars = [];
-    };
 
-    function CreateCar($carRec){
+        function __construct($rec){
+            $this->technician    = $rec["Technician"];
+        }   // Repair($rec)
 
-        $car = new Car();
-        $car->ro_num    = $carRec["RONum"];
-        $car->owner     = $carRec["Owner"];
-        $car->vehicle   = $carRec["Vehicle"];
-        $car->estimator = $carRec["Estimator"];
-        $car->partsRcvd = $carRec["PartsReceived"];
-
-        return $car;
-    }   // CreateCarEstimator
+    };  // Repair{}
 
 
     function ProcessGET(){
@@ -51,19 +55,17 @@
             $s = mysqli_query($conn, $sql);
 
             $r = mysqli_fetch_assoc($s);    // get the first row
-            $repair = new Repair();
-            $repair->technician = $r["Technician"];
-            $repair->cars[] = CreateCar($r);
+            $repair = new Repair($r);
+            array_push($repair->cars, new Car($r));
 
             while($r = mysqli_fetch_assoc($s)){
 
                 if ($r["Technician"] === $repair->technician){
-                    $repair->cars[] = CreateCar($r);
+                    array_push($repair->cars, new Car($r));
                 } else {
                     array_push($repairs, $repair);
-                    $repair = new Repair();
-                    $repair->technician = $r["Technician"];
-                    $repair->cars[] = CreateCar($r);
+                    $repair = new Repair($r);
+                    array_push($repair->cars, new Car($r));
                 }
             }
             array_push($repairs, $repair);
