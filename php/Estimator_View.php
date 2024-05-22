@@ -5,29 +5,34 @@
     echo json_encode($repairs);
 
     class Car{
+
         public $ro_num;
         public $owner;
         public $vehicle;
         public $technician;
         public $partsRcvd;
-    }
+
+        function __construct($rec){
+            $this->ro_num       = $rec["RONum"];
+            $this->owner        = $rec["Owner"];
+            $this->vehicle      = $rec["Vehicle"];
+            $this->technician   = $rec["Technician"];
+            $this->partsRcvd    = $rec["PartsReceived"];
+        }   // Car($rec)
+
+    }   // Car{}
+
 
     class Repair{
+
         public $estimator;
         public $cars = [];
-    };
 
-    function CreateCar($carRec){
+        function __construct($rec){
+            $this->estimator    = $rec["Estimator"];
+        }   // Repair($rec)
 
-        $car = new Car();
-        $car->ro_num = $carRec["RONum"];
-        $car->owner = $carRec["Owner"];
-        $car->vehicle = $carRec["Vehicle"];
-        $car->technician = $carRec["Technician"];
-        $car->partsRcvd = $carRec["PartsReceived"];
-
-        return $car;
-    }   // CreateCarEstimator
+    };  // Repair{}
 
 
     function ProcessGET(){
@@ -54,11 +59,12 @@
                         array_push($repairs, $repair);
                     }
                     $est = $r["Estimator"];
-                    $repair = new Repair();
-                    $repair->estimator = $est;
+                    $repair = new Repair($r);
                 }
-                $repair->cars[] = CreateCar($r);
-            }
+
+                array_push($repair->cars, new Car($r));
+
+            }   // while()
 
             array_push($repairs, $repair);
 

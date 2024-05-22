@@ -10,16 +10,24 @@
             <a href="Car_View.html?roNum={{ eachCar.ro_num }}" target="CarStatus">
             <table width='150' height='100%''>
                 <tr>
-                    <td align='center'>{{ eachCar.ro_num }}</td>
+                    <td align='center'>
+                        {{ eachCar.owner }}
+                    </td>
                 </tr>
                 <tr>
-                    <td align='center'>{{ eachCar.owner }}</td>
+                    <td align='center'>
+                        {{ eachCar.vehicle.split(' ')[1] + " " + eachCar.vehicle.split(' ')[2] }}
+                    </td>
                 </tr>
                 <tr>
-                    <td align='center'>{{ eachCar.vehicle.split(' ')[1] + " " + eachCar.vehicle.split(' ')[2] }}</td>
+                    <td align='center'>
+                        &nbsp;{{ eachCar.estimator.split(' ')[0] }}
+                    </td>
                 </tr>
                 <tr>
-                    <td align='center'>&nbsp;{{ eachCar.estimator.split(' ')[0] }}</td>
+                    <td align='center'>
+                        ({{ eachCar.ro_num }})
+                    </td>
                 </tr>
             </table>
             </a>

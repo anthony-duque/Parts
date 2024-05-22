@@ -3,7 +3,7 @@ var app = angular.module("UnorderedPartsApp", []);
 function UnorderedPartsCtrlr($scope, $http, utility){
 
     GetPartsList();
-    $scope.carsInOut = 'preOrder';
+    $scope.carsInOut = 'all';
 
     function GetPartsList()
     {
