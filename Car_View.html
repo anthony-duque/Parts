@@ -31,7 +31,7 @@
         <td align='right' width='10%'>
             Vehicle In:
         </td>
-        <th width='15%'>
+        <th width='10%'>
             {{ car.vehicle_in }}
         </th>
     </tr>
@@ -93,6 +93,9 @@
         <th style='border-bottom-style: groove' ng-click="SortParts('received_quantity');">
             Received<br/>Qty
         </th>
+        <th style='border-bottom-style: groove' ng-click="SortParts('received_quantity');">
+            Receive<br/>Date
+        </th>
         <th style='border-bottom-style: groove' ng-click="SortParts('returned_quantity');">
             Returned<br/>Qty
         </th>
@@ -124,6 +127,9 @@
         </td>
         <td align='center'>
             {{ eachPart.received_quantity }}
+        </td>
+        <td align='center'>
+            {{ eachPart.invoice_date }}
         </td>
         <td align='center'>
             {{ eachPart.returned_quantity }}

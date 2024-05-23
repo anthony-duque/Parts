@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="./styles/Parts.css">
 </head>
 <body ng-controller="UnorderedPartsController">
-    <table width='100%'>
+    <table width='90%' align='center'>
         <tr>
             <td>
                 <input type='radio' ng-model='carsInOut' value='all'>
@@ -22,7 +22,7 @@
             </td>
         </tr>
     </table>
-    <table border=1 width='100%'>
+    <table border=1 width='90%' align='center'>
         <caption>
             <h3>Unordered Parts</h3>
         </caption>
@@ -32,7 +32,10 @@
             </td>
             <td width='90%'>
                 <table border=1 width='100%'>
-                    <tr ng-repeat='eachCar in estimator.cars | FilterInOutCars : carsInOut'>
+                    <tr ng-show='estimator.cars.length == 0' class='lightBlue'>
+                        <td width='100%' align='center'>No parts need to be ordered.</td>
+                    </tr>
+                    <tr ng-repeat='eachCar in estimator.cars | FilterInOutCars : carsInOut'  ng-show='estimator.cars.length > 0'>
                         <td ng-click='eachCar.showParts = !eachCar.showParts'>
                             <table width='100%'>
                                 <tr>

@@ -28,6 +28,7 @@ require('Utility_Scripts.php');
         public $vendor_name;
         public $ordered_quantity;
         public $received_quantity;
+        public $invoice_date;
         public $returned_quantity;
         public $ro_quantity;
         public $expected_delivery;
@@ -46,8 +47,9 @@ require('Utility_Scripts.php');
         $part->ro_quantity      = $partRec["RO_Qty"];
         $part->ordered_quantity = $partRec["Ordered_Qty"];
         $part->received_quantity = $partRec["Received_Qty"];
+        $part->invoice_date     = GetDisplayDate($partRec["Invoice_Date"]);
         $part->returned_quantity = $partRec["Returned_Qty"];
-        $part->expected_delivery = $partRec["Expected_Delivery"];
+        $part->expected_delivery = GetDisplayDate($partRec["Expected_Delivery"]);
 
         return $part;
     }   // CreateCarEstimator
@@ -56,7 +58,7 @@ require('Utility_Scripts.php');
 
         $sql = "SELECT Line, Part_Number, Part_Description, Vendor_Name, " .
                 " RO_Qty, Ordered_Qty, Received_Qty, Returned_Qty, " .
-                " Expected_Delivery" .
+                " Expected_Delivery, Invoice_Date " .
                 " FROM PartsStatusExtract" .
                 " WHERE RO_Num = " . $ro . " AND (Line > 0) AND (Part_Number > '' OR Vendor_Name > '')" .
                 " ORDER BY Ordered_Qty ASC";
