@@ -11,6 +11,7 @@
         public $vehicle;
         public $technician;
         public $partsRcvd;
+        public $parts = [];
 
         function __construct($rec){
 
@@ -37,20 +38,20 @@
     };  // Repair{}
 
 
-    function ProcessGET(){
-
-        require('db_open.php');
+    function GetAllRepairs($dbConn){
 
         $repairs = [];
 
-        $sql = "SELECT SUBSTRING_INDEX(Estimator, ' ', 1) AS Estimator, " .
-                "RONum, SUBSTRING_INDEX(Owner, ',', 1) AS Owner, " .
-                "Vehicle, Technician, PartsReceived FROM Repairs WHERE Estimator > '' " .
-                "ORDER BY Estimator, PartsReceived DESC";
-
+        $sql = <<<strSQL
+                    SELECT SUBSTRING_INDEX(Estimator, ' ', 1) AS Estimator,
+                    RONum, SUBSTRING_INDEX(Owner, ',', 1) AS Owner,
+                    Vehicle, Technician, PartsReceived
+                    FROM Repairs WHERE Estimator > ''
+                    ORDER BY Estimator, PartsReceived DESC
+                strSQL;
         try{
 
-            $s = mysqli_query($conn, $sql);
+            $s = mysqli_query($dbConn, $sql);
             $rows = array();
             $est = "";
 
@@ -70,16 +71,60 @@
 
             array_push($repairs, $repair);
 
-            return $repairs;
-
         } catch(Exception $e){
 
             echo "Fetching repairs failed." . $e->getMessage();
 
         } finally {
-            //echo "reached finally";
-            $conn = null;
+
+            $dbConn = null;
+            return $repairs;
+
         }   // try-catch{}
+    }
+
+    function GetAllParts($dbConn, $roNum){
+
+        $allParts = [];
+
+        $sql = <<<strSQL
+            SELECT RO_Qty, Ordered_Qty, Received_Qty
+            FROM PartsStatusExtract
+            WHERE (RO_Qty > 0) AND (Ordered_Qty = 0)
+                AND (Received_Qty = 0) AND (Part_Number > '')
+                AND (Part_Type <> 'Sublet')
+                AND (Part_Number NOT LIKE 'Aftermarket%')
+                AND RO_Num =
+        strSQL . $roNum;
+/*
+        try {
+
+            $s = mysqli_query($dbConn, $sql);
+            while($r = mysqli_fetch_assoc($s)){
+                array_push($allParts, $r["RO_Num"]);
+            }   //while{}
+
+        } catch(Exception $e){
+            echo "Fetching List of Cars failed.";
+        }   // try-catch
+*/
+        return $allParts;
+    }
+
+
+    function ProcessGET(){
+
+        require('db_open.php');
+
+        $allRepairs = GetAllRepairs($conn);
+
+        foreach($allRepairs as $repair){
+            foreach($repair->cars as $car){
+                $car->parts = GetAllParts($conn, $car->ro_num);
+            }
+        }
+
+        return $allRepairs;
 
     }   // ProcessGET()
 ?>
