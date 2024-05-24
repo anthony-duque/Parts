@@ -32,8 +32,6 @@ require('db_open.php');
 		// Refresh the table of Repairs with Current RepairOrders
 	$tsql = "DELETE FROM Repairs";
 
-	echo $tsql . "<br/>";
-
 	if ($conn->query($tsql) === TRUE) {
 		echo "<br/>Repairs Table cleared.<br/>";
 	} else {
@@ -46,10 +44,10 @@ require('db_open.php');
 		exit;
 	}
 
-    $tsql = "INSERT INTO Repairs " .
-            "(RONum, Owner, Vehicle, Vehicle_Color, License_Plate, PartsReceived, " .
-            "Vehicle_In, CurrentPhase, Scheduled_Out, Technician, Estimator) " .
-            "VALUES ";
+	$tsql = "INSERT INTO Repairs" .
+	         	" (RONum, Owner, Vehicle, Vehicle_Color, License_Plate, PartsReceived, " .
+	            " Vehicle_In, CurrentPhase, Scheduled_Out, Technician, Estimator) " .
+	         "VALUES";
 
 	$row = 0;	// record counter
 
