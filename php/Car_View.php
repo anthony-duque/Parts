@@ -34,7 +34,6 @@ require('Utility_Scripts.php');
             $this->technician       = toProperCase($rec["Technician"]);
 
         }   // Car()
-
     }   // Car{}
 
     class Part{
@@ -49,7 +48,7 @@ require('Utility_Scripts.php');
         public $returned_quantity;
         public $ro_quantity;
         public $expected_delivery;
-/*
+
         function __construct($rec){
 
             $this->line_num = $rec["Line"];
@@ -65,39 +64,20 @@ require('Utility_Scripts.php');
             $this->invoice_date     = GetDisplayDate($rec["Invoice_Date"]);
             $this->returned_quantity = $rec["Returned_Qty"];
             $this->expected_delivery = GetDisplayDate($rec["Expected_Delivery"]);
-        }
-*/
-    }
+        }   // Part()
+    }   // Part{}
 
-    function CreatePartEntry($partRec){
-
-        $part = new Part();
-        $part->line_num = $partRec["Line"];
-        $part->part_number      = $partRec["Part_Number"];
-        $part->part_description = $partRec["Part_Description"];
-
-        $part->vendor_name      = strtolower($partRec["Vendor_Name"]);
-        $part->vendor_name      =  ucwords($part->vendor_name);
-
-        $part->ro_quantity      = $partRec["RO_Qty"];
-        $part->ordered_quantity = $partRec["Ordered_Qty"];
-        $part->received_quantity = $partRec["Received_Qty"];
-        $part->invoice_date     = GetDisplayDate($partRec["Invoice_Date"]);
-        $part->returned_quantity = $partRec["Returned_Qty"];
-        $part->expected_delivery = GetDisplayDate($partRec["Expected_Delivery"]);
-
-        return $part;
-    }   // CreateCarEstimator
 
     function GetPartsList($ro, $dbConn){
 
-        $sql = "SELECT Line, Part_Number, Part_Description, Vendor_Name, " .
-                " RO_Qty, Ordered_Qty, Received_Qty, Returned_Qty, " .
-                " Expected_Delivery, Invoice_Date " .
+        $sql = "SELECT Line, Part_Number, Part_Description, " .
+                " Vendor_Name, RO_Qty, Ordered_Qty, Received_Qty, " .
+                " Returned_Qty, Expected_Delivery, Invoice_Date " .
                 " FROM PartsStatusExtract" .
                 " WHERE RO_Num = " . $ro . " AND (Line > 0) AND (Part_Number > '' OR Vendor_Name > '')" .
+                "       AND Vendor_Name NOT LIKE '**%'" .
                 " ORDER BY Ordered_Qty ASC";
-        //console.log($sql);
+
         try{
 
             $parts = [];
@@ -106,7 +86,7 @@ require('Utility_Scripts.php');
 
             while($r = mysqli_fetch_assoc($s)){
 
-                $part = CreatePartEntry($r);
+                $part = new Part($r);
                 array_push($parts, $part);
             }   // while()
 
@@ -124,9 +104,14 @@ require('Utility_Scripts.php');
 
         require('db_open.php');
 
-        $sql = "SELECT RONum, Owner, Vehicle, Estimator, Technician, " .
-                "Vehicle_Color, License_Plate, Vehicle_In, Scheduled_Out " .
-                "FROM Repairs WHERE RONum = " . $roNum;
+        $sql = <<<strSQL
+                    SELECT RONum, Owner, Vehicle, Estimator, Technician,
+                        Vehicle_Color, License_Plate, Vehicle_In, Scheduled_Out
+                    FROM Repairs WHERE RONum =
+                strSQL;
+
+        $sql .= $roNum;
+
         try{
 
             $s = mysqli_query($conn, $sql);
