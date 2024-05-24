@@ -4,6 +4,24 @@
 
     echo json_encode($repairs);
 
+    class Part{
+
+        public $ro_qty;
+        public $ordered_qty;
+        public $received_qty;
+        public $returned_qty;
+
+        function __construct($rec){
+
+            $this->ro_qty       = $rec["RO_Qty"];
+            $this->ordered_qty  = $rec["Ordered_Qty"];
+            $this->received_qty = $rec["Received_Qty"];
+            $this->returned_qty = $rec["Returned_Qty"];
+
+        }   // Part()
+    }   // Part{}
+
+
     class Car{
 
         public $ro_num;
@@ -22,7 +40,6 @@
             $this->partsRcvd    = $rec["PartsReceived"];
 
         }   // Car($rec)
-
     }   // Car{}
 
 
@@ -49,6 +66,7 @@
                     FROM Repairs WHERE Estimator > ''
                     ORDER BY Estimator, PartsReceived DESC
                 strSQL;
+
         try{
 
             $s = mysqli_query($dbConn, $sql);
@@ -66,7 +84,6 @@
                 }
 
                 array_push($repair->cars, new Car($r));
-
             }   // while()
 
             array_push($repairs, $repair);
@@ -81,35 +98,33 @@
             return $repairs;
 
         }   // try-catch{}
-    }
+    }   // GetAllRepairs()
+
 
     function GetAllParts($dbConn, $roNum){
 
         $allParts = [];
 
-        $sql = <<<strSQL
-            SELECT RO_Qty, Ordered_Qty, Received_Qty
-            FROM PartsStatusExtract
-            WHERE (RO_Qty > 0) AND (Ordered_Qty = 0)
-                AND (Received_Qty = 0) AND (Part_Number > '')
-                AND (Part_Type <> 'Sublet')
-                AND (Part_Number NOT LIKE 'Aftermarket%')
-                AND RO_Num =
-        strSQL . $roNum;
-/*
+        $sql =  "SELECT RO_Qty, Ordered_Qty, Received_Qty, Returned_Qty " .
+                "FROM PartsStatusExtract " .
+                "WHERE RO_Num = " . $roNum . " AND (Line > 0) AND (Part_Number > '' OR Vendor_Name > '') " .
+                    "AND Vendor_Name NOT LIKE '**%' " .
+                "ORDER BY Ordered_Qty ASC";
+
         try {
 
             $s = mysqli_query($dbConn, $sql);
+
             while($r = mysqli_fetch_assoc($s)){
-                array_push($allParts, $r["RO_Num"]);
+                array_push($allParts, new Part($r));
             }   //while{}
 
         } catch(Exception $e){
             echo "Fetching List of Cars failed.";
         }   // try-catch
-*/
+
         return $allParts;
-    }
+    }   // GetAllParts()
 
 
     function ProcessGET(){
@@ -118,8 +133,8 @@
 
         $allRepairs = GetAllRepairs($conn);
 
-        foreach($allRepairs as $repair){
-            foreach($repair->cars as $car){
+        foreach($allRepairs as $repair){    // for each car assigned to an estimator
+            foreach($repair->cars as $car){ // get the parts list
                 $car->parts = GetAllParts($conn, $car->ro_num);
             }
         }
