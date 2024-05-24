@@ -90,6 +90,12 @@
         <th style='border-bottom-style: groove' ng-click="SortParts('ordered_quantity');">
             Ordered<br/>Qty
         </th>
+        <th style='border-bottom-style: groove' ng-click="SortParts('ordered_quantity');">
+            Order<br/>Date
+        </th>
+        <th style='border-bottom-style: groove' ng-click="SortParts('expected_delivery');">
+            Expected<br/>Delivery
+        </th>
         <th style='border-bottom-style: groove' ng-click="SortParts('received_quantity');">
             Received<br/>Qty
         </th>
@@ -98,9 +104,6 @@
         </th>
         <th style='border-bottom-style: groove' ng-click="SortParts('returned_quantity');">
             Returned<br/>Qty
-        </th>
-        <th style='border-bottom-style: groove' ng-click="SortParts('expected_delivery');">
-            Expected<br/>Delivery
         </th>
     </tr>
     <tr ng-repeat='eachPart in car.partsList | orderBy: sortField | filter: searchText'
@@ -126,6 +129,12 @@
             {{ eachPart.ordered_quantity }}
         </td>
         <td align='center'>
+            {{ eachPart.order_date }}
+        </td>
+        <td align='center'>
+            {{ eachPart.expected_delivery }}
+        </td>
+        <td align='center'>
             {{ eachPart.received_quantity }}
         </td>
         <td align='center'>
@@ -133,9 +142,6 @@
         </td>
         <td align='center'>
             {{ eachPart.returned_quantity }}
-        </td>
-        <td align='center'>
-            {{ eachPart.expected_delivery }}
         </td>
     </tr>
 </table>

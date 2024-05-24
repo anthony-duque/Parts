@@ -43,6 +43,7 @@ require('Utility_Scripts.php');
         public $part_description;
         public $vendor_name;
         public $ordered_quantity;
+        public $order_date;
         public $received_quantity;
         public $invoice_date;
         public $returned_quantity;
@@ -60,6 +61,7 @@ require('Utility_Scripts.php');
 
             $this->ro_quantity      = $rec["RO_Qty"];
             $this->ordered_quantity = $rec["Ordered_Qty"];
+            $this->order_date     = GetDisplayDate($rec["Order_Date"]);
             $this->received_quantity = $rec["Received_Qty"];
             $this->invoice_date     = GetDisplayDate($rec["Invoice_Date"]);
             $this->returned_quantity = $rec["Returned_Qty"];
@@ -70,7 +72,7 @@ require('Utility_Scripts.php');
 
     function GetPartsList($ro, $dbConn){
 
-        $sql = "SELECT Line, Part_Number, Part_Description, " .
+        $sql = "SELECT Line, Part_Number, Part_Description, Order_Date, " .
                 " Vendor_Name, RO_Qty, Ordered_Qty, Received_Qty, " .
                 " Returned_Qty, Expected_Delivery, Invoice_Date " .
                 " FROM PartsStatusExtract" .
@@ -88,6 +90,7 @@ require('Utility_Scripts.php');
 
                 $part = new Part($r);
                 array_push($parts, $part);
+                
             }   // while()
 
             return $parts;
