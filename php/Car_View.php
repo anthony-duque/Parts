@@ -9,6 +9,7 @@ require('Utility_Scripts.php');
     echo json_encode($CarParts);
 
     class Car{
+
         public $ro_num;
         public $owner;
         public $vehicle;
@@ -19,9 +20,25 @@ require('Utility_Scripts.php');
         public $estimator;
         public $technician;
         public $partsList = [];
-    }
+
+        function __construct($rec){
+
+            $this->ro_num           = $rec["RONum"];
+            $this->owner            = $rec["Owner"];
+            $this->vehicle          = $rec["Vehicle"];
+            $this->vehicle_color    = toProperCase($rec["Vehicle_Color"]);
+            $this->license_plate    = $rec["License_Plate"];
+            $this->vehicle_in       = GetDisplayDate($rec["Vehicle_In"]);
+            $this->scheduled_out    = GetDisplayDate($rec["Scheduled_Out"]);
+            $this->estimator        = $rec["Estimator"];
+            $this->technician       = toProperCase($rec["Technician"]);
+
+        }   // Car()
+
+    }   // Car{}
 
     class Part{
+
         public $line_num;
         public $part_number;
         public $part_description;
@@ -32,7 +49,25 @@ require('Utility_Scripts.php');
         public $returned_quantity;
         public $ro_quantity;
         public $expected_delivery;
-    };
+/*
+        function __construct($rec){
+
+            $this->line_num = $rec["Line"];
+            $this->part_number      = $rec["Part_Number"];
+            $this->part_description = $rec["Part_Description"];
+
+            $this->vendor_name      = strtolower($rec["Vendor_Name"]);
+            $this->vendor_name      =  ucwords($this->vendor_name);
+
+            $this->ro_quantity      = $rec["RO_Qty"];
+            $this->ordered_quantity = $rec["Ordered_Qty"];
+            $this->received_quantity = $rec["Received_Qty"];
+            $this->invoice_date     = GetDisplayDate($rec["Invoice_Date"]);
+            $this->returned_quantity = $rec["Returned_Qty"];
+            $this->expected_delivery = GetDisplayDate($rec["Expected_Delivery"]);
+        }
+*/
+    }
 
     function CreatePartEntry($partRec){
 
@@ -85,56 +120,31 @@ require('Utility_Scripts.php');
 
     }   // GetPartsList()
 
+    function ProcessGET($roNum){
 
-    function Get_RO_Info(&$car, $dbConn){
+        require('db_open.php');
 
         $sql = "SELECT RONum, Owner, Vehicle, Estimator, Technician, " .
                 "Vehicle_Color, License_Plate, Vehicle_In, Scheduled_Out " .
-                "FROM Repairs WHERE RONum = " . $car->ro_num;
-
+                "FROM Repairs WHERE RONum = " . $roNum;
         try{
 
-            $s = mysqli_query($dbConn, $sql);
+            $s = mysqli_query($conn, $sql);
             $r = mysqli_fetch_assoc($s);
 
-            $car->owner         = toProperCase($r["Owner"]);
-
-            $car->vehicle       = $r["Vehicle"];
-
-            $car->vehicle_color = toProperCase($r["Vehicle_Color"]);
-
-            $car->license_plate = $r["License_Plate"];
-
-            $car->vehicle_in    = GetDisplayDate($r["Vehicle_In"]);
-
-            $car->scheduled_out = GetDisplayDate($r["Scheduled_Out"]);
-
-            $car->estimator     = $r["Estimator"];
-
-            $car->technician    = toProperCase($r["Technician"]);
+            $car = new Car($r);
+            $car->partsList = GetPartsList($roNum, $conn);
 
         } catch(Exception $e){
 
             echo "Fetching RO details failed." . $e->getMessage();
 
+        } finally {
+
+            $conn = null;
+            return $car;
+
         }   // try-catch{}
+    }   // ProcessGET($roNum)
 
-    }   // Get_RO_Info()
-
-
-    function ProcessGET($roNum){
-
-        require('db_open.php');
-
-        $Car = new Car();
-        $Car->ro_num = $roNum;
-        Get_RO_Info($Car, $conn);
-
-        $Car->partsList = GetPartsList($roNum, $conn);
-
-        $conn = null;
-
-        return $Car;
-//        }   // if-else {}
-    }   // ProcessGET()
 ?>
