@@ -6,17 +6,17 @@
 
     class Part{
 
-        public $ro_qty;
-        public $ordered_qty;
-        public $received_qty;
-        public $returned_qty;
+        public $ro_quantity;
+        public $ordered_quantity;
+        public $received_quantity;
+        public $returned_quantity;
 
         function __construct($rec){
 
-            $this->ro_qty       = $rec["RO_Qty"];
-            $this->ordered_qty  = $rec["Ordered_Qty"];
-            $this->received_qty = $rec["Received_Qty"];
-            $this->returned_qty = $rec["Returned_Qty"];
+            $this->ro_quantity       = $rec["RO_Qty"];
+            $this->ordered_quantity  = $rec["Ordered_Qty"];
+            $this->received_quantity = $rec["Received_Qty"];
+            $this->returned_quantity = $rec["Returned_Qty"];
 
         }   // Part()
     }   // Part{}

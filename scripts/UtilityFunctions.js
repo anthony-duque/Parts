@@ -51,10 +51,6 @@ app.factory('utility', function(){
 
         switch (true){
 
-            case (partObj.vendor_name.length == 0) && (partObj.part_number.length == 0):
-                bkgrnd_class = "partsComplete";
-                break;
-
             case (partObj.received_quantity == 0) && (partObj.ordered_quantity == 0) && (partObj.ro_quantity > 0):
                 bkgrnd_class = "noParts";
                 break;

@@ -28,10 +28,8 @@ var carViewCtrlr = function($scope, $http, utility){
 
         // Computes the background color for a row
         // based on ordered, received, and returned quantities.
-    $scope.PartStatus = function(roQty, ordQty, rcvdQty, retQty, venName, partNum){
-
-        return utility.ColorPartStatus(roQty, ordQty, rcvdQty, retQty, venName, partNum);
-
+    $scope.PartStatus = function(objPart){
+        return utility.ColorPartStatus(objPart);
     }   // PartStatus()
 
     function getQueryParams(url) {
