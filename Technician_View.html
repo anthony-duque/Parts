@@ -6,7 +6,7 @@
             <img ng-src='./images/{{ eachTech.technician }}.jpg' style="max-width: 100px; max-height: 100px">
             {{ eachTech.technician }}
         </th>
-        <td ng-repeat="eachCar in eachTech.cars | filter: searchText" height='100%' ng-class='CheckParts($parent.$index, $index, eachCar.partsRcvd);'>
+        <td ng-repeat="eachCar in eachTech.cars | filter: searchText" height='100%' ng-class='CheckParts(eachCar);'>
             <a href="Car_View.html?roNum={{ eachCar.ro_num }}" target="CarStatus">
             <table width='150' height='100%''>
                 <tr>

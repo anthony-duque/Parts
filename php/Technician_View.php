@@ -4,6 +4,24 @@
 
     echo json_encode($repairs);
 
+    class Part{
+
+        public $ro_quantity;
+        public $ordered_quantity;
+        public $received_quantity;
+        public $returned_quantity;
+
+        function __construct($rec){
+
+            $this->ro_quantity       = $rec["RO_Qty"];
+            $this->ordered_quantity  = $rec["Ordered_Qty"];
+            $this->received_quantity = $rec["Received_Qty"];
+            $this->returned_quantity = $rec["Returned_Qty"];
+
+        }   // Part()
+    }   // Part{}
+
+
     class Car{
 
         public $ro_num;
@@ -11,15 +29,17 @@
         public $vehicle;
         public $estimator;
         public $partsRcvd;
+        public $parts = [];
 
         function __construct($rec){
+
             $this->ro_num       = $rec["RONum"];
             $this->owner        = $rec["Owner"];
             $this->vehicle      = $rec["Vehicle"];
             $this->estimator    = $rec["Estimator"];
             $this->partsRcvd    = $rec["PartsReceived"];
-        }   // Car($rec)
 
+        }   // Car($rec)
     }   // Car{}
 
     class Repair{
@@ -28,61 +48,66 @@
         public $cars = [];
 
         function __construct($rec){
+
             $this->technician    = $rec["Technician"];
         }   // Repair($rec)
-
     };  // Repair{}
 
 
-    function ProcessGET(){
+    function GetAllRepairs($dbConn){
 
-        require('db_open.php');
-
-        $records = null;
+        $repairs = [];
 
         $sql = <<<strSQL
                     SELECT SUBSTRING_INDEX(Technician, ' ', 1) AS Technician,
                         RONum, SUBSTRING_INDEX(Owner, ',', 1) AS Owner,
-                        Vehicle, Estimator, PartsReceived FROM Repairs
+                        Vehicle, Estimator, PartsReceived
+                    FROM Repairs
                     WHERE Technician > ''
                     ORDER BY Technician, PartsReceived DESC
                 strSQL;
 
-        $sql = $sql;
-
         try{
 
-            $repairs = [];
-            $rows = array();
-
-            $s = mysqli_query($conn, $sql);
-
-            $r = mysqli_fetch_assoc($s);    // get the first row
-            $repair = new Repair($r);
-            array_push($repair->cars, new Car($r));
+            $s = mysqli_query($dbConn, $sql);
+            $tech = "";
 
             while($r = mysqli_fetch_assoc($s)){
 
-                if ($r["Technician"] === $repair->technician){
-                    array_push($repair->cars, new Car($r));
-                } else {
-                    array_push($repairs, $repair);
+                if ($r["Technician"] !== $tech){
+                    if ($tech !== ''){
+                        array_push($repairs, $repair);
+                    }
+                    $tech = $r["Technician"];
                     $repair = new Repair($r);
-                    array_push($repair->cars, new Car($r));
                 }
-            }
-            array_push($repairs, $repair);
 
-            return $repairs;
+                array_push($repair->cars, new Car($r));
+            }   // while()
+
+            array_push($repairs, $repair);
 
         } catch(Exception $e){
 
             echo "Fetching repairs failed." . $e->getMessage();
 
         } finally {
-            //echo "reached finally";
-            $conn = null;
-        }   // try-catch{}
 
-    }   // ProcessGET()
+            $dbConn = null;
+            return $repairs;
+
+        }   // try-catch{}
+    }   // GetAllRepairs()
+
+
+    function ProcessGET(){
+
+        require('db_open.php');
+
+        $allRepairs = GetAllRepairs($conn);
+
+        return $allRepairs;
+
+    }
+
 ?>

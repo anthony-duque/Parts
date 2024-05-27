@@ -4,24 +4,6 @@
 
     echo json_encode($repairs);
 
-    class Part{
-
-        public $ro_quantity;
-        public $ordered_quantity;
-        public $received_quantity;
-        public $returned_quantity;
-
-        function __construct($rec){
-
-            $this->ro_quantity       = $rec["RO_Qty"];
-            $this->ordered_quantity  = $rec["Ordered_Qty"];
-            $this->received_quantity = $rec["Received_Qty"];
-            $this->returned_quantity = $rec["Returned_Qty"];
-
-        }   // Part()
-    }   // Part{}
-
-
     class Car{
 
         public $ro_num;
@@ -41,6 +23,24 @@
 
         }   // Car($rec)
     }   // Car{}
+
+
+    class Part{
+
+        public $ro_quantity;
+        public $ordered_quantity;
+        public $received_quantity;
+        public $returned_quantity;
+
+        function __construct($rec){
+
+            $this->ro_quantity       = $rec["RO_Qty"];
+            $this->ordered_quantity  = $rec["Ordered_Qty"];
+            $this->received_quantity = $rec["Received_Qty"];
+            $this->returned_quantity = $rec["Returned_Qty"];
+
+        }   // Part()
+    }   // Part{}
 
 
     class Repair{
@@ -70,15 +70,16 @@
         try{
 
             $s = mysqli_query($dbConn, $sql);
-            $rows = array();
             $est = "";
 
             while($r = mysqli_fetch_assoc($s)){
 
                 if ($r["Estimator"] !== $est){
+
                     if ($est !== ''){
                         array_push($repairs, $repair);
                     }
+
                     $est = $r["Estimator"];
                     $repair = new Repair($r);
                 }

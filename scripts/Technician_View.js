@@ -27,17 +27,8 @@ var TechnicianViewCtrlr =
         }
 
             // changes the background color of car depending on Parts received
-        $scope.CheckParts = function(x, y, percentRcvd){
-
-            var bgClass = '';
-
-            if (percentRcvd == 1){
-                bgClass = 'partsComplete';
-            } else {
-                bgClass = utility.ToggleRows(x + y);
-            }
-
-            return bgClass;
+        $scope.CheckParts = function(car){
+            return utility.ColorCarPartsStatus(car);
         }   // CheckParts()
 
     };
