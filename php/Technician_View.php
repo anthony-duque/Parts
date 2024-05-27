@@ -54,6 +54,32 @@
     };  // Repair{}
 
 
+    function GetAllParts($dbConn, $roNum){
+
+        $allParts = [];
+
+        $sql =  "SELECT RO_Qty, Ordered_Qty, Received_Qty, Returned_Qty " .
+                "FROM PartsStatusExtract " .
+                "WHERE RO_Num = " . $roNum . " AND (Line > 0) AND (Part_Number > '' OR Vendor_Name > '') " .
+                    "AND Vendor_Name NOT LIKE '**%' " .
+                "ORDER BY Ordered_Qty ASC";
+
+        try {
+
+            $s = mysqli_query($dbConn, $sql);
+
+            while($r = mysqli_fetch_assoc($s)){
+                array_push($allParts, new Part($r));
+            }   //while{}
+
+        } catch(Exception $e){
+            echo "Fetching List of Cars failed.";
+        }   // try-catch
+
+        return $allParts;
+    }   // GetAllParts()
+
+
     function GetAllRepairs($dbConn){
 
         $repairs = [];
@@ -106,8 +132,14 @@
 
         $allRepairs = GetAllRepairs($conn);
 
+        foreach($allRepairs as $repair){    // for each car assigned to an estimator
+            foreach($repair->cars as $car){ // get the parts list
+                $car->parts = GetAllParts($conn, $car->ro_num);
+            }
+        }
+
         return $allRepairs;
 
-    }
+    }   // ProcessGET()
 
 ?>
