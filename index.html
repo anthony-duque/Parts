@@ -1,38 +1,33 @@
-<html>
+<html ng-app='TabsApp'>
 <head>
-    <title>Parts Department - Main Menu</title>
+    <title>Parts Department</title>
+    <link rel="stylesheet" href="./styles/Parts.css">
+    <script src='./scripts/angularjs.js'></script>
+    <script src='./scripts/Tabs.js'></script>
+    <script src='./scripts/UtilityFunctions.js'></script>
+    <script src='./scripts/Unordered_Parts.js'></script>
+    <link rel="stylesheet" href="./styles/Parts.css">
 </head>
-<body>
-    <table align='center'>
-        <caption>
-            <b>Parts Department - Main Menu</b>
-        </caption>
-    <tr>
-        <td>
-            <ul>
-                <li>
-                    <a href='Production.html'>
-                        Production Parts Status
-                    </a>
-                </li>
-                <li>
-                    <a href='Paint_List.html'>
-                        Paint List Page
-                    </a>
-                </li>
-                <li>
-                    <a href='Upload_DailyOut.html'>
-                        Upload Daily Out Extract file
-                    </a>
-                </li>
-                <li>
-                    <a href='Upload_PartsStatus.html'>
-                        Upload Parts Status Extract file
-                    </a>
-                </li>
-            </ul>
-        </td>
-    </tr>
+<body ng-controller='TabsController'>
+    <table border='1'>
+        <tr>
+            <td ng-class='Tabs.Production' ng-click='PickTab("Production");'>
+                Production
+            </td>
+            <td ng-class='Tabs.PartsSearch' ng-click='PickTab("PartsSearch");'>
+                Parts Search
+            </td>
+            <td ng-class='Tabs.PaintList' ng-click='PickTab("PaintList");'>
+                Paint List
+            </td>
+            <td ng-class='Tabs.Upload' ng-click='PickTab("Upload");'>
+                Upload
+            </td>
+            <td ng-class='Tabs.UnorderedParts' ng-click='PickTab("UnorderedParts");'>
+                Unordered Parts
+            </td>
+        </tr>
     </table>
+    <div ng-include='tabView'></div>
 </body>
 </html>

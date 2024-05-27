@@ -1,4 +1,4 @@
-var app = angular.module("UnorderedPartsApp", []);
+//var app = angular.module("UnorderedPartsApp", []);
 
 function UnorderedPartsCtrlr($scope, $http, utility){
 
@@ -7,7 +7,7 @@ function UnorderedPartsCtrlr($scope, $http, utility){
 
     function GetPartsList()
     {
-        $http.get('./php/UnorderedParts.php')
+        $http.get('./php/Unordered_Parts.php')
               .then(handleSuccess)
               .catch(handleError);   // .then()
     }     // GetUnorderedParts()
@@ -94,6 +94,5 @@ app.filter('FilterInOutCars', function(){
 
         return filteredCars;
     }   // function(cars, inOut)
-
 
 });
