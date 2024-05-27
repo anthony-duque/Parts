@@ -28,7 +28,10 @@ var TechnicianViewCtrlr =
 
             // changes the background color of car depending on Parts received
         $scope.CheckParts = function(car){
-            return utility.ColorCarPartsStatus(car);
+
+            var bgClass = utility.ColorCarPartsStatus(car);
+            return bgClass;
+ 
         }   // CheckParts()
 
     };

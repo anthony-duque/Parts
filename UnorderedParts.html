@@ -8,6 +8,9 @@
 </head>
 <body ng-controller="UnorderedPartsController">
     <table width='90%' align='center'>
+        <caption>
+            <h3>Unordered Parts</h3>
+        </caption>
         <tr>
             <td>
                 <input type='radio' ng-model='carsInOut' value='all'>
@@ -23,9 +26,6 @@
         </tr>
     </table>
     <table border=1 width='90%' align='center'>
-        <caption>
-            <h3>Unordered Parts</h3>
-        </caption>
         <tr ng-repeat='estimator in estimators'>
             <td width='10%' align='center' valign='top' ng-class='ToggleRow($index);' ng-click='ShowHideParts(estimator);'>
                 {{ estimator.name }}
