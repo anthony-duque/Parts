@@ -3,6 +3,7 @@
 require('Utility_Scripts.php');
 
     class Part{
+
         public $ro_num;
         public $part_number;
         public $part_description;
@@ -14,29 +15,26 @@ require('Utility_Scripts.php');
         public $expected_delivery;
         public $order_date;
         public $invoice_date;
-    };
 
-    function CreatePartEntry($partRec){
+        function __construct($rec){
 
-        $part = new Part();
+            $this->ro_num               = $rec["RO_Num"];
+            $this->part_number          = $rec["Part_Number"];
+            $this->part_description     = $rec["Part_Description"];
 
-        $part->ro_num           = $partRec["RO_Num"];
-        $part->part_number      = $partRec["Part_Number"];
-        $part->part_description = $partRec["Part_Description"];
+            $this->vendor_name          = strtolower($rec["Vendor_Name"]);
+            $this->vendor_name          =  ucwords($this->vendor_name);
 
-        $part->vendor_name      = strtolower($partRec["Vendor_Name"]);
-        $part->vendor_name      =  ucwords($part->vendor_name);
+            $this->ro_quantity          = $rec["RO_Qty"];
+            $this->ordered_quantity     = $rec["Ordered_Qty"];
+            $this->received_quantity    = $rec["Received_Qty"];
+            $this->returned_quantity    = $rec["Returned_Qty"];
+            $this->expected_delivery    = $rec["Expected_Delivery"];
+            $this->order_date           = GetDisplayDate($rec["Order_Date"]);
+            $this->invoice_date         = GetDisplayDate($rec["Invoice_Date"]);
 
-        $part->ro_quantity      = $partRec["RO_Qty"];
-        $part->ordered_quantity = $partRec["Ordered_Qty"];
-        $part->received_quantity = $partRec["Received_Qty"];
-        $part->returned_quantity = $partRec["Returned_Qty"];
-        $part->expected_delivery = $partRec["Expected_Delivery"];
-        $part->order_date       = GetDisplayDate($partRec["Order_Date"]);
-        $part->invoice_date     = GetDisplayDate($partRec["Invoice_Date"]);
-
-        return $part;
-    }   // CreateCarEstimator
+        }   // Part()
+    }   // Part{}
 
     $allParts = GetPartsList();
     echo json_encode($allParts);
@@ -54,7 +52,6 @@ require('Utility_Scripts.php');
                 " 'Big Brand', 'Jim''s Tire Center', 'Pro Tech Diagnostics', 'Astech') " .
                 " AND Part_Number NOT IN ('Sublet')";
 
-        // echo $sql;
         $parts = [];
 
         try{
@@ -62,10 +59,8 @@ require('Utility_Scripts.php');
             $s = mysqli_query($conn, $sql);
 
             while($r = mysqli_fetch_assoc($s)){
-
-                $part = CreatePartEntry($r);
-                array_push($parts, $part);
-            }   // while()
+                array_push($parts, new Part($r));
+            }
 
         } catch(Exception $e){
 

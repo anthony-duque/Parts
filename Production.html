@@ -4,24 +4,18 @@
             <h3>Production Schedule</h3>
         </caption>
         <tr>
-            <th align='right'>
-                View by:
-            </th>
-            <th>
-                Estimator <input type='radio' ng-model="productionView" value="Estimator_View.html" />
-            </th>
-            <th>
-                Technician <input type='radio' ng-model="productionView" value="Technician_View.html" />
-            </th>
-        </tr>
-        <tr>
-            <td></td>
-            <td align='right'>
-                Search:
+            <td width='33%'>
+                &nbsp;
             </td>
-            <td align='left'>
+            <td align='center' width='33%'>
+                Search:
                 <input type='text' ng-model='searchText'>
                 &nbsp;<input type='button' value='Clear' ng-click='searchText = ""'>
+            </td>
+            <td align='right' width='33%'>
+                View by:
+                <b>Estimators</b><input type='radio' ng-model="productionView" value="Estimator_View.html" /> &nbsp;
+                <b>Technicians</b><input type='radio' ng-model="productionView" value="Technician_View.html" />
             </td>
         </tr>
     </table>
