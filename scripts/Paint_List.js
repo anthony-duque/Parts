@@ -1,6 +1,5 @@
-var paintListApp = angular.module("PaintListApp", []);
 
-var paintListCtrlr = function($scope, $http){
+var PaintListCtrlr = function($scope, $http){
 
     $scope.paintList = [];
 
@@ -10,7 +9,7 @@ var paintListCtrlr = function($scope, $http){
     {
         $http.get('./php/Technician_View.php')
               .then(handleSuccess)
-              .catch(handleError);   // .then()
+              .catch(handleError);
     }
 
     $scope.AddCarToPaintList = function (car, techIndex, carIndex){
@@ -81,11 +80,7 @@ var paintListCtrlr = function($scope, $http){
         $http.post('./php/Paint_List.php', JSON.stringify(carList))
             .then(function(response) {
                      if (response.data){
-                        alert(response.data);
                         console.log("Paint List written to database!");
-                        //alert("Patient Record created!");
-                        //window.location.href = 'Paint_List.html';
-                        //console.log(response.data);
                      }
                   },
                   function(response) {
@@ -100,7 +95,7 @@ var paintListCtrlr = function($scope, $http){
     function handleSuccess(response)
     {
         if (response.data){
-         console.log("Car records fetched successfully!");
+         console.log("Paint List fetched successfully!");
          console.log(response.data);
          $scope.techList = response.data;
         }
@@ -111,6 +106,6 @@ var paintListCtrlr = function($scope, $http){
         console.log("Repair records not fetched.");
     }
 
-}   // paintListCtrlr()
+};   // paintListCtrlr()
 
-paintListApp.controller("PaintListController", paintListCtrlr);
+app.controller("PaintListController", PaintListCtrlr);
