@@ -31,17 +31,12 @@ app.factory('utility', function(){
         var bgColor = '';
 
         if ((x % 2) == 1){
-
             bgColor = 'white';
-
         } else {
-
             bgColor = 'lightBlue';  // temporary until actual status is computed
-
         }
 
         return bgColor;
-
     }   // CheckParts()
 
 
@@ -67,7 +62,63 @@ app.factory('utility', function(){
         }   // switch()
 
         return bkgrnd_class;
-    }
+
+    }   // ColorPartStatus()
+
+
+    util_Obj.ColorCarPartsStatus = function(carObj){
+
+        var bgClass = '';
+        var pStatus = '';   // part status
+        var pWaiting = 0;
+        var pUnordered = 0;
+        var pReceived = 0;
+
+        carObj.parts.forEach(
+
+            function(carPart, index){
+                pStatus = util_Obj.ColorPartStatus(carPart);
+                switch(pStatus){
+
+                    case 'noParts':
+                        ++pUnordered;
+                        break;
+
+                    case 'waitingForParts':
+                        ++pWaiting;
+                        break;
+
+                    default:
+                        ++pReceived;
+                        break;
+                }
+        }); // car.parts.forEach()
+
+        switch(true){
+
+            case (pUnordered > 0) && (pWaiting > 0):
+            case (pUnordered > 0) && (pReceived > 0):
+                bgClass = 'orange';
+                break;
+
+            case (pUnordered > 0) && (pReceived == 0):
+                bgClass = 'noParts';
+                break;
+
+            case (pWaiting > 0):
+                bgClass = 'waitingForParts';
+                break;
+
+            default:
+                bgClass = 'partsComplete';
+                break;
+
+        }   // switch(true)
+
+        return bgClass;
+
+    }   // ColorCarPartsStatus()
+
 
     return util_Obj;
 });
