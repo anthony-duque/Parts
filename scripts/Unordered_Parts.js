@@ -4,6 +4,7 @@ function UnorderedPartsCtrlr($scope, $http, utility){
 
     GetPartsList();
     $scope.carsInOut = 'all';
+    $scope.expColl = '+';
 
     function GetPartsList()
     {
@@ -45,6 +46,20 @@ function UnorderedPartsCtrlr($scope, $http, utility){
         });
 
     }   // ShowHideParts()
+
+
+    $scope.ExpandCollapse = function(){
+
+        $scope.estimators.forEach((estimator) => {
+            $scope.ShowHideParts(estimator);
+        });
+
+        if ($scope.expColl == '+'){
+            $scope.expColl = '-';
+        } else {
+            $scope.expColl = '+';
+        }
+    }
 
 }   // UnorderedPartsCtrlr()
 

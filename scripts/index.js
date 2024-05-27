@@ -10,7 +10,7 @@ var TabsCtrlr = function($scope){
         {   'Production':"active",
             'PartsSearch':"inactive",
             'PaintList': "inactive",
-            'Upload':"inactive",
+//            'Upload':"inactive",
             'UnorderedParts': "inactive"
          };
 
@@ -36,11 +36,11 @@ var TabsCtrlr = function($scope){
             case 'PaintList':
                 tabView = 'Paint_List.html';
                 break;
-
+/*
             case 'Upload':
                 tabView = 'Admin.html';
                 break;
-
+*/
             case 'UnorderedParts':
                 tabView = 'Unordered_Parts.html';
                 break;
