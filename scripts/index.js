@@ -2,6 +2,10 @@ var app = angular.module("TabsApp", []);
 
 var TabsCtrlr = function($scope){
 
+    const DEFAULT_VIEW = 'Production.html';
+
+    $scope.tabView = DEFAULT_VIEW;   // initial tab view
+
     $scope.Tabs =
         {   'Production':"active",
             'PartsSearch':"inactive",
@@ -34,7 +38,7 @@ var TabsCtrlr = function($scope){
                 break;
 
             case 'Upload':
-                tabView = 'index.html';
+                tabView = 'Admin.html';
                 break;
 
             case 'UnorderedParts':

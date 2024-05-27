@@ -1,14 +1,4 @@
-<html ng-app='prodModule'>
-<head>
-    <title>Parts Status</title>
-    <script src='./scripts/angularjs.min.js'></script>
-    <script src='./scripts/Production.js'></script>
-    <script src='./scripts/Estimator_View.js'></script>
-    <script src='./scripts/Technician_View.js'></script>
-    <script src='./scripts/UtilityFunctions.js'></script>
-    <link rel="stylesheet" href="./styles/Parts.css">
-</head>
-<body ng-controller='prodController'>
+<div ng-controller='prodController'>
     <table id='Menu' width='100%' border=0>
         <caption>
             <h3>Production Schedule</h3>
@@ -25,9 +15,7 @@
             </th>
         </tr>
         <tr>
-            <td align='left'>
-                <a href='Parts_Search.html' target='PartsSearch'>Part Search</a>
-            </td>
+            <td></td>
             <td align='right'>
                 Search:
             </td>
@@ -37,6 +25,5 @@
             </td>
         </tr>
     </table>
-    <div ng-include=productionView></div>
-</body>
-</html>
+    <div ng-include='productionView'></div>
+</div>
