@@ -1,5 +1,3 @@
-var app = angular.module("PartsSearchApp", []);
-
 var PartsSearchCtrlr = function($scope, $http, utility){
 
     $scope.sortFld = '+ro_num';
@@ -62,6 +60,5 @@ app.filter('PartsByStatus', function(utility){
 
     }   // function(parts, status)
 });
-
 
 app.controller("PartsSearchController", PartsSearchCtrlr);
