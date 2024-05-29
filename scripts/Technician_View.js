@@ -9,7 +9,7 @@ var TechnicianViewCtrlr =
         {
             if (response.data){
              console.log("Repair records fetched successfully!");
-             console.log(response.data);
+             // console.log(response.data);
              $scope.technicians = response.data;
             }
         }
@@ -31,7 +31,7 @@ var TechnicianViewCtrlr =
 
             var bgClass = utility.ColorCarPartsStatus(car);
             return bgClass;
- 
+
         }   // CheckParts()
 
     };

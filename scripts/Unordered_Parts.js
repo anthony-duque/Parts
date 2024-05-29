@@ -17,7 +17,7 @@ function UnorderedPartsCtrlr($scope, $http, utility){
     {
         if (response.data){
          console.log("Unordered parts fetched successfully!");
-         console.log(response.data);
+         //console.log(response.data);
          $scope.estimators = response.data;
         }
     }   // handleSuccess()

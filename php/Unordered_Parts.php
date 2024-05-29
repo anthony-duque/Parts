@@ -101,7 +101,6 @@ function Get_ROs_Per_Estimator($estimatorName, $dbConn){
             AND r.Estimator = '
     strSQL . $estimatorName . "'";
 
-//    echo $estimatorName . ':' ;
     try {
 
         $s = mysqli_query($dbConn, $sql);

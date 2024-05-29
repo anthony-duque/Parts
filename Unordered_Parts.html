@@ -31,8 +31,8 @@
                         <td width='100%' align='center'>No parts need to be ordered.</td>
                     </tr>
                     <tr ng-repeat='eachCar in estimator.cars | FilterInOutCars : carsInOut'  ng-show='estimator.cars.length > 0'>
-                        <td ng-click='eachCar.showParts = !eachCar.showParts'>
-                            <table width='100%'>
+                        <td>
+                            <table width='100%' ng-click='eachCar.showParts = !eachCar.showParts'>
                                 <tr>
                                     <th align='left' width='5%'>
                                         <a href="Car_View.html?roNum={{ eachCar.ro_num }}" target="CarStatus">

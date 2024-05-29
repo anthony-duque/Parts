@@ -8,7 +8,7 @@ var PartsSearchCtrlr = function($scope, $http, utility){
     {
         if (response.data){
          console.log("All parts records fetched successfully!");
-         console.log(response.data);
+         //console.log(response.data);
          $scope.allParts = response.data;
         }
     }   // handleSuccess()
