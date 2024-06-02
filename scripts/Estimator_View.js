@@ -9,7 +9,7 @@ var EstimatorViewCtrlr =
         {
             if (response.data){
              console.log("Repair records fetched successfully!");
-             //console.log(response.data);
+             console.log(response.data);
              $scope.estimators = response.data;
             }
         }   // handleSuccess()

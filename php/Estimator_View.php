@@ -9,8 +9,8 @@
         public $ro_num;
         public $owner;
         public $vehicle;
+        public $vehicle_in;
         public $technician;
-        public $partsRcvd;
         public $parts = [];
 
         function __construct($rec){
@@ -19,7 +19,7 @@
             $this->owner        = $rec["Owner"];
             $this->vehicle      = $rec["Vehicle"];
             $this->technician   = $rec["Technician"];
-            $this->partsRcvd    = $rec["PartsReceived"];
+            $this->vehicle_in   = $rec["Vehicle_In"];
 
         }   // Car($rec)
     }   // Car{}
@@ -62,7 +62,7 @@
         $sql = <<<strSQL
                     SELECT SUBSTRING_INDEX(Estimator, ' ', 1) AS Estimator,
                     RONum, SUBSTRING_INDEX(Owner, ',', 1) AS Owner,
-                    Vehicle, Technician, PartsReceived
+                    Vehicle, Technician, Vehicle_In
                     FROM Repairs WHERE Estimator > ''
                     ORDER BY Estimator, PartsReceived DESC
                 strSQL;

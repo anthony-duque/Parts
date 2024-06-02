@@ -103,4 +103,4 @@ require('db_open.php');
 ?>
 Total Repair Orders Uploaded: <?= $row ?>
 <br/>
-<input type='button' value='Back to Main Menu' onclick='location.href = "../index.html";'>
+<input type='button' value='Back to Main Menu' onclick='location.href = "../Admin.html";'>

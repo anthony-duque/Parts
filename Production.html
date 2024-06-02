@@ -15,7 +15,17 @@
                 &nbsp;<input type='button' value='Clear' ng-click='searchText = ""'>
             </td>
             <td width='33%'>
-                &nbsp;
+                <div ng-show='productionView == "Estimator_View.html"'>
+                    <input type='radio' ng-model='carsInOut' value='all'>
+                        All Cars
+                    </input>
+                    <input type='radio' ng-model='carsInOut' value='inShop'>
+                        Cars In Shop
+                    </input>
+                    <input type='radio' ng-model='carsInOut' value='preOrder'>
+                        Pre-order
+                    </input>
+                </div>
             </td>
         </tr>
     </table>
