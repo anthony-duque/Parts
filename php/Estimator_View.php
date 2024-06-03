@@ -18,8 +18,8 @@
             $this->ro_num       = $rec["RONum"];
             $this->owner        = $rec["Owner"];
             $this->vehicle      = $rec["Vehicle"];
-            $this->technician   = $rec["Technician"];
             $this->vehicle_in   = $rec["Vehicle_In"];
+            $this->technician   = $rec["Technician"];
 
         }   // Car($rec)
     }   // Car{}

@@ -6,7 +6,7 @@
             <img ng-src="./images/{{ eachEst.estimator }}.jpg" style="max-width: 100px; max-height: 100px" alt="{{ eachCar.Estimator }}" />
             {{ eachEst.estimator }}
         </th>
-        <td height='100%' ng-repeat="eachCar in eachEst.cars | filter: searchText" ng-class='CheckParts(eachCar);' align='center'>
+        <td height='100%' ng-repeat="eachCar in eachEst.cars | filter: searchText | FilterInOutCars : carsInOut" ng-class='CheckParts(eachCar);' align='center'>
             <a href="Car_View.html?roNum={{ eachCar.ro_num }}" target="CarStatus">
             <table width='150' height='100%' >
                 <tr>

@@ -11,9 +11,9 @@ app.filter('FilterInOutCars', function(){
             case 'inShop':
 
                 angular.forEach(cars, function(car){
-                    if(car.vehicle_in > ''){
+                    if(car.vehicle_in !== null){
                         date_in = Date.parse(car.vehicle_in);
-                        if (date_in <= curr_date){
+                        if (date_in < curr_date){
                             filteredCars.push(car);
                         }
                     }
@@ -24,11 +24,11 @@ app.filter('FilterInOutCars', function(){
 
                 angular.forEach(cars, function(car){
 
-                    if(car.vehicle_in.length == 0){
+                    if(car.vehicle_in === null){
                         filteredCars.push(car);
                     }else{
                         date_in = Date.parse(car.vehicle_in);
-                        if (date_in > curr_date){
+                        if (date_in > curr_date){   // vehicle in in the future
                             filteredCars.push(car);
                         }
                     }
