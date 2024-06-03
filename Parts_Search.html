@@ -5,7 +5,18 @@
             <h3>Parts Search</h3>
         </caption>
         <tr>
-            <td align='right'>
+            <td width='33%'>
+                <input type='radio' ng-model='carsInOut' value='all'>
+                    All Cars
+                </input>
+                <input type='radio' ng-model='carsInOut' value='inShop'>
+                    Cars In Shop
+                </input>
+                <input type='radio' ng-model='carsInOut' value='preOrder'>
+                    Pre-order
+                </input>
+            </td>
+            <td align='center' width='33%'>
                 Search: <input type='text' ng-model='searchText' />
             </td>
             <td align='right'>
@@ -53,7 +64,7 @@
                 Returned
             </th>
         </tr>
-        <tr ng-repeat='eachPart in allParts | filter: searchText | PartsByStatus : status | orderBy: sortFld'
+        <tr ng-repeat='eachPart in allParts | filter: searchText | PartsByStatus : status | orderBy: sortFld | FilterInOutCars : carsInOut'
             ng-class="PartStatus(eachPart);">
             <td>
                 <a href="Car_View.html?roNum={{ eachPart.ro_num }}" target="CarStatus">

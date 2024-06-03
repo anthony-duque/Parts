@@ -15,6 +15,7 @@ require('Utility_Scripts.php');
         public $expected_delivery;
         public $order_date;
         public $invoice_date;
+        public $vehicle_in;
 
         function __construct($rec){
 
@@ -32,6 +33,7 @@ require('Utility_Scripts.php');
             $this->expected_delivery    = $rec["Expected_Delivery"];
             $this->order_date           = GetDisplayDate($rec["Order_Date"]);
             $this->invoice_date         = GetDisplayDate($rec["Invoice_Date"]);
+            $this->vehicle_in           = GetDisplayDate($rec["Vehicle_In"]);
 
         }   // Part()
     }   // Part{}
@@ -45,8 +47,9 @@ require('Utility_Scripts.php');
 
         $sql = "SELECT RO_Num, Part_Number, Part_Description, Vendor_Name, " .
                 " RO_Qty, Ordered_Qty, Received_Qty, Returned_Qty, " .
-                " Expected_Delivery, Order_Date, Invoice_Date " .
-                " FROM PartsStatusExtract " .
+                " Expected_Delivery, Order_Date, Invoice_Date, Vehicle_In " .
+                " FROM PartsStatusExtract pse INNER JOIN Repairs r " .
+                "   ON pse.RO_Num = r.RONum " .
                 " WHERE (Line > 0) AND (Part_Number > '' OR Vendor_Name > '') " .
                 " AND Vendor_Name NOT IN ('**in-house', 'Airtight Auto Glass'," .
                 " 'Big Brand', 'Jim''s Tire Center', 'Pro Tech Diagnostics', 'Astech') " .
