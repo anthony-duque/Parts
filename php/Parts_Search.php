@@ -51,9 +51,9 @@ require('Utility_Scripts.php');
                 " FROM PartsStatusExtract pse INNER JOIN Repairs r " .
                 "   ON pse.RO_Num = r.RONum " .
                 " WHERE (Line > 0) AND (Part_Number > '' OR Vendor_Name > '') " .
-                " AND Vendor_Name NOT IN ('**in-house', 'Airtight Auto Glass'," .
-                " 'Big Brand', 'Jim''s Tire Center', 'Pro Tech Diagnostics', 'Astech') " .
-                " AND Part_Number NOT IN ('Sublet')";
+                "   AND Vendor_Name NOT IN ('**in-house', 'Airtight Auto Glass'," .
+                "   'Big Brand', 'Jim''s Tire Center', 'Pro Tech Diagnostics', 'Astech') " .
+                "   AND Part_Number NOT IN ('Sublet', 'Remanufactured')";
 
         $parts = [];
 

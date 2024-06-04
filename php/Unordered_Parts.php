@@ -98,6 +98,7 @@ function Get_ROs_Per_Estimator($estimatorName, $dbConn){
             AND (Received_Qty = 0) AND (Part_Number > '')
             AND (Part_Type <> 'Sublet')
             AND (Part_Number NOT LIKE 'Aftermarket%')
+            AND (Part_Number <> 'Remanufactured')
             AND r.Estimator = '
     strSQL . $estimatorName . "'";
 
@@ -154,6 +155,7 @@ function GetAllPartsForRO($roNum, $dbConn){
             AND (Received_Qty = 0) AND (Part_Number > '')
             AND (Part_Type <> 'Sublet')
             AND (Part_Number NOT LIKE 'Aftermarket%')
+            AND (Part_Number <> 'Remanufactured')
             AND RO_Num =
     strSQL . $roNum;
 

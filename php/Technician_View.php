@@ -61,6 +61,7 @@
                 "WHERE RO_Num = " . $roNum . " AND (Line > 0) AND (Part_Number > '' OR Vendor_Name > '') " .
                     "AND Vendor_Name NOT LIKE '**%' AND Part_Number NOT LIKE 'Aftermarket%' " .
                     "AND (Part_Type <> 'Sublet') " .
+                    "AND (Part_Number <> 'Remanufactured') " .
                 "ORDER BY Ordered_Qty ASC";
 
         try {
