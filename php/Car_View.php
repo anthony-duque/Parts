@@ -72,14 +72,19 @@ require('Utility_Scripts.php');
 
     function GetPartsList($ro, $dbConn){
 
-        $sql = "SELECT Line, Part_Number, Part_Description, Order_Date, " .
-                " Vendor_Name, RO_Qty, Ordered_Qty, Received_Qty, " .
-                " Returned_Qty, Expected_Delivery, Invoice_Date " .
-                " FROM PartsStatusExtract" .
-                " WHERE RO_Num = " . $ro . " AND (Line > 0) AND (Part_Number > '' OR Vendor_Name > '')" .
-                "       AND Vendor_Name NOT LIKE '**%' AND Part_Number NOT LIKE 'Aftermarket%'" .
-                "       AND (Part_Type <> 'Sublet') " .
-                "       AND (Part_Number <> 'Remanufactured') " .                
+        $sql = <<<strSQL
+                SELECT Line, Part_Number, Part_Description, Order_Date,
+                        Vendor_Name, RO_Qty, Ordered_Qty, Received_Qty,
+                        Returned_Qty, Expected_Delivery, Invoice_Date
+                FROM PartsStatusExtract
+                WHERE (Part_Number <> 'Remanufactured')
+                    AND (Line > 0)
+                    AND (Part_Number > '' OR Vendor_Name > '')
+                    AND Vendor_Name NOT LIKE '**%'
+                    AND Part_Number NOT LIKE 'Aftermarket%'
+                    AND (Part_Type <> 'Sublet')
+                    AND  RO_Num =
+                strSQL . $ro .
                 " ORDER BY Ordered_Qty ASC";
 
         try{
