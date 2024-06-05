@@ -75,7 +75,7 @@
                             <table width='100%' border='1'>
                                 <tr ng-repeat='eachPart in eachCar.parts' ng-show='eachCar.showParts' ng-class='ToggleRow($index);'>
                                     <td width='20%' align='center'>
-                                        <a href='http://www.google.com/search?q={{ eachPart.part_number }}' target='_blank' >
+                                        <a href='http://www.google.com/search?q={{ eachPart.part_number }}' target='CarPart' >
                                             {{ eachPart.part_number }}
                                         </a>
                                     </td>
