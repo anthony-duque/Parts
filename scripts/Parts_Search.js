@@ -2,6 +2,8 @@ var PartsSearchCtrlr = function($scope, $http, utility){
 
     $scope.sortFld = '+ro_num';
 
+    $scope.carsInOut = 'all';
+
     GetAllParts();
 
     function handleSuccess(response)
