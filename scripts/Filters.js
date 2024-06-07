@@ -13,7 +13,7 @@ app.filter('FilterInOutCars', function(){
                 angular.forEach(cars, function(car){
                     if(car.vehicle_in !== null){
                         date_in = Date.parse(car.vehicle_in);
-                        if (date_in < curr_date){
+                        if ((date_in < curr_date) && (car.current_phase !== '[Scheduled]')){
                             filteredCars.push(car);
                         }
                     }

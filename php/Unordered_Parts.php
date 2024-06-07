@@ -27,14 +27,16 @@ class Car{
     public $owner;
     public $vehicle;
     public $vehicle_in;
-    public $parts = [];
+    public $current_phase;
     public $showParts;
+    public $parts = [];
 
     function __construct($rec){
         $this->ro_num       = $rec["RONum"];
         $this->owner        = $rec["Owner"];
         $this->vehicle      = $rec["Vehicle"];
         $this->vehicle_in   = $rec["Vehicle_In"];
+        $this->current_phase = $rec["CurrentPhase"];
         $this->showParts    = false;
     }   // Car()
 }   // Car{}
@@ -120,7 +122,7 @@ function Get_ROs_Per_Estimator($estimatorName, $dbConn){
 function GetCarInfoForRO($roNum, $dbConn){
 
     $sql = <<<strSQL
-        SELECT RONum, Owner, Vehicle, Vehicle_In
+        SELECT RONum, Owner, Vehicle, Vehicle_In, CurrentPhase
         FROM Repairs
         WHERE RONum =
     strSQL . $roNum;

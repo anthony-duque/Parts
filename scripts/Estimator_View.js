@@ -32,7 +32,8 @@ var EstimatorViewCtrlr =
             // changes the background color of car depending on Parts received
         $scope.CheckParts = function(car){
 
-            return utility.ColorCarPartsStatus(car);
+            car.status = utility.ColorCarPartsStatus(car);
+            return car.status;
 
         }   // CheckParts()
 };

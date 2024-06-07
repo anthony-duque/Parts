@@ -73,39 +73,43 @@ app.factory('utility', function(){
         var pWaiting = 0;
         var pUnordered = 0;
         var pReceived = 0;
+        var pTotal = 0;
 
         carObj.parts.forEach(
 
             function(carPart, index){
                 pStatus = util_Obj.ColorPartStatus(carPart);
+
                 switch(pStatus){
 
                     case 'noParts':
-                        ++pUnordered;
+                        ++carObj.parts_unordered;
                         break;
 
                     case 'waitingForParts':
-                        ++pWaiting;
+                        ++carObj.parts_waiting;
                         break;
 
                     default:
-                        ++pReceived;
+                        ++carObj.parts_received;
                         break;
                 }
         }); // car.parts.forEach()
 
         switch(true){
 
-            case (pUnordered > 0) && (pWaiting > 0):
-            case (pUnordered > 0) && (pReceived > 0):
+            case (carObj.parts_unordered > 0) && (carObj.parts_waiting > 0):
+            case (carObj.parts_unordered > 0) && (carObj.parts_received > 0):
+//            case (pUnordered > 0) && (pWaiting > 0):
+//            case (pUnordered > 0) && (pReceived > 0):
                 bgClass = 'orange';
                 break;
 
-            case (pUnordered > 0) && (pReceived == 0):
+            case (carObj.parts_unordered > 0) && (carObj.parts_received == 0):
                 bgClass = 'noParts';
                 break;
 
-            case (pWaiting > 0):
+            case (carObj.parts_waiting > 0):
                 bgClass = 'waitingForParts';
                 break;
 
