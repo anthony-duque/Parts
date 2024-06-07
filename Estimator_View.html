@@ -2,7 +2,7 @@
 <table id='EstimatorCars' border=1 width='100%' ng-controller="EstimatorViewController">
 
     <tr ng-repeat="eachEst in estimators | filter : searchText">
-        <th align='center'>
+        <th align='center' ng-click='SortCars("status");'>
             <img ng-src="./images/{{ eachEst.estimator }}.jpg" style="max-width: 100px; max-height: 100px" alt="{{ eachCar.Estimator }}" />
             {{ eachEst.estimator }}
         </th>

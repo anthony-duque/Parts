@@ -10,16 +10,26 @@
         public $owner;
         public $vehicle;
         public $vehicle_in;
+        public $current_phase;
         public $technician;
         public $parts = [];
+        public $parts_unordered;
+        public $parts_waiting;
+        public $parts_received;
+        public $status;
 
         function __construct($rec){
 
-            $this->ro_num       = $rec["RONum"];
-            $this->owner        = $rec["Owner"];
-            $this->vehicle      = $rec["Vehicle"];
-            $this->vehicle_in   = $rec["Vehicle_In"];
-            $this->technician   = $rec["Technician"];
+            $this->ro_num           = $rec["RONum"];
+            $this->owner            = $rec["Owner"];
+            $this->vehicle          = $rec["Vehicle"];
+            $this->vehicle_in       = $rec["Vehicle_In"];
+            $this->technician       = $rec["Technician"];
+            $this->current_phase    = $rec["CurrentPhase"];
+            $this->parts_unordered  = 0;
+            $this->parts_waiting    = 0;
+            $this->parts_received   = 0;
+            $this->status           = "";
 
         }   // Car($rec)
     }   // Car{}
@@ -62,7 +72,7 @@
         $sql = <<<strSQL
                     SELECT SUBSTRING_INDEX(Estimator, ' ', 1) AS Estimator,
                     RONum, SUBSTRING_INDEX(Owner, ',', 1) AS Owner,
-                    Vehicle, Technician, Vehicle_In
+                    Vehicle, Technician, Vehicle_In, CurrentPhase
                     FROM Repairs WHERE Estimator > ''
                     ORDER BY Estimator, PartsReceived DESC
                 strSQL;

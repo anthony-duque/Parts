@@ -21,7 +21,6 @@
         }   // Part()
     }   // Part{}
 
-
     class Car{
 
         public $ro_num;
@@ -29,6 +28,10 @@
         public $vehicle;
         public $estimator;
         public $parts = [];
+        public $parts_unordered;
+        public $parts_waiting;
+        public $parts_received;
+        public $status;
 
         function __construct($rec){
 
@@ -36,6 +39,10 @@
             $this->owner        = $rec["Owner"];
             $this->vehicle      = $rec["Vehicle"];
             $this->estimator    = $rec["Estimator"];
+            $this->parts_unordered  = 0;
+            $this->parts_waiting    = 0;
+            $this->parts_received   = 0;
+            $this->status           = "";
 
         }   // Car($rec)
     }   // Car{}
@@ -66,7 +73,7 @@
                             AND Part_Number NOT LIKE 'Aftermarket%'
                             AND (Part_Type <> 'Sublet')
                             AND RO_Num =
-                    strSQL . $roNum . 
+                    strSQL . $roNum .
                     " ORDER BY Ordered_Qty ASC";
 
         try {
