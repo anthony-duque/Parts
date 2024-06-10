@@ -13,9 +13,6 @@ app.factory('utility', function(){
              break;
 
           case '-':
-             sortOrder = '+';
-             break;
-
           default:
              sortOrder = '+';
              break;
@@ -70,10 +67,6 @@ app.factory('utility', function(){
 
         var bgClass = '';
         var pStatus = '';   // part status
-        var pWaiting = 0;
-        var pUnordered = 0;
-        var pReceived = 0;
-        var pTotal = 0;
 
         carObj.parts.forEach(
 
@@ -100,8 +93,6 @@ app.factory('utility', function(){
 
             case (carObj.parts_unordered > 0) && (carObj.parts_waiting > 0):
             case (carObj.parts_unordered > 0) && (carObj.parts_received > 0):
-//            case (pUnordered > 0) && (pWaiting > 0):
-//            case (pUnordered > 0) && (pReceived > 0):
                 bgClass = 'orange';
                 break;
 
@@ -118,6 +109,13 @@ app.factory('utility', function(){
                 break;
 
         }   // switch(true)
+
+        var totalParts = carObj.parts_unordered + carObj.parts_waiting + carObj.parts_received;
+        if (totalParts == 0){
+            carObj.parts_percent = 100;
+        } else {
+            carObj.parts_percent = (carObj.parts_received / totalParts) * 100;
+        }
 
         return bgClass;
 

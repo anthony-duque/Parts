@@ -9,7 +9,7 @@ var TechnicianViewCtrlr =
         {
             if (response.data){
              console.log("Repair records fetched successfully!");
-             // console.log(response.data);
+             console.log(response.data);
              $scope.technicians = response.data;
             }
         }
@@ -29,8 +29,8 @@ var TechnicianViewCtrlr =
             // changes the background color of car depending on Parts received
         $scope.CheckParts = function(car){
 
-            var bgClass = utility.ColorCarPartsStatus(car);
-            return bgClass;
+            car.status = utility.ColorCarPartsStatus(car);
+            return car.status;
 
         }   // CheckParts()
 

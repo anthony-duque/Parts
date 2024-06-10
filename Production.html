@@ -4,17 +4,17 @@
             <h3>Production Schedule</h3>
         </caption>
         <tr>
-            <td align='left' width='33%'>
+            <td align='left' width='25%'>
                 View by:
                 <b>Estimators</b><input type='radio' ng-model="productionView" value="Estimator_View.html" /> &nbsp;
                 <b>Technicians</b><input type='radio' ng-model="productionView" value="Technician_View.html" />
             </td>
-            <td align='center' width='33%'>
+            <td align='center' width='25%'>
                 Search:
                 <input type='text' ng-model='searchText'>
                 &nbsp;<input type='button' value='Clear' ng-click='searchText = ""'>
             </td>
-            <td width='33%'>
+            <td width='25%' align='right'>
                 <div ng-show='productionView == "Estimator_View.html"'>
                     <input type='radio' ng-model='carsInOut' value='all'>
                         All Cars
@@ -26,6 +26,9 @@
                         Pre-order
                     </input>
                 </div>
+            </td>
+            <td align='right'>
+                <input type='button' ng-class='buttonClass' value='{{ sortMode }}' ng-click="SortCars('parts_percent');">
             </td>
         </tr>
     </table>
