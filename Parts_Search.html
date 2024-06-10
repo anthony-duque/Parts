@@ -54,6 +54,9 @@
             <th ng-click='SortParts("order_date");'>
                 Date
             </th>
+            <th ng-click='SortParts("expected_delivery");'>
+                Expected
+            </th>
             <th ng-click='SortParts("received_quantity");'>
                 Received
             </th>
@@ -90,6 +93,9 @@
             </td>
             <td>
                 {{ eachPart.order_date }}
+            </td>
+            <td>
+                {{ eachPart.expected_delivery }}
             </td>
             <td align='center'>
                 {{ eachPart.received_quantity }}

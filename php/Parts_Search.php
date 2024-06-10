@@ -30,7 +30,7 @@ require('Utility_Scripts.php');
             $this->ordered_quantity     = $rec["Ordered_Qty"];
             $this->received_quantity    = $rec["Received_Qty"];
             $this->returned_quantity    = $rec["Returned_Qty"];
-            $this->expected_delivery    = $rec["Expected_Delivery"];
+            $this->expected_delivery    = GetDisplayDate($rec["Expected_Delivery"]);
             $this->order_date           = GetDisplayDate($rec["Order_Date"]);
             $this->invoice_date         = GetDisplayDate($rec["Invoice_Date"]);
             $this->vehicle_in           = GetDisplayDate($rec["Vehicle_In"]);

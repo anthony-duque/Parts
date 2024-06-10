@@ -2,7 +2,7 @@
 var prodController = function($scope, utility){
 
     $scope.carsInOut    = 'all';
-    $scope.sortCars     = 'parts_percent';
+    $scope.sortCars     = '+parts_percent';
     $scope.sortMode     = 'Sort by Parts Received';
 
         // default View is Technician View
@@ -22,6 +22,8 @@ var prodController = function($scope, utility){
             $scope.sortMode = "Sort by Parts Complete";
         }
     }
+
+    $scope.SortCars($scope.sortCars);   //initialize the screen
 
 }   // prodController()
 
