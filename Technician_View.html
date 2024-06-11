@@ -11,13 +11,16 @@
             <table width='150' height='100%''>
                 <tr ng-hide='eachCar.parts_percent == 100'>
                     <td>
-                        <table height='10' width='100%'>
+                        <table height='10' width='100%' border=1  valign='top'>
                         <tr>
-                            <td class='noParts' align='center'>
+                            <td class='noParts' align='center' width='33%'>
                                 {{ eachCar.parts_unordered }}
                             </td>
-                            <td class='waitingForParts' align='center'>
+                            <td class='waitingForParts' align='center' width='33%'>
                                 {{ eachCar.parts_waiting }}
+                            </td>
+                            <td class='partsComplete' align='center'>
+                                {{ eachCar.parts_received }}
                             </td>
                         </tr>
                         </table>
