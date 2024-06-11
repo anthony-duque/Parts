@@ -29,7 +29,7 @@
             $this->parts_unordered  = 0;
             $this->parts_waiting    = 0;
             $this->parts_received   = 0;
-            $this->percent          = 0;
+            $this->parts_percent    = 0;
 
         }   // Car($rec)
     }   // Car{}

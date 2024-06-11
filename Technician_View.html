@@ -9,6 +9,20 @@
         <td ng-repeat="eachCar in eachTech.cars | orderBy : sortCars | filter: searchText" height='100%' ng-class='CheckParts(eachCar);' align='center'>
             <a href="Car_View.html?roNum={{ eachCar.ro_num }}" target="CarStatus">
             <table width='150' height='100%''>
+                <tr ng-hide='eachCar.parts_percent == 100'>
+                    <td>
+                        <table height='10' width='100%'>
+                        <tr>
+                            <td class='noParts' align='center'>
+                                {{ eachCar.parts_unordered }}
+                            </td>
+                            <td class='waitingForParts' align='center'>
+                                {{ eachCar.parts_waiting }}
+                            </td>
+                        </tr>
+                        </table>
+                    </td>
+                </tr>
                 <tr>
                     <td align='center'>
                         <u>{{ eachCar.owner }}</u>
