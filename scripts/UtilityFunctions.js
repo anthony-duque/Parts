@@ -68,6 +68,7 @@ app.factory('utility', function(){
         var bgClass = '';
         var pStatus = '';   // part status
 
+/*
         carObj.parts.forEach(
 
             function(carPart, index){
@@ -88,7 +89,7 @@ app.factory('utility', function(){
                         break;
                 }
         }); // car.parts.forEach()
-
+*/
         switch(true){
 
             case (carObj.parts_unordered > 0) && (carObj.parts_waiting > 0):
@@ -109,14 +110,14 @@ app.factory('utility', function(){
                 break;
 
         }   // switch(true)
-
+/*
         var totalParts = carObj.parts_unordered + carObj.parts_waiting + carObj.parts_received;
         if (totalParts == 0){
             carObj.parts_percent = 100;
         } else {
             carObj.parts_percent = (carObj.parts_received / totalParts) * 100;
         }
-
+*/
         return bgClass;
 
     }   // ColorCarPartsStatus()

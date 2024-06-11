@@ -36,7 +36,7 @@
         function __construct($rec){
 
             $this->ro_num       = $rec["RONum"];
-            $this->owner        = $rec["Owner"];
+            $this->owner        = ucwords(strtolower($rec["Owner"]));
             $this->vehicle      = $rec["Vehicle"];
             $this->estimator    = $rec["Estimator"];
             $this->parts_unordered  = 0;

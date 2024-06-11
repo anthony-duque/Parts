@@ -21,7 +21,7 @@
         function __construct($rec){
 
             $this->ro_num           = $rec["RONum"];
-            $this->owner            = $rec["Owner"];
+            $this->owner            = ucwords(strtolower($rec["Owner"]));
             $this->vehicle          = $rec["Vehicle"];
             $this->vehicle_in       = $rec["Vehicle_In"];
             $this->technician       = $rec["Technician"];
@@ -53,7 +53,7 @@
     }   // Part{}
 
 
-    class Repair{
+    class Estimator_Repairs{
 
         public $estimator;
         public $cars = [];
@@ -92,7 +92,7 @@
                     }
 
                     $est = $r["Estimator"];
-                    $repair = new Repair($r);
+                    $repair = new Estimator_Repairs($r);
                 }
 
                 array_push($repair->cars, new Car($r));
@@ -146,6 +146,60 @@
     }   // GetAllParts()
 
 
+    function ComputePartsReceived(&$repairs){
+
+        $unordered = 0;
+        $ordered = 0;
+        $received = 0;
+
+        foreach($repairs as $repair){    // for each car assigned to an estimator
+            foreach($repair->cars as $car){ // get the parts list
+                foreach($car->parts as $part){ // get the parts list
+
+                    switch(true){
+
+                        case ($part->received_quantity == 0) &&
+                             ($part->ordered_quantity == 0) &&
+                             ($part->ro_quantity > 0):
+
+                            ++$unordered;
+                            break;
+
+                        case ($part->received_quantity == $part->returned_quantity) &&
+                             ($part->returned_quantity > 0):
+
+                        case ($part->received_quantity == 0) &&
+                             (($part->ordered_quantity > 0) || ($part->ro_quantity > 0)):
+                            ++$ordered;
+                            break;
+
+                        default:
+                            ++$received;
+                            break;
+                    }
+                }
+
+                $car->parts_unordered   = $unordered;
+                $car->parts_waiting     = $ordered;
+                $car->parts_received    = $received;
+
+                $totalParts = $unordered + $ordered + $received;
+
+                if ($totalParts == 0){
+                    $car->parts_percent = 100;
+                } else {
+                    $car->parts_percent = ($received / $totalParts) * 100;
+                }
+
+                    // reset the counters
+                $unordered = 0;
+                $ordered = 0;
+                $received = 0;
+            }
+        }
+    }
+
+
     function ProcessGET(){
 
         require('db_open.php');
@@ -157,6 +211,8 @@
                 $car->parts = GetAllParts($conn, $car->ro_num);
             }
         }
+
+        ComputePartsReceived($allRepairs);
 
         return $allRepairs;
 
