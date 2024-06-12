@@ -1,5 +1,7 @@
 <?php
 
+    require('Utility_Scripts.php');
+
     $repairs = ProcessGET();
 
     echo json_encode($repairs);
@@ -144,60 +146,6 @@
 
         return $allParts;
     }   // GetAllParts()
-
-
-    function ComputePartsReceived(&$repairs){
-
-        $unordered = 0;
-        $ordered = 0;
-        $received = 0;
-
-        foreach($repairs as $repair){    // for each car assigned to an estimator
-            foreach($repair->cars as $car){ // get the parts list
-                foreach($car->parts as $part){ // get the parts list
-
-                    switch(true){
-
-                        case ($part->received_quantity == 0) &&
-                             ($part->ordered_quantity == 0) &&
-                             ($part->ro_quantity > 0):
-
-                            ++$unordered;
-                            break;
-
-                        case ($part->received_quantity == $part->returned_quantity) &&
-                             ($part->returned_quantity > 0):
-
-                        case ($part->received_quantity == 0) &&
-                             (($part->ordered_quantity > 0) || ($part->ro_quantity > 0)):
-                            ++$ordered;
-                            break;
-
-                        default:
-                            ++$received;
-                            break;
-                    }
-                }
-
-                $car->parts_unordered   = $unordered;
-                $car->parts_waiting     = $ordered;
-                $car->parts_received    = $received;
-
-                $totalParts = $unordered + $ordered + $received;
-
-                if ($totalParts == 0){
-                    $car->parts_percent = 100;
-                } else {
-                    $car->parts_percent = ($received / $totalParts) * 100;
-                }
-
-                    // reset the counters
-                $unordered = 0;
-                $ordered = 0;
-                $received = 0;
-            }
-        }
-    }
 
 
     function ProcessGET(){
