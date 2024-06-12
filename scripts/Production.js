@@ -16,10 +16,10 @@ var prodController = function($scope, utility){
 
         if (plusMinus == '-'){
             $scope.buttonClass = "noParts";
-            $scope.sortMode = "Sort by Parts Incomplete";
+            $scope.sortMode = "What's not ready";
         } else {
             $scope.buttonClass = "partsComplete";
-            $scope.sortMode = "Sort by Parts Complete";
+            $scope.sortMode = "What's Ready";
         }
     }
 

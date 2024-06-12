@@ -68,28 +68,6 @@ app.factory('utility', function(){
         var bgClass = '';
         var pStatus = '';   // part status
 
-/*
-        carObj.parts.forEach(
-
-            function(carPart, index){
-                pStatus = util_Obj.ColorPartStatus(carPart);
-
-                switch(pStatus){
-
-                    case 'noParts':
-                        ++carObj.parts_unordered;
-                        break;
-
-                    case 'waitingForParts':
-                        ++carObj.parts_waiting;
-                        break;
-
-                    default:
-                        ++carObj.parts_received;
-                        break;
-                }
-        }); // car.parts.forEach()
-*/
         switch(true){
 
             case (carObj.parts_unordered > 0) && (carObj.parts_waiting > 0):
@@ -110,14 +88,6 @@ app.factory('utility', function(){
                 break;
 
         }   // switch(true)
-/*
-        var totalParts = carObj.parts_unordered + carObj.parts_waiting + carObj.parts_received;
-        if (totalParts == 0){
-            carObj.parts_percent = 100;
-        } else {
-            carObj.parts_percent = (carObj.parts_received / totalParts) * 100;
-        }
-*/
         return bgClass;
 
     }   // ColorCarPartsStatus()

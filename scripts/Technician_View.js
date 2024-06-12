@@ -12,7 +12,8 @@ var TechnicianViewCtrlr =
              console.log(response.data);
              $scope.technicians = response.data;
             }
-        }
+        }   // handleSuccess()
+
 
         function handleError(response)
         {
