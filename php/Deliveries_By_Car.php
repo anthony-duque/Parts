@@ -10,10 +10,12 @@
 
     foreach($allCars as $car){
 
-        $car->vendors = Get_Vendors_for_Car($car->ro_num, $conn);
+        $car->Get_Vendors_for_Car($conn);   // Get all the vendors that delivered per car
 
         foreach($car->vendors as $vendor){
-            $vendor->Get_Vendor_Parts($car->ro_num,$conn);
+
+            $vendor->Get_Vendor_Parts($car->ro_num,$conn);  // Get the parts delivered by the vendor for each car
+
         }   // foreach($car)
     }   // foreach($allCars)
 
@@ -25,7 +27,7 @@
         public $name;
         public $parts = [];
 
-        function __construct($rec){
+        function __construct($rec, $dbConn){
             $this->name = $rec["Vendor_Name"];
         }   // Vendor()
 
@@ -74,6 +76,39 @@
             $this->vehicle  = $rec["Vehicle"];
             $this->owner    = $rec["Owner"];
         }
+
+        function Get_Vendors_for_Car($dbConn){
+
+            $sql = <<<strSQL
+                        SELECT DISTINCT Vendor_Name
+                        FROM PartsStatusExtract
+                        WHERE RO_Num = $this->ro_num
+                             AND Invoice_Date >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
+                             AND Vendor_Name NOT IN ('**IN-HOUSE', 'ASTECH', 'AIRTIGHT AUTO GLASS', 'BIG BRAND','Jim''s Tire Center', 'PRO TECH DIAGNOSTICS')
+                    strSQL;
+
+            try{
+
+                $vendorList = [];
+                $s = mysqli_query($dbConn, $sql);
+
+                while($r = mysqli_fetch_assoc($s)){
+                    $vendor = new Vendor($r, $dbConn);
+                    array_push($vendorList, $vendor);
+                }
+
+            } catch(Exception $e){
+
+                echo "Fetching vendors failed." . $e->getMessage();
+                $dbConn = null;
+
+            } finally {
+
+                $this->vendors = $vendorList;
+            }   // try-catch{}
+
+        }   // Get_Vendors_for_Car()
+
     }   // Car{}
 
 
@@ -109,7 +144,7 @@
             $s = mysqli_query($dbConn, $sql);
 
             while($r = mysqli_fetch_assoc($s)){
-                $vendor = new Vendor($r);
+                $vendor = new Vendor($r, $dbConn);
                 array_push($vendors, $vendor);
             }
 
