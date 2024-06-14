@@ -16,7 +16,7 @@ var prodController = function($scope, utility){
 
         if (plusMinus == '-'){
             $scope.buttonClass = "noParts";
-            $scope.sortMode = "What's not ready";
+            $scope.sortMode = "What needs Parts";
         } else {
             $scope.buttonClass = "partsComplete";
             $scope.sortMode = "What's Ready";
