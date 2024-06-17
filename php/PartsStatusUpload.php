@@ -48,11 +48,13 @@ if (($handle = fopen($extractFile, "r")) === FALSE) {
 	exit;
 }
 
-$tsql = "INSERT INTO PartsStatusExtract " .
-        "(RO_Num, Line, Part_Number, Part_Description, Part_Type, " .
-		"Vendor_Name, RO_Qty, Ordered_Qty, Order_Date, " .
-		"Expected_Delivery, Received_Qty, Invoice_Date, Returned_Qty) " .
-        "VALUES ";
+$tsql = <<<strSQL
+		INSERT INTO PartsStatusExtract
+			(RO_Num, Line, Part_Number, Part_Description, Part_Type,
+			Vendor_Name, RO_Qty, Ordered_Qty, Order_Date,
+			Expected_Delivery, Received_Qty, Invoice_Date, Returned_Qty)
+		VALUES
+strSQL;
 
 $row = 0;	// record counter
 
@@ -72,7 +74,7 @@ while (($data = fgetcsv($handle, 500, ",")) !== FALSE){
 
 	$line 				= $data[LINE];
 
-	$part_number		= "'" . $data[PART_NUMBER] . "'";
+	$part_number		= "'" . Cleanup_Text($data[PART_NUMBER]) . "'";
 
 	$part_description	= "'" . Cleanup_Text($data[PART_DESCRIPTION]) . "'";
 
