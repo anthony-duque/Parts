@@ -4,6 +4,7 @@
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
 
+    require('Utility_Scripts.php');
     require('db_open.php');
 
     $allCars = Get_All_Cars($conn);     // Get all cars with deiiveries (invoice_date not null)
@@ -71,14 +72,19 @@
         public $vehicle;
         public $estimator;
         public $technician;
+        public $vehicle_in;
+        public $current_phase;
         public $vendors = [];
 
         function __construct($rec){
-            $this->ro_num       = $rec["RO_Num"];
-            $this->vehicle      = $rec["Vehicle"];
-            $this->owner        = ucwords(strtolower($rec["Owner"]));
-            $this->estimator    = $rec["Estimator"];
-            $this->technician    = $rec["Technician"];
+            $this->ro_num           = $rec["RO_Num"];
+            $this->vehicle          = $rec["Vehicle"];
+            $this->owner            = ucwords(strtolower($rec["Owner"]));
+            $this->estimator        = $rec["Estimator"];
+            $this->technician       = $rec["Technician"];
+            $this->vehicle_in       = $rec["Vehicle_In"];
+            $this->current_phase    = $rec["CurrentPhase"];
+            $current_phase;
         }
 
         function Get_Vendors_for_Car($dbConn){
@@ -127,7 +133,7 @@
             $this->part_number          = $rec["Part_Number"];
             $this->part_description     = $rec["Part_Description"];
             $this->received_quantity    = $rec["Received_Qty"];
-            $this->invoice_date         = $rec["Invoice_Date"];
+            $this->invoice_date         = GetDisplayDate($rec["Invoice_Date"]);
         }   // Part()
     }   // Part{}
 
@@ -169,7 +175,7 @@
 
         $sql = <<<strSQL
                     SELECT DISTINCT p.RO_Num, SUBSTRING_INDEX(r.Owner, ',', 1) AS Owner,
-                            r.Vehicle, r.Technician, r.Estimator
+                            r.Vehicle, r.Technician, r.Estimator, r.Vehicle_In, r.CurrentPhase
                     FROM PartsStatusExtract p INNER JOIN Repairs r
                         ON p.RO_Num = r.RONum
                     WHERE Invoice_Date >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)

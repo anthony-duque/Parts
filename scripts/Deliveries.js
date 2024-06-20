@@ -2,7 +2,7 @@ var app = angular.module("DeliveriesApp", []);
 
 var DeliveriesCtrlr = function($scope, $http){
 
-    $scope.cc = "cc";
+    $scope.carsInOut = "all";
     Get_All_Cars();
 
     function handleSuccess(response)
