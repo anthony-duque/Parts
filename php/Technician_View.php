@@ -38,10 +38,10 @@
 
         function __construct($rec){
 
-            $this->ro_num       = $rec["RONum"];
-            $this->owner        = ucwords(strtolower($rec["Owner"]));
-            $this->vehicle      = $rec["Vehicle"];
-            $this->estimator    = $rec["Estimator"];
+            $this->ro_num           = $rec["RONum"];
+            $this->owner            = ucwords(strtolower($rec["Owner"]));
+            $this->vehicle          = $rec["Vehicle"];
+            $this->estimator        = $rec["Estimator"];
             $this->parts_unordered  = 0;
             $this->parts_waiting    = 0;
             $this->parts_received   = 0;

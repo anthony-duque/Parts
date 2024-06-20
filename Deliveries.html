@@ -1,0 +1,100 @@
+<html ng-app='DeliveriesApp'>
+<head>
+    <title>Deliveries</title>
+    <script src='./scripts/angularjs.js'></script>
+    <script src='./scripts/Deliveries.js'></script>
+</head>
+<body ng-controller='DeliveriesController'>
+    <table width='100%'>
+        <tr>
+            <td align='center'>
+                Search: <input type='text' ng-model='searchText' />
+            </td>
+        </tr>
+    </table>
+    <table width='90%' align='center' border=1>
+    <tr>
+        <th width='15%'>Car</th>
+        <th>
+            <table border=1 width='100%'>
+                <tr>
+                    <th width='29%'>
+                        Vendor
+                    </th>
+                    <th>
+                        <table width='100%'>
+                            <tr>
+                                <th align='center' width='100%'>Part</th>
+                            </tr>
+                            <tr>
+                                <td width='100%'>
+                                    <table width='100%' border=1>
+                                        <tr>
+                                            <th width='60%'>Description</th>
+                                            <th width='35%'>Number</th>
+                                            <th>Qty</th>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            </table>
+                        </th>
+                    </tr>
+                </table>
+            </th>
+        </tr>
+    </table>
+
+    <table border='1' width='90%' align='center'>
+        <tr ng-repeat='eachCar in allCars | filter: searchText'>
+            <td align='center' width='15%'>
+                    <table id='carTable'>
+                        <tr>
+                            <td align='center'>
+                                <a href="Car_View.html?roNum={{ eachCar.ro_num }}" target="CarStatus">
+                                    {{ eachCar.ro_num }}
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align='center'>
+                                {{ eachCar.owner }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align='center'>
+                                {{ eachCar.vehicle.split(' ')[1] + " " + eachCar.vehicle.split(' ')[2] }}
+                            </td>
+                        </tr>
+                    </table>
+            </td>
+            <td valign=top height='100%'>
+                <table border=1 width=100% valign='top' height='100%'>
+                    <tr ng-repeat='eachVendor in eachCar.vendors' >
+                        <td align='center' width='20%'>
+                            {{ eachVendor.name }}
+                        </td>
+                        <td height='100%' width='50%' >
+                            <table border=1 width=100% height='100%'>
+                                <tr ng-repeat='eachPart in eachVendor.parts'>
+                                    <td width='60%'>
+                                            {{ eachPart.part_description }}
+                                    </td>
+                                    <td width='35%' align='center'>
+                                        <a href='http://www.google.com/search?q={{ eachPart.part_number }}' target='CarPart' >
+                                            {{ eachPart.part_number }}
+                                        </a>
+                                    </td>
+                                    <td align='center'>
+                                        {{ eachPart.received_quantity }}
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

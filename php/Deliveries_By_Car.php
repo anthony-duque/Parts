@@ -69,12 +69,16 @@
         public $ro_num;
         public $owner;
         public $vehicle;
+        public $estimator;
+        public $technician;
         public $vendors = [];
 
         function __construct($rec){
-            $this->ro_num   = $rec["RO_Num"];
-            $this->vehicle  = $rec["Vehicle"];
-            $this->owner    = $rec["Owner"];
+            $this->ro_num       = $rec["RO_Num"];
+            $this->vehicle      = $rec["Vehicle"];
+            $this->owner        = ucwords(strtolower($rec["Owner"]));
+            $this->estimator    = $rec["Estimator"];
+            $this->technician    = $rec["Technician"];
         }
 
         function Get_Vendors_for_Car($dbConn){
@@ -164,11 +168,12 @@
     function Get_All_Cars($dbConn){
 
         $sql = <<<strSQL
-
-                    SELECT DISTINCT p.RO_Num, r.Owner, r.Vehicle
+                    SELECT DISTINCT p.RO_Num, SUBSTRING_INDEX(r.Owner, ',', 1) AS Owner,
+                            r.Vehicle, r.Technician, r.Estimator
                     FROM PartsStatusExtract p INNER JOIN Repairs r
                         ON p.RO_Num = r.RONum
                     WHERE Invoice_Date >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
+                        AND Vendor_Name NOT IN ('**IN-HOUSE', 'ASTECH', 'AIRTIGHT AUTO GLASS', 'BIG BRAND','Jim''s Tire Center', 'PRO TECH DIAGNOSTICS')
                 strSQL;
 
         try {
