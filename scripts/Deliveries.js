@@ -3,6 +3,8 @@ var app = angular.module("DeliveriesApp", []);
 var DeliveriesCtrlr = function($scope, $http){
 
     $scope.carsInOut = "all";
+    $scope.numDays = 7;
+
     Get_All_Cars();
 
     function handleSuccess(response)
@@ -26,7 +28,6 @@ var DeliveriesCtrlr = function($scope, $http){
               .then(handleSuccess)
               .catch(handleError);   // .then()
     }
-
 
 }
 
