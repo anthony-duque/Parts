@@ -1,9 +1,8 @@
-var app = angular.module("DeliveriesApp", []);
 
 var DeliveriesCtrlr = function($scope, $http){
 
     $scope.carsInOut = "all";
-    $scope.numDays = 7;
+    $scope.numDays = 0;
 
     Get_All_Cars();
 

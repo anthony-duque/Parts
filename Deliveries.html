@@ -1,11 +1,13 @@
-<html ng-app='DeliveriesApp'>
+<!--html ng-app='DeliveriesApp'>
 <head>
     <title>Deliveries</title>
     <script src='./scripts/angularjs.js'></script>
     <script src='./scripts/Deliveries.js'></script>
     <script src='./scripts/Filters.js'></script>
 </head>
-<body ng-controller='DeliveriesController'>
+<body ng-controller='DeliveriesController' -->
+<div  ng-controller='DeliveriesController'>
+
     <table width='90%' align='center'>
         <caption>
             <b>Deliveries</b>
@@ -13,7 +15,8 @@
         <tr>
             <td>
                 <input type='button' value='Today' ng-click='numDays = 0;'/>
-                <input type='button' value='Past 4 Days' ng-click='GetOtherDeliveries();'/>
+                <input type='number' ng-model='numDays' min='0' max='7' size=3/> days ago
+                <input type='button' value='Everything' ng-click='numDays = 7;'>
             </td>
             <td align='center'>
                 Search: <input type='text' ng-model='searchText' />
@@ -121,5 +124,4 @@
             </td>
         </tr>
     </table>
-</body>
-</html>
+</div>

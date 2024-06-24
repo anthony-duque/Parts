@@ -8,6 +8,7 @@ var TabsCtrlr = function($scope){
 
     $scope.Tabs =
         {   'Production':"active",
+            'Deliveries':"inactive",
             'PartsSearch':"inactive",
             'PaintList': "inactive",
 //            'Upload':"inactive",
@@ -27,6 +28,10 @@ var TabsCtrlr = function($scope){
 
             case 'Production':
                 tabView = 'Production.html';
+                break;
+
+            case 'Deliveries':
+                tabView = 'Deliveries.html';
                 break;
 
             case 'PartsSearch':

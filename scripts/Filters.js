@@ -15,7 +15,7 @@ app.filter('GetDeliveriesByDay', function(){
             time_diff = Math.abs(curr_date - date_recvd);
             date_diff = Math.floor(time_diff / (1000 * 60 * 60 * 24));
 
-            if (date_diff <= numOfDays){
+            if (date_diff == numOfDays){
                 filteredParts.push(part);
             }
         });
