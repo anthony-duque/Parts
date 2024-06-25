@@ -44,7 +44,7 @@ function GetDisplayDate($dateStr){
 
 	if ($dateStr > ''){
 		$dateObj            = date_create($dateStr);
-		$displayDate    = date_format($dateObj, "m/j/Y");
+		$displayDate    = date_format($dateObj, "m/d/Y");
 	}
 	return $displayDate;
 }

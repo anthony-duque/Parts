@@ -1,11 +1,3 @@
-<!--html ng-app='DeliveriesApp'>
-<head>
-    <title>Deliveries</title>
-    <script src='./scripts/angularjs.js'></script>
-    <script src='./scripts/Deliveries.js'></script>
-    <script src='./scripts/Filters.js'></script>
-</head>
-<body ng-controller='DeliveriesController' -->
 <div  ng-controller='DeliveriesController'>
 
     <table width='90%' align='center'>
@@ -15,8 +7,8 @@
         <tr>
             <td>
                 <input type='button' value='Today' ng-click='numDays = 0;'/>
-                <input type='number' ng-model='numDays' min='0' max='7' size=3/> days ago
-                <input type='button' value='Everything' ng-click='numDays = 7;'>
+                <input type='number' ng-model='numDays' min='0' max='14' size=3/> days ago
+                <input type='button' value='Everything' ng-click='numDays = -1;'>
             </td>
             <td align='center'>
                 Search: <input type='text' ng-model='searchText' />
@@ -91,6 +83,16 @@
                                 {{ eachCar.vehicle.split(' ')[1] + " " + eachCar.vehicle.split(' ')[2] }}
                             </td>
                         </tr>
+                        <tr>
+                            <td align='center'>
+                                {{ eachCar.technician }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align='center'>
+                                {{ eachCar.estimator }}
+                            </td>
+                        </tr>
                     </table>
             </td>
             <td valign=top height='100%'>
@@ -106,7 +108,7 @@
                                             {{ eachPart.part_description }}
                                     </td>
                                     <td width='35%' align='center'>
-                                        <a href='http://www.google.com/search?q={{ eachPart.part_number }}' target='CarPart' >
+                                        <a href='http://www.google.com/search?tbm=isch&q={{ eachPart.part_number }}' target='CarPart' >
                                             {{ eachPart.part_number }}
                                         </a>
                                     </td>
