@@ -4,7 +4,6 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-//const FILEPATH       = "../extract_files/";
 const TARGET_DIR       = "../extract_files/";
 const TARGET_FNAME     = "Daily_Out.csv";
 
@@ -15,7 +14,7 @@ if (trim($_FILES["DailyOutCSV"]["name"]) === ''){
 
 } else {
 
-    $target_file = TARGET_DIR . TARGET_FNAME;
+    $extractFile = TARGET_DIR . TARGET_FNAME;
     $upload_OK = move_uploaded_file($_FILES["DailyOutCSV"]["tmp_name"], $target_file);
 
     if ($upload_OK){
@@ -52,8 +51,8 @@ require('db_open.php');
 	  exit;
 	}
 
-	if (($handle = fopen($target_file, "r")) === FALSE) {
-		echo "Error in opening " . $target_file;
+	if (($handle = fopen($extractFile, "r")) === FALSE) {
+		echo "Error in opening " . $extractFile;
 		exit;
 	}
 
