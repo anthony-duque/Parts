@@ -1,11 +1,20 @@
-<html>
-<head>
-    <title>Upload Daily Out</title>
-</head>
-<body>
-    <form action='./php/DailyOut_Upload.php' method='POST' enctype='multipart/form-data'>
-        File: <input type='file' name='DailyOutCSV' />
-        <input type='submit' value="Upload">
-    </form>
-</body>
-</html>
+
+<form action="./php/DailyOut_Upload.php" method='POST' enctype='multipart/form-data'>
+    <table align='center'>
+        <caption>
+            <b><u>Daily Out Extract Upload</u></b>
+        </caption>
+        <tr>
+            <th>
+                Parts Status CSV filename:
+                <input type='file' name='DailyOutCSV' />
+            </th>
+        </tr>
+        <tr>
+            <td align='center'>
+                <br/>
+                <input type='submit' value='Upload'/>
+            </td>
+        </tr>
+    </table>
+</form>

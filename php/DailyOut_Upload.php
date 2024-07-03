@@ -15,7 +15,7 @@ if (trim($_FILES["DailyOutCSV"]["name"]) === ''){
 } else {
 
     $extractFile = TARGET_DIR . TARGET_FNAME;
-    $upload_OK = move_uploaded_file($_FILES["DailyOutCSV"]["tmp_name"], $target_file);
+    $upload_OK = move_uploaded_file($_FILES["DailyOutCSV"]["tmp_name"], $extractFile);
 
     if ($upload_OK){
         echo "File upload successful!";
