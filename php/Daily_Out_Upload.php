@@ -1,5 +1,17 @@
 <?php
 
+const RO_NUM           	= 0;
+const OWNER            	= 1;
+const VEHICLE          	= 2;
+const VEHICLE_COLOR    	= 3;
+const LICENSE_PLATE    	= 4;
+const PARTS_RCVD       	= 5;
+const VEHICLE_IN    	= 6;
+const CURRENT_PHASE    	= 7;
+const SCHEDULED_OUT    	= 8;
+const TECHNICIAN       	= 9;
+const ESTIMATOR        	= 10;
+
 function Upload_Daily_Out_CSV($daily_out_extract_file){
 
     require('db_open.php');
@@ -8,7 +20,7 @@ function Upload_Daily_Out_CSV($daily_out_extract_file){
 	$tsql = "DELETE FROM Repairs";
 
 	if ($conn->query($tsql) === TRUE) {
-		echo "<br/>Repairs Table cleared.<br/>";
+		echo "<br/><br/>Repairs Table cleared.<br/>";
 	} else {
 	  echo "Error: " . $tsql . "<br> - " . $conn->error;
 	  exit;
