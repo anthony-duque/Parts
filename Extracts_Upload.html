@@ -1,0 +1,33 @@
+<html ng-app="csvUploadApp">
+<head>
+    <title>Extracts Upload</title>
+    <script src='./scripts/angularjs.js'></script>
+    <script src='./scripts/Extracts_Upload.js'></script>
+</head>
+<body ng-controller='csvUploadController'>
+    <form action="./php/Extracts_Upload.php" method='POST' enctype='multipart/form-data'>
+        <table align='center'>
+            <caption>
+                <b>Upload Extract Files</b>
+            </caption>
+            <tr>
+                <th>Parts Status CSV file:</th>
+                <td>
+                    <input type='file' name="PartsStatusCSV" required />
+                </td>
+            </tr>
+            <tr>
+                <th>Daily Out CSV file:</th>
+                <td>
+                    <input type='file' name="DailyOutCSV" required />
+                </td>
+            </tr>
+            <tr>
+                <td align='center' colspan='2'>
+                    <input type='submit' value='Upload Files' />
+                </td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>
