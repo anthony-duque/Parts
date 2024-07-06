@@ -5,8 +5,8 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 require('Utility_Scripts.php');
-require('Daily_Out_Upload.php');
-require('Parts_Status_Upload.php');
+require('Upload_Daily_Out.php');
+require('Upload_Parts_Status.php');
 
 const TARGET_DIR    = "../extract_files/";  // destination folder on the server
 const D_OUT_FNAME   = "Daily_Out.csv";      // Daily Out destination file name
@@ -26,7 +26,7 @@ try{
     }
 } catch(Exception $e){
     echo "The was an error uploading the " . basename($_FILES["DailyOutCSV"]["name"]);
-    header("Location: ./Extracts_Upload.html");
+    header("Location: ./Upload_Extracts.html");
 }
 
     // Process Parts Status extract file
@@ -43,7 +43,7 @@ try{
     }
 } catch(Exception $e){
     echo "The was an error uploading the " . basename($_FILES["PartsStatusCSV"]["name"]);
-    header("Location: ./Extracts_Upload.html");
+    header("Location: ./Upload_Extracts.html");
 }
 
 ?>
