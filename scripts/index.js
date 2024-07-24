@@ -6,6 +6,8 @@ var TabsCtrlr = function($scope, $http){
 
     $scope.tabView = DEFAULT_VIEW;   // initial tab view
 
+    $scope.dateToday = new Date().toLocaleDateString();
+
     $scope.Tabs =
         {   'Production':"active",
             'Deliveries':"inactive",
@@ -65,9 +67,10 @@ var TabsCtrlr = function($scope, $http){
     function handleSuccess(response)
     {
         if (response.data){
-         console.log("Last update fetched successfully!");
+//         console.log("Last update fetched successfully!");
          console.log(response.data);
-         $scope.last_update = response.data.last_update;
+         const last_update = new Date (response.data.last_update);
+         $scope.last_update = last_update.toLocaleString();
         }
     }
 

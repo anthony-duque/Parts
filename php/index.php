@@ -4,6 +4,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+
 header('Access-Allow-Control-Origin: *');
 $method = $_SERVER['REQUEST_METHOD'];
 
@@ -18,23 +19,12 @@ switch($method){
       break;
 }
 
-exit;
-
 
 function ProcessGET(){
 
     require('db_open.php');
 
-    class Page_Info{
-
-        public $last_update;
-
-        function __construct($l_update){
-            $this->last_update = $l_update;
-        }
-    }
-
-    $last_update = '';
+    $last_upload_date = '';
 
     $sql = "SELECT value FROM Adhoc_Table WHERE name = 'LAST_UPLOAD'";
 
@@ -42,7 +32,7 @@ function ProcessGET(){
 
         $s = mysqli_query($conn, $sql);
         $r = mysqli_fetch_assoc($s);
-        $last_update = $r["value"];
+        $last_upload_date = $r["value"];
 
     } catch (Exception $e){
 
@@ -53,7 +43,17 @@ function ProcessGET(){
     finally {
 
         $conn = null;
-        $page_info = new Page_Info($last_update);
+
+        class Page_Info{
+
+            public $last_update;
+
+            function __construct($l_update){
+                $this->last_update = $l_update;
+            }
+        }
+
+        $page_info = new Page_Info($last_upload_date);
         return $page_info;
     }
 

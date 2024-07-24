@@ -6,6 +6,7 @@
 </head>
 <body ng-controller='csvUploadController'>
     <form action="./php/Upload_Extracts.php" method='POST' enctype='multipart/form-data'>
+        <input type='hidden' name='uploadDateTime' value='{{ currDateTime }}'>
         <table align='center'>
             <caption>
                 <b>Upload Extract Files</b>

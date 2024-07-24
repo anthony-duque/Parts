@@ -44,9 +44,8 @@ try{
 
 require('db_open.php');
 
-
 $tsql = "UPDATE Adhoc_Table " .
-         "SET value = NOW() " .
+         "SET value = '" . $_POST['uploadDateTime'] . "' " .
          "WHERE name = 'LAST_UPLOAD'";
 
 if ($conn->query($tsql) === TRUE) {
