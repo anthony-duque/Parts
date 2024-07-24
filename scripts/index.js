@@ -1,6 +1,6 @@
 var app = angular.module("TabsApp", []);
 
-var TabsCtrlr = function($scope){
+var TabsCtrlr = function($scope, $http){
 
     const DEFAULT_VIEW = 'Production.html';
 
@@ -41,11 +41,7 @@ var TabsCtrlr = function($scope){
             case 'PaintList':
                 tabView = 'Paint_List.html';
                 break;
-/*
-            case 'Upload':
-                tabView = 'Admin.html';
-                break;
-*/
+
             case 'UnorderedParts':
                 tabView = 'Unordered_Parts.html';
                 break;
@@ -57,6 +53,28 @@ var TabsCtrlr = function($scope){
 
         $scope.tabView = tabView;
     }   // PickTab()
+
+    GetLastUpdate();
+
+    function GetLastUpdate(){
+        $http.get('./php/index.php')
+            .then(handleSuccess)
+            .catch(handleError);
+    }
+
+    function handleSuccess(response)
+    {
+        if (response.data){
+         console.log("Last update fetched successfully!");
+         console.log(response.data);
+         $scope.last_update = response.data.last_update;
+        }
+    }
+
+    function handleError(response)
+    {
+        console.log("Repair records not fetched.");
+    }
 
 }
 

@@ -13,14 +13,12 @@ const D_OUT_FNAME   = "Daily_Out.csv";      // Daily Out destination file name
 const P_STAT_FNAME  = "Parts_Status.csv";   // Parts Status destination file name
 
     // Process the Daily Out extract first
-
 try{
 
     $extractFile = TARGET_DIR . D_OUT_FNAME;
     $upload_OK = move_uploaded_file($_FILES["DailyOutCSV"]["tmp_name"], $extractFile);
 
     if ($upload_OK){
-
         Upload_Daily_Out_CSV($extractFile);
         echo "<br/> Daily Out upload successful!";
     }
@@ -30,14 +28,12 @@ try{
 }
 
     // Process Parts Status extract file
-
 try{
 
     $extractFile = TARGET_DIR . P_STAT_FNAME;
     $upload_OK = move_uploaded_file($_FILES["PartsStatusCSV"]["tmp_name"], $extractFile);
 
     if ($upload_OK){
-
         Upload_Parts_Status_CSV($extractFile);
         echo "<br/> Parts Status upload successful!";
     }
@@ -46,4 +42,21 @@ try{
     header("Location: ./Upload_Extracts.html");
 }
 
+require('db_open.php');
+
+
+$tsql = "UPDATE Adhoc_Table " .
+         "SET value = NOW() " .
+         "WHERE name = 'LAST_UPLOAD'";
+
+if ($conn->query($tsql) === TRUE) {
+  ; //echo $ro_num . " uploaded<br/>";
+} else {
+  echo "Error: " . $tsql . "<br>" . $conn->error;
+}
+
+$conn = null;
+
 ?>
+<br/><br/>
+<input type='button' value="Back to Admin Menu" onclick='window.location.href="../Admin.html";'>

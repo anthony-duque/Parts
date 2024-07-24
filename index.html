@@ -32,6 +32,11 @@
 <body ng-controller='TabsController'>
     <table border='1' width='100%'>
         <tr>
+            <td colspan='5' align='right'>
+                Data last updated:  {{ last_update }} 
+            </td>
+        </tr>
+        <tr>
             <th ng-class='Tabs.Production' ng-click='PickTab("Production");'>
                 Production
             </th>
@@ -47,9 +52,6 @@
             <th ng-class='Tabs.UnorderedParts' ng-click='PickTab("UnorderedParts");'>
                 Unordered Parts
             </th>
-            <!--th ng-class='Tabs.Upload' ng-click='PickTab("Upload");'>
-                Upload
-            </th-->
         </tr>
     </table>
     <div ng-include='tabView'></div>
