@@ -12,12 +12,12 @@ exit;
 
 class TechCars{
 
-    public $tech;
+    public $technician;
     public $cars = [];
 
-    function __construct($technician){
+    function __construct($tech){
 
-        $this->tech = $technician;
+        $this->technician = $tech;
 
     }   // TechCars($rec)
 }   // TechCars{}

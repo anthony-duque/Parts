@@ -7,10 +7,11 @@ var PaintListCtrlr = function($scope, $http){
 
     function GetCarList()
     {
-        $http.get('./php/Technician_View.php')
+        $http.get('./php/Car_List_By_Technician.php')
               .then(handleSuccess)
               .catch(handleError);
-    }
+    }     // GetCarList()
+
 
     $scope.AddCarToPaintList = function (car, techIndex, carIndex){
 
@@ -23,9 +24,12 @@ var PaintListCtrlr = function($scope, $http){
 
         $scope.paintList.push(carObj);
         $scope.techList[techIndex].cars.splice(carIndex, 1);
-    }
+
+    }   // AddCarToPaintList()
+
 
     $scope.DeleteFromPaintList = function(carObj, listIndex){
+
             // insert back the car to it's original place in the tech list
         $scope.techList[carObj.techIndex].cars.splice(carObj.carIndex, 0, carObj.car);
             // delete from the
@@ -40,6 +44,7 @@ var PaintListCtrlr = function($scope, $http){
             $scope.techList[carObj.techIndex].cars.splice(carObj.carIndex, 0, carObj.car);
         }
     }   // ClearPaintList()
+
 
     $scope.ChangeStatus = function(car){
 
@@ -57,7 +62,7 @@ var PaintListCtrlr = function($scope, $http){
                 car.status = 'workNotStarted';
                 break;
         };
-    }
+    }   // ChangeStatus()
 
 
     $scope.SavePaintList = function(){
@@ -99,7 +104,8 @@ var PaintListCtrlr = function($scope, $http){
          console.log(response.data);
          $scope.techList = response.data;
         }
-    }
+    }   // handleSuccess()
+
 
     function handleError(response)
     {

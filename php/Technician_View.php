@@ -155,6 +155,8 @@
 
         ComputePartsReceived($allRepairs);
 
+        $conn = null;
+
         return $allRepairs;
 
     }   // ProcessGET()
