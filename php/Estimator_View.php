@@ -19,6 +19,7 @@
         public $parts_waiting;
         public $parts_received;
         public $parts_percent;
+        public $scheduled_out;
 
         function __construct($rec){
 
@@ -32,6 +33,8 @@
             $this->parts_waiting    = 0;
             $this->parts_received   = 0;
             $this->parts_percent    = 0;
+            $this->scheduled_out    = GetDisplayDate($rec["Scheduled_Out"]);
+            $this->scheduled_out    = substr($this->scheduled_out, 0, 5);
 
         }   // Car($rec)
     }   // Car{}
@@ -74,7 +77,7 @@
         $sql = <<<strSQL
                     SELECT SUBSTRING_INDEX(Estimator, ' ', 1) AS Estimator,
                     RONum, SUBSTRING_INDEX(Owner, ',', 1) AS Owner,
-                    Vehicle, Technician, Vehicle_In, CurrentPhase
+                    Vehicle, Technician, Vehicle_In, CurrentPhase, Scheduled_Out
                     FROM Repairs
                     WHERE Estimator > ''
                     ORDER BY Estimator, PartsReceived DESC

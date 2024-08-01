@@ -27,6 +27,9 @@
                     </input>
                 </div>
             </td>
+            <td>
+                <input type='button' ng-class='DueButtonClass' value='{{ dueMode }}' ng-click="SortCarsDue('scheduled_out');">
+            </td>
             <td align='right'>
                 <input type='button' ng-class='buttonClass' value='{{ sortMode }}' ng-click="SortCars('parts_percent');">
             </td>
