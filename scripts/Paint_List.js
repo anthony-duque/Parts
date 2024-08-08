@@ -12,17 +12,15 @@ var PaintListCtrlr = function($scope, $http){
               .catch(handleError);
     }     // GetCarList()
 
-
     $scope.AddCarToPaintList = function (car, techIndex, carIndex){
 
         var carObj = {
-            "techIndex": techIndex,
-            "carIndex": carIndex,
             "car": car,
             "status": 'workNotStarted'
         };
 
         $scope.paintList.push(carObj);
+
         $scope.techList[techIndex].cars.splice(carIndex, 1);
 
     }   // AddCarToPaintList()
@@ -30,19 +28,29 @@ var PaintListCtrlr = function($scope, $http){
 
     $scope.DeleteFromPaintList = function(carObj, listIndex){
 
-            // insert back the car to it's original place in the tech list
-        $scope.techList[carObj.techIndex].cars.splice(carObj.carIndex, 0, carObj.car);
-            // delete from the
+        var techIndex = -1;
+
+        $scope.techList.forEach((eachTech, i) => {
+            if (eachTech.technician == carObj.car.technician){
+                techIndex = i;
+            }
+        });
+
+            // Add back to the tech cars
+        $scope.techList[techIndex].cars.push(carObj.car);
+
+            // delete from the Paint List
         $scope.paintList.splice(listIndex, 1);
+
     }   // DeleteFromPaintList()
 
 
     $scope.ClearPaintList = function(){
 
-        while($scope.paintList.length > 0){
-            var carObj = $scope.paintList.shift();
-            $scope.techList[carObj.techIndex].cars.splice(carObj.carIndex, 0, carObj.car);
-        }
+        $scope.paintList.forEach((eachCar, i) => {
+            $scope.DeleteFromPaintList(eachCar, i);
+        });
+
     }   // ClearPaintList()
 
 
@@ -71,16 +79,17 @@ var PaintListCtrlr = function($scope, $http){
 
         $scope.paintList.forEach(
 
-            function BuildCarList(eachCar, index){
+            function (eachCar){
                 var car = {
-                        "RONum"     : eachCar.car.ro_num,
-                        "Priority"  : index,
-                        "TechIndex" : eachCar.techIndex,
-                        "CarIndex"  : eachCar.carIndex,
+                        "RONum"     : eachCar.ro_num,
+                        "Priority"  : eachCar.Priority,
+                        "DeptCode"  : 'P',
                         "Status"    : eachCar.status
                 };
                 carList.push(car);
         });
+
+        console.log("Car List: " + carList);
 
         $http.post('./php/Paint_List.php', JSON.stringify(carList))
             .then(function(response) {

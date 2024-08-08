@@ -1,12 +1,12 @@
-<table ng-controller='PaintListController'>
+<table ng-controller='PaintListController' border='1'>
     <tr>
-        <th>
+        <th valign='middle'>
+            <br/>
             Search: <input type='text' ng-model='searchText' /> <input type='button' value='Clear' ng-click='searchText = ""' />
             <br/>
             <input type=button value='Save List' ng-click='SavePaintList();' ng-show='paintList.length > 0'/>
             &nbsp;&nbsp;
             <input type=button value='Clear List' ng-click='ClearPaintList();' ng-show='paintList.length > 0'/>
-            <br/>
         </th>
     </tr>
     <tr>
@@ -48,7 +48,7 @@
                         <br/>
                     </th>
                     <td ng-repeat="eachCar in eachTech.cars | filter: searchText" height='100%'>
-                        <table width='150' height='100%' ng-dblclick='AddCarToPaintList(eachCar, $parent.$index, $index);'>
+                        <table width='150' height='100%' ng-dblclick='AddCarToPaintList(eachCar, $parent.$index, $index);' ng-hide='eachCar.in_queue'>
                             <tr>
                                 <td align='center'>{{ eachCar.ro_num }}</td>
                             </tr>

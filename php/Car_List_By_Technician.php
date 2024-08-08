@@ -30,6 +30,7 @@ class Car{
     public $color;
     public $vehicle;
     public $estimator;
+    public $technician;
 
     function __construct($rec){
 
@@ -38,6 +39,7 @@ class Car{
         $this->vehicle      = $rec["Vehicle"];
         $this->estimator    = $rec["Estimator"];
         $this->color        = $rec["Vehicle_Color"];
+        $this->technician   = $rec["Technician"];
 
     }   // Car($rec)
 }   // Car{}
@@ -92,6 +94,4 @@ function Get_All_Cars_By_Tech(){
     }   // try-catch{}
 
 }
-
-
 ?>
