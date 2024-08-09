@@ -16,6 +16,7 @@ switch($method){
       $data = json_decode($json);
       var_dump($data);
       ProcessPOST($data);
+//      BroadcastList($data);
       break;
 
    case "PUT":    // Could read from input and query string
@@ -27,9 +28,9 @@ switch($method){
 //      var_dump($data);
       break;
 
-   case "GET":
-//      $carList = ProcessGET();
-//``      echo json_encode($carList);
+   case "GET":  // get cars on the Paint List
+      $paintList = ProcessGET();
+      echo json_encode($paintList);
       break;
 
    case "DELETE":
@@ -40,6 +41,80 @@ switch($method){
 
    default:
       break;
+}
+
+
+function ProcessGET(){
+
+    require('db_open.php');
+
+    class Car {
+
+        public $ro_num;
+        public $owner;
+        public $color;
+        public $vehicle;
+        public $estimator;
+        public $technician;
+
+        function __construct($rec){
+
+            $this->ro_num       = $rec["RONum"];
+            $this->owner        = ucwords(strtolower($rec["Owner"]));
+            $this->vehicle      = $rec["Vehicle"];
+            $this->estimator    = $rec["Estimator"];
+            $this->color        = $rec["Vehicle_Color"];
+            $this->technician   = $rec["Technician"];
+
+        }   // Car($rec)
+    }
+
+    class List_Car {
+
+        public $ro_num;
+        public $priority;
+        public $dept_code;
+        public $status;
+
+        function __construct ($rec){
+            $this->ro_num       = $rec["RO_Num"];
+            $this->priority     = $rec["Priority"];
+            $this->dept_code    = $rec["Dept_Code"];
+            $this->status       = $rec["Status"];
+        }
+    }
+
+    $sql = <<<strSQL
+                SELECT RO_Num, Priority, Dept_Code, Status
+                FROM Work_Queue
+                WHERE Dept_Code = 'P'
+                ORDER BY Priority ASC
+            strSQL;
+
+    $carList = [];
+
+    try {
+
+        $listCar = null;
+
+        $s = mysqli_query($conn, $sql);
+
+        while($r = mysqli_fetch_assoc($s)){
+
+            $listCar = new List_Car($r);
+            $carList.push($listCar);
+        }
+
+    } catch(Exception $e) {
+
+        echo "Fetching Paint List failed." . $e->getMessage();
+
+    } finally {
+
+        $conn = null;
+        return $carList;
+
+    }   // try-catch{}
 }
 
 

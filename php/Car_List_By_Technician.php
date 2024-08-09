@@ -16,9 +16,7 @@ class TechCars{
     public $cars = [];
 
     function __construct($tech){
-
         $this->technician = $tech;
-
     }   // TechCars($rec)
 }   // TechCars{}
 

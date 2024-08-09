@@ -1,19 +1,53 @@
 
 var PaintListCtrlr = function($scope, $http){
 
-    $scope.paintList = [];
-
     GetCarList();
 
-
-
+    $scope.paintList = [];
+//    GetPaintList();
 
     function GetCarList()
     {
         $http.get('./php/Car_List_By_Technician.php')
-              .then(handleSuccess)
-              .catch(handleError);
+              .then(
+                    function(response){
+                        if (response.data){
+                            console.log("In-shop car list fetched successfully!");
+                            console.log(response.data);
+                            $scope.techList = response.data;
+                        }
+                    }
+              )         // then()
+              .catch(
+                    function(response)
+                    {
+                        console.log("In-shop car list not fetched.");
+                    }
+                );
     }     // GetCarList()
+
+
+    function GetPaintList()
+    {
+        $http.get('./php/Paint_List.php')
+              .then(
+                  function(response)
+                  {
+                      if (response.data){
+                       console.log("Paint List fetched successfully!");
+                       console.log(response.data);
+                       $scope.carList = response.data;
+                      }
+                  }   // onSuccess()
+              )     // then()
+              .catch(
+                  function(response)
+                  {
+                      console.log("Paint List not fetched.");
+                  }   // onError()
+              );
+    }     // GetPaintList()
+
 
     $scope.AddCarToPaintList = function (car, techIndex, carIndex){
 
@@ -95,8 +129,8 @@ var PaintListCtrlr = function($scope, $http){
         $http.post('./php/Paint_List.php', JSON.stringify(carList))
             .then(function(response) {
                      if (response.data){
-                        console.log(response.data);
-                        //console.log("Paint List written to database!");
+                        //console.log(response.data);
+                        console.log("Paint List written to database!");
                      }
                   },
                   function(response) {
@@ -106,22 +140,6 @@ var PaintListCtrlr = function($scope, $http){
                      console.log(response.headers());
                   });
     }         // SavePaintList()
-
-
-    function handleSuccess(response)
-    {
-        if (response.data){
-         console.log("Paint List fetched successfully!");
-         console.log(response.data);
-         $scope.techList = response.data;
-        }
-    }   // handleSuccess()
-
-
-    function handleError(response)
-    {
-        console.log("Repair records not fetched.");
-    }
 
 };   // paintListCtrlr()
 
