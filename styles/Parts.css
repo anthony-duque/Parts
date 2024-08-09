@@ -17,15 +17,15 @@
     color: lightblue;
 }
 
-.workComplete {
+.completed {
     background-color: lightgreen;
 }
 
-.workUnderway {
+.underway {
     background-color: yellow;
 }
 
-.workNotStarted {
+.notStarted {
     background-color: pink;
 }
 

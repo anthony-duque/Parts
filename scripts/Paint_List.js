@@ -5,6 +5,9 @@ var PaintListCtrlr = function($scope, $http){
 
     GetCarList();
 
+
+
+
     function GetCarList()
     {
         $http.get('./php/Car_List_By_Technician.php')
@@ -16,7 +19,7 @@ var PaintListCtrlr = function($scope, $http){
 
         var carObj = {
             "car": car,
-            "status": 'workNotStarted'
+            "status": 'notStarted'
         };
 
         $scope.paintList.push(carObj);
@@ -41,16 +44,15 @@ var PaintListCtrlr = function($scope, $http){
 
             // delete from the Paint List
         $scope.paintList.splice(listIndex, 1);
-
     }   // DeleteFromPaintList()
 
 
     $scope.ClearPaintList = function(){
 
-        $scope.paintList.forEach((eachCar, i) => {
-            $scope.DeleteFromPaintList(eachCar, i);
-        });
-
+        while($scope.paintList.length > 0){
+            var car = $scope.paintList.shift();
+            $scope.DeleteFromPaintList(car, 0);
+        }
     }   // ClearPaintList()
 
 
@@ -58,16 +60,16 @@ var PaintListCtrlr = function($scope, $http){
 
         switch(car.status){
 
-            case 'workNotStarted':
-                car.status = 'workUnderway';
+            case 'notStarted':
+                car.status = 'underway';
                 break;
 
-            case 'workUnderway':
-                car.status = 'workComplete';
+            case 'underway':
+                car.status = 'completed';
                 break;
 
-            case 'workComplete':
-                car.status = 'workNotStarted';
+            case 'completed':
+                car.status = 'notStarted';
                 break;
         };
     }   // ChangeStatus()
@@ -77,16 +79,15 @@ var PaintListCtrlr = function($scope, $http){
 
         var carList = [];
 
-        $scope.paintList.forEach(
+        $scope.paintList.forEach((eachCar, i) => {
 
-            function (eachCar){
-                var car = {
-                        "RONum"     : eachCar.ro_num,
-                        "Priority"  : eachCar.Priority,
-                        "DeptCode"  : 'P',
-                        "Status"    : eachCar.status
-                };
-                carList.push(car);
+            var car = {
+                    "RONum"     : eachCar.car.ro_num,
+                    "Priority"  : i,
+                    "DeptCode"  : 'P',
+                    "Status"    : eachCar.status
+            };
+            carList.push(car);
         });
 
         console.log("Car List: " + carList);
@@ -94,7 +95,8 @@ var PaintListCtrlr = function($scope, $http){
         $http.post('./php/Paint_List.php', JSON.stringify(carList))
             .then(function(response) {
                      if (response.data){
-                        console.log("Paint List written to database!");
+                        console.log(response.data);
+                        //console.log("Paint List written to database!");
                      }
                   },
                   function(response) {

@@ -1,4 +1,5 @@
 <?php
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -6,18 +7,15 @@ error_reporting(E_ALL);
 header('Access-Allow-Control-Origin: *');
 $method = $_SERVER['REQUEST_METHOD'];
 
-//echo $method;
+// echo $method;
 
-$task = "";
 switch($method){
 
-   case 'POST':
-//      echo 'POST';
+   case 'POST':;
       $json = file_get_contents('php://input');
       $data = json_decode($json);
+      var_dump($data);
       ProcessPOST($data);
-//      var_dump($data);
-      //echo $data->mrn;
       break;
 
    case "PUT":    // Could read from input and query string
@@ -30,10 +28,8 @@ switch($method){
       break;
 
    case "GET":
-//         echo 'GET';
-//         $qString = $_GET["id"];
-      $patientList = ProcessGET();
-      echo json_encode($patientList);
+//      $carList = ProcessGET();
+//``      echo json_encode($carList);
       break;
 
    case "DELETE":
@@ -43,7 +39,6 @@ switch($method){
       break;
 
    default:
-      $task = "Task unknown";
       break;
 }
 
@@ -52,26 +47,25 @@ function ProcessPOST($listOfCars){
 
     require('db_open.php');
 
-    $tsql = "DELETE FROM WorkPriorities";
+    $tsql = "DELETE FROM Work_Queue WHERE Dept_Code = 'P'";
 
 	if ($conn->query($tsql) === TRUE) {
-//		echo "<br/>Repairs Table cleared.<br/>";
+		echo "<br/>Repairs Table cleared.<br/>";
 	} else {
 	  echo "Error: " . $tsql . "<br> - " . $conn->error;
 	  exit;
 	}
 
-    $tsql = "INSERT INTO WorkPriorities " .
-             "(RONum, Priority, Tech_Index, Car_Index, WorkStatus) ";
+    $tsql = "INSERT INTO Work_Queue " .
+             "(RO_Num, Priority, Dept_Code, Status) ";
 
     foreach($listOfCars as $eachCar){
 
-        $values = "VALUES (". $eachCar->RONum . ", " . $eachCar->Priority . ", " .
-                $eachCar->TechIndex . ", " . $eachCar->CarIndex . ", '" .
-                $eachCar->Status . "')";
+        $values = "VALUES (". $eachCar->RONum . ", " . $eachCar->Priority . ", '" .
+                $eachCar->DeptCode . "', '" .$eachCar->Status . "')";
 
         if ($conn->query($tsql . $values) === TRUE) {
-	      ; //echo $ro_num . " uploaded<br/>";
+	      ;// echo $ro_num . " uploaded<br/>";
 	    } else {
 	      echo "Error: " . $tsql . $values . "<br>" . $conn->error;
 	    }
@@ -79,19 +73,6 @@ function ProcessPOST($listOfCars){
 
     $conn = null;
 
-/*
-
-
-    if($result === FALSE){
-      die( print_r(sqlsrv_errors(), TRUE));
-    } else {
-       echo "Submission successful!";
-      sqlsrv_free_stmt($result);
-      sqlsrv_close($conn);
-    }
-*/
-//    echo "Process post";
-}
-
+}   //   ProcessPOST()
 
 ?>
