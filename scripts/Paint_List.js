@@ -2,10 +2,8 @@
 var PaintListCtrlr = function($scope, $http){
 
     GetCarList();
-
     $scope.paintList = [];
     GetPaintList();
-
 
     function GetCarList()
     {
@@ -35,30 +33,38 @@ var PaintListCtrlr = function($scope, $http){
 
         $http.get('./php/Paint_List.php')
               .then(
-                  function(response)
+                  function(response)    // onSuccess
                   {
                       if (response.data){
 
                         console.log("Paint List fetched successfully!");
                         queueList = response.data;
 
-                        var car = null;
-                        var carIndex = -1;
+                        if (queueList.length == 0){
 
-                        //console.log("queueList = " + queueList);
-                        queueList.forEach((qCar, i) => {    // cycle through all the
-                                                            // cars in the paint list
-                            $scope.techList.forEach((tech, techIndex) => {
-                                                            // find the cars in the in-shop cars
-                                carIndex = tech.cars.findIndex(({ ro_num }) => ro_num == qCar.ro_num);
+                            $scope.statusButton = "Save List";
 
-                                if (carIndex > -1){
+                        } else {
 
-                                    car = tech.cars.find(({ ro_num }) => ro_num == qCar.ro_num);
-                                    $scope.AddCarToPaintList(car, techIndex, carIndex, qCar.status);
-                                }
+                            $scope.statusButton = "Update Status";
+
+                            var car = null;
+                            var carIndex = -1;
+
+                            queueList.forEach((qCar, i) => {    // cycle through all the
+                                                                // cars in the paint list
+                                $scope.techList.forEach((tech, techIndex) => {
+                                                                // find the cars in the in-shop cars
+                                    carIndex = tech.cars.findIndex(({ ro_num }) => ro_num == qCar.ro_num);
+
+                                    if (carIndex > -1){
+
+                                        car = tech.cars.find(({ ro_num }) => ro_num == qCar.ro_num);
+                                        $scope.AddCarToPaintList(car, techIndex, carIndex, qCar.status);
+                                    }
+                                });
                             });
-                        });
+                        }
                       }
                   }   // onSuccess()
               )     // then()
@@ -109,6 +115,9 @@ var PaintListCtrlr = function($scope, $http){
             var car = $scope.paintList.shift();
             $scope.DeleteFromPaintList(car, 0);
         }
+
+        $scope.SavePaintList();
+
     }   // ClearPaintList()
 
 
@@ -128,6 +137,7 @@ var PaintListCtrlr = function($scope, $http){
                 car.status = 'notStarted';
                 break;
         };
+
     }   // ChangeStatus()
 
 
@@ -146,7 +156,11 @@ var PaintListCtrlr = function($scope, $http){
             carList.push(car);
         });
 
-        //console.log("Car List: " + carList);
+        if (carList.length == 0){
+            $scope.statusButton = 'Save List';
+        } else {
+            $scope.statusButton = 'Update Status';
+        }
 
         $http.post('./php/Paint_List.php', JSON.stringify(carList))
             .then(function(response) {
@@ -162,6 +176,7 @@ var PaintListCtrlr = function($scope, $http){
                      console.log(response.headers());
                   });
     }         // SavePaintList()
+
 
 };   // paintListCtrlr()
 

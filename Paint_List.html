@@ -4,7 +4,7 @@
             <br/>
             Search: <input type='text' ng-model='searchText' /> <input type='button' value='Clear' ng-click='searchText = ""' />
             <br/>
-            <input type=button value='Save List' ng-click='SavePaintList();' ng-show='paintList.length > 0'/>
+            <input type=button value='{{ statusButton }}' ng-click='SavePaintList();' ng-show='paintList.length > 0'/>
             &nbsp;&nbsp;
             <input type=button value='Clear List' ng-click='ClearPaintList();' ng-show='paintList.length > 0'/>
         </th>
@@ -13,18 +13,18 @@
         <td align=center>
             <table id='TechList' border=1>
                 <tr>
-                    <th width='150'>
+                    <th width='150' align='center'>
+                        <img ng-src='./images/SERJIO.jpg' style="max-width: 100px; max-height: 100px" />
                         <br/>
-                        Sergio's
-                        <br/>
-                        Priority
-                        <br/>
-                        List
-                        <br/>
-                        <br/>
+                        Serjio
                     </th>
                     <td ng-repeat='eachCar in paintList'>
-                        <table width='150' height='100%' ng-dblclick='DeleteFromPaintList(eachCar, $index);' ng-click='ChangeStatus(eachCar);' ng-class='eachCar.status'>
+                        <table width='150' height='100%' ng-dblclick='DeleteFromPaintList(eachCar, $index);' ng-class='eachCar.status'>
+                            <tr>
+                                <td align='center'>
+                                    <b>{{ eachCar.status.toUpperCase() }}</b>
+                                </td>
+                            </tr>
                             <tr>
                                 <td align='center'>{{ eachCar.car.ro_num }}</td>
                             </tr>
@@ -36,6 +36,11 @@
                             </tr>
                             <tr>
                                 <td align='center'>&nbsp;{{ eachCar.car.estimator.split(' ')[0] }}</td>
+                            </tr>
+                            <tr>
+                                <td align='center'>
+                                    <input type='button' value = 'Change Status' ng-click='ChangeStatus(eachCar);' />
+                                </td>
                             </tr>
                         </table>
                     </td>
