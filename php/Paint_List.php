@@ -7,13 +7,14 @@ error_reporting(E_ALL);
 header('Access-Allow-Control-Origin: *');
 $method = $_SERVER['REQUEST_METHOD'];
 
-// echo $method;
+//echo $method;
 
 switch($method){
 
    case 'POST':;
       $json = file_get_contents('php://input');
       $data = json_decode($json);
+      echo "POST";
       var_dump($data);
       ProcessPOST($data);
 //      BroadcastList($data);
@@ -48,27 +49,6 @@ function ProcessGET(){
 
     require('db_open.php');
 
-    class Car {
-
-        public $ro_num;
-        public $owner;
-        public $color;
-        public $vehicle;
-        public $estimator;
-        public $technician;
-
-        function __construct($rec){
-
-            $this->ro_num       = $rec["RONum"];
-            $this->owner        = ucwords(strtolower($rec["Owner"]));
-            $this->vehicle      = $rec["Vehicle"];
-            $this->estimator    = $rec["Estimator"];
-            $this->color        = $rec["Vehicle_Color"];
-            $this->technician   = $rec["Technician"];
-
-        }   // Car($rec)
-    }
-
     class List_Car {
 
         public $ro_num;
@@ -95,14 +75,14 @@ function ProcessGET(){
 
     try {
 
-        $listCar = null;
+        $eachEntry = null;
 
         $s = mysqli_query($conn, $sql);
 
         while($r = mysqli_fetch_assoc($s)){
 
-            $listCar = new List_Car($r);
-            $carList.push($listCar);
+            $eachEntry = new List_Car($r);
+            array_push($carList, $eachEntry);
         }
 
     } catch(Exception $e) {
@@ -139,6 +119,7 @@ function ProcessPOST($listOfCars){
         $values = "VALUES (". $eachCar->RONum . ", " . $eachCar->Priority . ", '" .
                 $eachCar->DeptCode . "', '" .$eachCar->Status . "')";
 
+        echo $values . "<br/>";
         if ($conn->query($tsql . $values) === TRUE) {
 	      ;// echo $ro_num . " uploaded<br/>";
 	    } else {

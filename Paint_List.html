@@ -48,7 +48,7 @@
                         <br/>
                     </th>
                     <td ng-repeat="eachCar in eachTech.cars | filter: searchText" height='100%'>
-                        <table width='150' height='100%' ng-dblclick='AddCarToPaintList(eachCar, $parent.$index, $index);' ng-hide='eachCar.in_queue'>
+                        <table width='150' height='100%' ng-dblclick='AddCarToPaintList(eachCar, $parent.$index, $index, "notStarted");' ng-hide='eachCar.in_queue'>
                             <tr>
                                 <td align='center'>{{ eachCar.ro_num }}</td>
                             </tr>
