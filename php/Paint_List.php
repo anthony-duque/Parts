@@ -17,7 +17,7 @@ header('Access-Allow-Control-Origin: *');
           $data = json_decode($json);
 //          echo "POST";
 //          var_dump($data);
-          ProcessPOST($data);
+//          ProcessPOST($data);
     //      BroadcastList($data);
           break;
 
@@ -25,9 +25,12 @@ header('Access-Allow-Control-Origin: *');
        //         $qString = $_GET["id"];
        //         echo "PUT = " . $qString;
           echo 'PUT';
-          $json = file_get_contents('php://input');
-          $data = json_decode($json);
-    //      var_dump($data);
+          ProcessPUT();
+//          $json = file_get_contents('php://input');
+//          var_dump($json);
+//          parse_str($json, $data);
+//          $data = json_decode($json);
+//          var_dump($data);
           break;
 
        case "GET":  // get cars on the Paint List
@@ -44,6 +47,23 @@ header('Access-Allow-Control-Origin: *');
        default:
           break;
     }
+
+
+    function ProcessPUT(){
+
+        $putData = fopen("php://input", "r");
+
+        $rawJson = "";
+
+        while($data = fread($putData, 1024)){
+            $rawJson .= $data;
+        }
+
+        fclose($putData);
+        $jsonData = json_decode($rawJson);
+        var_dump($jsonData);
+
+    }   // ProcessPUT()
 
 
     function ProcessGET(){
@@ -99,6 +119,110 @@ header('Access-Allow-Control-Origin: *');
     }
 
 
+    class CarInfo{
+
+        public $ro_num;
+        public $owner;
+        public $color;
+        public $vehicle;
+        public $estimator;
+        public $technician;
+
+        function __construct($rec){
+
+            $this->ro_num       = $rec["RONum"];
+            $this->owner        = ucwords(strtolower($rec["Owner"]));
+            $this->vehicle      = $rec["Vehicle"];
+            $this->estimator    = $rec["Estimator"];
+            $this->color        = $rec["Vehicle_Color"];
+            $this->technician   = $rec["Technician"];
+
+        }   // Car($rec)
+    }   // Car{}
+
+    function GetCar($roNum){
+
+        $sql = <<<strSQL
+                    SELECT SUBSTRING_INDEX(Technician, ' ', 1) AS Technician,
+                        RONum, SUBSTRING_INDEX(Owner, ',', 1) AS Owner,
+                        Vehicle, Estimator, Vehicle_Color
+                    FROM Repairs
+                    WHERE RONum = $roNum
+                strSQL;
+                //echo $sql;
+        $car = null;
+
+        require('db_open.php');
+
+        try {
+
+            $s = mysqli_query($conn, $sql);
+            $r = mysqli_fetch_assoc($s);
+            $car = new CarInfo($r);
+
+        } catch(Exception $e) {
+
+            echo "Fetching Car Info failed." . $e->getMessage();
+
+        } finally {
+
+            $conn = null;
+            return $car;
+
+        }   // try-catch{}
+    }   // GetCar()
+
+
+
+    function SendNotification($carList){
+
+        echo "SendNotifications";
+        $to         = "8053778977@txt.att.net";
+       $subject    = "Paint List";
+        $headers    = "From: Automated Email<donotreply@cityautobody.net>\r\n";
+        $headers    .= "Cc: Jim<parts@cityautobody.net>";
+
+        $body           = "";
+        $carName        = "";
+        $car_name_arr   = "";
+
+        forEach($carList as $i => $eachCar){
+
+            $carInfo = GetCar($eachCar->RONum);
+            $priority = $i + 1;
+            $status = strtoupper($eachCar->Status);
+
+            $car_name_arr = str_word_count($carInfo->vehicle, 1);
+//            echo var_dump($car_name_arr);
+
+            switch($car_name_arr.length){
+
+            	case 1:
+                case 2:
+            		$carName = implode(" ", $car_name_arr);
+                    break;
+
+            	default:
+            		$carName = $car_name_arr[0] . " " . $car_name_arr[1] . " " . $car_name_arr[2];
+                    break;
+            }
+
+
+            $body .= <<<emailMsg
+
+                    $priority ) $eachCar->RONum - $carInfo->owner
+                    [ $carName ]
+                    Status: $status
+
+            emailMsg;
+        }
+
+        mail($to, $subject, $body, $headers);
+
+    }   // SendNotification
+
+
+
     function ProcessPOST($listOfCars){
 
         require('db_open.php');
@@ -107,7 +231,7 @@ header('Access-Allow-Control-Origin: *');
 
     	if ($conn->query($tsql) === TRUE) {
 
-    		echo "<br/>Repairs Table cleared.<br/>";
+    		echo "<br/>Work Queue Table cleared.<br/>";
 
     	} else {
 
@@ -115,20 +239,25 @@ header('Access-Allow-Control-Origin: *');
     	  exit;
     	}
 
-        $tsql = "INSERT INTO Work_Queue " .
-                 "(RO_Num, Priority, Dept_Code, Status) ";
+        if(count($listOfCars) > 0){
 
-        foreach($listOfCars as $eachCar){
+            $tsql = "INSERT INTO Work_Queue " .
+                     "(RO_Num, Priority, Dept_Code, Status) ";
 
-            $values = "VALUES (". $eachCar->RONum . ", " . $eachCar->Priority . ", '" .
-                    $eachCar->DeptCode . "', '" .$eachCar->Status . "')";
+            foreach($listOfCars as $eachCar){
 
-            echo $values . "<br/>";
-            if ($conn->query($tsql . $values) === TRUE) {
-    	      ;// echo $ro_num . " uploaded<br/>";
-    	    } else {
-    	      echo "Error: " . $tsql . $values . "<br>" . $conn->error;
-    	    }
+                $values = "VALUES (". $eachCar->RONum . ", " . $eachCar->Priority . ", '" .
+                        $eachCar->DeptCode . "', '" .$eachCar->Status . "')";
+
+                echo $values . "<br/>";
+                if ($conn->query($tsql . $values) === TRUE) {
+        	      ;// echo $ro_num . " uploaded<br/>";
+        	    } else {
+        	      echo "Error: " . $tsql . $values . "<br>" . $conn->error;
+        	    }
+            }
+
+            SendNotification($listOfCars);
         }
 
         $conn = null;
