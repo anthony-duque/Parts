@@ -48,6 +48,53 @@ header('Access-Allow-Control-Origin: *');
           break;
     }
 
+    function Email_Status($old_status, $new_status){
+        echo "<br/><br/>RO " . $new_status->RONum . " updated from " . $old_status->status . " to " . $new_status->Status;
+    }
+
+
+    function Update_Status($oldStat, $newStat)
+    {
+
+        require('db_open.php');
+
+        $tsql = <<<strSQL
+                UPDATE Work_Queue
+                SET Status = '$newStat->Status'
+                WHERE RO_Num = $newStat->RONum
+                    AND Dept_Code = 'P';
+            strSQL;
+
+       //echo $strSQL;
+       try{
+
+            $result = $conn->query($tsql);
+            echo "Car " . $newStat->RONum . " updated.";
+            Email_Status($oldStat, $newStat);
+
+       } catch (PDOException $pe){
+           echo "Failed to update paint list status for RO " . $newStat->RONum . $pe->getMessage();
+       }
+
+       $conn = null;        // close the database
+
+    }
+
+    function UpdatePaintList($newList){
+
+        $oldList = ProcessGET();
+
+        foreach($newList as $newStatus){
+            foreach($oldList as $oldStatus){
+                if($newStatus->RONum == $oldStatus->ro_num){
+                    if($newStatus->Status != $oldStatus->status){
+                        Update_Status($oldStatus, $newStatus);
+                    }
+                }
+            }
+        }
+    }   // UpdatePaintList()
+
 
     function ProcessPUT(){
 
@@ -60,11 +107,13 @@ header('Access-Allow-Control-Origin: *');
         }
 
         fclose($putData);
+
         $jsonData = json_decode($rawJson);
         var_dump($jsonData);
 
-    }   // ProcessPUT()
+        UpdatePaintList($jsonData);
 
+    }   // ProcessPUT()
 
     function ProcessGET(){
 
