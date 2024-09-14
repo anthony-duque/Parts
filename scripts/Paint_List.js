@@ -3,6 +3,7 @@ var PaintListCtrlr = function($scope, $http){
 
     GetCarList();
     $scope.paintList = [];
+    $scope.statusButton = 'Save List';
 
     function GetCarList()
     {
@@ -86,7 +87,6 @@ var PaintListCtrlr = function($scope, $http){
         };
 
         $scope.paintList.push(carObj);
-
         $scope.techList[techIndex].cars.splice(carIndex, 1);
 
     }   // AddCarToPaintList()
@@ -107,6 +107,9 @@ var PaintListCtrlr = function($scope, $http){
 
             // delete from the Paint List
         $scope.paintList.splice(listIndex, 1);
+        if ($scope.paintList.length == 0){
+            $scope.ClearPaintList();
+        }
     }   // DeleteFromPaintList()
 
 
@@ -117,6 +120,7 @@ var PaintListCtrlr = function($scope, $http){
             $scope.DeleteFromPaintList(car, 0);
         }
 
+        $scope.statusButton = 'Save List';
         $scope.SavePaintList();
 
     }   // ClearPaintList()
@@ -157,27 +161,30 @@ var PaintListCtrlr = function($scope, $http){
             carList.push(car);
         });
 
-        if (carList.length == 0){   // Save initial PaintList
+        if ($scope.statusButton == 'Save List'){
 
-            $scope.statusButton = 'Save List';
+                $http.post('./php/Paint_List.php', JSON.stringify(carList))
+                    .then(function(response) {
+                         if (response.data){
+                            console.log(response.data);
+                            //console.log("Paint List written to database!");
+                            if (carList.length > 0){
+                                $scope.statusButton = 'Update Status';
+                            } else {
+                                $scope.statusButton = 'Save List';
+                            }
+                         }
+                      },
+                      function(response) {
+                         console.log("Service does not Exists");
+                         console.log(response.status);
+                         console.log(response.statusText);
+                         console.log(response.headers());
+                      });
 
-            $http.post('./php/Paint_List.php', JSON.stringify(carList))
-                .then(function(response) {
-                     if (response.data){
-                        console.log(response.data);
-                        //console.log("Paint List written to database!");
-                     }
-                  },
-                  function(response) {
-                     console.log("Service does not Exists");
-                     console.log(response.status);
-                     console.log(response.statusText);
-                     console.log(response.headers());
-                  });
 
         } else {    // Update each of the car's status
 
-            $scope.statusButton = 'Update Status';
             console.log("Put => " + carList);
             $http.put('./php/Paint_List.php', JSON.stringify(carList))
                 .then(function(response) {
@@ -193,9 +200,7 @@ var PaintListCtrlr = function($scope, $http){
                      console.log(response.headers());
                   });
         }
-
     }         // SavePaintList()
-
 
 };   // paintListCtrlr()
 

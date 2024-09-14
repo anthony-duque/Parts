@@ -8,29 +8,17 @@ header('Access-Allow-Control-Origin: *');
 
     $method = $_SERVER['REQUEST_METHOD'];
 
-    //echo $method;
-
     switch($method){
 
        case 'POST':;
           $json = file_get_contents('php://input');
           $data = json_decode($json);
-//          echo "POST";
-//          var_dump($data);
-//          ProcessPOST($data);
-    //      BroadcastList($data);
+          ProcessPOST($data);
           break;
 
        case "PUT":    // Could read from input and query string
-       //         $qString = $_GET["id"];
-       //         echo "PUT = " . $qString;
           echo 'PUT';
           ProcessPUT();
-//          $json = file_get_contents('php://input');
-//          var_dump($json);
-//          parse_str($json, $data);
-//          $data = json_decode($json);
-//          var_dump($data);
           break;
 
        case "GET":  // get cars on the Paint List
@@ -39,7 +27,6 @@ header('Access-Allow-Control-Origin: *');
           break;
 
        case "DELETE":
-          echo 'DELETE';
           $qString = $_GET["id"];
           echo "DELETE = " . $qString;
           break;
@@ -48,14 +35,63 @@ header('Access-Allow-Control-Origin: *');
           break;
     }
 
+
     function Email_Status($old_status, $new_status){
+
         echo "<br/><br/>RO " . $new_status->RONum . " updated from " . $old_status->status . " to " . $new_status->Status;
-    }
+        $test_mode = true;
+
+        $headers    = "From: Automated Email<donotreply@cityautobody.net>\r\n";
+
+        if ($test_mode){
+//            $to         = "8053778977@txt.att.net";
+            $to         = "adduxe@hotmail.com";
+            $headers    .= "Cc: Sonny<adduxe@gmail.com>";
+        } else {
+
+            $to         = "8053778977@txt.att.net";
+            $headers    .= "Cc: Jim<adduxe@gmail.com>";
+        }
+
+        $subject    = "Paint List";
+
+        $body           = "";
+        $carName        = "";
+        $car_name_arr   = "";
+
+        $carInfo = GetCar($new_status->RONum);
+
+        $car_name_arr = str_word_count($carInfo->vehicle, 1);
+
+        switch(count($car_name_arr)){
+
+        	case 1:
+            case 2:
+        		$carName = implode(" ", $car_name_arr);
+                break;
+
+        	default:
+        		$carName = $car_name_arr[0] . " " . $car_name_arr[1] . " " . $car_name_arr[2];
+                break;
+        }
+
+        $body = <<<emailMsg
+
+                $carInfo->ro_num - $carInfo->owner
+                [ $carName ]
+                Changed Status
+                    From: $old_status->status;
+                      To: $new_status->Status;
+
+        emailMsg;
+
+        mail($to, $subject, $body, $headers);
+
+    }   // Email_Status()
 
 
     function Update_Status($oldStat, $newStat)
     {
-
         require('db_open.php');
 
         $tsql = <<<strSQL
@@ -72,27 +108,93 @@ header('Access-Allow-Control-Origin: *');
             echo "Car " . $newStat->RONum . " updated.";
             Email_Status($oldStat, $newStat);
 
-       } catch (PDOException $pe){
-           echo "Failed to update paint list status for RO " . $newStat->RONum . $pe->getMessage();
+       } catch (Exception $e){
+           echo "Failed to update paint list status for RO " . $newStat->RONum . $e->getMessage();
        }
 
        $conn = null;        // close the database
 
-    }
+   }   // Update_Status()
+
+
+    function RemoveFromPaintList($removedROs, $dbConn){
+
+        $roList = implode(",", $removedROs);
+        $tsql = "DELETE FROM Work_Queue WHERE Dept_Code = 'P' AND RO_Num IN (" . $roList . ")";
+        echo $tsql;
+
+        if ($dbConn->query($tsql) === TRUE) {
+    		echo "<br/>Deleted RO's " . $roList . " from Paint List.<br/>";
+    	} else {
+            echo "Error: " . $tsql . "<br> - " . $conn->error;
+            exit;
+    	}
+
+    }   // RemoveFromPaintList()
+
 
     function UpdatePaintList($newList){
 
         $oldList = ProcessGET();
 
+        $carsToBeAdded = [];
+
+            // 1)  cycle through the new list.
+            // 2)  if the ro is found on the old list, update it.
+            // 3  if not, add it to the list
         foreach($newList as $newStatus){
+
+            $new_RO_found = true;
+
             foreach($oldList as $oldStatus){
+
                 if($newStatus->RONum == $oldStatus->ro_num){
+                    $new_RO_found = false;
                     if($newStatus->Status != $oldStatus->status){
                         Update_Status($oldStatus, $newStatus);
                     }
                 }
             }
+
+            if ($new_RO_found){
+                    // these RO's need to be added to the list.
+                array_push($carsToBeAdded, $newStatus);
+            }
         }
+
+        require('db_open.php');
+
+        AddCarToPaintList($carsToBeAdded, $conn);
+            // delete RO's in the paint list that are not in
+            // the new list
+        $old_ROs_to_be_removed = [];
+
+        foreach($oldList as $oldStatus){
+
+            $removed_RO_found = true;
+
+            foreach($newList as $newStatus){
+
+                if($newStatus->RONum == $oldStatus->ro_num){
+
+                    $removed_RO_found = false;
+
+                    if($newStatus->Status != $oldStatus->status){
+                        Update_Status($oldStatus, $newStatus);
+                    }
+                }
+            }
+
+            if($removed_RO_found){
+                array_push($old_ROs_to_be_removed, $oldStatus->ro_num);
+            }
+        }
+
+        if (count($old_ROs_to_be_removed) > 0){
+            RemoveFromPaintList($old_ROs_to_be_removed, $conn);
+        }
+
+        $conn = null;
     }   // UpdatePaintList()
 
 
@@ -115,9 +217,8 @@ header('Access-Allow-Control-Origin: *');
 
     }   // ProcessPUT()
 
-    function ProcessGET(){
 
-        require('db_open.php');
+    function ProcessGET(){
 
         class List_Car {
 
@@ -134,6 +235,8 @@ header('Access-Allow-Control-Origin: *');
             }
         }
 
+        require('db_open.php');
+
         $sql = <<<strSQL
                     SELECT RO_Num, Priority, Dept_Code, Status
                     FROM Work_Queue
@@ -146,11 +249,9 @@ header('Access-Allow-Control-Origin: *');
         try {
 
             $eachEntry = null;
-
             $s = mysqli_query($conn, $sql);
 
             while($r = mysqli_fetch_assoc($s)){
-
                 $eachEntry = new List_Car($r);
                 array_push($carList, $eachEntry);
             }
@@ -222,12 +323,11 @@ header('Access-Allow-Control-Origin: *');
     }   // GetCar()
 
 
-
     function SendNotification($carList){
 
-        echo "SendNotifications";
+//        echo "SendNotifications";
         $to         = "8053778977@txt.att.net";
-       $subject    = "Paint List";
+        $subject    = "Paint List";
         $headers    = "From: Automated Email<donotreply@cityautobody.net>\r\n";
         $headers    .= "Cc: Jim<parts@cityautobody.net>";
 
@@ -244,7 +344,7 @@ header('Access-Allow-Control-Origin: *');
             $car_name_arr = str_word_count($carInfo->vehicle, 1);
 //            echo var_dump($car_name_arr);
 
-            switch($car_name_arr.length){
+            switch(count($car_name_arr)){
 
             	case 1:
                 case 2:
@@ -255,7 +355,6 @@ header('Access-Allow-Control-Origin: *');
             		$carName = $car_name_arr[0] . " " . $car_name_arr[1] . " " . $car_name_arr[2];
                     break;
             }
-
 
             $body .= <<<emailMsg
 
@@ -271,6 +370,26 @@ header('Access-Allow-Control-Origin: *');
     }   // SendNotification
 
 
+    function AddCarToPaintList($newCarsList, $dbConn){
+
+        $tsql = "INSERT INTO Work_Queue " .
+                 "(RO_Num, Priority, Dept_Code, Status) ";
+
+        foreach($newCarsList as $eachCar){
+
+            $values = "VALUES (". $eachCar->RONum . ", " . $eachCar->Priority . ", '" .
+                    $eachCar->DeptCode . "', '" .$eachCar->Status . "')";
+
+            //echo $values . "<br/>";
+            if ($dbConn->query($tsql . $values) === TRUE) {
+              ;// echo $ro_num . " uploaded<br/>";
+            } else {
+              echo "Error: " . $tsql . $values . "<br>" . $conn->error;
+            }
+        }
+
+    }   // AddCarToPaintList()
+
 
     function ProcessPOST($listOfCars){
 
@@ -279,37 +398,18 @@ header('Access-Allow-Control-Origin: *');
         $tsql = "DELETE FROM Work_Queue WHERE Dept_Code = 'P'";
 
     	if ($conn->query($tsql) === TRUE) {
-
     		echo "<br/>Work Queue Table cleared.<br/>";
-
     	} else {
-
-    	  echo "Error: " . $tsql . "<br> - " . $conn->error;
-    	  exit;
+            echo "Error: " . $tsql . "<br> - " . $conn->error;
+            exit;
     	}
 
         if(count($listOfCars) > 0){
-
-            $tsql = "INSERT INTO Work_Queue " .
-                     "(RO_Num, Priority, Dept_Code, Status) ";
-
-            foreach($listOfCars as $eachCar){
-
-                $values = "VALUES (". $eachCar->RONum . ", " . $eachCar->Priority . ", '" .
-                        $eachCar->DeptCode . "', '" .$eachCar->Status . "')";
-
-                echo $values . "<br/>";
-                if ($conn->query($tsql . $values) === TRUE) {
-        	      ;// echo $ro_num . " uploaded<br/>";
-        	    } else {
-        	      echo "Error: " . $tsql . $values . "<br>" . $conn->error;
-        	    }
-            }
-
+            AddCarToPaintList($listOfCars, $conn);
             SendNotification($listOfCars);
         }
 
         $conn = null;
-
     }   //   ProcessPOST()
+
 ?>
