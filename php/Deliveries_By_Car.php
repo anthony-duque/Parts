@@ -40,7 +40,7 @@
                         SELECT Part_Number, Part_Description, Received_Qty, Invoice_Date
                         FROM PartsStatusExtract
                         WHERE RO_Num = $ro AND Vendor_Name = '$this->name'
-                            AND Invoice_Date >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
+                            AND Invoice_Date >= DATE_SUB(CURDATE(), INTERVAL 14 DAY)
                     strSQL;
 
             try{
@@ -175,10 +175,9 @@
 
         $sql = <<<strSQL
                     SELECT DISTINCT p.RO_Num, SUBSTRING_INDEX(r.Owner, ',', 1) AS Owner,
-                            r.Vehicle, r.Technician, r.Estimator, r.Vehicle_In, r.CurrentPhase
-                    FROM PartsStatusExtract p INNER JOIN Repairs r
+                            r.Vehicle, r.Technician, r.Estimator, r.Vehicle_In, r.CurrentPhase                    FROM PartsStatusExtract p INNER JOIN Repairs r
                         ON p.RO_Num = r.RONum
-                    WHERE Invoice_Date >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
+                    WHERE Invoice_Date >= DATE_SUB(CURDATE(), INTERVAL 14 DAY)
                         AND Vendor_Name NOT IN ('**IN-HOUSE', 'ASTECH', 'AIRTIGHT AUTO GLASS', 'BIG BRAND','Jim''s Tire Center', 'PRO TECH DIAGNOSTICS')
                 strSQL;
 

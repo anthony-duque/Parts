@@ -21,12 +21,28 @@
                 </tr>
                 <tr>
                     <td align='center'>
+                        [ {{ eachCar.vehicle_color }} ]
+                    </td>
+                </tr>
+                <tr>
+                    <td align='center'>
                         &nbsp;{{ eachCar.technician.split(' ')[0] }}
                     </td>
                 </tr>
                 <tr>
                     <td align='center'>
                         ({{ eachCar.ro_num }})
+                    </td>
+                </tr>
+                <tr ng-show='eachCar.parts_percent == 100'>
+                    <td align='center'>
+                        <table align='center' border=1>
+                        <tr>
+                            <td align='center'>
+                                All Parts In
+                            </td>
+                        </tr>
+                        </table>
                     </td>
                 </tr>
                 <tr ng-hide='eachCar.parts_percent == 100'>

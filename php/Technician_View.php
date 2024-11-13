@@ -29,6 +29,7 @@
         public $ro_num;
         public $owner;
         public $vehicle;
+        public $vehicle_color;
         public $estimator;
         public $parts = [];
         public $parts_unordered;
@@ -42,6 +43,7 @@
             $this->ro_num           = $rec["RONum"];
             $this->owner            = ucwords(strtolower($rec["Owner"]));
             $this->vehicle          = $rec["Vehicle"];
+            $this->vehicle_color    = $rec["Vehicle_Color"];
             $this->estimator        = $rec["Estimator"];
             $this->parts_unordered  = 0;
             $this->parts_waiting    = 0;
@@ -104,7 +106,7 @@
         $sql = <<<strSQL
                     SELECT SUBSTRING_INDEX(Technician, ' ', 1) AS Technician,
                         RONum, SUBSTRING_INDEX(Owner, ',', 1) AS Owner,
-                        Vehicle, Estimator, Scheduled_Out
+                        Vehicle, Estimator, Scheduled_Out, Vehicle_Color
                     FROM Repairs
                     WHERE Technician > ''
                     ORDER BY Technician, PartsReceived DESC

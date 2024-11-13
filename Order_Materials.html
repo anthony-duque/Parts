@@ -1,0 +1,84 @@
+<html ng-app='OrderMaterialsApp'>
+<head>
+    <title>Order Materials</title>
+    <script src='./scripts/angularjs.js'></script>
+    <script src='./scripts/Order_Materials.js'></script>
+</head>
+<body ng-controller='OrderMaterialsController'>
+    {{ x }}
+<table id='tblMain'>
+<tr>
+    <td id='colTechs' colspan="2">
+        <select>
+            <option>Jerry</option>
+            <option>Serjio</option>
+        </select>
+    </td>
+</tr>
+<tr>
+    <td id='materialsColumn'>
+        <table id='tblMaterialsListTbl'>
+        <tr>
+            <td>
+                <b>Sandpaper</b><br/>
+                <table>
+                    <tr>
+                        <td>
+                            K360
+                            &nbsp;
+                            <input type='checkbox'/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            K500
+                            &nbsp;
+                            <input type='checkbox'/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            K800
+                            &nbsp;
+                            <input type='checkbox'/>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <b>Hardeners</b><br/>
+                <table>
+                    <tr>
+                        <td>
+                            556173
+                            &nbsp;
+                            <input type='checkbox'/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            556171
+                            &nbsp;
+                            <input type='checkbox'/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            556172
+                            &nbsp;
+                            <input type='checkbox'/>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        </table>
+    </td>
+    <td id='ordersColumn'>
+    </td>
+</tr>
+</table>
+</body>
+</html>

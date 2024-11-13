@@ -12,6 +12,7 @@
             </td>
             <td align='center'>
                 Search: <input type='text' ng-model='searchText' />
+                &nbsp;<input type='button' value='Clear' ng-click='searchText = ""'>
             </td>
             <td align='right'>
                 <select ng-model='carsInOut'>
@@ -47,8 +48,8 @@
                                     <table width='100%' border=1>
                                         <tr>
                                             <th width='50%'>Description</th>
-                                            <th width='35%'>Number</th>
-                                            <th>Qty</th>
+                                            <th width='30%'>Number</th>
+                                            <th width='5%'>Qty</th>
                                             <th>Date</th>
                                         </tr>
                                     </table>
@@ -107,12 +108,12 @@
                                     <td width='50%'>
                                             {{ eachPart.part_description }}
                                     </td>
-                                    <td width='35%' align='center'>
+                                    <td width='30%' align='center'>
                                         <a href='http://www.google.com/search?tbm=isch&q={{ eachPart.part_number }}' target='CarPart' >
                                             {{ eachPart.part_number }}
                                         </a>
                                     </td>
-                                    <td align='center'>
+                                    <td align='center' width='5%'>
                                         {{ eachPart.received_quantity }}
                                     </td>
                                     <td>

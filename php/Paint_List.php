@@ -35,23 +35,76 @@ header('Access-Allow-Control-Origin: *');
           break;
     }
 
+    function Get_Recepients($car_info){
+
+        Employee{
+
+            public $userName;
+            public $cellNumber;
+            public $cellService;
+            public $deptCode;
+            public $email;
+            public $notify;
+            public $notifPreference;
+
+            function __construct($rec){
+
+                $this->userName = $rec["userName"];
+                $this->cellNumber = $rec["cellNumber"];
+                $this->cellService = $rec["cellService"];
+                $this->deptCode = $rec["deptCode"];
+                $this->email = $rec["email"];
+                $this->notify = $rec["notify"];
+                $this->notifPreference = $rec["notif_preference"];
+            }
+        };
+
+        var $recepients = [];
+
+        // Get the technician's email or text
+        // 1) Get the tech's first
+        // 2) Lookup get the cell num or email address
+
+        $USERNAME = trim($car_info->technician);
+        $USERNAME = strtoupper($userName);
+
+        $tsql = "SELECT * FROM Employee_Table WHERE UPPER(userName) = '$USERNAME'";
+
+        require('db_open.php');
+
+        $empRec = null;
+
+        try {
+
+            $s = mysqli_query($conn, $sql);
+            $r = mysqli_fetch_assoc($s);
+            $empRec = new CarInfo($r);
+
+        } catch(Exception $e) {
+
+            echo "Fetching Employee Info failed for $userName" . $e->getMessage();
+
+        } finally {
+
+            if (strlen($empRec->cellNumber) > 0){
+                ;
+            }
+
+        }   // try-catch{}
+
+        // Get the estimator's email of bind_textdomain_codeset
+
+        $conn = null;
+        return $car;
+
+    }
+
 
     function Email_Status($old_status, $new_status){
 
         echo "<br/><br/>RO " . $new_status->RONum . " updated from " . $old_status->status . " to " . $new_status->Status;
+
         $test_mode = true;
-
-        $headers    = "From: Automated Email<donotreply@cityautobody.net>\r\n";
-
-        if ($test_mode){
-//            $to         = "8053778977@txt.att.net";
-            $to         = "adduxe@hotmail.com";
-            $headers    .= "Cc: Sonny<adduxe@gmail.com>";
-        } else {
-
-            $to         = "8053778977@txt.att.net";
-            $headers    .= "Cc: Jim<adduxe@gmail.com>";
-        }
 
         $subject    = "Paint List";
 
@@ -75,15 +128,34 @@ header('Access-Allow-Control-Origin: *');
                 break;
         }
 
+        $oldStatus = strtoupper($old_status->status);
+        $newStatus = strtoupper($new_status->Status);
+
         $body = <<<emailMsg
 
-                $carInfo->ro_num - $carInfo->owner
-                [ $carName ]
+                $carInfo->ro_num - $carInfo->owner [ $carName ]
+
                 Changed Status
-                    From: $old_status->status;
-                      To: $new_status->Status;
+                    From: $oldStatus;
+                      To: $newStatus;
 
         emailMsg;
+        echo $body; // test
+
+        $headers    = "From: Automated Email<donotreply@cityautobody.net>\r\n";
+
+        if ($test_mode){
+//            $to         = "8053778977@txt.att.net";
+            $to = "8054282425@txt.att.net";
+//            $to = Get_Recepients($carInfo);
+//            $to = "somebody@example.com, somebodyelse@example.com"            $to         = "adduxe@hotmail.com";
+            $headers    .= "Cc: Sonny<adduxe@gmail.com>";
+
+        } else {
+
+            $to         = "8053778977@txt.att.net";
+            $headers    .= "Cc: Jim<adduxe@gmail.com>";
+        }
 
         mail($to, $subject, $body, $headers);
 
@@ -121,7 +193,7 @@ header('Access-Allow-Control-Origin: *');
 
         $roList = implode(",", $removedROs);
         $tsql = "DELETE FROM Work_Queue WHERE Dept_Code = 'P' AND RO_Num IN (" . $roList . ")";
-        echo $tsql;
+        //echo $tsql;
 
         if ($dbConn->query($tsql) === TRUE) {
     		echo "<br/>Deleted RO's " . $roList . " from Paint List.<br/>";
@@ -146,9 +218,12 @@ header('Access-Allow-Control-Origin: *');
 
             $new_RO_found = true;
 
-            foreach($oldList as $oldStatus){
+            echo "\n $newStatus->RONum : \n";
 
+            foreach($oldList as $oldStatus){
                 if($newStatus->RONum == $oldStatus->ro_num){
+
+                    echo "newStatus = $newStatus->Status | oldstatus = $oldStatus->status";
                     $new_RO_found = false;
                     if($newStatus->Status != $oldStatus->status){
                         Update_Status($oldStatus, $newStatus);
@@ -176,12 +251,7 @@ header('Access-Allow-Control-Origin: *');
             foreach($newList as $newStatus){
 
                 if($newStatus->RONum == $oldStatus->ro_num){
-
                     $removed_RO_found = false;
-
-                    if($newStatus->Status != $oldStatus->status){
-                        Update_Status($oldStatus, $newStatus);
-                    }
                 }
             }
 
@@ -268,7 +338,6 @@ header('Access-Allow-Control-Origin: *');
         }   // try-catch{}
     }
 
-
     class CarInfo{
 
         public $ro_num;
@@ -289,6 +358,7 @@ header('Access-Allow-Control-Origin: *');
 
         }   // Car($rec)
     }   // Car{}
+
 
     function GetCar($roNum){
 
@@ -326,10 +396,12 @@ header('Access-Allow-Control-Origin: *');
     function SendNotification($carList){
 
 //        echo "SendNotifications";
-        $to         = "8053778977@txt.att.net";
+//        $to         = "8053778977@txt.att.net";
+        $to         = "adduxe@hotmail.com";
         $subject    = "Paint List";
         $headers    = "From: Automated Email<donotreply@cityautobody.net>\r\n";
-        $headers    .= "Cc: Jim<parts@cityautobody.net>";
+//        $headers    .= "Cc: Jim<jimd@cityautobody.net>";
+        $headers    .= "Cc: Parts<adduxe@gmail.com>";
 
         $body           = "";
         $carName        = "";

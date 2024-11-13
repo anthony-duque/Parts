@@ -1,7 +1,11 @@
 var app = angular.module("csvUploadApp", []);
 
 var csvUploadCtrlr = function($scope){
-    $scope.x = "xxx";
+
+    const currDateTime = new Date();
+
+    $scope.currDateTime = currDateTime.toString();
+
 }
 
 app.controller("csvUploadController", csvUploadCtrlr);

@@ -9,16 +9,23 @@ app.filter('GetDeliveriesByDay', function(){
         var time_diff       = 0;
         var date_diff       = 0;
 
-        angular.forEach(parts, function(part){
+        if (numOfDays < 0){
 
-            date_recvd = new Date(part.invoice_date);
-            time_diff = Math.abs(curr_date - date_recvd);
-            date_diff = Math.floor(time_diff / (1000 * 60 * 60 * 24));
+            filteredParts = parts;
 
-            if (date_diff == numOfDays){
-                filteredParts.push(part);
-            }
-        });
+        } else {
+
+            angular.forEach(parts, function(part){
+
+                date_recvd = new Date(part.invoice_date);
+                time_diff = Math.abs(curr_date - date_recvd);
+                date_diff = Math.floor(time_diff / (1000 * 60 * 60 * 24));
+
+                if (date_diff == numOfDays){
+                    filteredParts.push(part);
+                }
+            });
+        }
 
         return filteredParts;
     }

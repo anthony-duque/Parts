@@ -15,6 +15,53 @@ function Get_SQL_date($dateString){
 }	// Get_SQL_date()
 
 
+/*
+AT&T						10digitphonenumber@txt.att.net
+Carolina West Wireless		10digit10digitnumber@cwwsms.com
+Cellular One				10digitphonenumber@mobile.celloneusa.com
+Illinois Valley Cellular	10digitphonenumber@ivctext.com
+Inland Cellular Telephone	10digitphonenumber@inlandlink.com
+Sprint						10digitphonenumber@messaging.sprintpcs.com
+T-Mobile					10digitphonenumber@tmomail.net
+US Cellular					10digitphonenumber@email.uscc.net
+Sprint						10digitphonenumber@messaging.sprintpcs.com
+T-Mobile					10digitphonenumber@tmomail.net
+US Cellular					10digitphonenumber@email.uscc.net
+Verizon						10digitphonenumber@vtext.com
+Virgin Mobile				10digitphonenumber@vmobl.com
+
+*/
+
+function GetCellEmailAddress($userName){
+
+	require('db_open.php');
+
+	$tsql = "SELECT cellNumber, cellService WHERE userName = $userName";
+
+	try {
+
+		$s = mysqli_query($conn, $tsql);
+		$r = mysqli_fetch_assoc($s);
+		$empRec = new CarInfo($r);
+
+	} catch(Exception $e) {
+
+		echo "Getting employee $userName cell email address failed. " . $e->getMessage();
+
+	} finally {
+
+		if (strlen($empRec->cellNumber) > 0){
+
+		}
+
+		$conn = null;
+
+	}   // try-catch{}
+
+
+}
+
+
 function Cleanup_Text($str){
 
 	$cleanText = '';
@@ -102,6 +149,5 @@ function ComputePartsReceived(&$repairs){
 		}
 	}
 }	// ComputePartsReceived
-
 
 ?>

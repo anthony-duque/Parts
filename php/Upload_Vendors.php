@@ -2,15 +2,16 @@
 
     const FILENAME = "../extract_files/Vendors.csv";
 
-    const NAME 		= 0;
-    const PHONE 	= 1;
-    const FAX 		= 2;
-    const ADDRESS 	= 3;
-    const CITY 		= 4;
-    const STATE 	= 5;
-    const ZIPCODE 	= 6;
-    const PREFERRED = 7;
-    const ELECTRONIC = 8;
+    const ACTIVE 	= 0;
+    const NAME 		= 1;
+    const OEM 		= 2;
+    const PHONE 	= 3;
+    const ADDRESS 	= 4;
+    const CITY 		= 5;
+    const STATE 	= 6;
+    const ZIPCODE 	= 7;
+    const DISCOUNT  = 8;
+    const EMAIL     = 9;
 
     if (($handle = fopen(FILENAME, "r")) == FALSE) {
 
@@ -19,8 +20,8 @@
     }
 
     $tsql = "INSERT INTO Vendors " .
-            "(name, phone, fax, address," .
-            " city, state, zipcode, preferred, electronic) " .
+            "(active, name, phone, address," .
+            " city, state, zipcode, oem, discount) " .
             "VALUES ";
 
     $row = 0;
@@ -41,16 +42,16 @@
     		$state 	      = $data[STATE];
     		$zipcode 	  = $data[ZIPCODE];
 
-            if (strtoupper($data[PREFERRED]) == "TRUE"){
-                $preferred = 1;     // TRUE
+            if (strtoupper($data[ACTIVE]) == "TRUE"){
+                $active = 1;     // TRUE
             } else {
-                $preferred = 0;     // FALSE
+                $active = 0;     // FALSE
             }
 
-            if ($data[ELECTRONIC] == "ELECTRONIC"){
-                $electronic	  = 1;  // TRUE
+            if ($data[OEM] == [OEM]){
+                $oem	  = 1;  // TRUE
             } else {
-                $electronic	  = 0;  // FALSE
+                $oem	  = 0;  // FALSE
             }
 
             $values = "('". $name . "', '" . $phone . "', '" . $fax . "', '". $address . "', " .
@@ -59,7 +60,6 @@
 
             $tsql = $tsql . $values;
         }
-
     }
 
     fclose($handle);

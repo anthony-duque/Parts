@@ -18,6 +18,7 @@
             </td>
             <td align='center' width='33%'>
                 Search: <input type='text' ng-model='searchText' />
+                &nbsp;<input type='button' value='Clear' ng-click='searchText = ""'>
             </td>
             <td align='right'>
                 Filter by:
@@ -26,6 +27,7 @@
                     <option value='partsComplete'>Received</option>
                     <option value='waitingForParts'>Ordered</option>
                     <option value='noParts'>Not Ordered</option>
+                    <option value='orange'>Returned</option>
                 </select>
             </td>
         </tr>
