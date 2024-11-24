@@ -1,0 +1,28 @@
+<html ng-app='VendorViewModule'>
+<head>
+    <script src='./scripts/angularjs.js'></script>
+    <script src='./scripts/Vendors.js'></script>
+</head>
+<body ng-controller='VendorViewController'>
+
+    <table align='center'>
+    <tr>
+        <th>Vendor</th>
+        <th>Phone</th>
+        <th>Email</th>
+    </tr>
+    <tr ng-repeat='eachVendor in vendorList'>
+        <td>
+            {{ eachVendor.name }}
+        </td>
+        <td align='center'>
+            {{ eachVendor.phone_number }}
+        </td>
+        <td>
+            {{ eachVendor.email }}
+        </td>
+    </tr>
+    </table>
+
+</body>
+</html>

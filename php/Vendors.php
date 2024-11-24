@@ -8,7 +8,7 @@
     $method = $_SERVER['REQUEST_METHOD'];   // See if it is a GET, POST, DELETE, etc
 
      switch($method){
-
+/*
         case 'POST':
 //            echo 'POST';
             $rcvdJson = file_get_contents('php://input');
@@ -16,13 +16,10 @@
             $data = json_decode($rcvdJson);
             ProcessPOST($data);
             break;
-
+*/
         case "GET":
-  //         echo 'GET';
-           $id = $_GET[""];
-           $Vendors = ProcessGET('x');
-           echo json_encode($Vendors);
-//           echo json_encode($deliveries);
+           $vendors = ProcessGET();
+           echo json_encode($vendors);
            break;
 
         default:
@@ -30,45 +27,69 @@
     }   // switch()
 
 
-    function ProcessGET($id){
+    function ProcessGET(){
 
-        require('mysql_db_open.php');
+        class Vendor{
 
-        $records = null;
+            public $name;
+            public $oem;
+            public $phone_number;
+            public $address;
+            public $city;
+            public $state;
+            public $zipcode;
+            public $email;
+            public $discount;
 
-//        if ($id > ''){
-//            ;// Get just one record
-//        } else {
-
-        $sql = "SELECT id, name FROM Vendors";
-        $s = mysqli_query($conn, $sql);
-        $rows = array();
-
-        while($r = mysqli_fetch_assoc($s)){
-            $rows[] = $r;
+            function __construct($rec){
+                $this->name         = $rec["name"];
+                $this->oem          = $rec["oem"];
+                $this->phone_number = $rec["phone_number"];
+                $this->address      = $rec["address"];
+                $this->city         = $rec["city"];
+                $this->state        = $rec["state"];
+                $this->zipcode      = $rec["zipcode"];
+                $this->email        = $rec["email"];
+                $this->discount     = $rec["discount"];
+            }
         }
 
+        require('db_open.php');
 
-            try{
+        $sql = <<<strSQL
+                SELECT
+                    name, oem, phone_number,
+                    address, city, state, zipcode,
+                    email, discount
+                FROM Vendors
+                ORDER BY name
+            strSQL;
 
-                $result = $conn->query($sql);
-                $records = $result->fetchAll(PDO::FETCH_ASSOC);
+        $vendorList = [];
 
-            } catch(Exception $e){
+        try{
 
-                echo "Fetching deliveries failed." . $e->getMessage();
+            $eachVendor = null;
+            $s = mysqli_query($conn, $sql);
 
-            } finally {
-                //echo "reached finally";
-                $conn = null;
-            }   // try-catch{}
+            while($r = mysqli_fetch_assoc($s)){
+                $eachVendor = new Vendor($r);
+                array_push($vendorList, $eachVendor);
+            }
 
-//        }   // if-else {}
-            return $records;
+        } catch(Exception $e){
+
+            echo "Fetching Vendors failed." . $e->getMessage();
+
+        } finally {
+            //echo "reached finally";
+            $conn = null;
+            return $vendorList;
+        }   // try-catch{}
 
     }   // ProcessGET()
 
-
+/*
     function ProcessPOST($delivery){
 
         require('db_open.php');
@@ -89,5 +110,5 @@
 
        $conn = null;        // close the database
    }    // ProcessPOST()
-
+*/
 ?>
