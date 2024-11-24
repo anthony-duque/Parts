@@ -79,7 +79,7 @@
         $sql = <<<strSQL
                     SELECT SUBSTRING_INDEX(Estimator, ' ', 1) AS Estimator,
                     RONum, SUBSTRING_INDEX(Owner, ',', 1) AS Owner,
-                    Vehicle, Vehicle_Color, Technician, Vehicle_In, CurrentPhase, Scheduled_Out
+                    Vehicle, LCASE(Vehicle_Color) AS Vehicle_Color, Technician, Vehicle_In, CurrentPhase, Scheduled_Out
                     FROM Repairs
                     WHERE Estimator > ''
                     ORDER BY Estimator, PartsReceived DESC
