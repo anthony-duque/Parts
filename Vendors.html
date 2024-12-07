@@ -2,16 +2,38 @@
 <head>
     <script src='./scripts/angularjs.js'></script>
     <script src='./scripts/Vendors.js'></script>
+    <script src='./scripts/UtilityFunctions.js'></script>
+
+    <link rel="stylesheet" href="./styles/Parts.css">
 </head>
 <body ng-controller='VendorViewController'>
 
     <table align='center'>
     <tr>
-        <th>Vendor</th>
-        <th>Phone</th>
-        <th>Email</th>
+        <th align='center' colspan='3'>
+            Vendor List
+        </th>
     </tr>
-    <tr ng-repeat='eachVendor in vendorList'>
+    <tr>
+        <td align='center' colspan='3'>
+            Search:
+            <input type='text' ng-model='searchText'>
+            &nbsp;<input type='button' value='Clear' ng-click='searchText = ""'>
+        </td>
+
+    </tr>
+    <tr>
+        <th  ng-click='SortVendors("name");'>
+            Vendor
+        </th>
+        <th  ng-click='SortVendors("phone_number");'>
+            Phone
+        </th>
+        <th  ng-click='SortVendors("email");'>
+            Email
+        </th>
+    </tr>
+    <tr ng-repeat='eachVendor in vendorList | filter: searchText | orderBy: sortFld' ng-class='ToggleColor($index, "white", "orange");'>
         <td>
             {{ eachVendor.name }}
         </td>
@@ -19,7 +41,9 @@
             {{ eachVendor.phone_number }}
         </td>
         <td>
-            {{ eachVendor.email }}
+            <a href= "mailto:{{ eachVendor.email }}">
+                {{ eachVendor.email }}
+            </a>
         </td>
     </tr>
     </table>

@@ -1,6 +1,8 @@
 var app = angular.module("VendorViewModule", []);
 
-var vendorViewCtrlr = function($scope, $http){
+var vendorViewCtrlr = function($scope, $http, utility){
+
+	$scope.sortFld = '+name';
 
 	var GetVendorList = function()
     {
@@ -10,6 +12,18 @@ var vendorViewCtrlr = function($scope, $http){
     }     // GetAllPartsForRO()
 
     GetVendorList();
+/*** End of Main Routine ***/
+
+	$scope.ToggleColor = function(x, oddRowClass, evenRowClass){
+        return utility.ToggleRows(x, oddRowClass, evenRowClass);
+    }   // CheckParts()
+
+
+	$scope.SortVendors = function(sortFld){
+
+        $scope.sortFld = utility.SortField(sortFld, $scope.sortFld);
+    }   // SortParts()
+
 
 	function handleSuccess(response)
     {
