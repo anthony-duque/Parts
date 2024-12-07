@@ -22,7 +22,7 @@
     </table>
     <table border=1 width='90%' align='center'>
         <tr ng-repeat='estimator in estimators'>
-            <td width='10%' align='center' valign='top' ng-class='ToggleRow($index);' ng-click='ShowHideParts(estimator);'>
+            <td width='10%' align='center' valign='top' ng-class='ToggleColor($index, "white", "lightBlue");' ng-click='ShowHideParts(estimator);'>
                 {{ estimator.name }}
             </td>
             <td width='90%'>
@@ -73,7 +73,7 @@
                                 </tr>
                             </table>
                             <table width='100%' border='1'>
-                                <tr ng-repeat='eachPart in eachCar.parts' ng-show='eachCar.showParts' ng-class='ToggleRow($index);'>
+                                <tr ng-repeat='eachPart in eachCar.parts' ng-show='eachCar.showParts' ng-class='ToggleColor($index,  "white", "lightBlue");'>
                                     <td width='20%' align='center'>
                                         <a href='http://www.google.com/search?tbm=isch&q={{ eachPart.part_number }}' target='CarPart' >
                                             {{ eachPart.part_number }}

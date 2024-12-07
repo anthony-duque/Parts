@@ -30,8 +30,8 @@ function UnorderedPartsCtrlr($scope, $http, utility){
     }   // handleError()
 
 
-    $scope.ToggleRow = function(x){
-        return utility.ToggleRows(x);
+    $scope.ToggleColor = function(x, oddRowClass, evenRowClass){
+        return utility.ToggleRows(x, oddRowClass, evenRowClass);
     }   // CheckParts()
 
 

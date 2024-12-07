@@ -23,14 +23,14 @@ app.factory('utility', function(){
     }    // SortField()
 
 
-    util_Obj.ToggleRows = function(x){
+    util_Obj.ToggleRows = function(x, oddRowClass, evenRowClass){
 
         var bgColor = '';
 
         if ((x % 2) == 1){
-            bgColor = 'white';
+            bgColor = oddRowClass;
         } else {
-            bgColor = 'lightBlue';  // temporary until actual status is computed
+            bgColor = evenRowClass;
         }
 
         return bgColor;
