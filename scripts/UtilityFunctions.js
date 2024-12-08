@@ -37,21 +37,34 @@ app.factory('utility', function(){
     }   // CheckParts()
 
 
+        // Color codes each part of the car
+        // depending on whether:
+        //  1)  It has not been ordered (red)
+        //  2)  Ordered and not been received. (yellow)
+        //  3)  Received (green)
+        //  4)  Returned (orange)
     util_Obj.ColorPartStatus = function(part){
 
         var bkgrnd_class = '';  // Background class
 
         switch (true){
 
+                // Part hasn't been ordered
             case (part.received_quantity == 0) && (part.ordered_quantity == 0) && (part.ro_quantity > 0):
                 bkgrnd_class = "noParts";
                 break;
 
+                // Returned part
             case (part.received_quantity == part.returned_quantity) && (part.returned_quantity > 0):
+                bkgrnd_class = 'orange';
+                break;
+
+                // Part ordered but not received
             case (part.received_quantity == 0) && ((part.ordered_quantity > 0) || (part.ro_quantity > 0)):
                 bkgrnd_class = "waitingForParts";
                 break;
 
+                // part has been received
             default:
                 bkgrnd_class = "partsComplete";
                 break;
@@ -63,6 +76,8 @@ app.factory('utility', function(){
     }   // ColorPartStatus()
 
 
+        // Color codes the car in the main production screen
+        // depending on the status of the parts
     util_Obj.ColorCarPartsStatus = function(carObj){
 
         var bgClass = '';
@@ -70,13 +85,14 @@ app.factory('utility', function(){
 
         switch(true){
 
-            case (carObj.parts_unordered > 0) && (carObj.parts_waiting > 0):
-            case (carObj.parts_unordered > 0) && (carObj.parts_received > 0):
-                bgClass = 'orange';
-                break;
-
             case (carObj.parts_unordered > 0) && (carObj.parts_received == 0):
                 bgClass = 'noParts';
+                break;
+
+//            case (carObj.parts_unordered > 0) && (carObj.parts_waiting > 0):
+//            case (carObj.parts_unordered > 0) && (carObj.parts_received > 0):
+            case (carObj.parts_unordered > 0):
+                bgClass = 'orange';
                 break;
 
             case (carObj.parts_waiting > 0):
