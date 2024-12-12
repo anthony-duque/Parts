@@ -9,12 +9,12 @@ var TabsCtrlr = function($scope, $http){
     $scope.dateToday = new Date().toLocaleDateString();
 
     $scope.Tabs =
-        {   'Production':"active",
-            'Deliveries':"inactive",
-            'PartsSearch':"inactive",
-            'PaintList': "inactive",
-//            'Upload':"inactive",
-            'UnorderedParts': "inactive"
+        {   'Production'    : "active",
+            'Deliveries'    : "inactive",
+            'PartsSearch'   : "inactive",
+            'PaintList'     : "inactive",
+            'UnorderedParts': "inactive",
+            'Vendors'       : "inactive"
          };
 
     $scope.PickTab = function(tabName){
@@ -26,6 +26,7 @@ var TabsCtrlr = function($scope, $http){
         $scope.Tabs[tabName] = 'active';
 
         var tabView;
+
         switch(tabName){
 
             case 'Production':
@@ -48,6 +49,10 @@ var TabsCtrlr = function($scope, $http){
                 tabView = 'Unordered_Parts.html';
                 break;
 
+            case 'Vendors':
+                tabView = 'Vendors.html';
+                break;
+
             default:
                 tabView = 'index.html';
                 break;
@@ -68,9 +73,9 @@ var TabsCtrlr = function($scope, $http){
     {
         if (response.data){
 //         console.log("Last update fetched successfully!");
-         console.log(response.data);
-         const last_update = new Date (response.data.last_update);
-         $scope.last_update = last_update.toLocaleString();
+            console.log(response.data);
+            const last_update = new Date (response.data.last_update);
+            $scope.last_update = last_update.toLocaleString();
         }
     }
 

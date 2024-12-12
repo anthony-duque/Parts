@@ -25,6 +25,9 @@
     <!-- Paint List Screen Controller-->
     <script src='./scripts/Paint_List.js'></script>
 
+    <!-- Vendors List Screen Controller-->
+    <script src='./scripts/Vendors.js'></script>
+
     <!-- Universal Style Sheet -->
     <link rel="stylesheet" href="./styles/Parts.css">
 
@@ -32,7 +35,7 @@
 <body ng-controller='TabsController'>
     <table border='1' width='100%'>
         <tr>
-            <td colspan="2" align='left'>
+            <td colspan="3" align='left'>
                 Today's Date: {{ dateToday }}
             </td>
             <td colspan='3' align='right'>
@@ -54,6 +57,9 @@
             </th>
             <th ng-class='Tabs.UnorderedParts' ng-click='PickTab("UnorderedParts");'>
                 Unordered Parts
+            </th>
+            <th ng-class='Tabs.Vendors' ng-click='PickTab("Vendors");'>
+                Vendors
             </th>
         </tr>
     </table>

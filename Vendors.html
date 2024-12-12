@@ -1,52 +1,39 @@
-<html ng-app='VendorViewModule'>
-<head>
-    <script src='./scripts/angularjs.js'></script>
-    <script src='./scripts/Vendors.js'></script>
-    <script src='./scripts/UtilityFunctions.js'></script>
+<table align='center' ng-controller='VendorViewController'>
+<tr>
+    <th align='center' colspan='3'>
+        Vendor List
+    </th>
+</tr>
+<tr>
+    <td align='center' colspan='3'>
+        Search:
+        <input type='text' ng-model='searchText'>
+        &nbsp;<input type='button' value='Clear' ng-click='searchText = ""'>
+    </td>
 
-    <link rel="stylesheet" href="./styles/Parts.css">
-</head>
-<body ng-controller='VendorViewController'>
-
-    <table align='center'>
-    <tr>
-        <th align='center' colspan='3'>
-            Vendor List
-        </th>
-    </tr>
-    <tr>
-        <td align='center' colspan='3'>
-            Search:
-            <input type='text' ng-model='searchText'>
-            &nbsp;<input type='button' value='Clear' ng-click='searchText = ""'>
-        </td>
-
-    </tr>
-    <tr>
-        <th  ng-click='SortVendors("name");'>
-            Vendor
-        </th>
-        <th  ng-click='SortVendors("phone_number");'>
-            Phone
-        </th>
-        <th  ng-click='SortVendors("email");'>
-            Email
-        </th>
-    </tr>
-    <tr ng-repeat='eachVendor in vendorList | filter: searchText | orderBy: sortFld' ng-class='ToggleColor($index, "white", "orange");'>
-        <td>
-            {{ eachVendor.name }}
-        </td>
-        <td align='center'>
-            {{ eachVendor.phone_number }}
-        </td>
-        <td>
-            <a href= "mailto:{{ eachVendor.email }}">
-                {{ eachVendor.email }}
-            </a>
-        </td>
-    </tr>
-    </table>
-
-</body>
-</html>
+</tr>
+<tr>
+    <th  ng-click='SortVendors("name");'>
+        Vendor
+    </th>
+    <th  ng-click='SortVendors("phone_number");'>
+        Phone
+    </th>
+    <th  ng-click='SortVendors("email");'>
+        Email
+    </th>
+</tr>
+<tr ng-repeat='eachVendor in vendorList | filter: searchText | orderBy: sortFld' ng-class='ToggleColor($index, "white", "orange");'>
+    <td>
+        {{ eachVendor.name }}
+    </td>
+    <td align='center'>
+        {{ eachVendor.phone_number }}
+    </td>
+    <td>
+        <a href= "mailto:{{ eachVendor.email }}">
+            {{ eachVendor.email }}
+        </a>
+    </td>
+</tr>
+</table>

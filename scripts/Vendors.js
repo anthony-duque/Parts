@@ -1,5 +1,3 @@
-var app = angular.module("VendorViewModule", []);
-
 var vendorViewCtrlr = function($scope, $http, utility){
 
 	$scope.sortFld = '+name';
