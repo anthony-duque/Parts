@@ -86,6 +86,9 @@
             <th style='border-bottom-style: groove' ng-click="SortParts('part_description');">
                 Part Description
             </th>
+            <th style='border-bottom-style: groove' ng-click="SortParts('part_description');">
+                Part Status
+            </th>
             <th style='border-bottom-style: groove' ng-click="SortParts('vendor_name');">
                 Vendor Name
             </th>
@@ -123,6 +126,9 @@
             </td>
             <td align='left'>
                 {{ eachPart.part_description }}
+            </td>
+            <td align='center'>
+                {{ eachPart.part_status }}
             </td>
             <td align='center'>
                 {{ eachPart.vendor_name }}

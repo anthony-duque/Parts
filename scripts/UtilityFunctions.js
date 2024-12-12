@@ -60,7 +60,8 @@ app.factory('utility', function(){
                 break;
 
                 // Part ordered but not received
-            case (part.received_quantity == 0) && ((part.ordered_quantity > 0) || (part.ro_quantity > 0)):
+//            case (part.received_quantity == 0) && ((part.ordered_quantity > 0) || (part.ro_quantity > 0)):
+            case (part.received_quantity == 0) && (part.ordered_quantity > 0):
                 bkgrnd_class = "waitingForParts";
                 break;
 

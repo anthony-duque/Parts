@@ -49,23 +49,30 @@ require('Utility_Scripts.php');
         public $returned_quantity;
         public $ro_quantity;
         public $expected_delivery;
+        public $part_status;
 
         function __construct($rec){
 
-            $this->line_num = $rec["Line"];
-            $this->part_number      = $rec["Part_Number"];
-            $this->part_description = $rec["Part_Description"];
+            $this->line_num             = $rec["Line"];
+            $this->part_number          = $rec["Part_Number"];
+            $this->part_description     = $rec["Part_Description"];
 
-            $this->vendor_name      = strtolower($rec["Vendor_Name"]);
-            $this->vendor_name      =  ucwords($this->vendor_name);
+            $this->vendor_name          = strtolower($rec["Vendor_Name"]);
+            $this->vendor_name          =  ucwords($this->vendor_name);
 
-            $this->ro_quantity      = $rec["RO_Qty"];
-            $this->ordered_quantity = $rec["Ordered_Qty"];
-            $this->order_date     = GetDisplayDate($rec["Order_Date"]);
-            $this->received_quantity = $rec["Received_Qty"];
-            $this->invoice_date     = GetDisplayDate($rec["Invoice_Date"]);
-            $this->returned_quantity = $rec["Returned_Qty"];
-            $this->expected_delivery = GetDisplayDate($rec["Expected_Delivery"]);
+            $this->ro_quantity          = $rec["RO_Qty"];
+            $this->ordered_quantity     = $rec["Ordered_Qty"];
+            $this->order_date           = GetDisplayDate($rec["Order_Date"]);
+            $this->received_quantity    = $rec["Received_Qty"];
+            $this->invoice_date         = GetDisplayDate($rec["Invoice_Date"]);
+            $this->returned_quantity    = $rec["Returned_Qty"];
+            $this->expected_delivery    = GetDisplayDate($rec["Expected_Delivery"]);
+            $this->part_status          = ComputePartStatus(
+                                            $this->ro_quantity,
+                                            $this->ordered_quantity,
+                                            $this->received_quantity,
+                                            $this->returned_quantity
+                                        );
         }   // Part()
     }   // Part{}
 
