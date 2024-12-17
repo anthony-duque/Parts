@@ -130,6 +130,7 @@ function ComputePartsReceived(&$repairs){
 	$unordered = 0;
 	$ordered = 0;
 	$received = 0;
+	$returned = 0;
 
 	foreach($repairs as $repair){    // for each car assigned to an estimator
 		foreach($repair->cars as $car){ // get the parts list
@@ -147,8 +148,12 @@ function ComputePartsReceived(&$repairs){
 					case ($part->received_quantity == $part->returned_quantity) &&
 						 ($part->returned_quantity > 0):
 
+						 ++$returned;
+						 break;
+
 					case ($part->received_quantity == 0) &&
 						 (($part->ordered_quantity > 0) || ($part->ro_quantity > 0)):
+
 						++$ordered;
 						break;
 
@@ -161,8 +166,9 @@ function ComputePartsReceived(&$repairs){
 			$car->parts_unordered   = $unordered;
 			$car->parts_waiting     = $ordered;
 			$car->parts_received    = $received;
+			$car->parts_returned    = $returned;
 
-			$totalParts = $unordered + $ordered + $received;
+			$totalParts = $unordered + $ordered + $received + $returned;
 
 			if ($totalParts == 0){
 				$car->parts_percent = 100;
@@ -174,6 +180,7 @@ function ComputePartsReceived(&$repairs){
 			$unordered = 0;
 			$ordered = 0;
 			$received = 0;
+			$returned = 0;
 		}
 	}
 }	// ComputePartsReceived

@@ -56,7 +56,7 @@ app.factory('utility', function(){
 
                 // Returned part
             case (part.received_quantity == part.returned_quantity) && (part.returned_quantity > 0):
-                bkgrnd_class = 'orange';
+                bkgrnd_class = 'lightBlue';
                 break;
 
                 // Part ordered but not received
