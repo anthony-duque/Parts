@@ -35,6 +35,7 @@
         public $parts_unordered;
         public $parts_waiting;
         public $parts_received;
+        public $parts_returned;
         public $parts_percent;
         public $scheduled_out;
 
@@ -48,6 +49,7 @@
             $this->parts_unordered  = 0;
             $this->parts_waiting    = 0;
             $this->parts_received   = 0;
+            $this->parts_returned   = 0;
             $this->parts_percent    = 0;
             $this->scheduled_out    = GetDisplayDate($rec["Scheduled_Out"]);
             $this->scheduled_out    = substr($this->scheduled_out, 0, 5);
