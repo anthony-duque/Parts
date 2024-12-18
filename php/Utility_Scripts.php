@@ -136,27 +136,32 @@ function ComputePartsReceived(&$repairs){
 		foreach($repair->cars as $car){ // get the parts list
 			foreach($car->parts as $part){ // get the parts list
 
-				switch(true){
+//				switch(true){
+				switch($part->part_status){
 
-					case ($part->received_quantity == 0) &&
-						 ($part->ordered_quantity == 0) &&
-						 ($part->ro_quantity > 0):
+					case "NOT ORDERED":
+//					case ($part->received_quantity == 0) &&
+//						 ($part->ordered_quantity == 0) &&
+//						 ($part->ro_quantity > 0):
 
 						++$unordered;
 						break;
 
-					case ($part->received_quantity == $part->returned_quantity) &&
-						 ($part->returned_quantity > 0):
+					case "RETURNED":
+//					case ($part->received_quantity == $part->returned_quantity) &&
+//						 ($part->returned_quantity > 0):
 
 						 ++$returned;
 						 break;
 
-					case ($part->received_quantity == 0) &&
-						 (($part->ordered_quantity > 0) || ($part->ro_quantity > 0)):
+					case "ORDERED":
+//					case ($part->received_quantity == 0) &&
+//						 (($part->ordered_quantity > 0) || ($part->ro_quantity > 0)):
 
 						++$ordered;
 						break;
 
+						// "RECEIVED"
 					default:
 						++$received;
 						break;

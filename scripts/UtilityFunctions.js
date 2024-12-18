@@ -47,25 +47,25 @@ app.factory('utility', function(){
 
         var bkgrnd_class = '';  // Background class
 
-        switch (true){
+        switch (part.part_status){
 
                 // Part hasn't been ordered
-            case (part.received_quantity == 0) && (part.ordered_quantity == 0) && (part.ro_quantity > 0):
+            case "NOT ORDERED":
                 bkgrnd_class = "noParts";
                 break;
 
                 // Returned part
-            case (part.received_quantity == part.returned_quantity) && (part.returned_quantity > 0):
+            case "RETURNED":
                 bkgrnd_class = 'lightBlue';
                 break;
 
                 // Part ordered but not received
-//            case (part.received_quantity == 0) && ((part.ordered_quantity > 0) || (part.ro_quantity > 0)):
-            case (part.received_quantity == 0) && (part.ordered_quantity > 0):
+            case "ORDERED":
                 bkgrnd_class = "waitingForParts";
                 break;
 
                 // part has been received
+                // "RECEIVED"
             default:
                 bkgrnd_class = "partsComplete";
                 break;
@@ -86,20 +86,23 @@ app.factory('utility', function(){
 
         switch(true){
 
+                // none of the parts have been ordered
             case (carObj.parts_unordered > 0) && (carObj.parts_received == 0):
                 bgClass = 'noParts';
                 break;
 
-//            case (carObj.parts_unordered > 0) && (carObj.parts_waiting > 0):
-//            case (carObj.parts_unordered > 0) && (carObj.parts_received > 0):
+                // There are parts received or ordered but there
+                // is at least one part that has not been ordered
             case (carObj.parts_unordered > 0):
                 bgClass = 'orange';
                 break;
 
+                // All parts ordered but still waiting for parts.
             case (carObj.parts_waiting > 0):
                 bgClass = 'waitingForParts';
                 break;
 
+                // Parts complete.
             default:
                 bgClass = 'partsComplete';
                 break;

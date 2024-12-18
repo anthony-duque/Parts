@@ -50,6 +50,7 @@
         public $ordered_quantity;
         public $received_quantity;
         public $returned_quantity;
+        public $part_status;
 
         function __construct($rec){
 
@@ -57,6 +58,12 @@
             $this->ordered_quantity  = $rec["Ordered_Qty"];
             $this->received_quantity = $rec["Received_Qty"];
             $this->returned_quantity = $rec["Returned_Qty"];
+            $this->part_status       = ComputePartStatus(
+                                            $this->ro_quantity,
+                                            $this->ordered_quantity,
+                                            $this->received_quantity,
+                                            $this->returned_quantity
+                                        );
 
         }   // Part()
     }   // Part{}
