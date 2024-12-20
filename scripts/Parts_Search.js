@@ -51,7 +51,7 @@ app.filter('PartsByStatus', function(utility){
 
         if (status){
             angular.forEach(parts, function(part){
-                if (utility.ColorPartStatus(part) == status){
+                if (part.part_status == status){
                     filteredParts.push(part);
                 }
             });

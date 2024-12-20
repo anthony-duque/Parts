@@ -15,7 +15,8 @@ require('Utility_Scripts.php');
         public $expected_delivery;
         public $order_date;
         public $invoice_date;
-        public $vehicle_in;
+        public $part_status;
+//        public $vehicle_in;
 
         function __construct($rec){
 
@@ -33,7 +34,14 @@ require('Utility_Scripts.php');
             $this->expected_delivery    = GetDisplayDate($rec["Expected_Delivery"]);
             $this->order_date           = GetDisplayDate($rec["Order_Date"]);
             $this->invoice_date         = GetDisplayDate($rec["Invoice_Date"]);
-            $this->vehicle_in           = GetDisplayDate($rec["Vehicle_In"]);
+            $this->part_status       = ComputePartStatus(
+                                            $this->ro_quantity,
+                                            $this->ordered_quantity,
+                                            $this->received_quantity,
+                                            $this->returned_quantity
+                                        );
+
+//            $this->vehicle_in           = GetDisplayDate($rec["Vehicle_In"]);
 
         }   // Part()
     }   // Part{}
@@ -48,7 +56,7 @@ require('Utility_Scripts.php');
         $sql = <<<strSQL
                 SELECT RO_Num, Part_Number, Part_Description, Vendor_Name,
                       RO_Qty, Ordered_Qty, Received_Qty, Returned_Qty,
-                      Expected_Delivery, Order_Date, Invoice_Date, Vehicle_In
+                      Expected_Delivery, Order_Date, Invoice_Date
                 FROM PartsStatusExtract pse INNER JOIN Repairs r
                     ON pse.RO_Num = r.roNum
                 WHERE (Line > 0) AND (Part_Number > '' OR Vendor_Name > '')
