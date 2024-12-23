@@ -18,6 +18,7 @@ require('Utility_Scripts.php');
         public $part_status;
         public $vehicle_in;
         public $current_phase;
+        public $owner;
 
         function __construct($rec){
 
@@ -44,6 +45,7 @@ require('Utility_Scripts.php');
 
             $this->vehicle_in           = GetDisplayDate($rec["Vehicle_In"]);
             $this->current_phase        = $rec["CurrentPhase"];
+            $this->owner                = $rec["Owner"];
 
         }   // Part()
     }   // Part{}
@@ -59,7 +61,7 @@ require('Utility_Scripts.php');
                 SELECT RO_Num, Part_Number, Part_Description, Vendor_Name,
                       RO_Qty, Ordered_Qty, Received_Qty, Returned_Qty,
                       Expected_Delivery, Order_Date, Invoice_Date,
-                      Vehicle_In, CurrentPhase
+                      Vehicle_In, CurrentPhase, SUBSTRING_INDEX(r.Owner, ',', 1) AS Owner
 
                 FROM PartsStatusExtract pse INNER JOIN Repairs r
                     ON pse.RO_Num = r.roNum

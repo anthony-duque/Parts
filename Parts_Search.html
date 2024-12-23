@@ -38,6 +38,9 @@
             <th ng-click='SortParts("ro_num");'>
                 RO
             </th>
+            <th ng-click='SortParts("owner");'>
+                Owner
+            </th>
             <th ng-click='SortParts("part_number");'>
                 Part No.
             </th>
@@ -74,6 +77,11 @@
             <td align='center'>
                 <a href="Car_View.html?roNum={{ eachPart.ro_num }}" target="CarStatus">
                     {{ eachPart.ro_num }}
+                </a>
+            </td>
+            <td align='center'>
+                <a href="Car_View.html?roNum={{ eachPart.ro_num }}" target="CarStatus">
+                    {{ eachPart.owner }}
                 </a>
             </td>
             <td align='center'>
