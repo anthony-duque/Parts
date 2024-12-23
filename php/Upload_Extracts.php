@@ -23,7 +23,7 @@ try{
         echo "<br/> Daily Out upload successful!";
     }
 } catch(Exception $e){
-    echo "The was an error uploading the " . basename($_FILES["DailyOutCSV"]["name"]);
+    echo "There was an error uploading the " . basename($_FILES["DailyOutCSV"]["name"]);
     header("Location: ./Upload_Extracts.html");
 }
 

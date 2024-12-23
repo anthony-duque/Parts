@@ -38,7 +38,7 @@ app.filter('FilterInOutCars', function(){
 
         var filteredCars = [];
         var date_in = null;
-        var curr_date = new Date();
+        var curr_date = Date.parse(new Date());
 
         switch(inOut){
 
