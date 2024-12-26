@@ -17,6 +17,10 @@
     color: lightblue;
 }
 
+.lightGreen {
+    background-color: lightgreen;
+}
+
 .completed {
     background-color: lightgreen;
 }
@@ -50,4 +54,12 @@
 .orange{
     color: white;
     background-color: orange;
+}
+
+.orange:visited{
+    color: white;
+}
+
+.orange:link{
+    color: white;
 }

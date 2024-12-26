@@ -6,9 +6,9 @@
         </caption>
         <tr>
             <td>
-                <input type='button' value='Today' ng-click='numDays = 0;'/>
-                <input type='number' ng-model='numDays' min='0' max='14' size=3/> days ago
-                <input type='button' value='Everything' ng-click='numDays = -1;'>
+                <input type='radio' name='numDays' ng-click='Get_All_Cars(0);' checked>Today</input>
+                <input type='radio' name='numDays' ng-click='Get_All_Cars(1);'>Yesterday</input>
+                <input type='radio' name='numDays' ng-click='Get_All_Cars(100);'>Everything</input>
             </td>
             <td align='center'>
                 Search: <input type='text' ng-model='searchText' />
@@ -20,10 +20,10 @@
                         For All Cars
                     </option>
                     <option value='inShop'>
-                        In-Shop Cars
+                        Cars in the Shop
                     </option>
                     <option value='preOrder'>
-                        Pre-order Parts
+                        Pre-ordered Parts
                     </option>
                 </select>
             </td>
@@ -64,7 +64,7 @@
     </table>
 
     <table border='1' width='90%' align='center'>
-        <tr ng-repeat='eachCar in allCars | filter: searchText | FilterInOutCars : carsInOut'>
+        <tr ng-repeat='eachCar in allCars | filter: searchText | FilterInOutCars : carsInOut' ng-class='ToggleColor($index, "lightGreen", "white");'>
             <td align='center' width='15%'>
                     <table id='carTable'>
                         <tr>
@@ -98,13 +98,13 @@
             </td>
             <td valign=top height='100%'>
                 <table border=1 width=100% valign='top' height='100%'>
-                    <tr ng-repeat='eachVendor in eachCar.vendors' >
+                    <tr ng-repeat='eachVendor in eachCar.vendors'  ng-class='ToggleColor($index, "white", "lightGreen");'>
                         <td align='center' width='20%'>
                             {{ eachVendor.name }}
                         </td>
                         <td height='100%' width='50%' >
                             <table border=1 width=100% height='100%'>
-                                <tr ng-repeat='eachPart in eachVendor.parts | GetDeliveriesByDay : numDays'>
+                                <tr ng-repeat='eachPart in eachVendor.parts'  ng-class='ToggleColor($index, "lightGreen", "white");'>
                                     <td width='50%'>
                                             {{ eachPart.part_description }}
                                     </td>

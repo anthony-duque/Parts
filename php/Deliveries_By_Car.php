@@ -7,15 +7,17 @@
     require('Utility_Scripts.php');
     require('db_open.php');
 
-    $allCars = Get_All_Cars($conn);     // Get all cars with deiiveries (invoice_date not null)
+    $numDays = $_GET["numDays"];
+
+    $allCars = Get_All_Cars($conn, $numDays);     // Get all cars with deiiveries (invoice_date not null)
 
     foreach($allCars as $car){
 
-        $car->Get_Vendors_for_Car($conn);   // Get all the vendors that delivered per car
+        $car->Get_Vendors_for_Car($conn, $numDays);   // Get all the vendors that delivered per car
 
         foreach($car->vendors as $vendor){
 
-            $vendor->Get_Vendor_Parts($car->ro_num,$conn);  // Get the parts delivered by the vendor for each car
+            $vendor->Get_Vendor_Parts($car->ro_num, $conn, $numDays);  // Get the parts delivered by the vendor for each car
 
         }   // foreach($car)
     }   // foreach($allCars)
@@ -32,7 +34,7 @@
             $this->name = $rec["Vendor_Name"];
         }   // Vendor()
 
-        function Get_Vendor_Parts($ro, $dbConn){
+        function Get_Vendor_Parts($ro, $dbConn, $days){
 
             $partsList = [];
 
@@ -40,7 +42,7 @@
                         SELECT Part_Number, Part_Description, Received_Qty, Invoice_Date
                         FROM PartsStatusExtract
                         WHERE RO_Num = $ro AND Vendor_Name = '$this->name'
-                            AND Invoice_Date >= DATE_SUB(CURDATE(), INTERVAL 14 DAY)
+                            AND Invoice_Date >= DATE_SUB(CURDATE(), INTERVAL $days DAY)
                     strSQL;
 
             try{
@@ -84,16 +86,15 @@
             $this->technician       = $rec["Technician"];
             $this->vehicle_in       = $rec["Vehicle_In"];
             $this->current_phase    = $rec["CurrentPhase"];
-            $current_phase;
         }
 
-        function Get_Vendors_for_Car($dbConn){
+        function Get_Vendors_for_Car($dbConn, $days){
 
             $sql = <<<strSQL
                         SELECT DISTINCT Vendor_Name
                         FROM PartsStatusExtract
                         WHERE RO_Num = $this->ro_num
-                             AND Invoice_Date >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
+                             AND Invoice_Date >= DATE_SUB(CURDATE(), INTERVAL $days DAY)
                              AND Vendor_Name NOT IN ('**IN-HOUSE', 'ASTECH', 'AIRTIGHT AUTO GLASS', 'BIG BRAND','Jim''s Tire Center', 'PRO TECH DIAGNOSTICS')
                     strSQL;
 
@@ -138,48 +139,17 @@
     }   // Part{}
 
 
-    function Get_Vendors_for_Car($ro, $dbConn){
-
-        $sql = <<<strSQL
-                    SELECT DISTINCT Vendor_Name
-                    FROM PartsStatusExtract
-                    WHERE RO_Num = $ro
-                         AND Invoice_Date >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
-                         AND Vendor_Name NOT IN ('**IN-HOUSE', 'ASTECH', 'AIRTIGHT AUTO GLASS', 'BIG BRAND','Jim''s Tire Center', 'PRO TECH DIAGNOSTICS')
-                strSQL;
-
-        try{
-
-            $vendors = [];
-            $s = mysqli_query($dbConn, $sql);
-
-            while($r = mysqli_fetch_assoc($s)){
-                $vendor = new Vendor($r, $dbConn);
-                array_push($vendors, $vendor);
-            }
-
-        } catch(Exception $e){
-
-            echo "Fetching vendors failed." . $e->getMessage();
-            $dbConn = null;
-
-        } finally {
-
-            return $vendors;
-        }   // try-catch{}
-
-    }   // Get_Vendors_for_Car()
-
-
-    function Get_All_Cars($dbConn){
+    function Get_All_Cars($dbConn, $days){
 
         $sql = <<<strSQL
                     SELECT DISTINCT p.RO_Num, SUBSTRING_INDEX(r.Owner, ',', 1) AS Owner,
                             r.Vehicle, r.Technician, r.Estimator, r.Vehicle_In, r.CurrentPhase                    FROM PartsStatusExtract p INNER JOIN Repairs r
                         ON p.RO_Num = r.RONum
-                    WHERE Invoice_Date >= DATE_SUB(CURDATE(), INTERVAL 14 DAY)
+                    WHERE Invoice_Date >= DATE_SUB(CURDATE(), INTERVAL $days DAY)
                         AND Vendor_Name NOT IN ('**IN-HOUSE', 'ASTECH', 'AIRTIGHT AUTO GLASS', 'BIG BRAND','Jim''s Tire Center', 'PRO TECH DIAGNOSTICS')
                 strSQL;
+
+//        echo $sql;
 
         try {
 

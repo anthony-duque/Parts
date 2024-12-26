@@ -1,10 +1,15 @@
 
-var DeliveriesCtrlr = function($scope, $http){
+var DeliveriesCtrlr = function($scope, $http, utility){
 
     $scope.carsInOut = "all";
     $scope.numDays = 0;
 
-    Get_All_Cars();
+    $scope.Get_All_Cars = function(days)
+    {
+        $http.get('./php/Deliveries_By_Car.php?numDays=' + days)
+              .then(handleSuccess)
+              .catch(handleError);   // .then()
+    }
 
     function handleSuccess(response)
     {
@@ -21,13 +26,9 @@ var DeliveriesCtrlr = function($scope, $http){
         console.log("Repair records not fetched.");
     }
 
-    function Get_All_Cars()
-    {
-        $http.get('./php/Deliveries_By_Car.php')
-              .then(handleSuccess)
-              .catch(handleError);   // .then()
-    }
-
+    $scope.ToggleColor = function(x, oddRowClass, evenRowClass){
+        return utility.ToggleRows(x, oddRowClass, evenRowClass);
+    }   // CheckParts()
 }
 
 app.controller("DeliveriesController", DeliveriesCtrlr);
