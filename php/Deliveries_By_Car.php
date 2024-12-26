@@ -31,19 +31,27 @@
         public $parts = [];
 
         function __construct($rec, $dbConn){
-            $this->name = $rec["Vendor_Name"];
+//            $this->name = $rec["Vendor_Name"];
+            $this->name = str_replace("'", "''", $rec["Vendor_Name"]);
         }   // Vendor()
 
         function Get_Vendor_Parts($ro, $dbConn, $days){
 
             $partsList = [];
 
+            if ($days > 1){
+                $dateClause = '';
+            } else {
+                $dateClause = "AND DATEDIFF(CURDATE(), Invoice_Date) = $days";
+            }
+
             $sql = <<<strSQL
                         SELECT Part_Number, Part_Description, Received_Qty, Invoice_Date
                         FROM PartsStatusExtract
                         WHERE RO_Num = $ro AND Vendor_Name = '$this->name'
-                            AND Invoice_Date >= DATE_SUB(CURDATE(), INTERVAL $days DAY)
+                            $dateClause
                     strSQL;
+//                    AND Invoice_Date > DATE_SUB(CURDATE(), INTERVAL $days DAY)
 
             try{
 
@@ -90,14 +98,21 @@
 
         function Get_Vendors_for_Car($dbConn, $days){
 
+            if ($days > 1){
+                $dateClause = '';
+            } else {
+                $dateClause = "AND DATEDIFF(CURDATE(), Invoice_Date) = $days";
+            }
+
             $sql = <<<strSQL
                         SELECT DISTINCT Vendor_Name
                         FROM PartsStatusExtract
                         WHERE RO_Num = $this->ro_num
-                             AND Invoice_Date >= DATE_SUB(CURDATE(), INTERVAL $days DAY)
-                             AND Vendor_Name NOT IN ('**IN-HOUSE', 'ASTECH', 'AIRTIGHT AUTO GLASS', 'BIG BRAND','Jim''s Tire Center', 'PRO TECH DIAGNOSTICS')
+                            $dateClause
+                            AND Vendor_Name NOT IN ('**IN-HOUSE', 'ASTECH', 'AIRTIGHT AUTO GLASS', 'BIG BRAND','Jim''s Tire Center', 'PRO TECH DIAGNOSTICS')
                     strSQL;
 
+//                    AND Invoice_Date > DATE_SUB(CURDATE(), INTERVAL $days DAY)
             try{
 
                 $vendorList = [];
@@ -141,14 +156,22 @@
 
     function Get_All_Cars($dbConn, $days){
 
+        if ($days > 1){
+            $dateClause = '';
+        } else {
+            $dateClause = "AND DATEDIFF(CURDATE(), Invoice_Date) = $days";
+        }
+
         $sql = <<<strSQL
                     SELECT DISTINCT p.RO_Num, SUBSTRING_INDEX(r.Owner, ',', 1) AS Owner,
-                            r.Vehicle, r.Technician, r.Estimator, r.Vehicle_In, r.CurrentPhase                    FROM PartsStatusExtract p INNER JOIN Repairs r
-                        ON p.RO_Num = r.RONum
-                    WHERE Invoice_Date >= DATE_SUB(CURDATE(), INTERVAL $days DAY)
-                        AND Vendor_Name NOT IN ('**IN-HOUSE', 'ASTECH', 'AIRTIGHT AUTO GLASS', 'BIG BRAND','Jim''s Tire Center', 'PRO TECH DIAGNOSTICS')
+                            r.Vehicle, r.Technician, r.Estimator, r.Vehicle_In, r.CurrentPhase
+                    FROM PartsStatusExtract p INNER JOIN Repairs r
+                            ON p.RO_Num = r.RONum
+                    WHERE Vendor_Name NOT IN ('**IN-HOUSE', 'ASTECH', 'AIRTIGHT AUTO GLASS', 'BIG BRAND','Jim''s Tire Center', 'PRO TECH DIAGNOSTICS')
+                        $dateClause
                 strSQL;
 
+//                Invoice_Date > DATE_SUB(CURDATE(), INTERVAL $days DAY)
 //        echo $sql;
 
         try {

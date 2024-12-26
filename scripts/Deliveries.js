@@ -2,7 +2,6 @@
 var DeliveriesCtrlr = function($scope, $http, utility){
 
     $scope.carsInOut = "all";
-    $scope.numDays = 0;
 
     $scope.Get_All_Cars = function(days)
     {
@@ -10,6 +9,8 @@ var DeliveriesCtrlr = function($scope, $http, utility){
               .then(handleSuccess)
               .catch(handleError);   // .then()
     }
+
+    $scope.Get_All_Cars(100);   // default: display all parts
 
     function handleSuccess(response)
     {

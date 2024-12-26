@@ -11,10 +11,14 @@
     background-color: pink;
 }
 
-
 .heading{
     background-color: black;
     color: lightblue;
+}
+
+.greenOnWhite{
+    background-color: black;
+    color: lightgreen;
 }
 
 .lightGreen {

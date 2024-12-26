@@ -6,9 +6,9 @@
         </caption>
         <tr>
             <td>
-                <input type='radio' name='numDays' ng-click='Get_All_Cars(0);' checked>Today</input>
+                <input type='radio' name='numDays' ng-click='Get_All_Cars(0);'>Today</input>
                 <input type='radio' name='numDays' ng-click='Get_All_Cars(1);'>Yesterday</input>
-                <input type='radio' name='numDays' ng-click='Get_All_Cars(100);'>Everything</input>
+                <input type='radio' name='numDays' ng-click='Get_All_Cars(365);' checked>Everything</input>
             </td>
             <td align='center'>
                 Search: <input type='text' ng-model='searchText' />
@@ -30,23 +30,25 @@
         </tr>
     </table>
     <table width='90%' align='center' border=1>
-    <tr>
-        <th width='15%'>Car</th>
+    <tr class='greenOnWhite'>
+        <th width='15%'>
+            Car
+        </th>
         <th>
             <table border=1 width='100%'>
-                <tr>
+                <tr class='greenOnWhite'>
                     <th width='29%'>
                         Vendor
                     </th>
                     <th>
                         <table width='100%'>
-                            <tr>
+                            <tr class='greenOnWhite'>
                                 <th align='center' width='100%'>Part</th>
                             </tr>
                             <tr>
                                 <td width='100%'>
                                     <table width='100%' border=1>
-                                        <tr>
+                                        <tr class='greenOnWhite'>
                                             <th width='50%'>Description</th>
                                             <th width='30%'>Number</th>
                                             <th width='5%'>Qty</th>
