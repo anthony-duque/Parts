@@ -2,6 +2,7 @@
 var DeliveriesCtrlr = function($scope, $http, utility){
 
     $scope.carsInOut = "all";
+    $scope.viewBy = "DeliveriesByCar.html";
 
     $scope.Get_All_Cars = function(days)
     {

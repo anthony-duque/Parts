@@ -1,5 +1,13 @@
 <?php
 
+define ("IN_HOUSE_VENDORS",
+			"'**IN-HOUSE',
+			'ASTECH',
+			'AIRTIGHT AUTO GLASS',
+			'BIG BRAND',
+			'Jim''s Tire Center',
+			'PRO TECH DIAGNOSTICS'");
+
 function ComputePartStatus($ro_qty, $ordered_qty, $received_qty, $returned_qty){
 
 	$partStatus = '';

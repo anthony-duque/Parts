@@ -15,59 +15,70 @@
         $dateClause = "DATEDIFF(CURDATE(), Invoice_Date) = $numDays";
     }
 
-    $allCars = Get_All_Cars($conn, $dateClause);     // Get all cars with deiiveries (invoice_date not null)
+    $allVendors = Get_All_Vendors($conn, $dateClause);     // Get all cars with deiiveries (invoice_date not null)
 
-    foreach($allCars as $car){
+    foreach($allVendors as $vendor){
 
-        $car->Get_Vendors_for_Car($conn, $dateClause);   // Get all the vendors that delivered per car
+        $vendor->Get_Cars_for_Vendor($conn, $dateClause, $vendor->name);   // Get all the vendors that delivered per car
 
-        foreach($car->vendors as $vendor){
+        foreach($vendor->cars as $car){
 
-            $vendor->Get_Vendor_Parts($car->ro_num, $conn, $dateClause);  // Get the parts delivered by the vendor for each car
+            $car->Get_Parts_for_Car($conn, $dateClause, $vendor->name);  // Get the parts delivered by the vendor for each car
 
         }   // foreach($car)
-    }   // foreach($allCars)
 
-   echo json_encode($allCars);
+    }   // foreach($allVendors)
+
+   echo json_encode($allVendors);
 
         // Deliveries by Vendor - Cars - Parts
     class Vendor {
 
         public $name;
-        public $parts = [];
+        public $cars = [];
 
         function __construct($rec, $dbConn){
-//            $this->name = $rec["Vendor_Name"];
             $this->name = str_replace("'", "''", $rec["Vendor_Name"]);
         }   // Vendor()
 
-        function Get_Vendor_Parts($ro, $dbConn, $sqlDtClause){
+        function Get_Cars_for_Vendor($dbConn, $sqlDtClause){
 
-            $partsList = [];
+            $carList = [];
 
             $sql = <<<strSQL
-                        SELECT Part_Number, Part_Description, Received_Qty, Invoice_Date
-                        FROM PartsStatusExtract
-                        WHERE RO_Num = $ro AND Vendor_Name = '$this->name'
-                            AND $sqlDtClause
-                    strSQL;
+
+            SELECT DISTINCT
+
+                r.RONum AS RO_Num, r.Vehicle AS Vehicle, r.Owner AS Owner,
+                r.Estimator AS Estimator, r.Technician AS Technician,
+                r.Vehicle_In AS Vehicle_In, r.CurrentPhase AS CurrentPhase
+
+            FROM PartsStatusExtract pse INNER JOIN Repairs r
+
+            WHERE Vendor_Name = '$this->name'
+                AND pse.RO_Num = r.RONum
+                AND $sqlDtClause
+
+            ORDER BY r.RONum
+
+            strSQL;
 
             try{
 
                 $s = mysqli_query($dbConn, $sql);
 
                 while($r = mysqli_fetch_assoc($s)){
-                    $part = new Part($r);
-                    array_push($partsList, $part);
+                    $car = new Car($r);
+                    array_push($carList, $car);
                 }
 
             } catch(Exception $e){
 
-                echo "Fetching parts failed." . $e->getMessage();
+                echo "Fetching cars failed." . $e->getMessage();
                 $dbConn = null;
 
             } finally {
-                $this->parts = $partsList;
+                $this->cars = $carList;
             }   // try-catch{}
         }
 
@@ -83,9 +94,10 @@
         public $technician;
         public $vehicle_in;
         public $current_phase;
-        public $vendors = [];
+        public $parts = [];
 
         function __construct($rec){
+
             $this->ro_num           = $rec["RO_Num"];
             $this->vehicle          = $rec["Vehicle"];
             $this->owner            = ucwords(strtolower($rec["Owner"]));
@@ -93,36 +105,45 @@
             $this->technician       = $rec["Technician"];
             $this->vehicle_in       = $rec["Vehicle_In"];
             $this->current_phase    = $rec["CurrentPhase"];
+
         }
 
-        function Get_Vendors_for_Car($dbConn, $sqlDtClause){
+        function Get_Parts_for_Car($dbConn, $sqlDtClause, $vendorName){
 
             $sql = <<<strSQL
-                        SELECT DISTINCT Vendor_Name
-                        FROM PartsStatusExtract
-                        WHERE RO_Num = $this->ro_num
-                            AND $sqlDtClause
-                            AND Vendor_Name NOT IN ('**IN-HOUSE', 'ASTECH', 'AIRTIGHT AUTO GLASS', 'BIG BRAND','Jim''s Tire Center', 'PRO TECH DIAGNOSTICS')
-                    strSQL;
+
+                SELECT
+                    Part_Number,
+                    Part_Description,
+                    Received_Qty,
+                    Invoice_Date
+
+                FROM PartsStatusExtract
+
+                WHERE RO_Num = $this->ro_num
+                    AND Vendor_Name = '$vendorName'
+                    AND $sqlDtClause
+
+            strSQL;
 
             try{
 
-                $vendorList = [];
+                $partsList = [];
                 $s = mysqli_query($dbConn, $sql);
 
                 while($r = mysqli_fetch_assoc($s)){
-                    $vendor = new Vendor($r, $dbConn);
-                    array_push($vendorList, $vendor);
+                    $part = new Part($r);
+                    array_push($partsList, $part);
                 }
 
             } catch(Exception $e){
 
-                echo "Fetching vendors failed." . $e->getMessage();
+                echo "Fetching parts failed." . $e->getMessage();
                 $dbConn = null;
 
             } finally {
 
-                $this->vendors = $vendorList;
+                $this->parts = $partsList;
             }   // try-catch{}
 
         }   // Get_Vendors_for_Car()
@@ -146,35 +167,35 @@
     }   // Part{}
 
 
-    function Get_All_Cars($dbConn, $sqlDtClause){
+    function Get_All_Vendors($dbConn, $sqlDateClause){
 
         $sql = <<<strSQL
-                    SELECT DISTINCT p.RO_Num, SUBSTRING_INDEX(r.Owner, ',', 1) AS Owner,
-                            r.Vehicle, r.Technician, r.Estimator, r.Vehicle_In, r.CurrentPhase
-                    FROM PartsStatusExtract p INNER JOIN Repairs r
-                            ON p.RO_Num = r.RONum
-                    WHERE Vendor_Name NOT IN ('**IN-HOUSE', 'ASTECH', 'AIRTIGHT AUTO GLASS', 'BIG BRAND','Jim''s Tire Center', 'PRO TECH DIAGNOSTICS')
-                        AND $sqlDtClause
+                    SELECT DISTINCT Vendor_Name
+                    FROM PartsStatusExtract
+                    WHERE Vendor_Name NOT IN (%s)
+                         AND $sqlDateClause
                 strSQL;
-
+        $sql = sprintf($sql, IN_HOUSE_VENDORS);
+        //echo $sql;
         try {
 
-            $cars = [];
+            $vendors = [];
             $s = mysqli_query($dbConn, $sql);
 
             while($r = mysqli_fetch_assoc($s)){
-                $car = new Car($r);
-                array_push($cars, $car);
+                $vendor = new Vendor($r, $dbConn);
+                array_push($vendors, $vendor);
             }
 
         } catch (Exception $e){
 
-            echo "Fetching cars failed." . $e->getMessage();
+            echo "Fetching vendors failed." . $e->getMessage();
             $dbConn = null;
 
         } finally {
 
-            return $cars;
+            return $vendors;
+
         }   // try-catch{}
     }   // Get_All_Cars()
 
