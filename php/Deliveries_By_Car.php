@@ -149,12 +149,14 @@
     function Get_All_Cars($dbConn, $sqlDtClause){
 
         $sql = <<<strSQL
-                    SELECT DISTINCT p.RO_Num, SUBSTRING_INDEX(r.Owner, ',', 1) AS Owner,
-                            r.Vehicle, r.Technician, r.Estimator, r.Vehicle_In, r.CurrentPhase
+                    SELECT DISTINCT p.RO_Num AS RO_Num, SUBSTRING_INDEX(r.Owner, ',', 1) AS Owner,
+                        r.Vehicle, r.Technician, r.Estimator, r.Vehicle_In, r.CurrentPhase
                     FROM PartsStatusExtract p INNER JOIN Repairs r
                             ON p.RO_Num = r.RONum
                     WHERE Vendor_Name NOT IN ('**IN-HOUSE', 'ASTECH', 'AIRTIGHT AUTO GLASS', 'BIG BRAND','Jim''s Tire Center', 'PRO TECH DIAGNOSTICS')
                         AND $sqlDtClause
+                        AND RO_Num <> 1004
+                    ORDER BY RO_Num DESC
                 strSQL;
 
         try {

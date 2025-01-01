@@ -12,16 +12,26 @@
                 <th>
                     <table width='100%'>
                         <tr class='greenOnWhite'>
-                            <th align='center' width='100%'>Part</th>
+                                <th align='center' width='100%'>
+                                Part
+                                </th>
                         </tr>
                         <tr>
                             <td width='100%'>
                                 <table width='100%' border=1>
                                     <tr class='greenOnWhite'>
-                                        <th width='50%'>Description</th>
-                                        <th width='30%'>Number</th>
-                                        <th width='5%'>Qty</th>
-                                        <th>Date</th>
+                                        <th width='50%'>
+                                            Description
+                                        </th>
+                                        <th width='30%'>
+                                            Number
+                                        </th>
+                                        <th width='5%'>
+                                            Qty
+                                        </th>
+                                        <th>
+                                            Date
+                                        </th>
                                     </tr>
                                 </table>
                             </td>
@@ -33,8 +43,8 @@
         </th>
     </tr>
 </table>
-
-<table border='1' width='90%' align='center'>
+numDays = {{ numDays}}
+<table border='1' width='90%' align='center' ng-controller='DeliveriesByCarCtrlr'>
     <tr ng-repeat='eachCar in allCars | filter: searchText | FilterInOutCars : carsInOut' ng-class='ToggleColor($index, "lightGreen", "white");'>
         <td align='center' width='15%'>
                 <table id='carTable'>
@@ -68,14 +78,14 @@
                 </table>
         </td>
         <td valign=top height='100%'>
-            <table border=1 width=100% valign='top' height='100%'>
+            <table border=1  | GetDeliveriesByDay : numDays' width=100% valign='top' height='100%'>
                 <tr ng-repeat='eachVendor in eachCar.vendors'  ng-class='ToggleColor($index, "white", "lightGreen");'>
                     <td align='center' width='20%'>
                         {{ eachVendor.name }}
                     </td>
                     <td height='100%' width='50%' >
                         <table border=1 width=100% height='100%'>
-                            <tr ng-repeat='eachPart in eachVendor.parts'  ng-class='ToggleColor($index, "lightGreen", "white");'>
+                            <tr ng-repeat='eachPart in eachVendor.parts | GetDeliveriesByDay : numDays'  ng-class='ToggleColor($index, "lightGreen", "white");'>
                                 <td width='50%'>
                                         {{ eachPart.part_description }}
                                 </td>

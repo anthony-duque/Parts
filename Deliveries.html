@@ -6,15 +6,15 @@
         </caption>
         <tr>
             <td>
-                Delivered:
-                <input type='radio' name='numDays' ng-click='Get_All_Cars(0);'>Today</input>
-                <input type='radio' name='numDays' ng-click='Get_All_Cars(1);'>Yesterday</input>
-                <input type='radio' name='numDays' ng-click='Get_All_Cars(365);' checked>Anytime</input>
+                <b><i><u>Delivered:</u></i></b>
+                <input type='radio' ng-model='numDays' value=0>Today</input>
+                <input type='radio' ng-model='numDays' value=1>Yesterday</input>
+                <input type='radio' ng-model='numDays' value=365 checked>Anytime</input>
             </td>
             <td>
-                View by:
-                <input type='radio' ng-model='viewBy' value='DeliveriesByCar.html' checked>Cars</input>
-                <input type='radio' ng-model='viewBy' value='DeliveriesByVendor.html'>Vendors</input>
+                <b><i><u>View by:</u></i></b>
+                <input type='radio' ng-model='viewBy' value='DeliveriesByCar.html' ng-click='Get_All_Cars(numDays);' checked>Car</input>
+                <input type='radio' ng-model='viewBy' value='DeliveriesByVendor.html' ng-click='Get_All_Cars(numDays);'>Vendor</input>
             </td>
             <td align='center'>
                 Search: <input type='text' ng-model='searchText' />
