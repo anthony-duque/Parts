@@ -172,10 +172,12 @@
 
         $sql = <<<strSQL
                     SELECT DISTINCT Vendor_Name
-                    FROM PartsStatusExtract
+                    FROM PartsStatusExtract pse INNER JOIN Repairs r
+                        ON pse.RO_Num = r.RONum
                     WHERE Vendor_Name NOT IN (%s)
                          AND $sqlDateClause
                          AND RO_Num <> 1004
+                    ORDER BY Vendor_Name
                 strSQL;
         $sql = sprintf($sql, IN_HOUSE_VENDORS);
         //echo $sql;
