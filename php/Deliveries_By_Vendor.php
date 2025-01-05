@@ -175,6 +175,7 @@
                     FROM PartsStatusExtract
                     WHERE Vendor_Name NOT IN (%s)
                          AND $sqlDateClause
+                         AND RO_Num <> 1004
                 strSQL;
         $sql = sprintf($sql, IN_HOUSE_VENDORS);
         //echo $sql;

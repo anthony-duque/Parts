@@ -43,7 +43,7 @@
         </th>
     </tr>
 </table>
-numDays = {{ numDays}}
+
 <table border='1' width='90%' align='center' ng-controller='DeliveriesByCarCtrlr'>
     <tr ng-repeat='eachCar in allCars | filter: searchText | FilterInOutCars : carsInOut'
         ng-class='ToggleColor($index, "lightGreen", "white");'

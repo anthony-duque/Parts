@@ -87,10 +87,9 @@
                             AND Vendor_Name NOT LIKE '**%'
                             AND Part_Number NOT LIKE 'Aftermarket%'
                             AND (Part_Type <> 'Sublet')
-                            AND RO_Num =
-                    strSQL . $roNum .
-                    " ORDER BY Ordered_Qty ASC";
-
+                            AND RO_Num = $roNum
+                    ORDER BY Ordered_Qty ASC;
+                strSQL;
         try {
 
             $s = mysqli_query($dbConn, $sql);
