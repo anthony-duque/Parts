@@ -7,9 +7,9 @@
         <tr>
             <td>
                 <b><i><u>Delivered:</u></i></b>
-                <input type='radio' ng-model='numDays' value=0>Today</input>
-                <input type='radio' ng-model='numDays' value=1>Yesterday</input>
-                <input type='radio' ng-model='numDays' value=365 checked>Anytime</input>
+                <input type='radio' name="day" ng-click='Get_All_Parts(0);'>Today</input>
+                <input type='radio' name="day" ng-click='Get_All_Parts(1);'>Yesterday</input>
+                <input type='radio' name="day" ng-click='Get_All_Parts(365);' checked>Anytime</input>
             </td>
             <td>
                 <b><i><u>View by:</u></i></b>

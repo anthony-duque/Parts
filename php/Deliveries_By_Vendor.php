@@ -58,6 +58,7 @@
             WHERE Vendor_Name = '$this->name'
                 AND pse.RO_Num = r.RONum
                 AND $sqlDtClause
+                AND RO_Num <> 1004
 
             ORDER BY r.RONum
 
