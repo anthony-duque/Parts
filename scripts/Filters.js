@@ -1,42 +1,3 @@
-function FilterPartsByDay(parts, numOfDays){
-
-    var filteredParts   = [];
-    var date_recvd      = null;
-    var curr_date       = new Date();
-    var time_diff       = 0;
-    var date_diff       = 0;
-
-    if (numOfDays > 1){
-
-        filteredParts = parts;
-
-    } else {
-
-        angular.forEach(parts, function(part){
-
-            date_recvd = new Date(part.invoice_date);
-            time_diff = Math.abs(curr_date - date_recvd);
-            date_diff = Math.floor(time_diff / (1000 * 60 * 60 * 24));
-
-            if (date_diff == numOfDays){
-                filteredParts.push(part);
-            }
-        });
-    }   // if(numDays...)
-
-    return filteredParts;
-
-}   // FilterPartsByDay
-
-app.filter('GetDeliveriesByDay', function(){
-
-        // number of days from today
-    return function(partsList, numDays){
-        return FilterPartsByDay(partsList, numDays);
-    }
-});
-
-
 app.filter('FilterInOutCars', function(){
 
     return function(cars, inOut){
@@ -81,5 +42,4 @@ app.filter('FilterInOutCars', function(){
 
         return filteredCars;
     }   // function(cars, inOut)
-
 });

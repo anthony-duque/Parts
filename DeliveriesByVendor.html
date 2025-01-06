@@ -35,13 +35,13 @@
 </table>
 
 <table border='1' width='90%' align='center' ng-controller='DeliveriesByVendorCtrlr'>
-    <tr ng-repeat='eachVendor in allVendors | filter: searchText | FilterInOutCars : carsInOut' ng-class='ToggleColor($index, "lightGreen", "white");'>
+    <tr ng-repeat='eachVendor in allVendors | filter: searchText' ng-class='ToggleColor($index, "lightGreen", "white");'>
         <td align='center' width='15%' id='carColumn'>
             {{ eachVendor.name }}
         </td>
         <td valign=top height='100%'>
             <table border=1 width=100% valign='top' height='100%'>
-                <tr ng-repeat='eachCar in eachVendor.cars'  ng-class='ToggleColor($index, "white", "lightGreen");'>
+                <tr ng-repeat='eachCar in eachVendor.cars | FilterInOutCars : carsInOut'  ng-class='ToggleColor($index, "white", "lightGreen");'>
                     <td align='center' width='20%'>
                         <table id='carTable'>
                             <tr>
