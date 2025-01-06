@@ -1,4 +1,4 @@
-var vendorViewCtrlr = function($scope, $http, utility){
+var vendorViewCtrlr = function($scope, $http){
 
 	$scope.sortFld = '+name';
 
@@ -11,10 +11,6 @@ var vendorViewCtrlr = function($scope, $http, utility){
 
     GetVendorList();
 /*** End of Main Routine ***/
-
-	$scope.ToggleColor = function(x, oddRowClass, evenRowClass){
-        return utility.ToggleRows(x, oddRowClass, evenRowClass);
-    }   // CheckParts()
 
 
 	$scope.SortVendors = function(sortFld){

@@ -1,6 +1,6 @@
 //var app = angular.module("UnorderedPartsApp", []);
 
-function UnorderedPartsCtrlr($scope, $http, utility){
+function UnorderedPartsCtrlr($scope, $http){
 
     GetPartsList();
     $scope.carsInOut = 'all';
@@ -28,11 +28,6 @@ function UnorderedPartsCtrlr($scope, $http, utility){
     {
         console.log("Unordered Parts list not fetched.");
     }   // handleError()
-
-
-    $scope.ToggleColor = function(x, oddRowClass, evenRowClass){
-        return utility.ToggleRows(x, oddRowClass, evenRowClass);
-    }   // CheckParts()
 
 
     $scope.ShowHideParts = function(estimator){

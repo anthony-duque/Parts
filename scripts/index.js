@@ -1,6 +1,6 @@
 var app = angular.module("TabsApp", []);
 
-var TabsCtrlr = function($scope, $http){
+var TabsCtrlr = function($scope, $http, utility){
 
     const DEFAULT_VIEW = 'Production.html';
 
@@ -72,7 +72,6 @@ var TabsCtrlr = function($scope, $http){
     function handleSuccess(response)
     {
         if (response.data){
-//         console.log("Last update fetched successfully!");
             console.log(response.data);
             const last_update = new Date (response.data.last_update);
             $scope.last_update = last_update.toLocaleString();
@@ -83,6 +82,11 @@ var TabsCtrlr = function($scope, $http){
     {
         console.log("Repair records not fetched.");
     }
+
+
+    $scope.ToggleColor = function(x, oddRowClass, evenRowClass){
+        return utility.ToggleRows(x, oddRowClass, evenRowClass);
+    }   // CheckParts()
 
 }
 

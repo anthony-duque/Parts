@@ -5,10 +5,6 @@ var DeliveriesCtrlr = function($scope, $http, utility){
     $scope.viewBy = "DeliveriesByCar.html";
     $scope.numDays = 365;
 
-    $scope.ToggleColor = function(x, oddRowClass, evenRowClass){
-        return utility.ToggleRows(x, oddRowClass, evenRowClass);
-    }   // CheckParts()
-
     $scope.Get_All_Parts = function(numOfDays){
 
         $scope.numDays = numOfDays;
