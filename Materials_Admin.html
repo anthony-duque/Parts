@@ -1,0 +1,79 @@
+<html ng-app="MatAdminApp">
+<head>
+    <script src='./scripts/angularjs.js'></script>
+    <script src='./scripts/Materials_Admin.js'></script>
+</head>
+<body ng-controller="MatAdminCtlr">
+    <table id='tblMain' width='100%' border=1 valign='top'>
+    <tr>
+        <td id='colEntry' width='50%'>
+            <table id='tblMatEntry' width='100%' align='center'>
+            <tr>
+                <th>
+                    Part Number:
+                </th>
+                <td>
+                    <input type='text' ng-model='newMaterial.part_number' placeholder="Part Number"/>
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    Description:
+                </th>
+                <td>
+                    <input type='text' ng-model='newMaterial.description' placeholder="Description" />
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    Unit:
+                </th>
+                <td>
+                    <input type='text' ng-model='newMaterial.unit' placeholder="Unit" />
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    Reorder Quantity:
+                </th>
+                <td>
+                    <input  type='number'
+                            ng-model='newMaterial.reorder_qty'
+                            placeholder="Reorder Quantity"
+                            min=0 max=10/>
+                </td>
+            </tr>
+            </table>
+        </td>
+        <td id='colMatList'>
+            <table id='tblMatList' align='center'>
+            <thead>
+            <tr>
+                <th>Description</th>
+                <th>Part Number</th>
+                <th>Unit</th>
+                <th>Reorder Qty</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat='eachMat in materialsList'>
+                <td align='left'>
+                    {{ eachMat.description }}
+                </td>
+                <td align='center'>
+                    {{ eachMat.part_number }}
+                </td>
+                <td align='center'>
+                    {{ eachMat.unit }}
+                </td>
+                <td align='center'>
+                    {{ eachMat.reorder_qty }}
+                </td>
+            </tr>
+            </tbody>
+            </table>
+        </td>
+    </tr>
+    </table>
+</body>
+</html>
