@@ -2,8 +2,6 @@ var matAdminApp = angular.module("MatAdminApp", []);
 
 var matAdminCtlr = function($scope, $http){
 
-    $scope.x = "xxx";
-
     var material = {
         "part_number"   : "",
         "description"   : "",
@@ -13,8 +11,30 @@ var matAdminCtlr = function($scope, $http){
 
     $scope.newMaterial = material;
 
-    GetMaterialsList();
     $scope.materialsList = [];
+
+    GetMaterialsList();
+
+    $scope.Add_Material = function(){
+//        console.log($scope.newMaterial);
+////////////
+    $http.post('./php/Materials.php', JSON.stringify($scope.newMaterial))
+        .then(function(response) {
+             if (response.data){
+                console.log(response.data);
+                //console.log("New Material written to database!");
+             }
+          },
+          function(response) {
+             console.log("Service does not Exists");
+             console.log(response.status);
+             console.log(response.statusText);
+             console.log(response.headers());
+         });
+
+////////////
+    }
+
 
     function GetMaterialsList()
     {

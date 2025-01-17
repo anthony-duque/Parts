@@ -11,6 +11,7 @@
        case 'POST':;
           $json = file_get_contents('php://input');
           $data = json_decode($json);
+//          echo $json;
           ProcessPOST($data);
           break;
 
@@ -84,6 +85,32 @@
         }   // try-catch{}
 
     }   // ProcessGET()
+
+    function ProcessPOST($newMaterial){
+
+        require('db_open.php');
+
+        $tsql = <<<strSQL
+                INSERT INTO Materials
+                    (Part_Number,
+                    Description,
+                    Unit,
+                    Reorder_Quantity)
+                VALUES
+                    ('$newMaterial->part_number',
+                    '$newMaterial->description',
+                    '$newMaterial->unit',
+                    $newMaterial->reorder_qty);
+            strSQL;
+
+            if ($conn->query($tsql) === TRUE) {
+               echo '(' . $newMaterial->part_number . ') ' .
+                    $newMaterial->description . " uploaded<br/>";
+            } else {
+              echo "Error: " . $tsql . "<br>" . $conn->error;
+            }
+
+    }   // ProcessPOST()
 
 //phpinfo();
 ?>
