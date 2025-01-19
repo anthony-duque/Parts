@@ -21,20 +21,34 @@ var matAdminCtlr = function($scope, $http){
 
 
     $scope.Add_Material = function(){
-        $http.post('./php/Materials.php', JSON.stringify($scope.newMaterial))
-                .then(
-                    function(response) {
-                        if (response.data){
-                            console.log(response.data);
-                            GetMaterialsList();
-                        }
-                    },
-                    function(response) {
-                        console.log("Service does not Exists");
-                        console.log(response.status);
-                        console.log(response.statusText);
-                        console.log(response.headers());
-                    });
+
+        var noMatchingPartNum = $scope.materialsList.every(
+            function(eachMat){
+                return ($scope.newMaterial.part_number != eachMat.part_number);
+            }
+        );
+
+        $scope.duplicatePart = $scope.newMaterial.part_number + " already exists!";
+
+        if (noMatchingPartNum){
+
+            $scope.duplicatePart = '';
+            $http.post('./php/Materials.php', JSON.stringify($scope.newMaterial))
+                    .then(
+                        function(response) {
+                            if (response.data){
+                                console.log(response.data);
+                                GetMaterialsList();
+                            }
+                        },
+                        function(response) {
+                            console.log("Service does not Exists");
+                            console.log(response.status);
+                            console.log(response.statusText);
+                            console.log(response.headers());
+                        });
+        }  // if (noMatchingPartNum)
+
     }   // Add_Material()
 
 
@@ -46,7 +60,9 @@ var matAdminCtlr = function($scope, $http){
                             console.log("Material Types List fetched successfully!");
                             console.log(response.data);
                             $scope.materialTypesList = response.data;
-                        }
+                        }    $scope.materialsList = [];
+    GetMaterialsList();
+
                     }
               )         // then()
               .catch(
