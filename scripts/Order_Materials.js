@@ -6,7 +6,9 @@ var OrderMaterialsCtrlr = function($scope, $http){
         "" ,"Serjio", "Jose", "Van", "Nacho", "Gerry"
     ];
 
-    $scope.materialsList = [];
+    $scope.materialsList    = [];
+    $scope.ordersList       = [];
+
     GetMaterialsList();
 
     function GetMaterialsList()
@@ -27,6 +29,12 @@ var OrderMaterialsCtrlr = function($scope, $http){
                     }
              );
     }     // GetMaterialsList()
+
+    $scope.CheckOrder = function(matObj){
+        if (matObj.ordered == true){    // is checkbox checked
+            $scope.ordersList.push(matObj);  
+        }
+    }
 
 };
 

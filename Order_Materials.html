@@ -5,34 +5,73 @@
     <script src='./scripts/Order_Materials.js'></script>
 </head>
 <body ng-controller='OrderMaterialsController'>
-<table id='tblMain'>
-<tr>
-    <td id='colTechs' colspan="2">
-        Ordered by:
-        <select ng-model='order.tech'>
-            <option ng-repeat='eachTech in technicians' value='{{eachTech}}'>
-                {{ eachTech }}
-            </option>
-        </select>
-    </td>
-</tr>
-<tr ng-show='order.tech.length > 0'>
-    <td id='materialsColumn'>
-        <table id='tblMaterialsListTbl'>
-        <tr ng-repeat='eachMat in materialsList' ng-click='eachMat.ordered = !eachMat.ordered'>
-            <td>
-                {{ eachMat.part_number }}
-            </td>
-            <td>
-                {{ eachMat.description }}
-            </td>
-            <td>
-                {{ eachMat.ordered }}
-            </td>
-        </tr>
-        </table>
-    </td>
-</tr>
+<table id='tblMain' width='100%' border='1'>
+    <tr>
+        <td width='50%'>
+            <table id='tblTechList'>
+            <tr>
+                <td id='colTechs' colspan="2">
+                    Ordered by:
+                    <select ng-model='order.tech'>
+                        <option ng-repeat='eachTech in technicians' value='{{eachTech}}'>
+                            {{ eachTech }}
+                        </option>
+                    </select>
+                </td>
+            </tr>
+            </table>
+
+            <br/>
+
+            <table id='tblMaterialsListTbl' ng-show='order.tech.length > 0'>
+            <tr ng-repeat='eachMat in materialsList'>
+                <td>
+                    {{ eachMat.part_number }}
+                </td>
+                <td>
+                    {{ eachMat.description }}
+                </td>
+                <td>
+                    <input type='checkbox'
+                            ng-model='eachMat.ordered'
+                            ng-change='CheckOrder(eachMat);'>
+                </td>
+            </tr>
+            </table>
+        </td>
+        <td width='50%' align='center' valign='top'>
+            <table id='tblOrderList' ng-show='order.tech.length > 0' border='1' width='80%'>
+            <tr>
+                <th>
+                    Qty
+                </th>
+                <th>
+                    Unit
+                </th>
+                <th>
+                    Part No.
+                </th>
+                <th>
+                    Description
+                </th>
+            </tr>
+            <tr ng-repeat='eachItem in ordersList'>
+                <td align='center'>
+                    Qty
+                </td>
+                <td align='center'>
+                    {{ eachItem.unit }}
+                </td>
+                <td align='center'>
+                    {{ eachItem.part_number }}
+                </td>
+                <td align='center'>
+                    {{ eachItem.description }}
+                </th>
+            </tr>
+            </table>
+        </td>
+    </tr>
 </table>
 </body>
 </html>
