@@ -5,15 +5,17 @@
     <script src='./scripts/Order_Materials.js'></script>
 </head>
 <body ng-controller='OrderMaterialsController'>
-<table id='tblMain' width='100%' border='1'>
+
+    <table id='tblMain' width='100%' border='1'>
     <tr>
         <td width='50%'>
+
             <table id='tblTechList'>
             <tr>
                 <td id='colTechs' colspan="2">
                     Ordered by:
-                    <select ng-model='order.tech'>
-                        <option ng-repeat='eachTech in technicians' value='{{eachTech}}'>
+                    <select ng-model='technician'>
+                        <option ng-repeat='eachTech in techList' value='{{eachTech}}'>
                             {{ eachTech }}
                         </option>
                     </select>
@@ -23,7 +25,7 @@
 
             <br/>
 
-            <table id='tblMaterialsListTbl' ng-show='order.tech.length > 0'>
+            <table id='tblMaterialsListTbl' ng-show='technician.length > 0'>
             <tr ng-repeat='eachMat in materialsList'>
                 <td>
                     {{ eachMat.part_number }}
@@ -32,15 +34,15 @@
                     {{ eachMat.description }}
                 </td>
                 <td>
-                    <input type='checkbox'
-                            ng-model='eachMat.ordered'
+                    <input type='number' min=0 max=20
+                            ng-model='eachMat.ordered_qty'
                             ng-change='CheckOrder(eachMat);'>
                 </td>
             </tr>
             </table>
         </td>
         <td width='50%' align='center' valign='top'>
-            <table id='tblOrderList' ng-show='order.tech.length > 0' border='1' width='80%'>
+            <table id='tblOrderList' ng-show='technician.length > 0' border='1' width='80%'>
             <tr>
                 <th>
                     Qty
@@ -57,7 +59,7 @@
             </tr>
             <tr ng-repeat='eachItem in ordersList'>
                 <td align='center'>
-                    Qty
+                    {{ eachItem.ordered_qty }}
                 </td>
                 <td align='center'>
                     {{ eachItem.unit }}
@@ -70,8 +72,17 @@
                 </th>
             </tr>
             </table>
+
+            <table align='center' ng-show='ordersList.length > 0'>
+            <tr>
+                <td align='center'>
+                    <input type='submit' value='Submit Order' ng-click='SubmitOrder();'/>
+                </td>
+            </tr>
+            </table>
+
         </td>
     </tr>
-</table>
+    </table>
 </body>
 </html>
