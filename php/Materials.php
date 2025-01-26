@@ -38,21 +38,23 @@
     class material {
 
         public $part_number;
+        public $brand;
         public $description;
         public $unit;
         public $type;
         public $reorder_qty;
-        public $ordered;    // not pulled from DB. Value is set in UI.
+        public $ordered_qty;    // not pulled from DB. Value is set in UI.
 
         function __construct($rec){
             $this->part_number  = $rec["Part_Number"];
+            $this->brand        = $rec["Brand"];
             $this->description  = $rec["Description"];
             $this->unit         = $rec["Unit"];
             $this->type         = $rec["Type"];
             $this->reorder_qty  = $rec["Reorder_Quantity"];
-            $this->ordered      = false;
+            $this->ordered_qty  = 0;
         }
-    }   // Car{}
+    }   // material{}
 
 
     function ProcessGET(){
@@ -60,7 +62,7 @@
         require('db_open.php');
 
         $sql = <<<strSQL
-                    SELECT Part_Number, Description, Unit, Type, Reorder_Quantity
+                    SELECT Part_Number, Brand, Description, Unit, Type, Reorder_Quantity
                     FROM Materials
                     ORDER BY Type, Description
                 strSQL;
@@ -97,12 +99,14 @@
         $tsql = <<<strSQL
                 INSERT INTO Materials
                     (Part_Number,
+                    Brand,
                     Description,
                     Unit,
                     Type,
                     Reorder_Quantity)
                 VALUES
                     ('$newMaterial->part_number',
+                    '$newMaterial->brand',
                     '$newMaterial->description',
                     '$newMaterial->unit',
                     '$newMaterial->type',

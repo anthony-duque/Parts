@@ -18,6 +18,14 @@
             </tr>
             <tr>
                 <th>
+                    Brand:
+                </th>
+                <td>
+                    <input type='text' ng-model='newMaterial.brand' placeholder="Brand"/>
+                </td>
+            </tr>
+            <tr>
+                <th>
                     Description:
                 </th>
                 <td>
@@ -64,9 +72,10 @@
             {{ duplicatePart }}
         </td>
         <td id='colMatList'>
-            <table id='tblMatList' align='center'>
+            <table id='tblMatList' align='center' border='1' ng-show='materialsList.length > 0'>
             <thead>
             <tr>
+                <th>Brand</th>
                 <th>Description</th>
                 <th>Part Number</th>
                 <th>Unit</th>
@@ -75,6 +84,9 @@
             </thead>
             <tbody>
             <tr ng-repeat='eachMat in materialsList'>
+                <td align='left'>
+                    {{ eachMat.brand }}
+                </td>
                 <td align='left'>
                     {{ eachMat.description }}
                 </td>

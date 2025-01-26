@@ -4,6 +4,7 @@ var matAdminCtlr = function($scope, $http){
 
     var material = {
         "part_number"   : "",
+        "brand"         : "",
         "description"   : "",
         "unit"          : '',
         "reorder_qty"   : 0
