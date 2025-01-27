@@ -34,6 +34,7 @@ var matAdminCtlr = function($scope, $http){
         if (noMatchingPartNum){
 
             $scope.duplicatePart = '';
+            console.log($scope.newMaterial);
             $http.post('./php/Materials.php', JSON.stringify($scope.newMaterial))
                     .then(
                         function(response) {

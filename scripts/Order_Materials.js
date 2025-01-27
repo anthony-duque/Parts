@@ -67,7 +67,7 @@ var OrderMaterialsCtrlr = function($scope, $http){
             "materials" : $scope.ordersList
         }
 
-        $http.post('./php/Materials_Orders.php', JSON.stringify(order))
+        $http.post('./php/Materials_Ordered.php', JSON.stringify(order))
             .then(
                 function(response){     // successful POST
                     console.log(response.data);
