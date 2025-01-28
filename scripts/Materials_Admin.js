@@ -20,7 +20,6 @@ var matAdminCtlr = function($scope, $http){
 
     ////////////
 
-
     $scope.Add_Material = function(){
 
         var noMatchingPartNum = $scope.materialsList.every(

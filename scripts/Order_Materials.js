@@ -6,8 +6,9 @@ var OrderMaterialsCtrlr = function($scope, $http){
         "" ,"Serjio", "Jose", "Van", "Nacho", "Gerry"
     ];
 
-    $scope.materialsList    = [];
-    $scope.ordersList       = [];
+    $scope.materialsList    = [];   // material list from the database
+    $scope.newMatList       = [];   // materials that are not in the database
+    $scope.ordersList       = [];   // list of ordered materials
 
     GetMaterialsList();
 
@@ -59,6 +60,21 @@ var OrderMaterialsCtrlr = function($scope, $http){
             }
         }
     }   // CheckOrder()
+
+
+    $scope.Add_New_Material = function(){
+
+        var newMat = {
+            "part_number":  "",
+            "description":  "",
+            "ordered_qty":  0,
+            "unit"  :   ""
+        }
+
+        $scope.newMatList.unshift(newMat);   // add new material to the materials list
+
+    }   // Add_New_Material()
+
 
     $scope.SubmitOrder = function(){
 

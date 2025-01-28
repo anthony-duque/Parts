@@ -13,7 +13,7 @@
             <table id='tblTechList'>
             <tr>
                 <td id='colTechs' colspan="2">
-                    Ordered by:
+                    Order for:
                     <select ng-model='technician'>
                         <option ng-repeat='eachTech in techList' value='{{eachTech}}'>
                             {{ eachTech }}
@@ -21,12 +21,46 @@
                     </select>
                 </td>
             </tr>
+            <tr ng-show='technician.length > 0'>
+                <td>
+                    <br/>
+                    Search: <input type='text' ng-model='searchText' placeholder="Any text"></input>
+                    <input type='button' ng-click='searchText = ""' value='Clear'>
+                </td>
+            </tr>
             </table>
 
             <br/>
 
             <table id='tblMaterialsListTbl' ng-show='technician.length > 0'>
-            <tr ng-repeat='eachMat in materialsList'>
+            <tr>
+                <td>
+                    <input type='button' value='New Item' ng-click='Add_New_Material();'/>
+                </td>
+            </tr>
+            <tr>
+                <th>Part Number</th>
+                <th>Description</th>
+                <th>Qty</th>
+                <th>Unit</th>
+            </tr>
+            <tr ng-repeat='eachMat in newMatList'>
+                <td>
+                    <input type='text' ng-model='eachMat.part_number' />
+                </td>
+                <td>
+                    <input type='text' ng-model='eachMat.description' />
+                </td>
+                <td>
+                    <input type='number' min=0 max=20
+                            ng-model='eachMat.ordered_qty'
+                            ng-change='CheckOrder(eachMat);'>
+                </td>
+                <td>
+                    <input type='text' ng-model='eachMat.unit' />
+                </td>
+            </tr>
+            <tr ng-repeat='eachMat in materialsList | filter: searchText'>
                 <td>
                     {{ eachMat.part_number }}
                 </td>
@@ -37,6 +71,9 @@
                     <input type='number' min=0 max=20
                             ng-model='eachMat.ordered_qty'
                             ng-change='CheckOrder(eachMat);'>
+                </td>
+                <td align='center'>
+                    {{ eachMat.unit }}
                 </td>
             </tr>
             </table>
