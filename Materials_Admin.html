@@ -2,6 +2,8 @@
 <head>
     <script src='./scripts/angularjs.js'></script>
     <script src='./scripts/Materials_Admin.js'></script>
+    <script src='./scripts/UtilityFunctions.js'></script>
+    <link rel='stylesheet' href="./styles/Parts.css" />
 </head>
 <body ng-controller="MatAdminCtlr">
     <table id='tblMain' width='100%' border=1 valign='top'>
@@ -72,19 +74,31 @@
             {{ duplicatePart }}
         </td>
         <td id='colMatList'>
+            Search : <input type='text' ng-model='searchText' />
             <table id='tblMatList' align='center' border='1' ng-show='materialsList.length > 0'>
             <thead>
             <tr>
-                <th>Brand</th>
-                <th>Description</th>
-                <th>Part Number</th>
-                <th>Unit</th>
-                <th>Reorder Qty</th>
+                <th ng-click='SortMaterials("brand");'>
+                    Brand
+                </th>
+                <th ng-click='SortMaterials("description");'>
+                    Description
+                </th>
+                <th ng-click='SortMaterials("part_number");'>
+                    Part Number
+                </th>
+                <th ng-click='SortMaterials("unit");'>
+                    Unit
+                </th>
+                <th ng-click='SortMaterials("reorder_qty");'>
+                    Reorder Qty
+                </th>
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat='eachMat in materialsList'>
-                <td align='left'>
+            <tr ng-repeat='eachMat in materialsList | orderBy: sortFld | filter: searchText'
+                ng-class='ToggleColor($index,  "white", "lightBlue");'>
+                <td align='center'>
                     {{ eachMat.brand }}
                 </td>
                 <td align='left'>

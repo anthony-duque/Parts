@@ -1,6 +1,4 @@
 
-//var app = angular.module("OrderMaterialsApp", []);
-
 var OrderMaterialsCtlr = function($scope, $http, utility){
 
     $scope.techList = [

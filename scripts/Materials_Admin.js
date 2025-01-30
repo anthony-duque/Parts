@@ -1,6 +1,8 @@
-var matAdminApp = angular.module("MatAdminApp", []);
+var app = angular.module("MatAdminApp", []);
 
-var matAdminCtlr = function($scope, $http){
+var matAdminCtlr = function($scope, $http, utility){
+
+    $scope.sortFld = '+brand';
 
     var material = {
         "part_number"   : "",
@@ -9,6 +11,14 @@ var matAdminCtlr = function($scope, $http){
         "unit"          : '',
         "reorder_qty"   : 0
     };
+
+    function Material(){
+        this.part_number = "";
+        this.brand = "";
+        this.description = "";
+        this.unit = "";
+        this.reorder_qty = 0;
+    }
 
     $scope.newMaterial = material;
 
@@ -40,6 +50,7 @@ var matAdminCtlr = function($scope, $http){
                             if (response.data){
                                 console.log(response.data);
                                 GetMaterialsList();
+                                $scope.newMaterial = new Material();
                             }
                         },
                         function(response) {
@@ -94,6 +105,15 @@ var matAdminCtlr = function($scope, $http){
              );
     }     // GetMaterialsList()
 
+
+    $scope.ToggleColor = function(x, oddRowClass, evenRowClass){
+        return utility.ToggleRows(x, oddRowClass, evenRowClass);
+    }   // CheckParts()
+
+    $scope.SortMaterials = function(sortFld){
+        $scope.sortFld = utility.SortField(sortFld, $scope.sortFld);
+    }   // SortParts()
+
 }   // matAdminCtlr()
 
-matAdminApp.controller("MatAdminCtlr", matAdminCtlr);
+app.controller("MatAdminCtlr", matAdminCtlr);
