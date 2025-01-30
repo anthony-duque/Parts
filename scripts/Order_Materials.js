@@ -1,6 +1,7 @@
-var app = angular.module("OrderMaterialsApp", []);
 
-var OrderMaterialsCtrlr = function($scope, $http, utility){
+//var app = angular.module("OrderMaterialsApp", []);
+
+var OrderMaterialsCtlr = function($scope, $http, utility){
 
     $scope.techList = [
         "" ,"Serjio", "Jose", "Van", "Nacho", "Gerry"
@@ -103,4 +104,4 @@ var OrderMaterialsCtrlr = function($scope, $http, utility){
 
 };
 
-app.controller("OrderMaterialsController", OrderMaterialsCtrlr);
+app.controller("OrderMaterialsController", OrderMaterialsCtlr);

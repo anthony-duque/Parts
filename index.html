@@ -22,6 +22,9 @@
     <!-- Parts Search Screen Controller-->
     <script src='./scripts/Parts_Search.js'></script>
 
+    <!-- Materials Ordering Page Controller-->
+    <script src='./scripts/Order_Materials.js'></script>
+
     <!-- Unordered Parts Screen Controller-->
     <script src='./scripts/Unordered_Parts.js'></script>
 
@@ -41,7 +44,7 @@
             <td colspan="3" align='left'>
                 Today's Date: {{ dateToday }}
             </td>
-            <td colspan='3' align='right'>
+            <td colspan='4' align='right'>
                 Data last updated:  {{ last_update }}
             </td>
         </tr>
@@ -54,6 +57,9 @@
             </th>
             <th ng-class='Tabs.PartsSearch' ng-click='PickTab("PartsSearch");'>
                 Parts Search
+            </th>
+            <th ng-class='Tabs.Materials' ng-click='PickTab("Materials");'>
+                Materials
             </th>
             <th ng-class='Tabs.PaintList' ng-click='PickTab("PaintList");'>
                 Paint List
