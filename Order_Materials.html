@@ -1,15 +1,17 @@
 <html ng-app='OrderMaterialsApp'>
+
 <head>
     <title>Order Materials</title>
     <script src='./scripts/angularjs.js'></script>
     <script src='./scripts/Order_Materials.js'></script>
+    <script src='./scripts/UtilityFunctions.js'></script>
+    <link rel="stylesheet" href="./styles/Parts.css">
 </head>
-<body ng-controller='OrderMaterialsController'>
 
+<body ng-controller='OrderMaterialsController'>
     <table id='tblMain' width='100%' border='1'>
     <tr>
         <td width='50%'>
-
             <table id='tblTechList'>
             <tr>
                 <td id='colTechs' colspan="2">
@@ -60,7 +62,7 @@
                     <input type='text' ng-model='eachMat.unit' />
                 </td>
             </tr>
-            <tr ng-repeat='eachMat in materialsList | filter: searchText'>
+            <tr ng-repeat='eachMat in materialsList | filter: searchText' ng-class='ToggleColor($index, "white", "lightBlue");'>
                 <td>
                     {{ eachMat.part_number }}
                 </td>

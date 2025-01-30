@@ -22,8 +22,8 @@
 
        case "GET":
             echo "GET";
-//          $materialsList = ProcessGET();
-//          echo json_encode($materialsList);
+//          $ordersList = ProcessGET();
+//          echo json_encode($ordersList);
           break;
 
        case "DELETE":
@@ -38,14 +38,24 @@
 
     function ProcessPOST($order){
 
-        $orders = "<html><table>";
+        $orders = <<<strHTML
+                    <html>
+                        <table border='1' width='50%'>
+                        <tr>
+                            <th>Qty</th>
+                            <th>Unit</th>
+                            <th>Part Number</th>
+                            <th>Description</th>
+                        </tr>
+                strHTML;
+
         foreach($order->materials as $eachMaterial){
             $eachLine = <<<strLine
                             <tr>
-                                <td>$eachMaterial->ordered_qty</td>
-                                <td>$eachMaterial->unit</td>
-                                <td>$eachMaterial->part_number</td>
-                                <td>$eachMaterial->description</td>
+                                <td align='center'>$eachMaterial->ordered_qty</td>
+                                <td align='center'>$eachMaterial->unit</td>
+                                <td align='center'>$eachMaterial->part_number</td>
+                                <td align='center'>$eachMaterial->description</td>
                             </tr>
                         strLine;
             $orders .= $eachLine;
@@ -59,14 +69,14 @@
 
         $headers = "MIME-Version: 1.0\n";
         $headers .= "Content-type: text/html; charset=iso-8859-1\n";
-        $headers .= "From: Automated Email <donotreply@cityautobody.net>\n";
+        $headers .= "From: Automated Email <parts@cityautobody.net>\n";
         $headers .= "Cc: Jim <adduxe@hotmail.com>";
 
-        $emaiSent = mail($to, $subject, $orders, $headers);
-        if ($emaiSent){
+        try {
+            mail($to, $subject, $orders, $headers);
             echo "Email sent successfully!";
-        } else {
-            echo "Email send failed!";
+        } catch (Exception $e) {
+            echo "Email send failed! ($e->getMessage())";
         }
     }   // ProcessPOST()
 

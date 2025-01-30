@@ -1,6 +1,6 @@
 var app = angular.module("OrderMaterialsApp", []);
 
-var OrderMaterialsCtrlr = function($scope, $http){
+var OrderMaterialsCtrlr = function($scope, $http, utility){
 
     $scope.techList = [
         "" ,"Serjio", "Jose", "Van", "Nacho", "Gerry"
@@ -96,6 +96,11 @@ var OrderMaterialsCtrlr = function($scope, $http){
                 }
             );  // then()
     }   // SubmitOrder()
+
+    $scope.ToggleColor = function(x, oddRowClass, evenRowClass){
+        return utility.ToggleRows(x, oddRowClass, evenRowClass);
+    }   // CheckParts()
+
 };
 
 app.controller("OrderMaterialsController", OrderMaterialsCtrlr);
