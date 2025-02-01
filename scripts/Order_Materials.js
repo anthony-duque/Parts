@@ -100,10 +100,22 @@ var OrderMaterialsCtlr = function($scope, $http, utility){
             );  // then()
     }   // SubmitOrder()
 
+
     $scope.ToggleColor = function(x, oddRowClass, evenRowClass){
         return utility.ToggleRows(x, oddRowClass, evenRowClass);
     }   // CheckParts()
 
+
+    $scope.CheckIfOrdered = function(qty){
+
+        var checkMark = '';
+
+        if(qty > 0){
+            checkMark = '\u2713';
+        }
+
+        return checkMark;
+    }   // CheckIfOrdered()
 };
 
 app.controller("OrderMaterialsController", OrderMaterialsCtlr);
