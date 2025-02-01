@@ -8,8 +8,11 @@
 <body ng-controller="MatAdminCtlr">
     <table id='tblMain' width='100%' border=1 valign='top'>
     <tr>
-        <td id='colEntry' width='50%'>
-            <table id='tblMatEntry' width='100%' align='center'>
+        <td id='colEntry' width='50%' valign='top'>
+            <table id='tblMatEntry' width='100%' align='top'>
+            <caption>
+                <b>New Material Entry</b>
+            </caption>
             <tr>
                 <th>
                     Part Number:
@@ -62,7 +65,7 @@
                     <input  type='number'
                             ng-model='newMaterial.reorder_qty'
                             placeholder="Reorder Quantity"
-                            min=0 max=10/>
+                            min=0 max=10 />
                 </td>
             </tr>
             <tr>
@@ -73,10 +76,12 @@
             </table>
             {{ duplicatePart }}
         </td>
-        <td id='colMatList'>
-            Search : <input type='text' ng-model='searchText' />
+        <td id='colMatList' align='center'>
             <table id='tblMatList' align='center' border='1' ng-show='materialsList.length > 0'>
             <thead>
+            <caption>
+                Search : <input type='text' ng-model='searchText' />
+            </caption>
             <tr>
                 <th ng-click='SortMaterials("brand");'>
                     Brand

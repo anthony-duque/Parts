@@ -1,125 +1,115 @@
-<!--html ng-app='OrderMaterialsApp'>
+<table id='tblMain' width='100%' border='1' ng-controller='OrderMaterialsController'>
+<tr>
+    <td width='50%'>
 
-<head>
-    <title>Order Materials</title>
-    <script src='./scripts/angularjs.js'></script>
-    <script src='./scripts/Order_Materials.js'></script>
-    <script src='./scripts/UtilityFunctions.js'></script>
-    <link rel="stylesheet" href="./styles/Parts.css">
-</head-->
+        <table id='tblTechList'>
+        <tr>
+            <td id='colTechs' colspan="2">
+                Order for:
+                <select ng-model='technician'>
+                    <option ng-repeat='eachTech in techList' value='{{eachTech}}'>
+                        {{ eachTech }}
+                    </option>
+                </select>
+            </td>
+        </tr>
+        <tr ng-show='technician.length > 0'>
+            <td>
+                <br/>
+                Search: <input type='text' ng-model='searchText' placeholder="Any text"></input>
+                <input type='button' ng-click='searchText = ""' value='Clear'>
+            </td>
+        </tr>
+        </table>
 
-    <table id='tblMain' width='100%' border='1' ng-controller='OrderMaterialsController'>
-    <tr>
-        <td width='50%'>
+        <br/>
 
-            <table id='tblTechList'>
-            <tr>
-                <td id='colTechs' colspan="2">
-                    Order for:
-                    <select ng-model='technician'>
-                        <option ng-repeat='eachTech in techList' value='{{eachTech}}'>
-                            {{ eachTech }}
-                        </option>
-                    </select>
-                </td>
-            </tr>
-            <tr ng-show='technician.length > 0'>
-                <td>
-                    <br/>
-                    Search: <input type='text' ng-model='searchText' placeholder="Any text"></input>
-                    <input type='button' ng-click='searchText = ""' value='Clear'>
-                </td>
-            </tr>
-            </table>
+        <table id='tblMaterialsListTbl' ng-show='technician.length > 0'>
+        <tr>
+            <td>
+                <input type='button' value='New Item' ng-click='Add_New_Material();'/>
+            </td>
+        </tr>
+        <tr>
+            <th>Part Number</th>
+            <th>Description</th>
+            <th>Qty</th>
+            <th>Unit</th>
+        </tr>
+        <tr ng-repeat='eachMat in newMatList'>
+            <td>
+                <input type='text' ng-model='eachMat.part_number' />
+            </td>
+            <td>
+                <input type='text' ng-model='eachMat.description' />
+            </td>
+            <td>
+                <input type='number' min=0 max=20
+                        ng-model='eachMat.ordered_qty'
+                        ng-change='CheckOrder(eachMat);'>
+            </td>
+            <td>
+                <input type='text' ng-model='eachMat.unit' />
+            </td>
+        </tr>
+        <tr ng-repeat='eachMat in materialsList | filter: searchText' ng-class='ToggleColor($index, "white", "lightBlue");'>
+            <td>
+                {{ eachMat.part_number }}
+            </td>
+            <td>
+                {{ eachMat.description }}
+            </td>
+            <td>
+                <input type='number' min=0 max=20
+                        ng-model='eachMat.ordered_qty'
+                        ng-change='CheckOrder(eachMat);'>
+            </td>
+            <td align='center'>
+                {{ eachMat.unit }}
+            </td>
+        </tr>
+        </table>
+    </td>
+    <td width='50%' align='center' valign='top'>
+        <table id='tblOrderList' ng-show='technician.length > 0' border='1' width='80%' class=''>
+        <tr>
+            <th>
+                Qty
+            </th>
+            <th>
+                Unit
+            </th>
+            <th>
+                Part No.
+            </th>
+            <th>
+                Description
+            </th>
+        </tr>
+        <tr ng-repeat='eachItem in ordersList'  ng-class='ToggleColor($index, "active", "inactive");'>
+            <td align='center'>
+                {{ eachItem.ordered_qty }}
+            </td>
+            <td align='center'>
+                {{ eachItem.unit }}
+            </td>
+            <td align='center'>
+                {{ eachItem.part_number }}
+            </td>
+            <td align='center'>
+                {{ eachItem.description }}
+            </th>
+        </tr>
+        </table>
 
-            <br/>
+        <table align='center' ng-show='ordersList.length > 0'>
+        <tr>
+            <td align='center'>
+                <input type='submit' value='Submit Order' ng-click='SubmitOrder();'/>
+            </td>
+        </tr>
+        </table>
 
-            <table id='tblMaterialsListTbl' ng-show='technician.length > 0'>
-            <tr>
-                <td>
-                    <input type='button' value='New Item' ng-click='Add_New_Material();'/>
-                </td>
-            </tr>
-            <tr>
-                <th>Part Number</th>
-                <th>Description</th>
-                <th>Qty</th>
-                <th>Unit</th>
-            </tr>
-            <tr ng-repeat='eachMat in newMatList'>
-                <td>
-                    <input type='text' ng-model='eachMat.part_number' />
-                </td>
-                <td>
-                    <input type='text' ng-model='eachMat.description' />
-                </td>
-                <td>
-                    <input type='number' min=0 max=20
-                            ng-model='eachMat.ordered_qty'
-                            ng-change='CheckOrder(eachMat);'>
-                </td>
-                <td>
-                    <input type='text' ng-model='eachMat.unit' />
-                </td>
-            </tr>
-            <tr ng-repeat='eachMat in materialsList | filter: searchText' ng-class='ToggleColor($index, "white", "lightBlue");'>
-                <td>
-                    {{ eachMat.part_number }}
-                </td>
-                <td>
-                    {{ eachMat.description }}
-                </td>
-                <td>
-                    <input type='number' min=0 max=20
-                            ng-model='eachMat.ordered_qty'
-                            ng-change='CheckOrder(eachMat);'>
-                </td>
-                <td align='center'>
-                    {{ eachMat.unit }}
-                </td>
-            </tr>
-            </table>
-        </td>
-        <td width='50%' align='center' valign='top'>
-            <table id='tblOrderList' ng-show='technician.length > 0' border='1' width='80%'>
-            <tr>
-                <th>
-                    Qty
-                </th>
-                <th>
-                    Unit
-                </th>
-                <th>
-                    Part No.
-                </th>
-                <th>
-                    Description
-                </th>
-            </tr>
-            <tr ng-repeat='eachItem in ordersList'>
-                <td align='center'>
-                    {{ eachItem.ordered_qty }}
-                </td>
-                <td align='center'>
-                    {{ eachItem.unit }}
-                </td>
-                <td align='center'>
-                    {{ eachItem.part_number }}
-                </td>
-                <td align='center'>
-                    {{ eachItem.description }}
-                </th>
-            </tr>
-            </table>
-
-            <table align='center' ng-show='ordersList.length > 0'>
-            <tr>
-                <td align='center'>
-                    <input type='submit' value='Submit Order' ng-click='SubmitOrder();'/>
-                </td>
-            </tr>
-            </table>
-
-        </td>
-    </tr>
-    </table>
+    </td>
+</tr>
+</table>

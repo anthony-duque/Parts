@@ -86,6 +86,10 @@ var OrderMaterialsCtlr = function($scope, $http, utility){
             .then(
                 function(response){     // successful POST
                     console.log(response.data);
+                    if (response.data.search("successful") > -1){
+                        alert("Request sent successfully!");
+                        $scope.ordersList = [];
+                    }
                 },
                 function(response){     // failed POST
                     console.log("Service does not exist");

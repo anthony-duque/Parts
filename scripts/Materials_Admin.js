@@ -4,15 +4,7 @@ var matAdminCtlr = function($scope, $http, utility){
 
     $scope.sortFld = '+brand';
 
-    var material = {
-        "part_number"   : "",
-        "brand"         : "",
-        "description"   : "",
-        "unit"          : '',
-        "reorder_qty"   : 0
-    };
-
-    function Material(){
+    function Material(){    // Material Class constructor
         this.part_number = "";
         this.brand = "";
         this.description = "";
@@ -20,7 +12,7 @@ var matAdminCtlr = function($scope, $http, utility){
         this.reorder_qty = 0;
     }
 
-    $scope.newMaterial = material;
+    $scope.newMaterial = new Material();
 
     $scope.materialsList = [];
     GetMaterialsList();
