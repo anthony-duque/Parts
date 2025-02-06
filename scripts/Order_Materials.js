@@ -2,7 +2,7 @@
 var OrderMaterialsCtlr = function($scope, $http, utility){
 
     $scope.techList = [
-        "" ,"Serjio", "Jose", "Van", "Nacho", "Gerry"
+        "" ,"Serjio", "Jose", "Van", "Nacho", "Gerry", "Omar"
     ];
 
     $scope.materialsList    = [];   // material list from the database

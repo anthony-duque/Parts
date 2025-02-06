@@ -63,14 +63,14 @@
 
         $orders .= "</table></html>";
 
-        $to         = "Parts Department<adduxe@gmail.com>";
+        $to         = "Parts Department<parts@cityautobody.net>, CarStar<carstarsimivalley#gmail.com>";
 //        $to         = "Parts Department<parts@cityautobody.net>";
         $subject    = "Materials Order from " . $order->technician;
 
         $headers = "MIME-Version: 1.0\n";
         $headers .= "Content-type: text/html; charset=iso-8859-1\n";
         $headers .= "From: Automated Email <parts@cityautobody.net>\n";
-        $headers .= "Cc: Jim <adduxe@hotmail.com>";
+        $headers .= "Cc: Jim <jimd@cityautobody.net>";
 
         try {
             mail($to, $subject, $orders, $headers);

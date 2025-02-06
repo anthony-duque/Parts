@@ -80,7 +80,8 @@
             <table id='tblMatList' align='center' border='1' ng-show='materialsList.length > 0'>
             <thead>
             <caption>
-                Search : <input type='text' ng-model='searchText' />
+                Search : <input type='text' ng-model='searchText' />&nbsp;
+                <input type='button' ng-click='searchText = '' value="Clear" ng-show='searchText > ""' />
             </caption>
             <tr>
                 <th ng-click='SortMaterials("brand");'>
