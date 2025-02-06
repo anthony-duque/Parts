@@ -11,12 +11,19 @@ const CURRENT_PHASE    	= 7;
 const SCHEDULED_OUT    	= 8;
 const TECHNICIAN       	= 9;
 const ESTIMATOR        	= 10;
+const SHOP_LOCATION     = 11;
 
 function Upload_Daily_Out_CSV($daily_out_extract_file){
 
+        // Open the extract file for reading
+    if (($handle = fopen($daily_out_extract_file, "r")) === FALSE) {
+		echo "Error in opening " . $daily_out_extract_file;
+		exit;
+	}
+
     require('db_open.php');
 
-		// Refresh the table of Repairs with Current RepairOrders
+		// Delete all records in Repairs table
 	$tsql = "DELETE FROM Repairs";
 
 	if ($conn->query($tsql) === TRUE) {
@@ -26,15 +33,10 @@ function Upload_Daily_Out_CSV($daily_out_extract_file){
 	  exit;
 	}
 
-	if (($handle = fopen($daily_out_extract_file, "r")) === FALSE) {
-		echo "Error in opening " . $daily_out_extract_file;
-		exit;
-	}
-
 	$tsql = <<<strSQL
 			INSERT INTO Repairs
          		(RONum, Owner, Vehicle, Vehicle_Color, License_Plate, PartsReceived,
-            	Vehicle_In, CurrentPhase, Scheduled_Out, Technician, Estimator)
+            	Vehicle_In, CurrentPhase, Scheduled_Out, Technician, Estimator, Location)
 	        VALUES
 strSQL;
 
@@ -73,9 +75,12 @@ strSQL;
 
 		$estimator		= "'" . Cleanup_Text($data[ESTIMATOR]) . "'";
 
+        $location       = "'" . Cleanup_Text($data[SHOP_LOCATION]) . "'";
+
         $values = "(". $ro_num . ", " . $owner . ", " . $vehicle . ", " . $vehicle_color  . ", " .
 					$license_plate . ", " . $parts_received . ", " . $vehicle_in . ", " .
-                  	$current_phase . ", " . $scheduled_out . ", " . $technician . ", " . $estimator . ")";
+                  	$current_phase . ", " . $scheduled_out . ", " . $technician . ", " .
+                    $estimator . ", " . $location . ")";
 
         $insert_sql = $tsql . $values;
 //		echo $insert_sql . '<br/>';
