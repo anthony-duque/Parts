@@ -46,22 +46,40 @@
                             <th>Unit</th>
                             <th>Part Number</th>
                             <th>Description</th>
+                            <th>Received</th>
                         </tr>
                 strHTML;
 
+        $bkgrndColor = "powderblue";
+
         foreach($order->materials as $eachMaterial){
+
+                // toggle the color of the rows
+            if ($bkgrndColor == "powderblue"){
+                $bkgrndColor = "white";
+            } else {
+                $bkgrndColor = "powderblue";
+            }
+
+            $received = "No";
+            if ($eachMaterial->received == 1){
+                $received = "Yes";
+            }
             $eachLine = <<<strLine
-                            <tr>
+                            <tr style='background-color=$bkgrndColor;'>
                                 <td align='center'>$eachMaterial->ordered_qty</td>
                                 <td align='center'>$eachMaterial->unit</td>
                                 <td align='center'>$eachMaterial->part_number</td>
                                 <td align='center'>$eachMaterial->description</td>
+                                <td align='center'>$received</td>
                             </tr>
                         strLine;
             $orders .= $eachLine;
-        }
+        }   // foreach()
 
         $orders .= "</table></html>";
+
+        echo $orders;
 
         $to         = "Parts Department<parts@cityautobody.net>, CarStar<carstarsimivalley#gmail.com>";
 //        $to         = "Parts Department<parts@cityautobody.net>";

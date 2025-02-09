@@ -2,7 +2,7 @@
 var OrderMaterialsCtlr = function($scope, $http, utility){
 
     $scope.techList = [
-        "" ,"Serjio", "Jose", "Van", "Nacho", "Gerry", "Omar"
+        "" ,"Serjio", "Jose", "Van", "Nacho", "Gerry", "Omar", "Nick", "Jesus", "Frank (Paint)", "Frank (Tech)", "Eric"
     ];
 
     $scope.materialsList    = [];   // material list from the database
@@ -88,7 +88,13 @@ var OrderMaterialsCtlr = function($scope, $http, utility){
                     console.log(response.data);
                     if (response.data.search("successful") > -1){
                         alert("Request sent successfully!");
+                        // Reset 1) Orders  2) Quantities  3) Tech
                         $scope.ordersList = [];
+                        $scope.newMatList = [];
+                        $scope.materialsList.forEach(function(eachMat){
+                            eachMat.ordered_qty = 0;
+                        });
+                        $scope.technician = "";
                     }
                 },
                 function(response){     // failed POST

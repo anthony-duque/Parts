@@ -92,6 +92,9 @@
             <th>
                 Description
             </th>
+            <th>
+                Received
+            </th>
         </tr>
         <tr ng-repeat='eachItem in ordersList'  ng-class='ToggleColor($index, "active", "inactive");'>
             <td align='center'>
@@ -105,14 +108,17 @@
             </td>
             <td align='center'>
                 {{ eachItem.description }}
-            </th>
+            </td>
+            <td align='center'>
+                <input type='checkbox' ng-model='eachItem.received' />
+            </td>
         </tr>
         </table>
 
         <table align='center' ng-show='ordersList.length > 0'>
         <tr>
             <td align='center'>
-                <input type='submit' value='Submit Order' ng-click='SubmitOrder();'/>
+                <input type='submit' value='Submit Request' ng-click='SubmitOrder();'/>
             </td>
         </tr>
         </table>
