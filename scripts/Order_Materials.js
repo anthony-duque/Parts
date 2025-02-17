@@ -37,7 +37,7 @@ var OrderMaterialsCtlr = function($scope, $http, utility){
 
         $scope.ordersList.forEach((item, i) => {
 
-            if(item.part_number == matObj.part_number){
+            if(item.description == matObj.description){
                 itemIndex = i;
             }
         });
@@ -63,14 +63,16 @@ var OrderMaterialsCtlr = function($scope, $http, utility){
 
     $scope.Add_New_Material = function(){
 
-        var newMat = {
+        const material = {
             "part_number":  "",
             "description":  "",
             "ordered_qty":  0,
             "unit"  :   ""
         }
 
-        $scope.newMatList.unshift(newMat);   // add new material to the materials list
+        var newMat = Object.create(material);
+
+        $scope.newMatList.push(newMat);   // add new material to the materials list
 
     }   // Add_New_Material()
 
