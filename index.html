@@ -44,7 +44,15 @@
             <td colspan="3" align='left'>
                 Today's Date: {{ dateToday }}
             </td>
-            <td colspan='4' align='right'>
+            <td align='center'>
+                Shop:
+                <select ng-model='locationID'>
+                    <option value=0 selected>All Locations</option>
+                    <option value=7>CarStar City Auto Body</option>
+                    <option value=8>CarStar Simi Valley</option>
+                </select>
+            </td>
+            <td colspan='3' align='right'>
                 Data last updated:  {{ last_update }}
             </td>
         </tr>

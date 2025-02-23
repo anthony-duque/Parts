@@ -6,7 +6,6 @@ var prodController = function($scope, utility){
     $scope.sortMode     = 'Sort by Parts Received';
     $scope.dueMode      = "What's not Due";
 
-
         // default View is Technician View
     $scope.productionView = 'Technician_View.html';
 
@@ -39,7 +38,6 @@ var prodController = function($scope, utility){
             $scope.sortMode = "What's Ready";
         }
     }
-
 
     $scope.SortCars($scope.sortCars);   //initialize the screen
 

@@ -4,6 +4,8 @@ var TabsCtrlr = function($scope, $http, utility){
 
     const DEFAULT_VIEW = 'Production.html';
 
+    $scope.locationID = 0;
+
     $scope.tabView = DEFAULT_VIEW;   // initial tab view
 
     $scope.dateToday = new Date().toLocaleDateString();

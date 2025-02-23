@@ -2,7 +2,8 @@
 
     require('Utility_Scripts.php');
 
-    $repairs = ProcessGET();
+    $locationID = $_GET["locID"];
+    $repairs = ProcessGET($locationID);
 
     echo json_encode($repairs);
 
@@ -44,6 +45,8 @@
         public $parts_returned;
         public $parts_percent;
         public $scheduled_out;
+        public $location;
+        public $loc_ID;
 
         function __construct($rec){
 
@@ -59,6 +62,9 @@
             $this->parts_percent    = 0;
             $this->scheduled_out    = GetDisplayDate($rec["Scheduled_Out"]);
             $this->scheduled_out    = substr($this->scheduled_out, 0, 5);
+            $this->location         = $rec["Location"];
+            $this->loc_ID           = $rec["Loc_ID"];
+
         }   // Car($rec)
     }   // Car{}
 
@@ -106,16 +112,24 @@
     }   // GetAllParts()
 
 
-    function GetAllRepairs($dbConn){
+    function GetAllRepairs($dbConn, $locID){
 
         $repairs = [];
+
+        if ($locID == 0){
+            $loc_condition = " ";
+        } else {
+            $loc_condition = " AND Loc_ID = $locID ";
+        }
 
         $sql = <<<strSQL
                     SELECT SUBSTRING_INDEX(Technician, ' ', 1) AS Technician,
                         RONum, SUBSTRING_INDEX(Owner, ',', 1) AS Owner,
-                        Vehicle, Estimator, Scheduled_Out, LOWER(Vehicle_Color) as Vehicle_Color
+                        Vehicle, Estimator, Scheduled_Out,
+                        LOWER(Vehicle_Color) as Vehicle_Color,
+                        Location, Loc_ID
                     FROM Repairs
-                    WHERE Technician > ''
+                    WHERE Technician > '' $loc_condition
                     ORDER BY Technician, PartsReceived DESC
                 strSQL;
 
@@ -152,11 +166,11 @@
     }   // GetAllRepairs()
 
 
-    function ProcessGET(){
+    function ProcessGET($loc_ID){
 
         require('db_open.php');
 
-        $allRepairs = GetAllRepairs($conn);
+        $allRepairs = GetAllRepairs($conn, $loc_ID);
 
         foreach($allRepairs as $repair){    // for each car assigned to an estimator
             foreach($repair->cars as $car){ // get the parts list

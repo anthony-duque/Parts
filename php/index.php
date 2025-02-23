@@ -36,7 +36,7 @@ function ProcessGET(){
 
     } catch (Exception $e){
 
-        echo "Fetching 'last update' value failed." . $e->getMessage();
+        echo "Fetching 'Last Update' value failed." . $e->getMessage();
 
     }
 
