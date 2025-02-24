@@ -10,17 +10,17 @@
 <body ng-controller="carViewController">
 
     <table width='100%' align=center border=0 class='heading'>
-        <caption>
-            <h3 style='color: black'>Car Parts Status</h3>
-        </caption>
         <tr>
-            <th width='5%' align='left'>
-                {{ car.ro_num }}
+            <th rowspan="2">
+                <img ng-src='./images/{{ car.location }}.png' style="max-width: 75px; max-height: 75px">
+            </th>
+            <th width='5%' align='center'>
+                {{ car.ro_num }}  -
             </th>
             <th align='left' width='35%'>
                 {{ car.owner }}
             </th>
-            <td align='right' width='5%'>
+            <td align='left' width='5%'>
                 Color:
             </td>
             <th align='left' width='15%'>
@@ -43,7 +43,7 @@
             <th align='left' colspan="2">
                 {{ car.vehicle }}
             </th>
-            <td align='right'>
+            <td align='left'>
                 License:
             </td>
             <th align='left'>

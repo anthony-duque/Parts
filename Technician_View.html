@@ -7,7 +7,7 @@
             {{ eachTech.technician }}
         </th>
         <td ng-repeat="eachCar in eachTech.cars | orderBy : sortCars | filter: searchText" height='100%' ng-class='CheckParts(eachCar);' align='center'>
-            <a href="Car_View.html?roNum={{ eachCar.ro_num }}" target="CarStatus">
+            <a href="Car_View.html?roNum={{ eachCar.ro_num }}&locationID={{ eachCar.loc_ID }}" target="CarStatus">
             <table width='150' height='100%''>
                 <tr>
                     <td align='center'>

@@ -135,7 +135,7 @@
     }   // GetAllRepairs()
 
 
-    function GetAllParts($dbConn, $roNum){
+    function GetAllParts($dbConn, $roNum, $locID){
 
         $allParts = [];
 
@@ -148,9 +148,10 @@
                         AND Vendor_Name NOT LIKE '**%'
                         AND Part_Number NOT LIKE 'Aftermarket%'
                         AND (Part_Type <> 'Sublet')
-                        AND RO_Num =
-                strSQL . $roNum .
-                " ORDER BY Ordered_Qty ASC";
+                        AND RO_Num = $roNum
+                        AND Loc_ID = $locID
+                    ORDER BY Ordered_Qty ASC
+                strSQL;
 
         try {
 
@@ -176,7 +177,7 @@
 
         foreach($allRepairs as $repair){    // for each car assigned to an estimator
             foreach($repair->cars as $car){ // get the parts list
-                $car->parts = GetAllParts($conn, $car->ro_num);
+                $car->parts = GetAllParts($conn, $car->ro_num, $car->loc_ID);
             }
         }
 

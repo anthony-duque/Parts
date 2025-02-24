@@ -80,12 +80,13 @@
     };  // Repair{}
 
 
-    function GetAllParts($dbConn, $roNum){
+    function GetAllParts($dbConn, $roNum, $locID){
 
         $allParts = [];
 
         $sql =  <<<strSQL
-                    SELECT RO_Qty, Ordered_Qty, Received_Qty, Returned_Qty
+                    SELECT RO_Qty, Ordered_Qty, Received_Qty,
+                        Returned_Qty, Location, Loc_ID
                     FROM PartsStatusExtract
                     WHERE (Part_Number <> 'Remanufactured')
                             AND (Line > 0)
@@ -94,6 +95,7 @@
                             AND Part_Number NOT LIKE 'Aftermarket%'
                             AND (Part_Type <> 'Sublet')
                             AND RO_Num = $roNum
+                            AND Loc_ID = $locID
                     ORDER BY Ordered_Qty ASC;
                 strSQL;
         try {
@@ -116,10 +118,10 @@
 
         $repairs = [];
 
-        if ($locID == 0){
-            $loc_condition = " ";
-        } else {
+        if ($locID > 0){
             $loc_condition = " AND Loc_ID = $locID ";
+        } else {
+            $loc_condition = " ";
         }
 
         $sql = <<<strSQL
@@ -174,7 +176,7 @@
 
         foreach($allRepairs as $repair){    // for each car assigned to an estimator
             foreach($repair->cars as $car){ // get the parts list
-                $car->parts = GetAllParts($conn, $car->ro_num);
+                $car->parts = GetAllParts($conn, $car->ro_num, $car->loc_ID);
             }
         }
 

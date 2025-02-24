@@ -7,7 +7,7 @@
             {{ eachEst.estimator }}
         </th>
         <td ng-repeat="eachCar in eachEst.cars | orderBy : sortCars | filter: searchText | FilterInOutCars : carsInOut" height='100%' align='center'  ng-class='CheckParts(eachCar);'>
-            <a href="Car_View.html?roNum={{ eachCar.ro_num }}" target="CarStatus">
+            <a href="Car_View.html?roNum={{ eachCar.ro_num }}&locationID={{ eachCar.loc_ID }}" target="CarStatus">
             <table width='150' height='100%'>
                 <tr>
                     <td align='center'>

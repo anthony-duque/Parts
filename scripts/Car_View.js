@@ -5,15 +5,16 @@ var carViewCtrlr = function($scope, $http, utility){
         // get the value of ro num from the queryString
     var params = getQueryParams(window.location.href);
     $scope.roNum = params.roNum;
+    $scope.locationID = params.locationID;
 
-    var GetAllPartsForRO = function(ROnum)
+    function GetAllPartsForRO(ROnum, locationID)
     {
-        $http.get('./php/Car_View.php?roNum=' + ROnum)
+        $http.get('./php/Car_View.php?roNum=' + ROnum + '&locationID=' + locationID)
               .then(handleSuccess)
               .catch(handleError);   // .then()
     }     // GetAllPartsForRO()
 
-    GetAllPartsForRO($scope.roNum);
+    GetAllPartsForRO($scope.roNum, $scope.locationID);
 
     $scope.GoBackToMainPage = function(){
         self.close();

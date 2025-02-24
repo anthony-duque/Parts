@@ -3,8 +3,9 @@
 require('Utility_Scripts.php');
 
     $ro_num = $_GET["roNum"];
+    $locationID = $_GET["locationID"];
 
-    $CarParts = ProcessGET($ro_num);
+    $CarParts = ProcessGET($ro_num, $locationID);
 
     echo json_encode($CarParts);
 
@@ -19,6 +20,7 @@ require('Utility_Scripts.php');
         public $scheduled_out;
         public $estimator;
         public $technician;
+        public $location;
         public $partsList = [];
 
         function __construct($rec){
@@ -32,6 +34,7 @@ require('Utility_Scripts.php');
             $this->scheduled_out    = GetDisplayDate($rec["Scheduled_Out"]);
             $this->estimator        = $rec["Estimator"];
             $this->technician       = toProperCase($rec["Technician"]);
+            $this->location         = $rec["Location"];
 
         }   // Car()
     }   // Car{}
@@ -67,6 +70,7 @@ require('Utility_Scripts.php');
             $this->invoice_date         = GetDisplayDate($rec["Invoice_Date"]);
             $this->returned_quantity    = $rec["Returned_Qty"];
             $this->expected_delivery    = GetDisplayDate($rec["Expected_Delivery"]);
+
             $this->part_status          = ComputePartStatus(
                                             $this->ro_quantity,
                                             $this->ordered_quantity,
@@ -77,7 +81,7 @@ require('Utility_Scripts.php');
     }   // Part{}
 
 
-    function GetPartsList($ro, $dbConn){
+    function GetPartsList($ro, $locID, $dbConn){
 
         $sql = <<<strSQL
                 SELECT Line, Part_Number, Part_Description, Order_Date,
@@ -90,10 +94,10 @@ require('Utility_Scripts.php');
                     AND Vendor_Name NOT LIKE '**%'
                     AND Part_Number NOT LIKE 'Aftermarket%'
                     AND (Part_Type <> 'Sublet')
-                    AND  RO_Num =
-                strSQL . $ro .
-                " ORDER BY Ordered_Qty ASC";
-
+                    AND RO_Num = $ro
+                    AND Loc_ID = $locID
+                ORDER BY Ordered_Qty ASC;
+            strSQL;
         try{
 
             $parts = [];
@@ -114,20 +118,20 @@ require('Utility_Scripts.php');
             echo "Fetching RO parts failed." . $e->getMessage();
 
         }   // try-catch{}
-
     }   // GetPartsList()
 
-    function ProcessGET($roNum){
+
+    function ProcessGET($roNum, $locID){
 
         require('db_open.php');
 
         $sql = <<<strSQL
                     SELECT RONum, Owner, Vehicle, Estimator, Technician,
-                        Vehicle_Color, License_Plate, Vehicle_In, Scheduled_Out
-                    FROM Repairs WHERE RONum =
+                        Vehicle_Color, License_Plate, Vehicle_In, Scheduled_Out,
+                        Location, Loc_ID
+                    FROM Repairs
+                    WHERE RONum = $roNum AND Loc_ID = $locID
                 strSQL;
-
-        $sql .= $roNum;
 
         try{
 
@@ -135,7 +139,7 @@ require('Utility_Scripts.php');
             $r = mysqli_fetch_assoc($s);
 
             $car = new Car($r);
-            $car->partsList = GetPartsList($roNum, $conn);
+            $car->partsList = GetPartsList($roNum, $locID, $conn);
 
         } catch(Exception $e){
 
