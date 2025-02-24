@@ -3,7 +3,7 @@
 
     <tr ng-repeat='eachTech in technicians | filter : searchText | FilterByLocation : locationID'>
         <th align='center'>
-            <img ng-src='./images/{{ eachTech.technician }}.jpg' style="max-width: 100px; max-height: 100px">
+            <img ng-src='./images/{{ eachTech.technician }}.jpg' style="max-width: 100px; max-height: 100px"  alt="{{ eachCar.Technician }}">
             {{ eachTech.technician }}
         </th>
         <td ng-repeat="eachCar in eachTech.cars | orderBy : sortCars | filter: searchText" height='100%' ng-class='CheckParts(eachCar);' align='center'>

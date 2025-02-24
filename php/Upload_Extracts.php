@@ -49,10 +49,21 @@ $tsql = "UPDATE Adhoc_Table " .
          "WHERE name = 'LAST_UPLOAD'";
 
 if ($conn->query($tsql) === TRUE) {
-  ; //echo $ro_num . " uploaded<br/>";
+
+    $tsql = "CALL spUpdateLocationIDs()";
+
+    if ($conn->query($tsql) === TRUE) {
+      ; //echo $ro_num . " uploaded<br/>";
+    } else {
+      echo "Error: " . $tsql . "<br>" . $conn->error;
+    }
+
 } else {
   echo "Error: " . $tsql . "<br>" . $conn->error;
 }
+
+
+
 
 $conn = null;
 
