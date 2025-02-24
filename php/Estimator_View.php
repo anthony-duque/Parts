@@ -22,6 +22,9 @@
         public $parts_returned;
         public $parts_percent;
         public $scheduled_out;
+        public $location;
+        public $loc_ID;
+
 
         function __construct($rec){
 
@@ -39,6 +42,8 @@
             $this->parts_percent    = 0;
             $this->scheduled_out    = GetDisplayDate($rec["Scheduled_Out"]);
             $this->scheduled_out    = substr($this->scheduled_out, 0, 5);
+            $this->location         = $rec["Location"];
+            $this->loc_ID           = $rec["Loc_ID"];
 
         }   // Car($rec)
     }   // Car{}
@@ -64,7 +69,6 @@
                                             $this->received_quantity,
                                             $this->returned_quantity
                                         );
-
         }   // Part()
     }   // Part{}
 
@@ -88,7 +92,9 @@
         $sql = <<<strSQL
                     SELECT SUBSTRING_INDEX(Estimator, ' ', 1) AS Estimator,
                     RONum, SUBSTRING_INDEX(Owner, ',', 1) AS Owner,
-                    Vehicle, LCASE(Vehicle_Color) AS Vehicle_Color, Technician, Vehicle_In, CurrentPhase, Scheduled_Out
+                    Vehicle, LCASE(Vehicle_Color) AS Vehicle_Color,
+                    Technician, Vehicle_In, CurrentPhase, Scheduled_Out,
+                    Location, Loc_ID
                     FROM Repairs
                     WHERE Estimator > '' AND RONum <> 1004
                     ORDER BY Estimator, PartsReceived DESC

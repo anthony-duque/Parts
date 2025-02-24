@@ -45,29 +45,6 @@ app.filter('FilterInOutCars', function(){
 });
 
 
-app.filter('FilterCarsByLocation', function(){
-
-    return function(cars, locationID){
-
-        var filteredCars = [];
-
-        if(locationID == 0){
-            filteredCars = cars;
-        } else {
-            angular.forEach(cars,
-                function(car){
-                    if(car.loc_ID == locationID){
-                        filteredCars.push(car);
-                    }
-                }   // function(car)
-            );
-        }   // if-else
-
-        return filteredCars;
-    }   // function(cars, locationID)
-});
-
-
 app.filter('FilterByLocation', function(){
 
      // assignees can be tech of estimator
