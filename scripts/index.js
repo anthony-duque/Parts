@@ -80,8 +80,12 @@ var TabsCtrlr = function($scope, $http, utility){
     {
         if (response.data){
             console.log(response.data);
+
+                // Last Update Date
             const last_update = new Date (response.data.last_update);
             $scope.last_update = last_update.toLocaleString();
+            $scope.locations = response.data.locations;
+
         }
     }
 

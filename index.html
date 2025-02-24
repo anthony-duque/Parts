@@ -48,8 +48,7 @@
                 Shop:
                 <select ng-model='locationID'>
                     <option value=0 selected>All Locations</option>
-                    <option value=7>CarStar City Auto Body</option>
-                    <option value=8>CarStar Simi Valley</option>
+                    <option ng-repeat='loc in locations' value='{{ loc.id }}'>{{ loc.location }}</option>
                 </select>
             </td>
             <td colspan='3' align='right'>
