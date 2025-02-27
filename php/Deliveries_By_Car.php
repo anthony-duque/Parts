@@ -23,7 +23,7 @@
 
         foreach($car->vendors as $vendor){
 
-            $vendor->Get_Vendor_Parts($car->ro_num, $conn, $dateClause);  // Get the parts delivered by the vendor for each car
+            $vendor->Get_Vendor_Parts($car->ro_num, $car->location_ID, $conn, $dateClause);  // Get the parts delivered by the vendor for each car
 
         }   // foreach($car)
     }   // foreach($allCars)
@@ -41,14 +41,15 @@
             $this->name = str_replace("'", "''", $rec["Vendor_Name"]);
         }   // Vendor()
 
-        function Get_Vendor_Parts($ro, $dbConn, $sqlDtClause){
+        function Get_Vendor_Parts($ro, $loc_ID, $dbConn, $sqlDtClause){
 
             $partsList = [];
 
             $sql = <<<strSQL
                         SELECT Part_Number, Part_Description, Received_Qty, Invoice_Date
                         FROM PartsStatusExtract
-                        WHERE RO_Num = $ro AND Vendor_Name = '$this->name'
+                        WHERE RO_Num = $ro AND Loc_ID = $loc_ID
+                            AND Vendor_Name = '$this->name'
                             AND $sqlDtClause
                     strSQL;
 
@@ -77,6 +78,7 @@
     class Car {
 
         public $ro_num;
+        public $location_ID;
         public $owner;
         public $vehicle;
         public $estimator;
@@ -86,7 +88,9 @@
         public $vendors = [];
 
         function __construct($rec){
+
             $this->ro_num           = $rec["RO_Num"];
+            $this->location_ID      = $rec["Loc_ID"];
             $this->vehicle          = $rec["Vehicle"];
             $this->owner            = ucwords(strtolower($rec["Owner"]));
             $this->estimator        = $rec["Estimator"];
@@ -150,9 +154,10 @@
 
         $sql = <<<strSQL
                     SELECT DISTINCT p.RO_Num AS RO_Num, SUBSTRING_INDEX(r.Owner, ',', 1) AS Owner,
-                        r.Vehicle, r.Technician, r.Estimator, r.Vehicle_In, r.CurrentPhase
+                        r.Vehicle, r.Technician, r.Estimator, r.Vehicle_In, r.CurrentPhase,
+                        r.Loc_ID
                     FROM PartsStatusExtract p INNER JOIN Repairs r
-                            ON p.RO_Num = r.RONum
+                            ON p.RO_Num = r.RONum AND p.Loc_ID = r.Loc_ID
                     WHERE Vendor_Name NOT IN ('**IN-HOUSE', 'ASTECH', 'AIRTIGHT AUTO GLASS', 'BIG BRAND','Jim''s Tire Center', 'PRO TECH DIAGNOSTICS')
                         AND $sqlDtClause
                         AND RO_Num <> 1004
