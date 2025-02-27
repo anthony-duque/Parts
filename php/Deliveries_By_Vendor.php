@@ -47,21 +47,21 @@
 
             $sql = <<<strSQL
 
-            SELECT DISTINCT
+                SELECT DISTINCT
+                    r.RONum AS RO_Num, r.Vehicle AS Vehicle, r.Owner AS Owner,
+                    r.Estimator AS Estimator, r.Technician AS Technician,
+                    r.Vehicle_In AS Vehicle_In, r.CurrentPhase AS CurrentPhase,
+                    r.Loc_ID
 
-                r.RONum AS RO_Num, r.Vehicle AS Vehicle, r.Owner AS Owner,
-                r.Estimator AS Estimator, r.Technician AS Technician,
-                r.Vehicle_In AS Vehicle_In, r.CurrentPhase AS CurrentPhase
+                FROM PartsStatusExtract pse INNER JOIN Repairs r
 
-            FROM PartsStatusExtract pse INNER JOIN Repairs r
+                WHERE Vendor_Name = '$this->name'
+                    AND pse.RO_Num = r.RONum
+                    AND pse.Loc_ID = r.Loc_ID
+                    AND $sqlDtClause
+                    AND RO_Num <> 1004
 
-            WHERE Vendor_Name = '$this->name'
-                AND pse.RO_Num = r.RONum
-                AND $sqlDtClause
-                AND RO_Num <> 1004
-
-            ORDER BY r.RONum
-
+                ORDER BY r.RONum
             strSQL;
 
             try{
@@ -89,6 +89,7 @@
     class Car {
 
         public $ro_num;
+        public $location_ID;
         public $owner;
         public $vehicle;
         public $estimator;
@@ -100,6 +101,7 @@
         function __construct($rec){
 
             $this->ro_num           = $rec["RO_Num"];
+            $this->location_ID      = $rec["Loc_ID"];
             $this->vehicle          = $rec["Vehicle"];
             $this->owner            = ucwords(strtolower($rec["Owner"]));
             $this->estimator        = $rec["Estimator"];
