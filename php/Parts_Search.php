@@ -19,6 +19,7 @@ require('Utility_Scripts.php');
         public $vehicle_in;
         public $current_phase;
         public $owner;
+        public $locationID;
 
         function __construct($rec){
 
@@ -46,6 +47,7 @@ require('Utility_Scripts.php');
             $this->vehicle_in           = GetDisplayDate($rec["Vehicle_In"]);
             $this->current_phase        = $rec["CurrentPhase"];
             $this->owner                = $rec["Owner"];
+            $this->locationID           = $rec["Loc_ID"];
 
         }   // Part()
     }   // Part{}
@@ -60,11 +62,11 @@ require('Utility_Scripts.php');
         $sql = <<<strSQL
                 SELECT RO_Num, Part_Number, Part_Description, Vendor_Name,
                       RO_Qty, Ordered_Qty, Received_Qty, Returned_Qty,
-                      Expected_Delivery, Order_Date, Invoice_Date,
+                      Expected_Delivery, Order_Date, Invoice_Date, pse.Loc_ID,
                       Vehicle_In, CurrentPhase, SUBSTRING_INDEX(r.Owner, ',', 1) AS Owner
 
                 FROM PartsStatusExtract pse INNER JOIN Repairs r
-                    ON pse.RO_Num = r.roNum
+                    ON pse.RO_Num = r.roNum AND pse.Loc_ID = r.Loc_ID
                 WHERE (Line > 0) AND (Part_Number > '' OR Vendor_Name > '')
                     AND Vendor_Name NOT IN ('**in-house', 'Airtight Auto Glass',
                     'Big Brand', 'Jim''s Tire Center', 'Pro Tech Diagnostics', 'Astech')

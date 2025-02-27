@@ -75,7 +75,7 @@
         <tr ng-repeat='eachPart in allParts | filter: searchText | PartsByStatus : status | orderBy: sortFld | FilterInOutCars : carsInOut'
             ng-class="PartStatus(eachPart);">
             <td align='center'>
-                <a href="Car_View.html?roNum={{ eachPart.ro_num }}" target="CarStatus">
+                <a href="Car_View.html?roNum={{ eachPart.ro_num }}&locationID={{ eachPart.locationID }}" target="CarStatus">
                     {{ eachPart.ro_num }}
                 </a>
             </td>
