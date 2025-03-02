@@ -59,7 +59,9 @@
         </tr>
         <tr ng-repeat='eachMat in materialsList | filter: searchText' ng-class='ToggleColor($index, "white", "lightBlue");'>
             <td>
-                {{ eachMat.part_number }}
+                <a href='http://www.google.com/search?tbm=isch&q="{{ eachMat.brand }} {{ eachMat.part_number }}"' target='_blank'>
+                    {{ eachMat.part_number }}
+                </a>
             </td>
             <td align='center'>
                 {{ eachMat.brand }}
