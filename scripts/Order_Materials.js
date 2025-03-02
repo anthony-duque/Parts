@@ -96,6 +96,7 @@ var OrderMaterialsCtlr = function($scope, $http, utility){
                         $scope.materialsList.forEach(function(eachMat){
                             eachMat.ordered_qty = 0;
                         });
+                        $scope.searchText = "";
                         $scope.technician = "";
                     }
                 },

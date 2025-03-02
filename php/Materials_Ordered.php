@@ -45,6 +45,7 @@
                             <th>Qty</th>
                             <th>Unit</th>
                             <th>Part Number</th>
+                            <th>Brand</th>
                             <th>Description</th>
                             <th>Received</th>
                         </tr>
@@ -70,6 +71,7 @@
                                 <td align='center'>$eachMaterial->ordered_qty</td>
                                 <td align='center'>$eachMaterial->unit</td>
                                 <td align='center'>$eachMaterial->part_number</td>
+                                <td align='center'>$eachMaterial->brand</td>
                                 <td align='center'>$eachMaterial->description</td>
                                 <td align='center'>$received</td>
                             </tr>

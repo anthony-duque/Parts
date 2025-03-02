@@ -35,7 +35,7 @@
     }
 
 
-    class material {
+    class Material {
 
         public $part_number;
         public $brand;
@@ -75,7 +75,7 @@
             $s = mysqli_query($conn, $sql);
 
             while($r = mysqli_fetch_assoc($s)){
-                $eachMat = new material($r);
+                $eachMat = new Material($r);
                 //echo $eachMat;
                 array_push($matList, $eachMat);
             }
