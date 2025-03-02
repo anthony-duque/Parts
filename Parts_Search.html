@@ -47,25 +47,34 @@
             <th ng-click='SortParts("part_description");'>
                 Part Description
             </th>
+            <th ng-click='SortParts("part_status");'>
+                Status
+            </th>
             <th ng-click='SortParts("vendor_name");'>
                 Vendor
             </th>
             <th ng-click='SortParts("ro_quantity");'>
-                RO Qty
+                Reqd<br>
+                Qty
             </th>
             <th ng-click='SortParts("ordered_quantity");'>
-                Ordered
+                Ordered<br>
+                Qty
             </th>
             <th ng-click='SortParts("order_date");'>
+                Order<br>
                 Date
             </th>
             <th ng-click='SortParts("expected_delivery");'>
-                Expected
+                Expected<br>
+                Date
             </th>
             <th ng-click='SortParts("received_quantity");'>
-                Received
+                Recvd<br>
+                Qty
             </th>
             <th ng-click='SortParts("invoice_date");'>
+                Received<br>
                 Date
             </th>
             <th ng-click='SortParts("returned_quantity");'>
@@ -91,6 +100,9 @@
             </td>
             <td>
                 {{ eachPart.part_description }}
+            </td>
+            <td align='center'>
+                {{ eachPart.part_status }}
             </td>
             <td align='center'>
                 {{ eachPart.vendor_name }}
