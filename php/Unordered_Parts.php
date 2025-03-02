@@ -21,9 +21,22 @@ class Estimator{
 }   // Estimator{}
 
 
+class Repair {
+
+    public $ro_num;
+    public $locID;
+
+    function __construct($rec){
+        $this->ro_num   = $rec["RO_Num"];
+        $this->locID    = $rec["Loc_ID"];
+    }
+}
+
+
 class Car{
 
     public $ro_num;
+    public $location_ID;
     public $owner;
     public $vehicle;
     public $vehicle_in;
@@ -33,6 +46,7 @@ class Car{
 
     function __construct($rec){
         $this->ro_num       = $rec["RONum"];
+        $this->location_ID  = $rec["Loc_ID"];
         $this->owner        = $rec["Owner"];
         $this->vehicle      = $rec["Vehicle"];
         $this->vehicle_in   = $rec["Vehicle_In"];
@@ -93,22 +107,24 @@ function Get_ROs_Per_Estimator($estimatorName, $dbConn){
     $ROList = [];
 
     $sql = <<<strSQL
-        SELECT DISTINCT pse.RO_Num
-        FROM PartsStatusExtract pse INNER JOIN Repairs r
-    	   ON pse.RO_Num = r.RONum
-        WHERE (RO_Qty > 0) AND (Ordered_Qty = 0)
-            AND (Received_Qty = 0) AND (Part_Number > '')
-            AND (Part_Type <> 'Sublet')
-            AND (Part_Number NOT LIKE 'Aftermarket%')
-            AND (Part_Number <> 'Remanufactured')
-            AND r.Estimator = '
-    strSQL . $estimatorName . "'";
+                SELECT DISTINCT pse.RO_Num, pse.Loc_ID
+                FROM PartsStatusExtract pse INNER JOIN Repairs r
+            	   ON pse.RO_Num = r.RONum AND pse.Loc_ID = r.Loc_ID
+                WHERE (RO_Qty > 0) AND (Ordered_Qty = 0)
+                    AND (Received_Qty = 0) AND (Part_Number > '')
+                    AND (Part_Type <> 'Sublet')
+                    AND (Part_Number NOT LIKE 'Aftermarket%')
+                    AND (Part_Number <> 'Remanufactured')
+                    AND r.Estimator = '$estimatorName'
+            strSQL;
 
     try {
 
         $s = mysqli_query($dbConn, $sql);
+
         while($r = mysqli_fetch_assoc($s)){
-            array_push($ROList, $r["RO_Num"]);
+            $ro = new Repair($r);
+            array_push($ROList, $ro);
         }   //while{}
 
     } catch(Exception $e){
@@ -122,10 +138,10 @@ function Get_ROs_Per_Estimator($estimatorName, $dbConn){
 function GetCarInfoForRO($roNum, $dbConn){
 
     $sql = <<<strSQL
-        SELECT RONum, Owner, Vehicle, Vehicle_In, CurrentPhase
+        SELECT RONum, Owner, Vehicle, Vehicle_In, CurrentPhase, Loc_ID
         FROM Repairs
-        WHERE RONum =
-    strSQL . $roNum;
+        WHERE RONum = $roNum
+    strSQL;
 
     $r = null;
 
@@ -196,7 +212,7 @@ function GetPartsList(){
 
             // Get Car List per Estimator
         foreach($ros_per_est as $eachRO){
-            $rec = GetCarInfoForRO($eachRO, $conn);
+            $rec = GetCarInfoForRO($eachRO->ro_num, $conn);
             $car = new Car($rec);
             array_push($eachEstimator->cars, $car);
         }
