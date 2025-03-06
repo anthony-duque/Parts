@@ -64,10 +64,11 @@ var OrderMaterialsCtlr = function($scope, $http, utility){
     $scope.Add_New_Material = function(){
 
         const material = {
-            "part_number":  "",
-            "description":  "",
-            "ordered_qty":  0,
-            "unit"  :   ""
+            "part_number"   :  "",
+            "brand"         :  "",
+            "description"   :  "",
+            "ordered_qty"   :  0,
+            "unit"          :   ""
         }
 
         var newMat = Object.create(material);

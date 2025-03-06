@@ -67,7 +67,7 @@
                 $received = "Yes";
             }
             $eachLine = <<<strLine
-                            <tr style='background-color=$bkgrndColor;'>
+                            <tr style='background-color:$bkgrndColor;'>
                                 <td align='center'>$eachMaterial->ordered_qty</td>
                                 <td align='center'>$eachMaterial->unit</td>
                                 <td align='center'>$eachMaterial->part_number</td>
@@ -83,14 +83,13 @@
 
         echo $orders;
 
-        $to         = "Parts Department<parts@cityautobody.net>, CarStar<carstarsimivalley#gmail.com>";
-//        $to         = "Parts Department<parts@cityautobody.net>";
+        $to         = "Parts Department<parts@cityautobody.net>, CarStar<carstarsimivalley@gmail.com>";
         $subject    = "Materials Order from " . $order->technician;
 
         $headers = "MIME-Version: 1.0\n";
         $headers .= "Content-type: text/html; charset=iso-8859-1\n";
         $headers .= "From: Automated Email <parts@cityautobody.net>\n";
-        $headers .= "Cc: Jim <jimd@cityautobody.net>";
+        $headers .= "Cc: Jim <jimd@cityautobody.net>, Chad<chadwhite@cityautobody.net>";
 
         try {
             mail($to, $subject, $orders, $headers);

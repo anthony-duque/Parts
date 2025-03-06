@@ -36,11 +36,13 @@
             <th>Description</th>
             <th>Qty</th>
             <th>Unit</th>
-            <th>Ordered</th>
         </tr>
         <tr ng-repeat='eachMat in newMatList'>
             <td>
                 <input type='text' ng-model='eachMat.part_number' />
+            </td>
+            <td>
+                <input type='text' ng-model='eachMat.brand' />
             </td>
             <td>
                 <input type='text' ng-model='eachMat.description' />
@@ -52,9 +54,6 @@
             </td>
             <td>
                 <input type='text' ng-model='eachMat.unit' />
-            </td>
-            <td align='center'>
-                {{ CheckIfOrdered(eachMat.ordered_qty); }}
             </td>
         </tr>
         <tr ng-repeat='eachMat in materialsList | filter: searchText' ng-class='ToggleColor($index, "white", "lightBlue");'>
@@ -76,9 +75,6 @@
             </td>
             <td align='center'>
                 {{ eachMat.unit }}
-            </td>
-            <td align='center'>
-                {{ CheckIfOrdered(eachMat.ordered_qty); }}
             </td>
         </tr>
         </table>
