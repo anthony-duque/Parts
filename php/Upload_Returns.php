@@ -56,16 +56,6 @@ function Upload_Returns_CSV($returns_extract_file){
         exit;
     }
 
-    // $conn = null;   // test
-
-    $tsql = <<<strSQL
-        		INSERT INTO Parts_Returns
-        			(RO_Num, Return_Date, Vendor_Pickup_Date,
-                    Part_Number, Part_Description, Part_Type,
-                    Amount, Invoice_Number, Reason, Vendor_Name)
-        		VALUES
-strSQL;
-
     do{
         $data = fgetcsv($handle, 500, ",");
         $first_field = trim($data[0]);
@@ -110,6 +100,15 @@ strSQL;
         }
 
         $insert_sql = rtrim($insert_sql, ",");
+
+        $tsql = <<<strSQL
+            		INSERT INTO Parts_Returns
+            			(RO_Num, Return_Date, Vendor_Pickup_Date,
+                        Part_Number, Part_Description, Part_Type,
+                        Amount, Invoice_Number, Reason, Vendor_Name)
+            		VALUES
+    strSQL;
+
 //        echo $tsql . $insert_sql . '<br/><br/>';
 
     	if ($conn->query($tsql . $insert_sql) === TRUE) {
@@ -121,14 +120,15 @@ strSQL;
 
     	// to take out the dash and numbers after the actual vendor name
 
-//    $sql = 'UPDATE Parts_Returns ' .
-//    		'SET Vendor_Name = SUBSTRING_INDEX(Vendor_Name, " - ", 1)';
+    $sql = 'UPDATE Parts_Returns ' .
+    		'SET Vendor_Name = SUBSTRING_INDEX(Vendor_Name, " - ", 1)';
 
-//    if ($conn->query($sql) === TRUE) {
+    if ($conn->query($sql) === TRUE) {
       // echo "RO Num fields populated. <br/>";
-//    } else {
-//      echo "Error: " . $sql . "<br>" . $conn->error;
-//    }
+        echo "Vendor Names cleaned up.";
+    } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+    }
 
     fclose($handle);
 

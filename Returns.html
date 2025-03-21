@@ -1,0 +1,40 @@
+<html ng-app="ReturnsApp">
+<head>
+    <title>Pending Returns</title>
+    <script src="./scripts/angularjs.js"></script>
+    <script src="./scripts/Pending_Returns.js"></script>
+</head>
+<body ng-controller="ReturnsController">
+
+    <table border="1">
+    <thead>
+        <tr>
+            <th>RO</th>
+            <th>Part Number</th>
+            <th>Description</th>
+            <th>Part Type</th>
+            <th>Vendor</th>
+            <th>Invoice no.</th>
+            <th>Amount</th>
+            <th>Return Date</th>
+            <th>Reason</th>
+            <th>Pickup Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat='eachReturn in returns'>
+            <td>{{ eachReturn.ro_num }}</td>
+            <td>{{ eachReturn.part_number }}</td>
+            <td>{{ eachReturn.part_description }}</td>
+            <td>{{ eachReturn.part_type }}</td>
+            <td>{{ eachReturn.vendor }}</td>
+            <td>{{ eachReturn.invoice_num }}</td>
+            <td>{{ eachReturn.amount }}</td>
+            <td>{{ eachReturn.return_date }}</td>
+            <td>{{ eachReturn.return_reason }}</td>
+            <td>{{ eachReturn.pickup_date }}</td>
+        </tr>
+    </tbody>
+    </table>
+</body>
+</html>
