@@ -1,0 +1,685 @@
+<html ng-app="SampleApp">
+<head>
+    <title>Sample Page</title>
+    <script src='./scripts/angularjs.js'></script>
+    <script src='./scripts/sample.js'></script>
+</head>
+<body ng-controller='SampleCtlr'>
+    <table border=1>
+        <tr>
+            <th>Check-In/Pre-scan</th>
+            <td>
+                <table border="1" id='CheckInPreScan'>
+                <tr>
+                    <td ng-repeat='eachCar in cars[0]'>
+                        <table>
+                        <tr>
+                            <td>
+                                {{ eachCar.ro_num }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.owner }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.vehicle }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.color }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.technician }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.estimator }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.stage }}
+                            </td>
+                        </tr>
+                        </table>
+                    </td>
+                </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <th>Disassembly</th>
+            <td>
+                <table border="1" id='something'>
+                <tr>
+                    <td ng-repeat='eachCar in cars[1]'>
+                        <table>
+                        <tr>
+                            <td>
+                                {{ eachCar.ro_num }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.owner }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.vehicle }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.color }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.technician }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.estimator }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.stage }}
+                            </td>
+                        </tr>
+                        </table>
+                    </td>
+                </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <th>Repair Plan</th>
+            <td>
+                <table border="1" id='something'>
+                <tr>
+                    <td ng-repeat='eachCar in cars[2]'>
+                        <table>
+                        <tr>
+                            <td>
+                                {{ eachCar.ro_num }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.owner }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.vehicle }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.color }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.technician }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.estimator }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.stage }}
+                            </td>
+                        </tr>
+                        </table>
+                    </td>
+                </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <th>Waiting for Approval</th>
+            <td>
+                <table border="1" id='something'>
+                <tr>
+                    <td ng-repeat='eachCar in cars[3]'>
+                        <table>
+                        <tr>
+                            <td>
+                                {{ eachCar.ro_num }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.owner }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.vehicle }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.color }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.technician }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.estimator }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.stage }}
+                            </td>
+                        </tr>
+                        </table>
+                    </td>
+                </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <th>Waiting for Parts</th>
+            <td>
+                <table border="1" id='something'>
+                <tr>
+                    <td ng-repeat='eachCar in cars[4]'>
+                        <table>
+                        <tr>
+                            <td>
+                                {{ eachCar.ro_num }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.owner }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.vehicle }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.color }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.technician }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.estimator }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.stage }}
+                            </td>
+                        </tr>
+                        </table>
+                    </td>
+                </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <th>Body</th>
+            <td>
+                <table border="1" id='something'>
+                <tr>
+                    <td ng-repeat='eachCar in cars[5]'>
+                        <table>
+                        <tr>
+                            <td>
+                                {{ eachCar.ro_num }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.owner }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.vehicle }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.color }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.technician }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.estimator }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.stage }}
+                            </td>
+                        </tr>
+                        </table>
+                    </td>
+                </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <th>Primer</th>
+            <td>
+                <table border="1" id='something'>
+                <tr>
+                    <td ng-repeat='eachCar in cars[6]'>
+                        <table>
+                        <tr>
+                            <td>
+                                {{ eachCar.ro_num }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.owner }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.vehicle }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.color }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.technician }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.estimator }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.stage }}
+                            </td>
+                        </tr>
+                        </table>
+                    </td>
+                </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <th>Paint</th>
+            <td>
+                <table border="1" id='something'>
+                <tr>
+                    <td ng-repeat='eachCar in cars[7]'>
+                        <table>
+                        <tr>
+                            <td>
+                                {{ eachCar.ro_num }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.owner }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.vehicle }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.color }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.technician }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.estimator }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.stage }}
+                            </td>
+                        </tr>
+                        </table>
+                    </td>
+                </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <th>Delay</th>
+            <td>
+                <table border="1" id='something'>
+                <tr>
+                    <td ng-repeat='eachCar in cars[8]'>
+                        <table>
+                        <tr>
+                            <td>
+                                {{ eachCar.ro_num }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.owner }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.vehicle }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.color }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.technician }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.estimator }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.stage }}
+                            </td>
+                        </tr>
+                        </table>
+                    </td>
+                </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <th>Reassembly</th>
+            <td>
+                <table border="1" id='something'>
+                <tr>
+                    <td ng-repeat='eachCar in cars[9]'>
+                        <table>
+                        <tr>
+                            <td>
+                                {{ eachCar.ro_num }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.owner }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.vehicle }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.color }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.technician }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.estimator }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.stage }}
+                            </td>
+                        </tr>
+                        </table>
+                    </td>
+                </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <th>Sublet</th>
+            <td>
+                <table border="1" id='something'>
+                <tr>
+                    <td ng-repeat='eachCar in cars[10]'>
+                        <table>
+                        <tr>
+                            <td>
+                                {{ eachCar.ro_num }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.owner }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.vehicle }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.color }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.technician }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.estimator }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.stage }}
+                            </td>
+                        </tr>
+                        </table>
+                    </td>
+                </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <th>Detail</th>
+            <td>
+                <table border="1" id='something'>
+                <tr>
+                    <td ng-repeat='eachCar in cars[11]'>
+                        <table>
+                        <tr>
+                            <td>
+                                {{ eachCar.ro_num }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.owner }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.vehicle }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.color }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.technician }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.estimator }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.stage }}
+                            </td>
+                        </tr>
+                        </table>
+                    </td>
+                </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <th>Final QC/Post Scan</th>
+            <td>
+                <table border="1" id='something'>
+                <tr>
+                    <td ng-repeat='eachCar in cars[12]'>
+                        <table>
+                        <tr>
+                            <td>
+                                {{ eachCar.ro_num }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.owner }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.vehicle }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.color }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.technician }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.estimator }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.stage }}
+                            </td>
+                        </tr>
+                        </table>
+                    </td>
+                </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <th>Ready for Delivery</th>
+            <td>
+                <table border="1" id='something'>
+                <tr>
+                    <td ng-repeat='eachCar in cars[13]'>
+                        <table>
+                        <tr>
+                            <td>
+                                {{ eachCar.ro_num }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.owner }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.vehicle }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.color }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.technician }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.estimator }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ eachCar.stage }}
+                            </td>
+                        </tr>
+                        </table>
+                    </td>
+                </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <br>
+    <!-- input type='file' id="photos" name="photos[]" accept='image/*' multiple='multiple'>Camera</input -->
+</body>
+</html>
