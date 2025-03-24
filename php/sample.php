@@ -3,6 +3,8 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+require('Utility_Scripts.php');
+
 const CHECKINPRESCAN    = 0;
 const DISSEMBLY         = 1;
 const REPAIR_PLAN       = 2;
@@ -42,11 +44,11 @@ class Car{
 
     function __construct($rec){
         $this->ro_num   = $rec["RONum"];
-        $this->owner    = $rec["Owner"];
-        $this->vehicle  = $rec["Vehicle"];
-        $this->color    = $rec["Vehicle_Color"];
-        $this->technician = $rec["Technician"];
-        $this->estimator  = $rec["Estimator"];
+        $this->owner    = toProperCase($rec["Owner"]);
+        $this->vehicle  = toProperCase($rec["Vehicle"]);
+        $this->color    = toProperCase($rec["Vehicle_Color"]);
+        $this->technician = toProperCase($rec["Technician"]);
+        $this->estimator  = toProperCase($rec["Estimator"]);
         $this->locationID = $rec["Loc_ID"];
         $this->currentPhase = $rec["CurrentPhase"];
         $this->stageID    = $rec["Stage_ID"];
@@ -61,9 +63,10 @@ class StageCars{
     function GetCars($stage_ID){
 
         $strSQL = <<<sqlStmt
-                    SELECT RONum, Owner, Vehicle, Vehicle_In, CurrentPhase,
-                            Technician, Estimator, Vehicle_Color, Loc_ID,
-                            Stage_ID
+                    SELECT RONum, SUBSTRING_INDEX(Owner, ',', 1) AS Owner,
+                            Vehicle, Vehicle_In, CurrentPhase,
+                            SUBSTRING_INDEX(Technician, ' ', 1) AS Technician,
+                            SUBSTRING_INDEX(Estimator, ' ', 1) AS Estimator, Vehicle_Color, Loc_ID,Stage_ID
                     FROM Repairs
                     WHERE Stage_ID = $stage_ID
                 sqlStmt;

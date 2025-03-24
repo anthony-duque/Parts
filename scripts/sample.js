@@ -13,6 +13,7 @@ var sampleCtlr = function($scope, $http){
                             console.log("List of Assigned cars fetched successfully!");
                             console.log(response.data);
                             $scope.cars = response.data;
+                            $scope.colWidth = (1 / $scope.cars.length) * 100;
                         }
                     }
               )         // then()
