@@ -20,16 +20,52 @@ const FOR_DETAIL        = 11;
 const FINALQC_POSTSCAN  = 12;
 const READYFORDELIVERY  = 13;
 
-$productionStages = [];
+$method = $_SERVER['REQUEST_METHOD'];
 
-for($stageID = CHECKINPRESCAN; $stageID <= READYFORDELIVERY; ++$stageID){
-    $stageCars = new StageCars($stageID);
-//    echo json_encode($stageCars->cars);
-    $productionStages[$stageID] = $stageCars->cars;
-}
+switch($method){
 
-echo json_encode($productionStages);
+   case 'POST':;
+      $json = file_get_contents('php://input');
+      $data = json_decode($json);
+      ProcessPOST($data);
+      break;
 
+   case "PUT":    // Could read from input and query string
+      echo 'PUT';
+      $putData = fopen("php://input", "r");
+      $rawJson = "";
+
+      while($data = fread($putData, 1024)){
+          $rawJson .= $data;
+      }
+      fclose($putData);
+
+      $jsonData = json_decode($rawJson);
+      var_dump($jsonData);
+
+      ProcessPUT($jsonData);
+      break;
+
+   case "GET":  // get cars on the Paint List
+      $productionStages = [];
+      for($stageID = CHECKINPRESCAN; $stageID <= READYFORDELIVERY; ++$stageID){
+          $stageCars = new StageCars($stageID);
+          $productionStages[$stageID] = $stageCars->cars;
+      }
+      echo json_encode($productionStages);
+      break;
+
+   case "DELETE":
+      $qString = $_GET["id"];
+      echo "DELETE = " . $qString;
+      break;
+
+   default:
+      break;
+
+} // switch()
+
+////////////////////////////
 
 class Car{
 
@@ -66,7 +102,8 @@ class StageCars{
                     SELECT RONum, SUBSTRING_INDEX(Owner, ',', 1) AS Owner,
                             Vehicle, Vehicle_In, CurrentPhase,
                             SUBSTRING_INDEX(Technician, ' ', 1) AS Technician,
-                            SUBSTRING_INDEX(Estimator, ' ', 1) AS Estimator, Vehicle_Color, Loc_ID,Stage_ID
+                            SUBSTRING_INDEX(Estimator, ' ', 1) AS Estimator,
+                            Vehicle_Color, Loc_ID, Stage_ID
                     FROM Repairs
                     WHERE Stage_ID = $stage_ID
                 sqlStmt;
@@ -89,5 +126,30 @@ class StageCars{
     }   // function __construct()
 
 }   // ProductionStage{}
+
+
+function ProcessPUT($carObj){
+
+    require('db_open.php');
+
+    $tsql = <<<strSQL
+            UPDATE Repairs
+            SET Stage_ID = $carObj->stage_ID
+            WHERE RONum = $carObj->ro_Num
+                AND Loc_ID = $carObj->loc_ID
+        strSQL;
+
+    try{
+
+        $result = $conn->query($tsql);
+        echo "Car " . $carObj->ro_Num . " stage updated.";
+
+    } catch (Exception $e){
+        echo "Failed to update stage status for RO " . $carObj->ro_Num . $e->getMessage();
+    }
+
+    $conn = null;        // close the database connection
+
+}   // ProcessPUT()
 
 ?>

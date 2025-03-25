@@ -24,6 +24,7 @@ var stageCtrlr = function($scope, $http){
              );
     }    // function GetCars()
 
+
     $scope.ChangeBorder = function(roNum, locID){
 
         for(let i=0; i < $scope.cars.length; ++i){
@@ -42,35 +43,58 @@ var stageCtrlr = function($scope, $http){
                     carFound = true;
                     break;
                 }
-                if (carFound == true){
-                    break;
-                }
-            }
-        }
+            }   // for (let j)
 
-    }
+            if (carFound == true){
+                break;
+            }
+        }   // for (let i)
+    }   // ChangeBorder()
+
 
     $scope.MoveStage = function(roNum, locID, incr){
 
         // find the RO
         var carFound = false;
+        var newStageID = -1;
+
         for(let i=0; i < $scope.cars.length; ++i){
 
             if($scope.cars[i].length > 0){
+
                 for(let j=0; j < $scope.cars[i].length; ++j){
 
                     if (($scope.cars[i][j].ro_num === roNum) &&
                         ($scope.cars[i][j].locationID === locID)){
 
-                            carFound = true;
-                            $scope.ChangeBorder(roNum, locID);
-                            $scope.cars[i][j].stageID = parseInt($scope.cars[i][j].stageID) + incr;
-                            $scope.cars[i + incr].push($scope.cars[i][j]);
-                            $scope.cars[i].splice(j, 1);
-                            break;
-                            // update record in db
-                        }   // if (($scope...))
+                        carFound = true;
+                        newStageID = parseInt($scope.cars[i][j].stageID) + incr;
 
+                        $scope.ChangeBorder(roNum, locID);
+                        $scope.cars[i][j].stageID = newStageID;
+                        $scope.cars[i + incr].push($scope.cars[i][j]);
+                        $scope.cars[i].splice(j, 1);
+
+                        carObj = {
+                            "ro_Num"    : roNum,
+                            "loc_ID"    : locID,
+                            "stage_ID"  : newStageID
+                        };
+
+                            // update record in db
+                        $http.put('./php/Stage.php', JSON.stringify(carObj))
+                            .then(function(response){
+                                if(response.data){
+                                    console.log(response.data);
+                                }
+                            }, function(response){
+                                console.log("Service does not exist.");
+                                console.log(response.status);
+                                console.log(response.statusText);
+                                console.log(response.headers());
+                            });
+                        break;
+                    }   // if (($scope...))
                 }   // for (j)
             }   // if()
 
@@ -78,7 +102,7 @@ var stageCtrlr = function($scope, $http){
                 break;
             }
         }   // for (i)
-    }
+    }   // MoveStage()
 
 }   // sampleCtlr
 
