@@ -67,3 +67,12 @@
 .orange:link{
     color: white;
 }
+
+a.arrow{
+    text-decoration: none;
+}
+
+.red{
+    border-color: red;
+    border-width:3;
+}
