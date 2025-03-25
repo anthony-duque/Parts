@@ -63,7 +63,8 @@ var stageCtrlr = function($scope, $http){
                         ($scope.cars[i][j].locationID === locID)){
 
                             carFound = true;
-                            $scope.cars[i][j].stageID += incr;
+                            $scope.ChangeBorder(roNum, locID);
+                            $scope.cars[i][j].stageID = parseInt($scope.cars[i][j].stageID) + incr;
                             $scope.cars[i + incr].push($scope.cars[i][j]);
                             $scope.cars[i].splice(j, 1);
                             break;

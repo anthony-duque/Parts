@@ -11,9 +11,9 @@
         <tr>
             <th>Check-In/Pre-scan</th>
             <th>Disassembly</th>
-            <th>Repair Plan</th>
-            <th>Waiting for Approval</th>
-            <th>Waiting for Parts</th>
+            <th>Repair<br>Plan</th>
+            <th>Awaiting<br>Approval</th>
+            <th>Waiting<br>for Parts</th>
             <th>Body</th>
             <th>Primer</th>
             <th>Paint</th>
@@ -21,13 +21,13 @@
             <th>Reassembly</th>
             <th>Sublet</th>
             <th>Detail</th>
-            <th>Final QC/Post Scan</th>
-            <th>Ready for Delivery</th>
+            <th>Final QC/<br>Post Scan</th>
+            <th>Ready for<br>Delivery</th>
         </tr>
         <tr>
             <td valign='top' width='{{ colWidth }}%'>
                 <table border="1" id='CheckInPreScan'>
-                <tr ng-repeat='eachCar in cars[0]'>
+                <tr ng-repeat='eachCar in cars[0]' ng-init='lastCarIndex = cars[0].length'>
                     <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
                         <div ng-include='"Stage_Car.html"'>
                     </td>
@@ -36,7 +36,7 @@
             </td>
             <td valign='top' width='{{ colWidth }}%'>
                 <table border="1" id='something'>
-                <tr ng-repeat='eachCar in cars[1]'>
+                <tr ng-repeat='eachCar in cars[1]' ng-init='lastCarIndex = cars[1].length'>
                     <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
                         <div ng-include='"Stage_Car.html"'>
                     </td>
@@ -45,7 +45,7 @@
             </td>
             <td valign='top' width='{{ colWidth }}%'>
                 <table border="1" id='something'>
-                <tr ng-repeat='eachCar in cars[2]'>
+                <tr ng-repeat='eachCar in cars[2]' ng-init='lastCarIndex = cars[2].length'>
                     <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
                         <div ng-include='"Stage_Car.html"'>
                     </td>
@@ -54,7 +54,7 @@
             </td>
             <td valign='top' width='{{ colWidth }}%'>
                 <table border="1" id='something'>
-                <tr ng-repeat='eachCar in cars[3]'>
+                <tr ng-repeat='eachCar in cars[3]' ng-init='lastCarIndex = cars[3].length'>
                     <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
                         <div ng-include='"Stage_Car.html"'>
                     </td>
@@ -63,7 +63,7 @@
             </td>
             <td valign='top' width='{{ colWidth }}%'>
                 <table border="1" id='something'>
-                <tr ng-repeat='eachCar in cars[4]'>
+                <tr ng-repeat='eachCar in cars[4]' ng-init='lastCarIndex = cars[4].length'>
                     <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
                         <div ng-include='"Stage_Car.html"'>
                     </td>
@@ -72,7 +72,7 @@
             </td>
             <td valign='top' width='{{ colWidth }}%'>
                 <table border="1" id='something'>
-                <tr ng-repeat='eachCar in cars[5]'>
+                <tr ng-repeat='eachCar in cars[5]' ng-init='lastCarIndex = cars[5].length'>
                     <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
                         <div ng-include='"Stage_Car.html"'>
                     </td>
@@ -81,7 +81,7 @@
             </td>
             <td valign='top' width='{{ colWidth }}%'>
                 <table border="1" id='something'>
-                <tr ng-repeat='eachCar in cars[6]'>
+                <tr ng-repeat='eachCar in cars[6]' ng-init='lastCarIndex = cars[6].length'>
                     <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
                         <div ng-include='"Stage_Car.html"'>
                     </td>
@@ -90,7 +90,7 @@
             </td>
             <td valign='top' width='{{ colWidth }}%'>
                 <table border="1" id='something'>
-                <tr ng-repeat='eachCar in cars[7]'>
+                <tr ng-repeat='eachCar in cars[7]' ng-init='lastCarIndex = cars[7].length'>
                     <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
                         <div ng-include='"Stage_Car.html"'>
                     </td>
@@ -99,7 +99,7 @@
             </td>
             <td valign='top' width='{{ colWidth }}%'>
                 <table border="1" id='something'>
-                <tr ng-repeat='eachCar in cars[8]'>
+                <tr ng-repeat='eachCar in cars[8]' ng-init='lastCarIndex = cars[8].length'>
                     <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
                         <div ng-include='"Stage_Car.html"'>
                     </td>
@@ -108,7 +108,7 @@
             </td>
             <td valign='top' width='{{ colWidth }}%'>
                 <table border="1" id='something'>
-                <tr ng-repeat='eachCar in cars[9]'>
+                <tr ng-repeat='eachCar in cars[9]' ng-init='lastCarIndex = cars[9].length'>
                     <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
                         <div ng-include='"Stage_Car.html"'>
                     </td>
@@ -117,7 +117,7 @@
             </td>
             <td valign='top' width='{{ colWidth }}%'>
                 <table border="1" id='something'>
-                <tr ng-repeat='eachCar in cars[10]'>
+                <tr ng-repeat='eachCar in cars[10]' ng-init='lastCarIndex = cars[10].length'>
                     <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
                         <div ng-include='"Stage_Car.html"'>
                     </td>
@@ -126,7 +126,7 @@
             </td>
             <td valign='top' width='{{ colWidth }}%'>
                 <table border="1" id='something'>
-                <tr ng-repeat='eachCar in cars[11]'>
+                <tr ng-repeat='eachCar in cars[11]' ng-init='lastCarIndex = cars[11].length'>
                     <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
                         <div ng-include='"Stage_Car.html"'>
                     </td>
@@ -135,7 +135,7 @@
             </td>
             <td valign='top' width='{{ colWidth }}%'>
                 <table border="1" id='something'>
-                <tr ng-repeat='eachCar in cars[12]'>
+                <tr ng-repeat='eachCar in cars[12]' ng-init='lastCarIndex = cars[12].length'>
                     <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
                         <div ng-include='"Stage_Car.html"'>
                     </td>
@@ -144,7 +144,7 @@
             </td>
             <td valign='top' width='{{ colWidth }}%'>
                 <table border="1" id='something'>
-                <tr ng-repeat='eachCar in cars[13]'>
+                <tr ng-repeat='eachCar in cars[13]' ng-init='lastCarIndex = cars[13].length'>
                     <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
                         <div ng-include='"Stage_Car.html"'>
                     </td>

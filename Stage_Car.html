@@ -1,13 +1,19 @@
 <table width='100%' align='center' border=0>
 <tr>
-    <td rowspan='8' valign='middle'>
-        &#x2190;
+    <td rowspan='7' valign='middle'>
+        <a ng-click='MoveStage(eachCar.ro_num, eachCar.locationID, -1);' href='' class='arrow' ng-hide='eachCar.stageID == 0'>
+            &#x2190;
+        </a>
     </td>
     <td align='center'>
-        &#x2191;
+        <a ng-click='' href='' class='arrow' ng-hide='$index == 0'>
+            &#x2191;
+        </a>
     </td>
-    <td rowspan='8' valign='middle'>
-        &#x2192;
+    <td rowspan='7' valign='middle'>
+        <a ng-click='MoveStage(eachCar.ro_num, eachCar.locationID, 1);' href='' class='arrow' ng-hide='eachCar.stageID == 13'>
+            &#x2192;
+        </a>
     </td>
 </tr>
 <tr>
@@ -41,8 +47,12 @@
     </td>
 </tr>
 <tr>
+    <td></td>
     <td align='center'>
-        &#x2193;
+        <a ng-click='' href='' ng-hide='$index == (lastCarIndex - 1)' class='arrow'>
+            &#x2193;
+        </a>
     </td>
+    <td></td>
 </tr>
 </table>
