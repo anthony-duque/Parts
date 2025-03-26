@@ -1,4 +1,4 @@
-CREATE PROCEDURE spUpdateLocationIDs()
+CREATE DEFINER=`root`@`localhost` PROCEDURE `CarStar`.`spUpdateLocationIDs`()
 BEGIN
 
 	DELETE FROM Location_IDs;
@@ -15,5 +15,21 @@ BEGIN
 	UPDATE PartsStatusExtract pse INNER JOIN Location_IDs li
 	SET pse.Loc_ID = li.id
 	WHERE pse.Location = li.Location;
+
+	DELETE FROM Production_Stage
+	WHERE id IN
+		(SELECT * FROM (SELECT ps.id
+						FROM Production_Stage ps LEFT JOIN Repairs r
+							ON ps.ro_Num = r.RONum AND ps.loc_ID = r.Loc_ID
+						WHERE r.id IS NULL) AS p
+		);
+
+	INSERT INTO Production_Stage
+		(ro_Num, loc_ID, stage_ID)
+	SELECT r.RONum, r.Loc_ID, FLOOR(SUBSTRING_INDEX(r.CurrentPhase, " ", 1)) AS stageID
+	FROM Repairs r LEFT JOIN Production_Stage ps
+		ON r.RONum = ps.ro_Num AND r.Loc_ID = ps.loc_ID
+	WHERE ps.id IS NULL AND r.CurrentPhase NOT LIKE '[%%]'
+	ORDER BY r.RONum;
 
 END

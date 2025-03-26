@@ -87,7 +87,7 @@ class Car{
         $this->estimator  = toProperCase($rec["Estimator"]);
         $this->locationID = $rec["Loc_ID"];
         $this->currentPhase = $rec["CurrentPhase"];
-        $this->stageID    = $rec["Stage_ID"];
+        $this->stageID    = $rec["stage_ID"];
     }   // constructor()
 }  // class Car{}
 
@@ -103,9 +103,10 @@ class StageCars{
                             Vehicle, Vehicle_In, CurrentPhase,
                             SUBSTRING_INDEX(Technician, ' ', 1) AS Technician,
                             SUBSTRING_INDEX(Estimator, ' ', 1) AS Estimator,
-                            Vehicle_Color, Loc_ID, Stage_ID
-                    FROM Repairs
-                    WHERE Stage_ID = $stage_ID
+                            Vehicle_Color, r.Loc_ID, ps.stage_ID
+                    FROM Repairs r INNER JOIN Production_Stage ps
+                            ON r.RONUM = ps.ro_Num AND r.Loc_ID = ps.loc_ID
+                    WHERE ps.stage_ID = $stage_ID
                 sqlStmt;
 
         require('db_open.php');
@@ -133,10 +134,10 @@ function ProcessPUT($carObj){
     require('db_open.php');
 
     $tsql = <<<strSQL
-            UPDATE Repairs
-            SET Stage_ID = $carObj->stage_ID
-            WHERE RONum = $carObj->ro_Num
-                AND Loc_ID = $carObj->loc_ID
+            UPDATE Production_Stage
+            SET stage_ID = $carObj->stage_ID
+            WHERE ro_Num = $carObj->ro_Num
+                AND loc_ID = $carObj->loc_ID
         strSQL;
 
     try{
