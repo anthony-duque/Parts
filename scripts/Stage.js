@@ -1,6 +1,6 @@
 var stageApp = angular.module("StageApp", []);
 
-var stageCtrlr = function($scope, $http){
+var stageCtrlr = function($scope, $http, $window){
 
     GetCars();
 
@@ -23,6 +23,12 @@ var stageCtrlr = function($scope, $http){
                     }
              );
     }    // function GetCars()
+
+
+    $scope.DoubleClicked = function(carViewPage){
+        // alert("life sucks");
+        $window.open(carViewPage, "CarStatus");
+    }
 
 
     $scope.ChangeBorder = function(roNum, locID){
