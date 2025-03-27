@@ -67,6 +67,7 @@ switch($method){
 
 ////////////////////////////
 
+/*
 class Car{
 
     public $ro_num;
@@ -90,6 +91,51 @@ class Car{
         $this->stageID    = $rec["stage_ID"];
     }   // constructor()
 }  // class Car{}
+*/
+
+class Car{
+
+    public $ro_num;
+    public $owner;
+    public $vehicle;
+    public $vehicle_color;
+    public $vehicle_in;
+    public $current_phase;
+    public $technician;
+    public $estimator;
+    public $parts = [];
+    public $parts_unordered;
+    public $parts_waiting;
+    public $parts_received;
+    public $parts_returned;
+    public $parts_percent;
+    public $scheduled_out;
+    public $locationID;
+    public $stageID;
+
+    function __construct($rec){
+
+        $this->ro_num           = $rec["RONum"];
+        $this->owner            = ucwords(strtolower($rec["Owner"]));
+        $this->vehicle          = $rec["Vehicle"];
+        $this->vehicle_color    = $rec["Vehicle_Color"];
+        $this->vehicle_in       = $rec["Vehicle_In"];
+        $this->technician       = $rec["Technician"];
+        $this->estimator        = $rec["Estimator"];
+        $this->current_phase    = $rec["CurrentPhase"];
+        $this->parts_unordered  = 0;
+        $this->parts_waiting    = 0;
+        $this->parts_received   = 0;
+        $this->parts_returned   = 0;
+        $this->parts_percent    = 0;
+        $this->scheduled_out    = GetDisplayDate($rec["Scheduled_Out"]);
+        $this->scheduled_out    = substr($this->scheduled_out, 0, 5);
+        $this->location         = $rec["Location"];
+        $this->locationID       = $rec["Loc_ID"];
+        $this->stageID          = $rec["stage_ID"];
+
+    }   // Car($rec)
+}   // Car{}
 
 
 class StageCars{
@@ -99,15 +145,17 @@ class StageCars{
     function GetCars($stage_ID){
 
         $strSQL = <<<sqlStmt
-                    SELECT RONum, SUBSTRING_INDEX(Owner, ',', 1) AS Owner,
-                            Vehicle, Vehicle_In, CurrentPhase,
-                            SUBSTRING_INDEX(Technician, ' ', 1) AS Technician,
-                            SUBSTRING_INDEX(Estimator, ' ', 1) AS Estimator,
-                            Vehicle_Color, r.Loc_ID, ps.stage_ID
+	               SELECT
+                        r.RONum, r.Location, r.Loc_ID, ps.stage_ID,
+                        SUBSTRING_INDEX(r.Estimator, ' ', 1) AS Estimator,
+                        SUBSTRING_INDEX(r.Owner, ',', 1) AS Owner,
+                        r.Vehicle, LCASE(r.Vehicle_Color) AS Vehicle_Color,
+                        SUBSTRING_INDEX(r.Technician, ' ', 1) AS Technician,
+                        r.Vehicle_In, r.CurrentPhase, r.Scheduled_Out
                     FROM Repairs r INNER JOIN Production_Stage ps
-                            ON r.RONUM = ps.ro_Num AND r.Loc_ID = ps.loc_ID
+                            ON r.RONum = ps.ro_Num AND r.Loc_ID = ps.loc_ID
                     WHERE ps.stage_ID = $stage_ID
-                sqlStmt;
+sqlStmt;
 
         require('db_open.php');
 
