@@ -47,7 +47,9 @@ switch($method){
       break;
 
    case "GET":  // get cars on the Paint List
+
       $productionStages = [];
+
       for($stageID = CHECKINPRESCAN; $stageID <= READYFORDELIVERY; ++$stageID){
           $stageCars = new StageCars($stageID);
           $productionStages[$stageID] = $stageCars->cars;
@@ -67,31 +69,29 @@ switch($method){
 
 ////////////////////////////
 
-/*
-class Car{
+class Part{
 
-    public $ro_num;
-    public $owner;
-    public $vehicle;
-    public $color;
-    public $estimator;
-    public $locationID;
-    public $currentPhase;
-    public $stageID;
+    public $ro_quantity;
+    public $ordered_quantity;
+    public $received_quantity;
+    public $returned_quantity;
+    public $part_status;
 
     function __construct($rec){
-        $this->ro_num   = $rec["RONum"];
-        $this->owner    = toProperCase($rec["Owner"]);
-        $this->vehicle  = toProperCase($rec["Vehicle"]);
-        $this->color    = toProperCase($rec["Vehicle_Color"]);
-        $this->technician = toProperCase($rec["Technician"]);
-        $this->estimator  = toProperCase($rec["Estimator"]);
-        $this->locationID = $rec["Loc_ID"];
-        $this->currentPhase = $rec["CurrentPhase"];
-        $this->stageID    = $rec["stage_ID"];
-    }   // constructor()
-}  // class Car{}
-*/
+
+        $this->ro_quantity       = $rec["RO_Qty"];
+        $this->ordered_quantity  = $rec["Ordered_Qty"];
+        $this->received_quantity = $rec["Received_Qty"];
+        $this->returned_quantity = $rec["Returned_Qty"];
+        $this->part_status       = ComputePartStatus(
+                                        $this->ro_quantity,
+                                        $this->ordered_quantity,
+                                        $this->received_quantity,
+                                        $this->returned_quantity
+                                    );
+    }   // Part()
+}   // Part{}
+
 
 class Car{
 
@@ -113,15 +113,49 @@ class Car{
     public $locationID;
     public $stageID;
 
-    function __construct($rec){
+    function Get_Parts_List($dbConn){
+
+        $allParts = [];
+
+        $sql =  <<<strSQL
+                    SELECT RO_Qty, Ordered_Qty, Received_Qty, Returned_Qty
+                    FROM PartsStatusExtract
+                    WHERE Part_Number NOT IN ('Sublet', 'Remanufactured')
+                        AND (Line > 0)
+                        AND (Part_Number > '' OR Vendor_Name > '')
+                        AND Vendor_Name NOT LIKE '**%'
+                        AND Part_Number NOT LIKE 'Aftermarket%'
+                        AND (Part_Type <> 'Sublet')
+                        AND RO_Num = $this->ro_num
+                        AND Loc_ID = $this->locationID
+                    ORDER BY Ordered_Qty ASC
+                strSQL;
+
+        try {
+
+            $s = mysqli_query($dbConn, $sql);
+
+            while($r = mysqli_fetch_assoc($s)){
+                array_push($allParts, new Part($r));
+            }   //while{}
+
+        } catch(Exception $e){
+            echo "Fetching List of Parts failed.";
+        }   // try-catch
+
+        return $allParts;
+    }   // GetAllParts()
+
+
+    function __construct($dbConn, $rec){
 
         $this->ro_num           = $rec["RONum"];
-        $this->owner            = ucwords(strtolower($rec["Owner"]));
-        $this->vehicle          = $rec["Vehicle"];
+        $this->owner            = toProperCase($rec["Owner"]);
+        $this->vehicle          = toProperCase($rec["Vehicle"]);
         $this->vehicle_color    = $rec["Vehicle_Color"];
         $this->vehicle_in       = $rec["Vehicle_In"];
-        $this->technician       = $rec["Technician"];
-        $this->estimator        = $rec["Estimator"];
+        $this->technician       = toProperCase($rec["Technician"]);
+        $this->estimator        = toProperCase($rec["Estimator"]);
         $this->current_phase    = $rec["CurrentPhase"];
         $this->parts_unordered  = 0;
         $this->parts_waiting    = 0;
@@ -133,6 +167,7 @@ class Car{
         $this->location         = $rec["Location"];
         $this->locationID       = $rec["Loc_ID"];
         $this->stageID          = $rec["stage_ID"];
+        $this->parts            = $this->Get_Parts_List($dbConn);
 
     }   // Car($rec)
 }   // Car{}
@@ -145,16 +180,16 @@ class StageCars{
     function GetCars($stage_ID){
 
         $strSQL = <<<sqlStmt
-	               SELECT
-                        r.RONum, r.Location, r.Loc_ID, ps.stage_ID,
-                        SUBSTRING_INDEX(r.Estimator, ' ', 1) AS Estimator,
-                        SUBSTRING_INDEX(r.Owner, ',', 1) AS Owner,
-                        r.Vehicle, LCASE(r.Vehicle_Color) AS Vehicle_Color,
-                        SUBSTRING_INDEX(r.Technician, ' ', 1) AS Technician,
-                        r.Vehicle_In, r.CurrentPhase, r.Scheduled_Out
-                    FROM Repairs r INNER JOIN Production_Stage ps
-                            ON r.RONum = ps.ro_Num AND r.Loc_ID = ps.loc_ID
-                    WHERE ps.stage_ID = $stage_ID
+           SELECT
+                r.RONum, r.Location, r.Loc_ID, ps.stage_ID,
+                SUBSTRING_INDEX(r.Estimator, ' ', 1) AS Estimator,
+                SUBSTRING_INDEX(r.Owner, ',', 1) AS Owner,
+                r.Vehicle, LCASE(r.Vehicle_Color) AS Vehicle_Color,
+                SUBSTRING_INDEX(r.Technician, ' ', 1) AS Technician,
+                r.Vehicle_In, r.CurrentPhase, r.Scheduled_Out
+            FROM Repairs r INNER JOIN Production_Stage ps
+                    ON r.RONum = ps.ro_Num AND r.Loc_ID = ps.loc_ID
+            WHERE ps.stage_ID = $stage_ID
 sqlStmt;
 
         require('db_open.php');
@@ -162,7 +197,7 @@ sqlStmt;
         $s = mysqli_query($conn, $strSQL);
 
         while($r = mysqli_fetch_assoc($s)){
-            array_push($this->cars, new Car($r));
+            array_push($this->cars, new Car($conn, $r));
         }   // while()
 
         $conn = null;

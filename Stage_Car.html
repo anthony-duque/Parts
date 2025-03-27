@@ -1,7 +1,7 @@
 <table width='100%' align='center' border=0 ng-dblclick='DoubleClicked("Car_View.html?roNum=" + eachCar.ro_num + "&locationID=" + eachCar.locationID)'>
 <tr>
     <td rowspan='7' valign='middle'>
-        <a ng-click='MoveStage(eachCar.ro_num, eachCar.loc_ID, -1);' href='' class='arrow' ng-hide='eachCar.stageID == 0'>
+        <a ng-click='MoveStage(eachCar.ro_num, eachCar.locationID, -1);' href='' class='arrow' ng-hide='eachCar.stageID == 0'>
             &#x2190;
         </a>
     </td>
@@ -11,7 +11,7 @@
         </a>
     </td>
     <td rowspan='7' valign='middle'>
-        <a ng-click='MoveStage(eachCar.ro_num, eachCar.loc_ID, 1);' href='' class='arrow' ng-hide='eachCar.stageID == 13'>
+        <a ng-click='MoveStage(eachCar.ro_num, eachCar.locationID, 1);' href='' class='arrow' ng-hide='eachCar.stageID == 13'>
             &#x2192;
         </a>
     </td>
