@@ -1,6 +1,6 @@
 <table width='100%' align='center' border=0 ng-dblclick='DoubleClicked("Car_View.html?roNum=" + eachCar.ro_num + "&locationID=" + eachCar.locationID)'>
 <tr>
-    <td rowspan='7' valign='middle'>
+    <td rowspan='8' valign='middle'>
         <a ng-click='MoveStage(eachCar.ro_num, eachCar.locationID, -1);' href='' class='arrow' ng-hide='eachCar.stageID == 0'>
             &#x2190;
         </a>
@@ -10,7 +10,7 @@
             &#x2191;
         </a>
     </td>
-    <td rowspan='7' valign='middle'>
+    <td rowspan='8' valign='middle'>
         <a ng-click='MoveStage(eachCar.ro_num, eachCar.locationID, 1);' href='' class='arrow' ng-hide='eachCar.stageID == 13'>
             &#x2192;
         </a>
@@ -23,17 +23,48 @@
 </tr>
 <tr>
     <td align='center'>
+        [ {{ eachCar.vehicle_color }} ]
+    </td>
+</tr>
+<tr>
+    <td align='center'>
         {{ eachCar.owner }}
     </td>
 </tr>
 <tr>
     <td align='center'>
-        {{ eachCar.vehicle_color }}
+        {{ eachCar.ro_num }}
     </td>
 </tr>
-<tr>
+<tr ng-show='eachCar.parts_percent == 100'>
     <td align='center'>
-        {{ eachCar.ro_num }}
+        <table align='center' border=1>
+        <tr>
+            <td align='center'>
+                All Parts In
+            </td>
+        </tr>
+        </table>
+    </td>
+</tr>
+<tr ng-hide='eachCar.parts_percent == 100'>
+    <td valign='bottom'>
+        <table height='10' width='100%' border=1 valign='bottom'>
+        <tr>
+            <td class='noParts' align='center' width='25%' ng-show='eachCar.parts_unordered > 0'>
+                {{ eachCar.parts_unordered }}
+            </td>
+            <td class='waitingForParts' align='center' width='25%' ng-show='eachCar.parts_waiting > 0'>
+                {{ eachCar.parts_waiting }}
+            </td>
+            <td class='partsComplete' align='center' width='25%' ng-show='eachCar.parts_received > 0'>
+                {{ eachCar.parts_received }}
+            </td>
+            <td class='lightBlue' align='center' width='25%' ng-show='eachCar.parts_returned > 0'>
+                {{ eachCar.parts_returned }}
+            </td>
+        </tr>
+        </table>
     </td>
 </tr>
 <tr>

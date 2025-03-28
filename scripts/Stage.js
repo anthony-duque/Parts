@@ -33,19 +33,19 @@ var stageCtrlr = function($scope, $http, $window, utility){
 
     $scope.ChangeBorder = function(roNum, locID){
 
-        for(let i=0; i < $scope.cars.length; ++i){
-            for(let j=0; j < $scope.cars[i].length; ++j){
-                $scope.cars[i][j].borderColor = '';
+        for(let i=0; i < $scope.production_stage.length; ++i){
+            for(let j=0; j < $scope.production_stage[i].cars.length; ++j){
+                $scope.production_stage[i].cars[j].borderColor = '';
             }
         }
 
         var carFound = false;
-        for(let i=0; i < $scope.cars.length; ++i){
-            for(let j=0; j < $scope.cars[i].length; ++j){
+        for(let i=0; i < $scope.production_stage.length; ++i){
+            for(let j=0; j < $scope.production_stage[i].cars.length; ++j){
 
-                if (($scope.cars[i][j].ro_num === roNum) &&
-                    ($scope.cars[i][j].locationID === locID)){
-                    $scope.cars[i][j].borderColor = 'red';
+                if (($scope.production_stage[i].cars[j].ro_num === roNum) &&
+                    ($scope.production_stage[i].cars[j].locationID === locID)){
+                    $scope.production_stage[i].cars[j].borderColor = 'red';
                     carFound = true;
                     break;
                 }
@@ -64,22 +64,22 @@ var stageCtrlr = function($scope, $http, $window, utility){
         var carFound = false;
         var newStageID = -1;
 
-        for(let i=0; i < $scope.cars.length; ++i){
+        for(let i=0; i < $scope.production_stage.length; ++i){
 
-            if($scope.cars[i].length > 0){
+            if($scope.production_stage[i].cars.length > 0){
 
-                for(let j=0; j < $scope.cars[i].length; ++j){
+                for(let j=0; j < $scope.production_stage[i].cars.length; ++j){
 
-                    if (($scope.cars[i][j].ro_num === roNum) &&
-                        ($scope.cars[i][j].locationID === locID)){
+                    if (($scope.production_stage[i].cars[j].ro_num === roNum) &&
+                        ($scope.production_stage[i].cars[j].locationID === locID)){
 
                         carFound = true;
-                        newStageID = parseInt($scope.cars[i][j].stageID) + incr;
+                        newStageID = parseInt($scope.production_stage[i].cars[j].stageID) + incr;
 
                         $scope.ChangeBorder(roNum, locID);
-                        $scope.cars[i][j].stageID = newStageID;
-                        $scope.cars[i + incr].push($scope.cars[i][j]);
-                        $scope.cars[i].splice(j, 1);
+                        $scope.production_stage[i].cars[j].stageID = newStageID;
+                        $scope.production_stage[i + incr].cars.push($scope.production_stage[i].cars[j]);
+                        $scope.production_stage[i].cars.splice(j, 1);
 
                         carObj = {
                             "ro_Num"    : roNum,
