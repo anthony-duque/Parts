@@ -1,6 +1,6 @@
-var stageApp = angular.module("StageApp", []);
+var app = angular.module("StageApp", []);
 
-var stageCtrlr = function($scope, $http, $window){
+var stageCtrlr = function($scope, $http, $window, utility){
 
     GetCars();
 
@@ -12,8 +12,8 @@ var stageCtrlr = function($scope, $http, $window){
                         if (response.data){
                             console.log("List of Assigned cars fetched successfully!");
                             console.log(response.data);
-                            $scope.cars = response.data;
-                            $scope.colWidth = (1 / $scope.cars.length) * 100;
+                            $scope.production_stage = response.data;
+                            $scope.colWidth = (1 / $scope.production_stage.length) * 100;
                         }
                     }
               )         // then()
@@ -110,6 +110,15 @@ var stageCtrlr = function($scope, $http, $window){
         }   // for (i)
     }   // MoveStage()
 
+
+    $scope.CheckParts = function(car){
+
+        car.status = utility.ColorCarPartsStatus(car);
+        return car.status;
+
+    }   // CheckParts()
+
+
 }   // sampleCtlr
 
-stageApp.controller("StageCtrlr", stageCtrlr);
+app.controller("StageCtrlr", stageCtrlr);

@@ -48,13 +48,15 @@ switch($method){
 
    case "GET":  // get cars on the Paint List
 
-      $productionStages = [];
+      $prod_stages = [];
 
       for($stageID = CHECKINPRESCAN; $stageID <= READYFORDELIVERY; ++$stageID){
-          $stageCars = new StageCars($stageID);
-          $productionStages[$stageID] = $stageCars->cars;
+          $prod_stages[$stageID] = new Production_Stage($stageID);
       }
-      echo json_encode($productionStages);
+
+      ComputePartsReceived($prod_stages);
+
+      echo json_encode($prod_stages);
       break;
 
    case "DELETE":
@@ -68,6 +70,44 @@ switch($method){
 } // switch()
 
 ////////////////////////////
+
+class Production_Stage {
+
+    public $cars = [];
+
+    function GetCars($stage_ID){
+
+        $strSQL = <<<sqlStmt
+           SELECT
+                r.RONum, r.Location, r.Loc_ID, ps.stage_ID,
+                SUBSTRING_INDEX(r.Estimator, ' ', 1) AS Estimator,
+                SUBSTRING_INDEX(r.Owner, ',', 1) AS Owner,
+                r.Vehicle, LCASE(r.Vehicle_Color) AS Vehicle_Color,
+                SUBSTRING_INDEX(r.Technician, ' ', 1) AS Technician,
+                r.Vehicle_In, r.CurrentPhase, r.Scheduled_Out
+            FROM Repairs r INNER JOIN Production_Stage ps
+                    ON r.RONum = ps.ro_Num AND r.Loc_ID = ps.loc_ID
+            WHERE ps.stage_ID = $stage_ID
+sqlStmt;
+
+        require('db_open.php');
+
+        $s = mysqli_query($conn, $strSQL);
+
+        while($r = mysqli_fetch_assoc($s)){
+            array_push($this->cars, new Car($conn, $r));
+        }   // while()
+
+        $conn = null;
+
+        return $this->cars;
+    }   // GetCars()
+
+
+    function __construct($stageID){
+        $this->cars = $this->GetCars($stageID);
+    }
+}   // Production_Stage {}
 
 class Part{
 
@@ -171,45 +211,6 @@ class Car{
 
     }   // Car($rec)
 }   // Car{}
-
-
-class StageCars{
-
-    public $cars = [];
-
-    function GetCars($stage_ID){
-
-        $strSQL = <<<sqlStmt
-           SELECT
-                r.RONum, r.Location, r.Loc_ID, ps.stage_ID,
-                SUBSTRING_INDEX(r.Estimator, ' ', 1) AS Estimator,
-                SUBSTRING_INDEX(r.Owner, ',', 1) AS Owner,
-                r.Vehicle, LCASE(r.Vehicle_Color) AS Vehicle_Color,
-                SUBSTRING_INDEX(r.Technician, ' ', 1) AS Technician,
-                r.Vehicle_In, r.CurrentPhase, r.Scheduled_Out
-            FROM Repairs r INNER JOIN Production_Stage ps
-                    ON r.RONum = ps.ro_Num AND r.Loc_ID = ps.loc_ID
-            WHERE ps.stage_ID = $stage_ID
-sqlStmt;
-
-        require('db_open.php');
-
-        $s = mysqli_query($conn, $strSQL);
-
-        while($r = mysqli_fetch_assoc($s)){
-            array_push($this->cars, new Car($conn, $r));
-        }   // while()
-
-        $conn = null;
-
-        return $this->cars;
-    }   // function()
-
-    function __construct($sID){
-        $this->cars = $this->GetCars($sID);
-    }   // function __construct()
-
-}   // ProductionStage{}
 
 
 function ProcessPUT($carObj){
