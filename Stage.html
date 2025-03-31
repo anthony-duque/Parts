@@ -7,9 +7,23 @@
     <link rel='stylesheet' href="./styles/Parts.css" />
 </head>
 <body ng-controller='StageCtrlr'>
-    <table align='center'>
+    <table align='center' width='100%'>
     <tr>
-        <td align='center'>
+        <td>
+            Technician:
+            <select ng-model='tech'>
+                <option value=''>All Techs</option>
+                <option value='Jose'>Jose</option>
+                <option value='Jerry'>Jerry</option>
+                <option value='Nacho'>Nacho</option>
+                <option value='Van'>Van</option>
+            </select>
+        </td>
+        <td align='right'>
+            Search: <input type='text' ng-model='searchText'/>&nbsp;
+            <input type='button' value='Clear' ng-click='searchText = ""'>
+        </td>
+        <td align='right'>
             Shop:
             <select ng-model='locID'>
                 <option value=1 selected>CarStar City Auto</option>
@@ -38,8 +52,12 @@
         </tr>
         <tr>
             <td valign='top' width='{{ colWidth }}%'>
-                <table border="1" id='CheckInPreScan'>
-                <tr ng-repeat='eachCar in production_stage[0].cars | filter: { locationID: locID }' ng-init='lastCarIndex = cars[0].length'>
+                <table border="1" id='CheckInPreScan' width='100%'>
+                <tr ng-init='lastCarIndex = cars[0].length'
+                    ng-repeat='eachCar in production_stage[0].cars
+                                | filter: { locationID: locID }
+                                | filter: { technician: tech }
+                                | filter : searchText'>
                     <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
                         <div ng-include='"Stage_Car.html"' ng-class='CheckParts(eachCar);'>
                     </td>
@@ -47,8 +65,12 @@
                 </table>
             </td>
             <td valign='top' width='{{ colWidth }}%'>
-                <table border="1" id='something'>
-                <tr ng-repeat='eachCar in production_stage[1].cars | filter: { locationID: locID }' ng-init='lastCarIndex = cars[1].length'>
+                <table border="1" id='Disassembly' width='100%'>
+                <tr ng-init='lastCarIndex = cars[1].length'
+                    ng-repeat='eachCar in production_stage[1].cars
+                                | filter: { locationID: locID }
+                                | filter: { technician: tech }
+                                | filter : searchText'>
                     <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
                         <div ng-include='"Stage_Car.html"' ng-class='CheckParts(eachCar);'>
                     </td>
@@ -56,8 +78,12 @@
                 </table>
             </td>
             <td valign='top' width='{{ colWidth }}%'>
-                <table border="1" id='something'>
-                <tr ng-repeat='eachCar in production_stage[2].cars | filter : { locationID : locID }' ng-init='lastCarIndex = cars[2].length'>
+                <table border="1" id='RepairPlan' width='100%'>
+                <tr ng-init='lastCarIndex = cars[2].length'
+                    ng-repeat='eachCar in production_stage[2].cars
+                                | filter: { locationID: locID }
+                                | filter: { technician: tech }
+                                | filter : searchText'>
                     <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
                         <div ng-include='"Stage_Car.html"' ng-class='CheckParts(eachCar);'>
                     </td>
@@ -65,8 +91,12 @@
                 </table>
             </td>
             <td valign='top' width='{{ colWidth }}%'>
-                <table border="1" id='something'>
-                <tr ng-repeat='eachCar in production_stage[3].cars | filter : { locationID : locID }' ng-init='lastCarIndex = cars[3].length'>
+                <table border="1" id='AwaitingApproval' width='100%'>
+                <tr ng-init='lastCarIndex = cars[3].length'
+                    ng-repeat='eachCar in production_stage[3].cars
+                                | filter: { locationID: locID }
+                                | filter: { technician: tech }
+                                | filter : searchText'>
                     <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
                         <div ng-include='"Stage_Car.html"' ng-class='CheckParts(eachCar);'>
                     </td>
@@ -74,8 +104,12 @@
                 </table>
             </td>
             <td valign='top' width='{{ colWidth }}%'>
-                <table border="1" id='something'>
-                <tr ng-repeat='eachCar in production_stage[4].cars | filter : { locationID : locID }' ng-init='lastCarIndex = cars[4].length'>
+                <table border="1" id='AwaitingParts' width='100%'>
+                <tr ng-init='lastCarIndex = cars[4].length'
+                    ng-repeat='eachCar in production_stage[4].cars
+                        | filter: { locationID: locID }
+                        | filter: { technician: tech }
+                        | filter : searchText'>
                     <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
                         <div ng-include='"Stage_Car.html"' ng-class='CheckParts(eachCar);'>
                     </td>
@@ -83,8 +117,12 @@
                 </table>
             </td>
             <td valign='top' width='{{ colWidth }}%'>
-                <table border="1" id='something'>
-                <tr ng-repeat='eachCar in production_stage[5].cars | filter : { locationID : locID }' ng-init='lastCarIndex = cars[5].length'>
+                <table border="1" id='Body' width='100%'>
+                <tr ng-init='lastCarIndex = cars[5].length'
+                    ng-repeat='eachCar in production_stage[5].cars
+                                | filter: { locationID: locID }
+                                | filter: { technician: tech }
+                                | filter : searchText'>
                     <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
                         <div ng-include='"Stage_Car.html"' ng-class='CheckParts(eachCar);'>
                     </td>
@@ -92,8 +130,12 @@
                 </table>
             </td>
             <td valign='top' width='{{ colWidth }}%'>
-                <table border="1" id='something'>
-                <tr ng-repeat='eachCar in production_stage[6].cars | filter : { locationID : locID }' ng-init='lastCarIndex = cars[6].length'>
+                <table border="1" id='Primer' width='100%'>
+                <tr ng-init='lastCarIndex = cars[6].length'
+                    ng-repeat='eachCar in production_stage[6].cars
+                                | filter: { locationID: locID }
+                                | filter: { technician: tech }
+                                | filter : searchText'>
                     <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
                         <div ng-include='"Stage_Car.html"' ng-class='CheckParts(eachCar);'>
                     </td>
@@ -101,8 +143,12 @@
                 </table>
             </td>
             <td valign='top' width='{{ colWidth }}%'>
-                <table border="1" id='something'>
-                <tr ng-repeat='eachCar in production_stage[7].cars | filter : { locationID : locID }' ng-init='lastCarIndex = cars[7].length'>
+                <table border="1" id='Paint' width='100%'>
+                <tr ng-init='lastCarIndex = cars[7].length'
+                    ng-repeat='eachCar in production_stage[7].cars
+                                | filter: { locationID: locID }
+                                | filter: { technician: tech }
+                                | filter : searchText'>
                     <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
                         <div ng-include='"Stage_Car.html"' ng-class='CheckParts(eachCar);'>
                     </td>
@@ -110,8 +156,12 @@
                 </table>
             </td>
             <td valign='top' width='{{ colWidth }}%'>
-                <table border="1" id='something'>
-                <tr ng-repeat='eachCar in production_stage[8].cars | filter : { locationID : locID }' ng-init='lastCarIndex = cars[8].length'>
+                <table border="1" id='Delay' width='100%'>
+                <tr ng-init='lastCarIndex = cars[8].length'
+                    ng-repeat='eachCar in production_stage[8].cars
+                                | filter: { locationID: locID }
+                                | filter: { technician: tech }
+                                | filter : searchText'>
                     <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
                         <div ng-include='"Stage_Car.html"' ng-class='CheckParts(eachCar);'></div>
                     </td>
@@ -119,8 +169,12 @@
                 </table>
             </td>
             <td valign='top' width='{{ colWidth }}%'>
-                <table border="1" id='something'>
-                <tr ng-repeat='eachCar in production_stage[9].cars | filter : { locationID : locID }' ng-init='lastCarIndex = cars[9].length'>
+                <table border="1" id='Re-assembly' width='100%'>
+                <tr ng-init='lastCarIndex = cars[9].length'
+                    ng-repeat='eachCar in production_stage[9].cars
+                                | filter: { locationID: locID }
+                                | filter: { technician: tech }
+                                | filter : searchText'>
                     <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
                         <div ng-include='"Stage_Car.html"' ng-class='CheckParts(eachCar);'></div>
                     </td>
@@ -128,8 +182,12 @@
                 </table>
             </td>
             <td valign='top' width='{{ colWidth }}%'>
-                <table border="1" id='something'>
-                <tr ng-repeat='eachCar in production_stage[10].cars | filter : { locationID : locID }' ng-init='lastCarIndex = cars[10].length'>
+                <table border="1" id='Sublet' width='100%'>
+                    <tr ng-init='lastCarIndex = cars[10].length'
+                        ng-repeat='eachCar in production_stage[10].cars
+                                    | filter: { locationID: locID }
+                                    | filter: { technician: tech }
+                                    | filter : searchText'>
                     <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
                         <div ng-include='"Stage_Car.html"' ng-class='CheckParts(eachCar);'></div>
                     </td>
@@ -137,8 +195,12 @@
                 </table>
             </td>
             <td valign='top' width='{{ colWidth }}%'>
-                <table border="1" id='something'>
-                <tr ng-repeat='eachCar in production_stage[11].cars | filter : { locationID : locID }' ng-init='lastCarIndex = cars[11].length'>
+                <table border="1" id='Detail' width='100%'>
+                    <tr ng-init='lastCarIndex = cars[11].length'
+                        ng-repeat='eachCar in production_stage[11].cars
+                                    | filter: { locationID: locID }
+                                    | filter: { technician: tech }
+                                    | filter : searchText'>
                     <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
                         <div ng-include='"Stage_Car.html"' ng-class='CheckParts(eachCar);'>
                     </td>
@@ -146,8 +208,12 @@
                 </table>
             </td>
             <td valign='top' width='{{ colWidth }}%'>
-                <table border="1" id='something'>
-                <tr ng-repeat='eachCar in production_stage[12].cars | filter : { locationID : locID }' ng-init='lastCarIndex = cars[12].length'>
+                <table border="1" id='FinalQC' width='100%'>
+                    <tr ng-init='lastCarIndex = cars[12].length'
+                        ng-repeat='eachCar in production_stage[12].cars
+                                    | filter: { locationID: locID }
+                                    | filter: { technician: tech }
+                                    | filter : searchText'>
                     <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
                         <div ng-include='"Stage_Car.html"' ng-class='CheckParts(eachCar);'>
                     </td>
@@ -155,8 +221,12 @@
                 </table>
             </td>
             <td valign='top' width='{{ colWidth }}%'>
-                <table border="1" id='something'>
-                <tr ng-repeat='eachCar in production_stage[13].cars | filter : { locationID : locID }' ng-init='lastCarIndex = cars[13].length'>
+                <table border="1" id='ForDelivery' width='100%'>
+                    <tr ng-init='lastCarIndex = cars[13].length'
+                        ng-repeat='eachCar in production_stage[13].cars
+                                    | filter: { locationID: locID }
+                                    | filter: { technician: tech }
+                                    | filter : searchText'>
                     <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
                         <div ng-include='"Stage_Car.html"' ng-class='CheckParts(eachCar);'>
                     </td>
@@ -167,6 +237,5 @@
     </table>
 
     <br>
-    <!-- input type='file' id="photos" name="photos[]" accept='image/*' multiple='multiple'>Camera</input -->
 </body>
 </html>
