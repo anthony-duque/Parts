@@ -6,7 +6,7 @@
         </a>
     </td>
     <td align='center'>
-        <a ng-click='' href='' class='arrow' ng-hide='$index == 0'>
+        <a ng-click='' href='' class='arrow' ng-hide='$index == $index'>
             &#x2191;
         </a>
     </td>
@@ -18,22 +18,30 @@
 </tr>
 <tr>
     <td align='center'>
-        {{  eachCar.vehicle.split(' ')[1] + " " + eachCar.vehicle.split(' ')[2]  }}
+        <b>
+            {{  eachCar.vehicle.split(' ')[1] + " " + eachCar.vehicle.split(' ')[2]  }}
+        </b>
     </td>
 </tr>
 <tr>
     <td align='center'>
-        [ {{ eachCar.vehicle_color }} ]
+        <i>
+            [{{ eachCar.vehicle_color }}]
+        </i>
     </td>
 </tr>
 <tr>
     <td align='center'>
+        <b><i>
         {{ eachCar.owner }}
+        </i></b>
     </td>
 </tr>
 <tr>
     <td align='center'>
+        <b><u>
         {{ eachCar.ro_num }}
+        </u></b>
     </td>
 </tr>
 <tr ng-show='eachCar.parts_percent == 100'>
@@ -80,7 +88,7 @@
 <tr>
     <td></td>
     <td align='center'>
-        <a ng-click='' href='' ng-hide='$index === lastCarIndex' class='arrow'>
+        <a ng-click='' href='' ng-hide='$index === $index' class='arrow'>
             &#x2193;
         </a>
     </td>
