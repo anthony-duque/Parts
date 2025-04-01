@@ -7,7 +7,7 @@
     <link rel='stylesheet' href="./styles/Parts.css" />
 </head>
 <body ng-controller='StageCtrlr'>
-    <table align='center' width='100%'>
+    <table align='center' width='100%' class='lightBlue'>
     <tr>
         <td>
             Technician:
@@ -29,6 +29,9 @@
                 <option value='Jim'>Jim</option>
                 <option value='Chad'>Chad</option>
             </select>
+        </td>
+        <td>
+            <input type='button' value='Reset Filters' ng-click='tech = ""; estim = ""'>
         </td>
         <td align='right'>
             Search: <input type='text' ng-model='searchText'/>&nbsp;
