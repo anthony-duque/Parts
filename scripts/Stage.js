@@ -63,6 +63,7 @@ var stageCtrlr = function($scope, $http, $window, utility){
         // find the RO
         var carFound = false;
         var newStageID = -1;
+        var carToMove = null;
 
         for(let i=0; i < $scope.production_stage.length; ++i){
 
@@ -76,9 +77,21 @@ var stageCtrlr = function($scope, $http, $window, utility){
                         carFound = true;
                         newStageID = parseInt($scope.production_stage[i].cars[j].stageID) + incr;
 
-                        $scope.ChangeBorder(roNum, locID);
+                        $scope.ChangeBorder(roNum, locID);  // highlight the car
+
                         $scope.production_stage[i].cars[j].stageID = newStageID;
-                        $scope.production_stage[i + incr].cars.push($scope.production_stage[i].cars[j]);
+
+                            // insert the car to its new stage
+                        carToMove = $scope.production_stage[i].cars[j];
+
+                            // move the car to the bottom or insert somewhere you took it from
+                        if (j >= $scope.production_stage[i + incr].cars.length){
+                            $scope.production_stage[i + incr].cars.push(carToMove);
+                        } else {
+                            $scope.production_stage[i + incr].cars.splice(j, 0, carToMove);
+                        }
+
+                            // remove the car from it's previous stage
                         $scope.production_stage[i].cars.splice(j, 1);
 
                         carObj = {
