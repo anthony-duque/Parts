@@ -11,28 +11,22 @@ require('Utility_Scripts.php');
     class Part_Return{
 
         public $ro_num;
-        public $part_number;
-        public $part_description;
-        public $part_type;
+        public $owner;
+        public $vehicle;
         public $vendor;
-        public $invoice_num;
-        public $amount;
-        public $return_date;
-        public $return_reason;
+        public $return_num;
         public $pickup_date;
+        public $return_form;
 
         function __construct($rec){
 
-            $this->ro_num             = $rec["RO_Num"];
-            $this->part_number        = $rec["Part_Number"];
-            $this->part_description   = $rec["Part_Description"];
-            $this->part_type          = $rec["Part_Type"];
-            $this->vendor             = $rec["Vendor_Name"];
-            $this->invoice_num        = $rec["Invoice_Number"];
-            $this->amount             = $rec["Amount"];
-            $this->return_date        = GetDisplayDate($rec["Return_Date"]);
-            $this->return_reason      = $rec["Reason"];
-            $this->pickup_date        = GetDisplayDate($rec["Vendor_Pickup_Date"]);
+            $this->ro_num       = $rec["RO"];
+            $this->owner        = toProperCase($rec["Owner"]);
+            $this->vehicle      = toProperCase($rec["Vehicle"]);
+            $this->vendor       = toProperCase($rec["Vendor"]);
+            $this->return_num   = $rec["Return_Number"];
+            $this->pickup_date  = GetDisplayDate($rec["Pickup_Date"]);
+            $this->return_form  = '';
 
         }   // __construct()
 
@@ -42,11 +36,10 @@ require('Utility_Scripts.php');
 
         $returns = [];
         $sql =  <<<strSQL
-                    SELECT RO_Num, Return_Date, Vendor_Pickup_Date,
-                        Part_Number, Part_Description, Part_Type,
-                        Amount, Invoice_Number, Reason, Vendor_Name
-                    FROM Parts_Returns
-                    ORDER BY RO_Num, Vendor_Name, Part_Number ASC;
+                    SELECT RO, SUBSTRING_INDEX(Owner, ',', 1) AS Owner,
+                        Pickup_Date, Vehicle, Vendor, Return_Number
+                    FROM Pending_Returns
+                    ORDER BY Vendor, RO;
                 strSQL;
 
         require('db_open.php');
@@ -61,8 +54,11 @@ require('Utility_Scripts.php');
 
         } catch(Exception $e){
             echo "Fetching Pending Returns failed.";
+        } finally{
+            $conn = null;
+            return $returns;
         }   // try-catch
 
-        return $returns;
     }   // Get_Pending_Returns()
+
 ?>

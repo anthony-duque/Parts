@@ -5,7 +5,7 @@ var returnsController = function($scope, $http){
     Get_Pending_Returns();
 
     function Get_Pending_Returns(){
-        $http.get('./php/Pending_Returns.php')
+        $http.get('./php/Parts_Returns.php')
               .then(handleSuccess)
               .catch(handleError);   // .then()
     }

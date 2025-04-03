@@ -1,0 +1,73 @@
+<html ng-app="ReturnFormsApp">
+<head>
+    <title>Return Forms</title>
+    <script src='./scripts/angularjs.js'></script>
+    <script src='./scripts/Return_Forms.js'></script>
+</head>
+<body ng-controller="ReturnFormsCtrlr">
+
+    <table align='center' valign='top' width='50%' border=1>
+        <caption>
+            <br/>
+            <u><b>
+                Signed forms
+            </b></u>
+            <br/>
+            <br/>
+        </caption>
+        <thead>
+            <tr>
+                <th>
+                    RO
+                </th>
+                <th>
+                    Return no.
+                </th>
+                <th>
+                    Form
+                </th>
+                <th>
+                    Owner
+                </th>
+                <th>
+                    Vehicle
+                </th>
+                <th>
+                    Vendor
+                </th>
+                <th>
+                    Pickup<br/>Date
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat='eachReturn in pendingReturns' ng-show='eachReturn.return_form > ""'>
+                <td align='center'>
+                    {{ eachReturn.ro_num }}
+                </td>
+                <td align='center'>
+                    {{ eachReturn.return_num }}
+                </td>
+                <td align='center'>
+                    <a href="./images/return_forms/{{ eachReturn.return_form }}" target='returnForm'>
+                        Image
+                    </a>
+                </td>
+                <td align='center'>
+                    {{ eachReturn.owner }}
+                </td>
+                <td align='center'>
+                    {{ eachReturn.vehicle.split(' ')[1] + " " + eachReturn.vehicle.split(' ')[2] }}
+                </td>
+                <td align='center'>
+                    {{ eachReturn.vendor }}
+                </td>
+                <td align='center'>
+                    {{ eachReturn.pickup_date }}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+</html>

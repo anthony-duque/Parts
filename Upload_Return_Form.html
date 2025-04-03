@@ -1,0 +1,34 @@
+<html>
+<head>
+    <title>Upload Return Forms</title>
+</head>
+<body>
+    <form action='./php/Return_Forms.php' method='POST' enctype='multipart/form-data'>
+        <table align='center' valign='middle'>
+        <tr>
+            <th colspan="2">
+                <u>Upload Return Forms</u>
+                <br/><br/>
+            </th>
+        </tr>
+        <tr>
+            <th>
+                Signed Return Form:
+            </th>
+            <td>
+                <input type='file'
+                        name='returnForm'
+                        accept="image/*"
+                        required />
+            </td>
+        </tr>
+        <tr>
+            <td colspan='2' align='center'>
+                <br/>
+                <input type='submit' value='Upload' />
+            </td>
+        </tr>
+        </table>
+    </form>
+</body>
+</html>
