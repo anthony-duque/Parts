@@ -1,12 +1,12 @@
 CREATE DEFINER=`root`@`localhost` PROCEDURE `CarStar`.`spUpdateLocationIDs`()
 BEGIN
 
-	DELETE FROM Location_IDs;
-
-	INSERT INTO Location_IDs
+	INSERT INTO Location_IDs 
 	(Location)
-	SELECT DISTINCT Location
-	FROM Repairs;
+	SELECT DISTINCT r.Location
+	FROM Repairs r LEFT JOIN Location_IDs li
+		ON r.Location = li.Location
+	WHERE li.id IS NULL;
 
 	UPDATE Repairs r INNER JOIN Location_IDs locID
 	SET r.Loc_ID = locID.id

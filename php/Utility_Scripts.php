@@ -103,7 +103,7 @@ function Cleanup_Text($str){
 	$cleanText = '';
 
 	$cleanText	= preg_replace('/[\x00-\x1F\x80-\xFF]/', '',  $str);
-	$cleanText	= str_replace("'", "\'",  $cleanText);
+	$cleanText	= str_replace("'", "''",  $cleanText);
 
 	return $cleanText;
 
