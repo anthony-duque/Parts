@@ -13,7 +13,7 @@
 
 .heading{
     background-color: black;
-    color: lightblue;
+    color: white;
 }
 
 .greenOnWhite{
@@ -75,4 +75,8 @@ a.arrow{
 .red{
     border-color: red;
     border-width:4;
+}
+
+.bgLiteGrey{
+    background-color: lightgray;
 }

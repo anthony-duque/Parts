@@ -6,8 +6,8 @@
     <script src='./scripts/UtilityFunctions.js'></script>
     <link rel='stylesheet' href="./styles/Parts.css" />
 </head>
-<body ng-controller='StageCtrlr'>
-    <table align='center' width='100%' class='lightBlue'>
+<body ng-controller='StageCtrlr' style='font-size: smaller'>
+    <table align='center' width='100%'>
     <tr>
         <td>
             Technician:
@@ -48,7 +48,7 @@
     </table>
 
     <table border=1>
-        <tr>
+        <tr class='heading'>
             <th width='{{ colWidth }}%'>
                 Check-In/Pre-scan
             </th>
@@ -93,7 +93,7 @@
             </th>
         </tr>
         <tr>
-            <td valign='top'>
+            <td valign='top' class="bgLiteGrey">
                 <table border="1" id='CheckInPreScan' width='100%'>
                 <tr ng-init='lastCarIndex = production_stage[0].cars.length - 1'
                     ng-repeat='eachCar in production_stage[0].cars
@@ -107,7 +107,7 @@
                 </tr>
                 </table>
             </td>
-            <td valign='top'>
+            <td valign='top' class="bgLiteGrey">
                 <table border="1" id='Disassembly' width='100%'>
                 <tr ng-init='lastCarIndex = production_stage[1].cars.length - 1'
                     ng-repeat='eachCar in production_stage[1].cars
@@ -121,7 +121,7 @@
                 </tr>
                 </table>
             </td>
-            <td valign='top'>
+            <td valign='top' class="bgLiteGrey">
                 <table border="1" id='RepairPlan' width='100%'>
                 <tr ng-init='lastCarIndex = production_stage[2].cars.length - 1'
                     ng-repeat='eachCar in production_stage[2].cars
@@ -135,7 +135,7 @@
                 </tr>
                 </table>
             </td>
-            <td valign='top'>
+            <td valign='top' class="bgLiteGrey">
                 <table border="1" id='AwaitingApproval' width='100%'>
                 <tr ng-init='lastCarIndex = production_stage[3].cars.length - 1'
                     ng-repeat='eachCar in production_stage[3].cars
@@ -149,7 +149,7 @@
                 </tr>
                 </table>
             </td>
-            <td valign='top'>
+            <td valign='top' class="bgLiteGrey">
                 <table border="1" id='AwaitingParts' width='100%'>
                 <tr ng-init='lastCarIndex = production_stage[4].cars.length - 1'
                     ng-repeat='eachCar in production_stage[4].cars
@@ -163,7 +163,7 @@
                 </tr>
                 </table>
             </td>
-            <td valign='top'>
+            <td valign='top' class="bgLiteGrey">
                 <table border="1" id='Body' width='100%'>
                 <tr ng-init='lastCarIndex = production_stage[5].cars.length - 1'
                     ng-repeat='eachCar in production_stage[5].cars
@@ -177,7 +177,7 @@
                 </tr>
                 </table>
             </td>
-            <td valign='top'>
+            <td valign='top' class="bgLiteGrey">
                 <table border="1" id='Primer' width='100%'>
                 <tr ng-init='lastCarIndex = production_stage[6].cars.length - 1'
                     ng-repeat='eachCar in production_stage[6].cars
@@ -191,7 +191,7 @@
                 </tr>
                 </table>
             </td>
-            <td valign='top'>
+            <td valign='top' class="bgLiteGrey">
                 <table border="1" id='Paint' width='100%'>
                 <tr ng-init='lastCarIndex = production_stage[7].cars.length - 1'
                     ng-repeat='eachCar in production_stage[7].cars
@@ -205,7 +205,7 @@
                 </tr>
                 </table>
             </td>
-            <td valign='top'>
+            <td valign='top' class="bgLiteGrey">
                 <table border="1" id='Delay' width='100%'>
                 <tr ng-init='lastCarIndex = production_stage[8].cars.length - 1'
                     ng-repeat='eachCar in production_stage[8].cars
@@ -219,7 +219,7 @@
                 </tr>
                 </table>
             </td>
-            <td valign='top'>
+            <td valign='top' class="bgLiteGrey">
                 <table border="1" id='Re-assembly' width='100%'>
                 <tr ng-init='lastCarIndex = production_stage[9].cars.length - 1'
                     ng-repeat='eachCar in production_stage[9].cars
@@ -233,7 +233,7 @@
                 </tr>
                 </table>
             </td>
-            <td valign='top'>
+            <td valign='top' class="bgLiteGrey">
                 <table border="1" id='Sublet' width='100%'>
                     <tr ng-init='lastCarIndex = production_stage[10].cars.length -1'
                         ng-repeat='eachCar in production_stage[10].cars
@@ -247,7 +247,7 @@
                 </tr>
                 </table>
             </td>
-            <td valign='top'>
+            <td valign='top' class="bgLiteGrey">
                 <table border="1" id='Detail' width='100%'>
                     <tr ng-init='lastCarIndex = production_stage[11].cars.length - 1'
                         ng-repeat='eachCar in production_stage[11].cars
@@ -261,7 +261,7 @@
                 </tr>
                 </table>
             </td>
-            <td valign='top'>
+            <td valign='top' class="bgLiteGrey">
                 <table border="1" id='FinalQC' width='100%'>
                     <tr ng-init='lastCarIndex = production_stage[12].cars.length - 1'
                         ng-repeat='eachCar in production_stage[12].cars
@@ -275,7 +275,7 @@
                 </tr>
                 </table>
             </td>
-            <td valign='top'>
+            <td valign='top' class="bgLiteGrey">
                 <table border="1" id='ForDelivery' width='100%'>
                     <tr ng-init='lastCarIndex = production_stage[13].cars.length - 1'
                         ng-repeat='eachCar in production_stage[13].cars
@@ -291,7 +291,5 @@
             </td>
         </tr>
     </table>
-
-    <br>
 </body>
 </html>
