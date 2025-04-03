@@ -14,12 +14,13 @@ var stageCtrlr = function($scope, $http, $window, utility){
                             console.log(response.data);
                             $scope.production_stage = response.data;
                             $scope.colWidth = (1 / $scope.production_stage.length) * 100;
+                            GetTechList();
                         }
                     }
               )         // then()
               .catch(
                     function(response){
-                        console.log("Materials list not fetched.");
+                        console.log("Production cars not fetched.");
                     }
              );
     }    // function GetCars()
@@ -141,11 +142,27 @@ var stageCtrlr = function($scope, $http, $window, utility){
 
 
     $scope.CheckParts = function(car){
-
         car.status = utility.ColorCarPartsStatus(car);
         return car.status;
-
     }   // CheckParts()
+
+
+    function GetTechList(){
+
+        $scope.techList = [];
+
+        $scope.production_stage.forEach((stage, i) => {
+            stage.cars.forEach((car, j) => {
+                if (!$scope.techList.includes(car.technician)){
+                    if(car.technician > ''){
+                        $scope.techList.push(car.technician);
+                    }
+                }
+            });
+        });
+        console.log($scope.techList);
+
+    }   // GetTechList()
 
 
 }   // sampleCtlr

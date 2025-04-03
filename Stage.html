@@ -6,17 +6,16 @@
     <script src='./scripts/UtilityFunctions.js'></script>
     <link rel='stylesheet' href="./styles/Parts.css" />
 </head>
-<body ng-controller='StageCtrlr' style='font-size: smaller'>
+<body ng-controller='StageCtrlr' style='font-size: x-small'>
     <table align='center' width='100%'>
     <tr>
         <td>
             Technician:
             <select ng-model='tech'>
                 <option value=''>All Techs</option>
-                <option value='Jose'>Jose</option>
-                <option value='Jerry'>Jerry</option>
-                <option value='Nacho'>Nacho</option>
-                <option value='Van'>Van</option>
+                <option ng-repeat='eachTech in techList' value='{{ eachTech }}'>
+                    {{ eachTech }}
+                </option>
             </select>
         </td>
         <td>

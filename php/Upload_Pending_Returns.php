@@ -56,7 +56,7 @@ function Upload_Returns_CSV($returns_extract_file){
         $data = fgetcsv($handle, 500, ",");
         $first_field = trim($data[0]);
         $first_field = strtoupper($first_field);
-        echo $first_field . "<br>";
+//        echo $first_field . "<br>";
     }while($first_field !== 'RO NUMBER');
 
     $insert_sql = '';
@@ -110,7 +110,7 @@ strSQL;
 
     if ($conn->query($sql) === TRUE) {
       // echo "RO Num fields populated. <br/>";
-        echo "Pending Returns - Vendor Names cleaned up.";
+        echo "Pending Returns - Vendor Names cleaned up.<br/>";
     } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
     }
