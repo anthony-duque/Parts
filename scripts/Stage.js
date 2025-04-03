@@ -26,7 +26,6 @@ var stageCtrlr = function($scope, $http, $window, utility){
 
 
     $scope.DoubleClicked = function(carViewPage){
-        // alert("life sucks");
         $window.open(carViewPage, "CarStatus");
     }
 
@@ -45,8 +44,12 @@ var stageCtrlr = function($scope, $http, $window, utility){
 
                 if (($scope.production_stage[i].cars[j].ro_num === roNum) &&
                     ($scope.production_stage[i].cars[j].locationID === locID)){
+
                     $scope.production_stage[i].cars[j].borderColor = 'red';
+
                     carFound = true;
+                    $scope.carPicked = $scope.production_stage[i].cars[j];
+
                     break;
                 }
             }   // for (let j)
@@ -56,6 +59,18 @@ var stageCtrlr = function($scope, $http, $window, utility){
             }
         }   // for (let i)
     }   // ChangeBorder()
+
+
+    $scope.MoveCar = function(stageID){
+
+        if ($scope.carPicked == null){
+            ;
+        } else {
+            var currStageID = $scope.carPicked.stageID;
+            var incr = stageID - currStageID;
+            $scope.MoveStage($scope.carPicked.ro_num, $scope.carPicked.locationID, incr);
+        }
+    }   // MoveCar()
 
 
     $scope.MoveStage = function(roNum, locID, incr){
@@ -75,6 +90,7 @@ var stageCtrlr = function($scope, $http, $window, utility){
                         ($scope.production_stage[i].cars[j].locationID === locID)){
 
                         carFound = true;
+
                         newStageID = parseInt($scope.production_stage[i].cars[j].stageID) + incr;
 
                         $scope.ChangeBorder(roNum, locID);  // highlight the car
