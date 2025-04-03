@@ -22,11 +22,9 @@
             Estimator:
             <select ng-model='estim'>
                 <option value=''>All Estimators</option>
-                <option value='Ray'>Ray</option>
-                <option value='Tony'>Tony</option>
-                <option value='Kevin'>Kevin</option>
-                <option value='Jim'>Jim</option>
-                <option value='Chad'>Chad</option>
+                <option ng-repeat='estimator in estimatorList' value='{{ estimator }}'>
+                    {{ estimator }}
+                </option>
             </select>
         </td>
         <td>

@@ -15,7 +15,8 @@ var stageCtrlr = function($scope, $http, $window, utility){
                             $scope.production_stage = response.data;
                             $scope.colWidth = (1 / $scope.production_stage.length) * 100;
                             GetTechList();
-                        }
+                            GetEstimatorList();
+                        }   // if (response.data)
                     }
               )         // then()
               .catch(
@@ -161,7 +162,23 @@ var stageCtrlr = function($scope, $http, $window, utility){
             });
         });
         console.log($scope.techList);
+    }   // GetTechList()
 
+
+    function GetEstimatorList(){
+
+        $scope.estimatorList = [];
+
+        $scope.production_stage.forEach((stage, i) => {
+            stage.cars.forEach((car, j) => {
+                if (!$scope.estimatorList.includes(car.estimator)){
+                    if(car.estimator > ''){
+                        $scope.estimatorList.push(car.estimator);
+                    }
+                }
+            });
+        });
+        console.log($scope.estimatorList);
     }   // GetTechList()
 
 
