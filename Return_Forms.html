@@ -4,6 +4,8 @@
     <script src='./scripts/angularjs.js'></script>
     <script src='./scripts/Return_Forms.js'></script>
     <script src='./scripts/UtilityFunctions.js'></script>
+    <link rel="stylesheet" href="./styles/Parts.css">
+
 </head>
 <body ng-controller="ReturnFormsCtrlr">
 
@@ -15,9 +17,12 @@
             </b></u>
             <br/>
             <br/>
+            Search: <input type='text' placeholder="Any Text" ng-model='searchText'>
+            <br/>
+            <br/>
         </caption>
         <thead>
-            <tr>
+            <tr class='heading'>
                 <th ng-click="SortParts('ro_num');">
                     RO
                 </th>
@@ -42,7 +47,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat='eachReturn in pendingReturns | orderBy: sortField' ng-show='eachReturn.return_form > ""'>
+            <tr ng-repeat='eachReturn in pendingReturns | orderBy: sortField | filter: searchText' ng-show='eachReturn.return_form > ""'>
                 <td align='center'>
                     {{ eachReturn.ro_num }}
                 </td>
