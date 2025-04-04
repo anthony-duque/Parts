@@ -1,6 +1,6 @@
 var app = angular.module("ReturnFormsApp", []);
 
-var returnFormsCtrlr = function($scope, $http){
+var returnFormsCtrlr = function($scope, $http, utility){
 
     Get_Return_Forms();
 
@@ -26,7 +26,6 @@ var returnFormsCtrlr = function($scope, $http){
             Find_Returns_With_Forms();
         }
     }
-
 
     function handleError(response, rec_name)
     {
@@ -62,7 +61,14 @@ var returnFormsCtrlr = function($scope, $http){
             }
         }
         console.log($scope.pendingReturns);
-    }
+    }   // Find_Returns_With_Forms()
+
+    $scope.sortField = "+ro_num"; // initially sort list by received qty
+
+    $scope.SortParts = function(sortFld){
+        $scope.sortField = utility.SortField(sortFld, $scope.sortField);
+    }  // SortParts()
+
 
 }   // returnFormsCtrlr
 

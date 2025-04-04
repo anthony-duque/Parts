@@ -3,6 +3,7 @@
     <title>Return Forms</title>
     <script src='./scripts/angularjs.js'></script>
     <script src='./scripts/Return_Forms.js'></script>
+    <script src='./scripts/UtilityFunctions.js'></script>
 </head>
 <body ng-controller="ReturnFormsCtrlr">
 
@@ -17,31 +18,31 @@
         </caption>
         <thead>
             <tr>
-                <th>
+                <th ng-click="SortParts('ro_num');">
                     RO
                 </th>
-                <th>
+                <th ng-click="SortParts('return_num');">
                     Return no.
                 </th>
                 <th>
                     Form
                 </th>
-                <th>
+                <th ng-click="SortParts('owner');">
                     Owner
                 </th>
-                <th>
+                <th ng-click="SortParts('vehicle');">
                     Vehicle
                 </th>
-                <th>
+                <th ng-click="SortParts('vendor');">
                     Vendor
                 </th>
-                <th>
+                <th ng-click="SortParts('pickup_date');">
                     Pickup<br/>Date
                 </th>
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat='eachReturn in pendingReturns' ng-show='eachReturn.return_form > ""'>
+            <tr ng-repeat='eachReturn in pendingReturns | orderBy: sortField' ng-show='eachReturn.return_form > ""'>
                 <td align='center'>
                     {{ eachReturn.ro_num }}
                 </td>
