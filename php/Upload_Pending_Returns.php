@@ -15,20 +15,54 @@ const PICKUP_DATE   = 5;
 const TARGET_DIR    = "../extract_files/";  // destination folder on the server
 const D_OUT_FNAME   = "Pending_Returns.csv";      // Daily Out destination file name
 
+const FORMS_DIR    = "../images/return_forms/";  // destination folder on the server
+
+$pendingReturns = [];
+
 try{
 
     $extractFile = TARGET_DIR . D_OUT_FNAME;
     $upload_OK = move_uploaded_file($_FILES["PendingReturns"]["tmp_name"], $extractFile);
 
     if ($upload_OK){
-        Upload_Returns_CSV($extractFile);
+
+        $pendingReturns = Upload_Returns_CSV($extractFile);
+        //var_dump($pendingReturns);
         echo "<br/> Pending Returns uploaded successfully!";
+
+//        echo "<br/> Deleting old Return Forms...";
+        Cleanup_Returns_Folder($pendingReturns);
     }
+
 } catch(Exception $e){
 
     echo "There was an error uploading extract file ". basename($_FILES["PartsReturns"]["name"]);
     //header("Location: ./Admin.html");
 }
+
+
+function Cleanup_Returns_Folder($return_nums){
+
+    $returnForms = scandir(FORMS_DIR, SCANDIR_SORT_DESCENDING);
+
+    foreach ($returnForms as $key => $filename){
+
+        if (($filename !== '.') && ($filename !== '..')){
+
+            $file_name = explode(".", $filename);
+//            echo $file_name[0] . "<br/>";
+            $fn = "'" . $file_name[0] . "'";
+                // if the form is not in the pending returns
+                // delete the form
+            if(!in_array($fn, $return_nums)){
+                echo "Deleting " . $filename . "<br/>";
+                unlink(FORMS_DIR . $filename);
+            }   // if (!in_array)
+        }   // if (($filename))
+    }   // foreach()
+
+}   // Cleanup_Returns_Folder()
+
 
 function Upload_Returns_CSV($returns_extract_file){
 
@@ -60,6 +94,7 @@ function Upload_Returns_CSV($returns_extract_file){
     }while($first_field !== 'RO NUMBER');
 
     $insert_sql = '';
+    $returnNums = [];
 
     $row = 0;	// record counter
     while (($data = fgetcsv($handle, 500, ",")) !== FALSE){
@@ -83,6 +118,8 @@ function Upload_Returns_CSV($returns_extract_file){
                     $return_number . ", " . $vehicle . "),";
 
         $insert_sql .= $values;
+
+        array_push($returnNums, $return_number);
     }
 
     $insert_sql = rtrim($insert_sql, ",");
@@ -120,5 +157,7 @@ strSQL;
     $conn = null;
 
     echo "Total Pending Returns uploaded: " . $row . "<br/>";
+
+    return $returnNums;
 }
 ?>
