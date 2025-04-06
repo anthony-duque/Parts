@@ -1,5 +1,3 @@
-var app = angular.module("ReturnFormsApp", []);
-
 var returnFormsCtrlr = function($scope, $http, utility){
 
     Get_Return_Forms();

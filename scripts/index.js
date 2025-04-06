@@ -56,6 +56,10 @@ var TabsCtrlr = function($scope, $http, utility){
                 tabView = 'Unordered_Parts.html';
                 break;
 
+            case 'ReturnForms':
+                tabView = 'Return_Forms.html';
+                break;
+
             case 'Vendors':
                 tabView = 'Vendors.html';
                 break;
