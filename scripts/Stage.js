@@ -2,6 +2,8 @@ var app = angular.module("StageApp", []);
 
 var stageCtrlr = function($scope, $http, $window, utility){
 
+    $scope.filterOn = false;
+
     GetCars();
 
     function GetCars(){
@@ -182,6 +184,29 @@ var stageCtrlr = function($scope, $http, $window, utility){
     }   // GetTechList()
 
 
-}   // sampleCtlr
+    $scope.ResetFilters = function(){
+
+        $scope.tech = "";
+        $scope.estim = "";
+        $scope.searchText = "";
+        $scope.filterOn = false;    // Unassigned Tech filter off
+
+    }   // ResetFilters()
+
+
+    $scope.UnassignedCarsFilter = function(){
+
+        $scope.filterOn = !$scope.filterOn;
+
+        if ($scope.filterOn){
+            $scope.UC_Class = 'greenOnWhite';
+        } else {
+            $scope.UC_Class = '';
+        }
+
+    }   // UnassignedCarsFilter()
+
+
+}   // stageCtrlr()
 
 app.controller("StageCtrlr", stageCtrlr);

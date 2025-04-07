@@ -1,3 +1,39 @@
+
+app.filter("FilterUnassignedCars", function(){
+
+     return function(cars, filterOn){
+
+         var unassignedCars = [];
+
+         if (filterOn){
+
+             cars.forEach(function(eachCar){
+
+                 switch(eachCar.technician){
+
+                     case "":
+                     case "BODY":
+                     case "IN-HOUSE":
+                         unassignedCars.push(eachCar);
+                         break;
+
+                     default:
+                         break;
+                 };   // switch
+             });
+
+         } else {
+
+             unassignedCars = cars;
+         }
+
+         return unassignedCars;
+
+    } // return function(cars)
+
+});
+
+
 app.filter('FilterInOutCars', function(){
 
     return function(cars, inOut){
