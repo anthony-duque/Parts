@@ -24,7 +24,7 @@ try{
     }
 } catch(Exception $e){
     echo "There was an error uploading the " . basename($_FILES["DailyOutCSV"]["name"]);
-    header("Location: ./Upload_Extracts.html");
+    header("Location: ../Upload_Extracts.html");
 }
 
     // Process Parts Status extract file

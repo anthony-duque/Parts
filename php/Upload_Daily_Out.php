@@ -12,6 +12,7 @@ const SCHEDULED_OUT    	= 8;
 const TECHNICIAN       	= 9;
 const ESTIMATOR        	= 10;
 const SHOP_LOCATION     = 11;
+const INSURANCE         = 12;
 
 function Upload_Daily_Out_CSV($daily_out_extract_file){
 
@@ -35,8 +36,9 @@ function Upload_Daily_Out_CSV($daily_out_extract_file){
 
 	$tsql = <<<strSQL
 			INSERT INTO Repairs
-         		(RONum, Owner, Vehicle, Vehicle_Color, License_Plate, PartsReceived,
-            	Vehicle_In, CurrentPhase, Scheduled_Out, Technician, Estimator, Location)
+         		(RONum, Owner, Vehicle, Vehicle_Color, License_Plate,
+                PartsReceived, Vehicle_In, CurrentPhase, Scheduled_Out,
+                Technician, Estimator, Location, Insurance)
 	        VALUES
 strSQL;
 
@@ -77,10 +79,12 @@ strSQL;
 
         $location       = "'" . Cleanup_Text($data[SHOP_LOCATION]) . "'";
 
+        $insurance       = "'" . Cleanup_Text($data[INSURANCE]) . "'";
+
         $values = "(". $ro_num . ", " . $owner . ", " . $vehicle . ", " . $vehicle_color  . ", " .
 					$license_plate . ", " . $parts_received . ", " . $vehicle_in . ", " .
                   	$current_phase . ", " . $scheduled_out . ", " . $technician . ", " .
-                    $estimator . ", " . $location . ")";
+                    $estimator . ", " . $location . ", " . $insurance . ")";
 
         $insert_sql = $tsql . $values;
 //		echo $insert_sql . '<br/>';

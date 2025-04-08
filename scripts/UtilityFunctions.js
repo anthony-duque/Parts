@@ -82,7 +82,6 @@ app.factory('utility', function(){
     util_Obj.ColorCarPartsStatus = function(carObj){
 
         var bgClass = '';
-        var pStatus = '';   // part status
 
         switch(true){
 
@@ -111,6 +110,52 @@ app.factory('utility', function(){
         return bgClass;
 
     }   // ColorCarPartsStatus()
+
+
+    util_Obj.ColorCarInsurance = function(ins_company){
+
+        var bgClass = '';
+
+        switch(ins_company){
+
+                // none of the parts have been ordered
+            case 'Allstate':
+                bgClass = 'heading';
+                break;
+
+                // There are parts received or ordered but there
+                // is at least one part that has not been ordered
+            case 'Farmers':
+                bgClass = 'orange';
+                break;
+
+                // All parts ordered but still waiting for parts.
+            case 'State Farm':
+                bgClass = 'waitingForParts';
+                break;
+
+            case 'AAA':
+                bgClass = 'noParts';
+                break;
+
+            case 'Geico':
+                bgClass = 'partsComplete';
+                break;
+
+            case 'Wawanesa':
+                bgClass = 'greenOnWhite';
+                break;
+
+                // Parts complete.
+            default:
+                bgClass = '';
+                break;
+
+        }   // switch(true)
+        return bgClass;
+
+    }   // ColorCarPartsStatus()
+
 
 
     return util_Obj;

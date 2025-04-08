@@ -35,6 +35,9 @@
             <input type='button' value='Reset Filters' ng-click='ResetFilters();'>
         </td>
         <td align='right'>
+            <input type='button' ng-value='BackgroundMode' ng-click='ChooseBGMode(BackgroundMode);'>
+        </td>
+        <td align='right'>
             Search: <input type='text' ng-model='searchText'/>&nbsp;
             <input type='button' value='Clear' ng-click='searchText = ""'>
         </td>
@@ -104,7 +107,7 @@
                                 | filter : searchText
                                 | FilterUnassignedCars : filterOn' >
                     <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
-                        <div ng-include='"Stage_Car.html"' ng-class='CheckParts(eachCar);'>
+                        <div ng-include='"Stage_Car.html"' ng-class='Set_BG_Class(BackgroundMode, eachCar);'>
                     </td>
                 </tr>
                 </table>
@@ -119,7 +122,7 @@
                                 | filter : searchText
                                 | FilterUnassignedCars : filterOn' >
                     <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
-                        <div ng-include='"Stage_Car.html"' ng-class='CheckParts(eachCar);'>
+                        <div ng-include='"Stage_Car.html"' ng-class='Set_BG_Class(BackgroundMode, eachCar);'>
                     </td>
                 </tr>
                 </table>
@@ -134,7 +137,7 @@
                                 | filter : searchText
                                 | FilterUnassignedCars : filterOn' >
                     <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
-                        <div ng-include='"Stage_Car.html"' ng-class='CheckParts(eachCar);'>
+                        <div ng-include='"Stage_Car.html"' ng-class='Set_BG_Class(BackgroundMode, eachCar);'>
                     </td>
                 </tr>
                 </table>
@@ -149,7 +152,7 @@
                                 | filter : searchText
                                 | FilterUnassignedCars : filterOn' >
                     <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
-                        <div ng-include='"Stage_Car.html"' ng-class='CheckParts(eachCar);'>
+                        <div ng-include='"Stage_Car.html"' ng-class='Set_BG_Class(BackgroundMode, eachCar);'>
                     </td>
                 </tr>
                 </table>
@@ -164,7 +167,7 @@
                         | filter : searchText
                         | FilterUnassignedCars : filterOn' >
                     <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
-                        <div ng-include='"Stage_Car.html"' ng-class='CheckParts(eachCar);'>
+                        <div ng-include='"Stage_Car.html"' ng-class='Set_BG_Class(BackgroundMode, eachCar);'>
                     </td>
                 </tr>
                 </table>
@@ -179,7 +182,7 @@
                                 | filter : searchText
                                 | FilterUnassignedCars : filterOn' >
                     <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
-                        <div ng-include='"Stage_Car.html"' ng-class='CheckParts(eachCar);'>
+                        <div ng-include='"Stage_Car.html"' ng-class='Set_BG_Class(BackgroundMode, eachCar);'>
                     </td>
                 </tr>
                 </table>
@@ -194,7 +197,7 @@
                                 | filter : searchText
                                 | FilterUnassignedCars : filterOn' >
                     <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
-                        <div ng-include='"Stage_Car.html"' ng-class='CheckParts(eachCar);'>
+                        <div ng-include='"Stage_Car.html"' ng-class='Set_BG_Class(BackgroundMode, eachCar);'>
                     </td>
                 </tr>
                 </table>
@@ -209,7 +212,7 @@
                                 | filter : searchText
                                 | FilterUnassignedCars : filterOn' >
                     <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
-                        <div ng-include='"Stage_Car.html"' ng-class='CheckParts(eachCar);'>
+                        <div ng-include='"Stage_Car.html"' ng-class='Set_BG_Class(BackgroundMode, eachCar);'>
                     </td>
                 </tr>
                 </table>
@@ -224,7 +227,7 @@
                                 | filter : searchText
                                 | FilterUnassignedCars : filterOn' >
                     <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
-                        <div ng-include='"Stage_Car.html"' ng-class='CheckParts(eachCar);'></div>
+                        <div ng-include='"Stage_Car.html"' ng-class='Set_BG_Class(BackgroundMode, eachCar);'></div>
                     </td>
                 </tr>
                 </table>
@@ -239,7 +242,7 @@
                                 | filter : searchText
                                 | FilterUnassignedCars : filterOn' >
                     <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
-                        <div ng-include='"Stage_Car.html"' ng-class='CheckParts(eachCar);'></div>
+                        <div ng-include='"Stage_Car.html"' ng-class='Set_BG_Class(BackgroundMode, eachCar);'></div>
                     </td>
                 </tr>
                 </table>
@@ -254,7 +257,7 @@
                                     | filter : searchText
                                     | FilterUnassignedCars : filterOn' >
                     <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
-                        <div ng-include='"Stage_Car.html"' ng-class='CheckParts(eachCar);'></div>
+                        <div ng-include='"Stage_Car.html"' ng-class='Set_BG_Class(BackgroundMode, eachCar);'></div>
                     </td>
                 </tr>
                 </table>
@@ -269,7 +272,7 @@
                                     | filter : searchText
                                     | FilterUnassignedCars : filterOn' >
                     <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
-                        <div ng-include='"Stage_Car.html"' ng-class='CheckParts(eachCar);'>
+                        <div ng-include='"Stage_Car.html"' ng-class='Set_BG_Class(BackgroundMode, eachCar);'>
                     </td>
                 </tr>
                 </table>
@@ -284,7 +287,7 @@
                                     | filter : searchText
                                     | FilterUnassignedCars : filterOn' >
                     <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
-                        <div ng-include='"Stage_Car.html"' ng-class='CheckParts(eachCar);'>
+                        <div ng-include='"Stage_Car.html"' ng-class='Set_BG_Class(BackgroundMode, eachCar);'>
                     </td>
                 </tr>
                 </table>
@@ -299,7 +302,7 @@
                                     | filter : searchText
                                     | FilterUnassignedCars : filterOn' >
                     <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
-                        <div ng-include='"Stage_Car.html"' ng-class='CheckParts(eachCar);'>
+                        <div ng-include='"Stage_Car.html"' ng-class='Set_BG_Class(BackgroundMode, eachCar);'>
                     </td>
                 </tr>
                 </table>

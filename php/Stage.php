@@ -84,7 +84,7 @@ class Production_Stage {
                 SUBSTRING_INDEX(r.Owner, ',', 1) AS Owner,
                 r.Vehicle, LCASE(r.Vehicle_Color) AS Vehicle_Color,
                 SUBSTRING_INDEX(r.Technician, ' ', 1) AS Technician,
-                r.Vehicle_In, r.CurrentPhase, r.Scheduled_Out
+                r.Vehicle_In, r.CurrentPhase, r.Scheduled_Out, Insurance
             FROM Repairs r INNER JOIN Production_Stage ps
                     ON r.RONum = ps.ro_Num AND r.Loc_ID = ps.loc_ID
             WHERE ps.stage_ID = $stage_ID
@@ -151,6 +151,7 @@ class Car{
     public $parts_percent;
     public $scheduled_out;
     public $locationID;
+    public $insurance;
     public $stageID;
 
     function Get_Parts_List($dbConn){
@@ -206,6 +207,7 @@ class Car{
         $this->scheduled_out    = substr($this->scheduled_out, 0, 5);
         $this->location         = $rec["Location"];
         $this->locationID       = $rec["Loc_ID"];
+        $this->insurance        = $rec["Insurance"];
         $this->stageID          = $rec["stage_ID"];
         $this->parts            = $this->Get_Parts_List($dbConn);
 

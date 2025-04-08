@@ -3,6 +3,7 @@ var app = angular.module("StageApp", []);
 var stageCtrlr = function($scope, $http, $window, utility){
 
     $scope.filterOn = false;
+    $scope.BackgroundMode = 'PartsStatus';
 
     GetCars();
 
@@ -144,10 +145,28 @@ var stageCtrlr = function($scope, $http, $window, utility){
     }   // MoveStage()
 
 
-    $scope.CheckParts = function(car){
-        car.status = utility.ColorCarPartsStatus(car);
-        return car.status;
-    }   // CheckParts()
+    $scope.ChooseBGMode = function(bgm){
+
+        if (bgm == 'Insurance'){
+            $scope.BackgroundMode = 'PartsStatus';
+        } else {
+            $scope.BackgroundMode = 'Insurance';
+        }
+    }
+
+
+    $scope.Set_BG_Class = function(bgMode, car){
+
+        var bgClass = '';
+
+        if (bgMode == 'Insurance'){
+            bgClass = utility.ColorCarInsurance(car.insurance);
+        } else {
+            bgClass = utility.ColorCarPartsStatus(car);
+        }
+
+        return bgClass;
+    }
 
 
     function GetTechList(){
