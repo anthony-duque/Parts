@@ -219,34 +219,36 @@ function Notify_Estimator($car)
 {
     echo "<br/><br/>RO " . $car->ro_num . " notify " . $car->estimator;
 
-    $test_mode = true;
+    $test_mode = false;
 
-    $subject    = "Car in Paint still lacking parts";
+    $subject    = $car->ro_num . " ($car->owner) Possible parts issues";
 
-    $body           = "";
+    $body       = "";
 
     $body = <<<emailMsg
 
-            $car->ro_num - $car->owner [ $car->vehicle ]
+            $car->ro_num - $car->owner [ $car->vehicle ] is already in Paint.
 
-            is now in Paint but may still have possible issues with parts.
+            But there may still have possible issues with parts.
 
     emailMsg;
     echo $body; // test
 
-    $headers    = "From: Automated Email<donotreply@cityautobody.net>\r\n";
+//    $headers = 'MIME-Version: 1.0';
+//    $headers .= 'Content-type: text/html; charset=iso-8859-1';
+    $headers = "From: Automated Email<donotreply@cityautobody.net>\r\n";
 
     if ($test_mode){
-            $to = "8053778977@txt.att.net";
+//            $to = "8053778977@txt.att.net";
 //        $to = "8054282425@txt.att.net";
-//            $to = Get_Recepients($carInfo);
 //            $to = "somebody@example.com, somebodyelse@example.com"            $to         = "adduxe@hotmail.com";
         $headers    .= "Cc: Sonny<adduxe@gmail.com>";
-
+        echo "Email:" . $to;
     } else {
 
-        $to         = "8053778977@txt.att.net";
-        $headers    .= "Cc: Jim<adduxe@gmail.com>";
+        $to = Get_Email_Address($car->estimator, 'ESTIMATOR');
+//        $to         = "8053778977@txt.att.net";
+        $headers    .= "Cc: Jim<JimD@cityautobody.net>, Parts<parts@cityautobody.net>";
     }
 
     mail($to, $subject, $body, $headers);
@@ -280,6 +282,7 @@ function ProcessPUT($carObj)
         if (($carObj->parts_percent < 100) &&
             ($carObj->stageID == FOR_PAINT))
         {
+            echo $carObj->ro_num . " => Stage: " . $carObj->stageID . " =>  Parts:" . $carObj->parts_percent . " %";
             Notify_Estimator($carObj);
         }
     }

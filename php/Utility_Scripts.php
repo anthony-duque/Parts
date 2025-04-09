@@ -1,12 +1,12 @@
 <?php
 
 define ("IN_HOUSE_VENDORS",
-			"'**IN-HOUSE',
-			'ASTECH',
-			'AIRTIGHT AUTO GLASS',
-			'BIG BRAND',
-			'Jim''s Tire Center',
-			'PRO TECH DIAGNOSTICS'");
+		"'**IN-HOUSE',
+		'ASTECH',
+		'AIRTIGHT AUTO GLASS',
+		'BIG BRAND',
+		'Jim''s Tire Center',
+		'PRO TECH DIAGNOSTICS'");
 
 function ComputePartStatus($ro_qty, $ordered_qty, $received_qty, $returned_qty){
 
@@ -93,9 +93,42 @@ function GetCellEmailAddress($userName){
 		$conn = null;
 
 	}   // try-catch{}
-
-
 }
+
+
+function Get_Email_Address($name, $deptCode){
+
+	require('db_open.php');
+
+	$firstName = strtoupper($name);
+	$emailAddress = "";
+
+	$sqlQuery = <<<strSQL
+
+		SELECT email
+		FROM Employee_Table
+		WHERE UPPER(firstName) = '$firstName';
+
+	strSQL;
+
+	try{
+
+        $s = $conn->query($sqlQuery);
+		$r = mysqli_fetch_assoc($s);
+		$emailAddress = $r["email"];
+		echo "Fetching email address for " . $name . "." . $emailAddress . "<";
+
+    } catch (Exception $e){
+
+        echo "Failed to fetch email address for " . $name . " = " . $e->getMessage();
+
+    } finally {
+
+        $conn = null;        // close the database connection
+		return $emailAddress;
+    }
+
+}	// Get_Email_Address()
 
 
 function Cleanup_Text($str){
