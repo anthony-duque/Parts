@@ -148,7 +148,7 @@ var stageCtrlr = function($scope, $http, $window, utility){
     $scope.ChooseBGMode = function(bgm){
 
         if (bgm == 'Insurance'){
-            $scope.BackgroundMode = 'PartsStatus';
+            $scope.BackgroundMode = 'Status';
         } else {
             $scope.BackgroundMode = 'Insurance';
         }

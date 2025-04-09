@@ -116,45 +116,30 @@ app.factory('utility', function(){
 
         var bgClass = '';
 
-        switch(ins_company){
+        ins_company = ins_company.toUpperCase();
+        var insurance = ins_company.split(' ');
 
-                // none of the parts have been ordered
-            case 'Allstate':
-                bgClass = 'heading';
+        switch(insurance[0]){
+
+                // class is named the same as the company
+            case 'ALLSTATE':
+            case 'STATE':       // State Farm
+            case 'MERCURY':
+            case 'AUTO':        //  AAA
+            case 'DEALER':
+            case 'USAA':
+                bgClass = insurance[0];
                 break;
 
-                // There are parts received or ordered but there
-                // is at least one part that has not been ordered
-            case 'Farmers':
-                bgClass = 'orange';
-                break;
-
-                // All parts ordered but still waiting for parts.
-            case 'State Farm':
-                bgClass = 'waitingForParts';
-                break;
-
-            case 'AAA':
-                bgClass = 'noParts';
-                break;
-
-            case 'Geico':
-                bgClass = 'partsComplete';
-                break;
-
-            case 'Wawanesa':
-                bgClass = 'greenOnWhite';
-                break;
-
-                // Parts complete.
             default:
-                bgClass = '';
+                bgClass = 'OTHER';
                 break;
 
         }   // switch(true)
+
         return bgClass;
 
-    }   // ColorCarPartsStatus()
+    }   // ColorCarInsurance()
 
 
 

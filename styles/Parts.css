@@ -80,3 +80,32 @@ a.arrow{
 .bgLiteGrey{
     background-color: lightgray;
 }
+
+.ALLSTATE{  /*  Allstate Insurance */
+    background-color: coral;
+}
+
+.STATE{     /* State Farm */
+    background-color: lightblue;
+}
+
+.MERCURY{
+    background-color: orange;
+}
+
+.AUTO{
+    background-color: lightgreen;
+}
+
+.DEALER{
+    background-color: mediumpurple;
+    color : white;
+}
+
+.USAA{
+    background-color: gold;
+}
+
+.OTHER{
+    background-color: white;
+}
