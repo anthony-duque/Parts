@@ -41,7 +41,7 @@ switch($method){
       fclose($putData);
 
       $jsonData = json_decode($rawJson);
-      var_dump($jsonData);
+      //var_dump($jsonData);
 
       ProcessPUT($jsonData);
       break;
@@ -215,27 +215,74 @@ class Car{
 }   // Car{}
 
 
-function ProcessPUT($carObj){
+function Notify_Estimator($car)
+{
+    echo "<br/><br/>RO " . $car->ro_num . " notify " . $car->estimator;
+
+    $test_mode = true;
+
+    $subject    = "Car in Paint still lacking parts";
+
+    $body           = "";
+
+    $body = <<<emailMsg
+
+            $car->ro_num - $car->owner [ $car->vehicle ]
+
+            is now in Paint but may still have possible issues with parts.
+
+    emailMsg;
+    echo $body; // test
+
+    $headers    = "From: Automated Email<donotreply@cityautobody.net>\r\n";
+
+    if ($test_mode){
+            $to = "8053778977@txt.att.net";
+//        $to = "8054282425@txt.att.net";
+//            $to = Get_Recepients($carInfo);
+//            $to = "somebody@example.com, somebodyelse@example.com"            $to         = "adduxe@hotmail.com";
+        $headers    .= "Cc: Sonny<adduxe@gmail.com>";
+
+    } else {
+
+        $to         = "8053778977@txt.att.net";
+        $headers    .= "Cc: Jim<adduxe@gmail.com>";
+    }
+
+    mail($to, $subject, $body, $headers);
+}
+
+
+function ProcessPUT($carObj)
+{
 
     require('db_open.php');
 
     $tsql = <<<strSQL
             UPDATE Production_Stage
-            SET stage_ID = $carObj->stage_ID
-            WHERE ro_Num = $carObj->ro_Num
-                AND loc_ID = $carObj->loc_ID
+            SET stage_ID = $carObj->stageID
+            WHERE ro_Num = $carObj->ro_num
+                AND loc_ID = $carObj->locationID
         strSQL;
 
     try{
 
         $result = $conn->query($tsql);
-        echo "Car " . $carObj->ro_Num . " stage updated.";
+        echo "Car " . $carObj->ro_num . " stage updated.";
 
     } catch (Exception $e){
-        echo "Failed to update stage status for RO " . $carObj->ro_Num . $e->getMessage();
-    }
 
-    $conn = null;        // close the database connection
+        echo "Failed to update stage status for RO " . $carObj->ro_Num . $e->getMessage();
+
+    } finally {
+
+        $conn = null;        // close the database connection
+        if (($carObj->parts_percent < 100) &&
+            ($carObj->stageID == FOR_PAINT))
+        {
+            Notify_Estimator($carObj);
+        }
+    }
 
 }   // ProcessPUT()
 

@@ -3,7 +3,7 @@ var app = angular.module("StageApp", []);
 var stageCtrlr = function($scope, $http, $window, utility){
 
     $scope.filterOn = false;
-    $scope.BackgroundMode = 'PartsStatus';
+    $scope.BackgroundMode = 'Parts Status';
 
     GetCars();
 
@@ -17,8 +17,8 @@ var stageCtrlr = function($scope, $http, $window, utility){
                             console.log(response.data);
                             $scope.production_stage = response.data;
                             $scope.colWidth = (1 / $scope.production_stage.length) * 100;
-                            GetTechList();
-                            GetEstimatorList();
+                            GetTechList();      // to populate Tech List dropdown
+                            GetEstimatorList(); // to populate Estimator List dropdown
                         }   // if (response.data)
                     }
               )         // then()
@@ -66,6 +66,7 @@ var stageCtrlr = function($scope, $http, $window, utility){
     }   // ChangeBorder()
 
 
+        // Used to move a car by clicking on the stage heading
     $scope.MoveCar = function(stageID){
 
         if ($scope.carPicked == null){
@@ -78,6 +79,7 @@ var stageCtrlr = function($scope, $http, $window, utility){
     }   // MoveCar()
 
 
+        // Used to move a car to a stage by an increment value
     $scope.MoveStage = function(roNum, locID, incr){
 
         // find the RO
@@ -115,14 +117,8 @@ var stageCtrlr = function($scope, $http, $window, utility){
                             // remove the car from it's previous stage
                         $scope.production_stage[i].cars.splice(j, 1);
 
-                        carObj = {
-                            "ro_Num"    : roNum,
-                            "loc_ID"    : locID,
-                            "stage_ID"  : newStageID
-                        };
-
                             // update record in db
-                        $http.put('./php/Stage.php', JSON.stringify(carObj))
+                        $http.put('./php/Stage.php', JSON.stringify(carToMove))
                             .then(function(response){
                                 if(response.data){
                                     console.log(response.data);
@@ -139,7 +135,7 @@ var stageCtrlr = function($scope, $http, $window, utility){
             }   // if()
 
             if (carFound == true){
-                break;
+                break;                  // don't cyle through the rest of the cars
             }
         }   // for (i)
     }   // MoveStage()
@@ -148,7 +144,7 @@ var stageCtrlr = function($scope, $http, $window, utility){
     $scope.ChooseBGMode = function(bgm){
 
         if (bgm == 'Insurance'){
-            $scope.BackgroundMode = 'Status';
+            $scope.BackgroundMode = 'Parts Status';
         } else {
             $scope.BackgroundMode = 'Insurance';
         }
@@ -209,6 +205,7 @@ var stageCtrlr = function($scope, $http, $window, utility){
         $scope.estim = "";
         $scope.searchText = "";
         $scope.filterOn = false;    // Unassigned Tech filter off
+        $scope.UC_Class = '';
 
     }   // ResetFilters()
 
