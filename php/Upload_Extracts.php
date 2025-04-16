@@ -7,6 +7,8 @@ error_reporting(E_ALL);
 require('Utility_Scripts.php');
 require('Upload_Daily_Out.php');
 require('Upload_Parts_Status.php');
+require('Create_Labels_CSV.php');
+
 
 const TARGET_DIR    = "../extract_files/";  // destination folder on the server
 const D_OUT_FNAME   = "Daily_Out.csv";      // Daily Out destination file name
@@ -53,7 +55,7 @@ if ($conn->query($tsql) === TRUE) {
     $tsql = "CALL spUpdateLocationIDs()";
 
     if ($conn->query($tsql) === TRUE) {
-      ; //echo $ro_num . " uploaded<br/>";
+      Create_Labels_File(); //echo $ro_num . " uploaded<br/>";
     } else {
       echo "Error: " . $tsql . "<br>" . $conn->error;
     }
