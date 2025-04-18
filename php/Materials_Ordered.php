@@ -81,9 +81,13 @@
 
         $orders .= "</table></html>";
 
-        echo $orders;
+        // echo $orders;
+        if ($order->locationID == 1){
+            $to = "Parts Department<parts@cityautobody.net>, CarStar<carstarsimivalley@gmail.com>";
+        } else {
+            $to = "Parts Department<SonnyParts@carstarusa.com>";
+        }
 
-        $to         = "Parts Department<parts@cityautobody.net>, CarStar<carstarsimivalley@gmail.com>";
         $subject    = "Materials Order from " . $order->technician;
 
         $headers = "MIME-Version: 1.0\n";

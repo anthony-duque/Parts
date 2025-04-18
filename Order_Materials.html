@@ -7,7 +7,7 @@
             <td id='colTechs' colspan="2">
                 Order for:
                 <select ng-model='technician'>
-                    <option ng-repeat='eachTech in techList| filter: { locID: locationID }' value='{{eachTech}}'>
+                    <option ng-repeat='eachTech in techList| filter: { locID: locationID }' value='{{eachTech.firstName}}'>
                         {{ eachTech.firstName }}
                     </option>
                 </select>  <b style='color : red'>← Start Here</b>
@@ -36,6 +36,7 @@
             <th>Description</th>
             <th>Qty</th>
             <th>Unit</th>
+            <th>Ordered</th>
         </tr>
         <tr ng-repeat='eachMat in newMatList'>
             <td>
@@ -54,6 +55,9 @@
             </td>
             <td>
                 <input type='text' ng-model='eachMat.unit' />
+            </td>
+            <td ng-show='eachMat.ordered_qty > 0' align='center'>
+                ✔
             </td>
         </tr>
         <tr ng-repeat='eachMat in materialsList | filter: searchText' ng-class='ToggleColor($index, "white", "lightBlue");'>
@@ -75,6 +79,9 @@
             </td>
             <td align='center'>
                 {{ eachMat.unit }}
+            </td>
+            <td ng-show='eachMat.ordered_qty > 0' align='center'>
+                ✔
             </td>
         </tr>
         </table>

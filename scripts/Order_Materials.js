@@ -103,6 +103,7 @@ var OrderMaterialsCtlr = function($scope, $http, utility){
 
         var order = {
             "technician": $scope.technician,
+            "locationID": $scope.locationID,
             "materials" : $scope.ordersList
         }
 
