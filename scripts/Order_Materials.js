@@ -1,15 +1,16 @@
 
 var OrderMaterialsCtlr = function($scope, $http, utility){
 
-    $scope.techList = [
-        "" ,"Serjio", "Jose", "Van", "Nacho", "Gerry", "Omar", "Nick", "Jesus", "Frank (Paint)", "Frank (Tech)", "Eric"
-    ];
+    // $scope.techList = [
+    //     "" ,"Serjio", "Jose", "Van", "Nacho", "Gerry", "Omar", "Nick", "Jesus", "Frank (Paint)", "Frank (Tech)", "Eric"
+    // ];
 
     $scope.materialsList    = [];   // material list from the database
     $scope.newMatList       = [];   // materials that are not in the database
     $scope.ordersList       = [];   // list of ordered materials
 
     GetMaterialsList();
+    Get_Technician_List();
 
     function GetMaterialsList()
     {
@@ -29,6 +30,26 @@ var OrderMaterialsCtlr = function($scope, $http, utility){
                     }
              );
     }     // GetMaterialsList()
+
+
+    function Get_Technician_List(){
+
+        $http.get('./php/Employees.php?roles[]=BODY&roles[]=PAINT&roles[]=DETAIL&roles[]=MECHANICAL')
+              .then(
+                    function(response){
+                        if (response.data){
+                            console.log("Technician List fetched successfully!");
+                            console.log(response.data);
+                            $scope.techList = response.data;
+                        }
+                    }
+              )         // then()
+              .catch(
+                    function(response){
+                        console.log("Technician List not fetched.");
+                    }
+             );
+    }
 
 
     $scope.CheckOrder = function(matObj){

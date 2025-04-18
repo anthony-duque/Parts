@@ -4,7 +4,7 @@ var TabsCtrlr = function($scope, $http, utility){
 
     const DEFAULT_VIEW = 'Production.html';
 
-    $scope.locationID = 0;
+    $scope.locationID = '';
 
     $scope.tabView = DEFAULT_VIEW;   // initial tab view
 
@@ -15,6 +15,7 @@ var TabsCtrlr = function($scope, $http, utility){
             'Deliveries'    : "inactive",
             'PartsSearch'   : "inactive",
             'Materials'     : "inactive",
+            'ReturnForms'   : "inactive",
             'PaintList'     : "inactive",
             'UnorderedParts': "inactive",
             'Vendors'       : "inactive"
