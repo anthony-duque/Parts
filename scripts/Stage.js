@@ -15,8 +15,14 @@ var stageCtrlr = function($scope, $http, $window, utility){
                         if (response.data){
                             console.log("List of Assigned cars fetched successfully!");
                             console.log(response.data);
-                            $scope.production_stage = response.data;
-                            $scope.colWidth = (1 / $scope.production_stage.length) * 100;
+
+                            $scope.production_stage = response.data.stageCars;
+
+                            const last_update = new Date (response.data.timeStamp);
+                            $scope.lastUpdate = last_update.toLocaleString();
+
+                            $scope.colWidth         = (1 / $scope.production_stage.length) * 100;
+
                             GetTechList();      // to populate Tech List dropdown
                             GetEstimatorList(); // to populate Estimator List dropdown
                         }   // if (response.data)
@@ -212,6 +218,10 @@ var stageCtrlr = function($scope, $http, $window, utility){
 
     $scope.UnassignedCarsFilter = function(){
 
+        $scope.tech = "";
+        $scope.estim = "";
+        $scope.searchText = "";
+
         $scope.filterOn = !$scope.filterOn;
 
         if ($scope.filterOn){
@@ -222,7 +232,8 @@ var stageCtrlr = function($scope, $http, $window, utility){
 
     }   // UnassignedCarsFilter()
 
-
 }   // stageCtrlr()
+
+
 
 app.controller("StageCtrlr", stageCtrlr);

@@ -47,21 +47,7 @@ switch($method){
       break;
 
    case "GET":  // get cars on the Paint List
-
-      $prod_stages = [];
-
-      for($stageID = CHECKINPRESCAN; $stageID <= READYFORDELIVERY; ++$stageID){
-          $prod_stages[$stageID] = new Production_Stage($stageID);
-      }
-
-      ComputePartsReceived($prod_stages);
-
-      echo json_encode($prod_stages);
-      break;
-
-   case "DELETE":
-      $qString = $_GET["id"];
-      echo "DELETE = " . $qString;
+      Process_GET();
       break;
 
    default:
@@ -253,6 +239,59 @@ function Notify_Estimator($car)
 
     mail($to, $subject, $body, $headers);
 }
+
+
+function Process_GET(){
+
+//    $update = $_GET["update"];
+    class ProdStage{
+
+        public $timeStamp;
+        public $stageCars = [];
+
+        function GetTimeStamp(){
+
+            require('db_open.php');
+
+            $last_upload_date = '';
+
+            $sql = "SELECT value FROM Adhoc_Table WHERE name = 'LAST_UPLOAD'";
+
+            try{
+
+                $s = mysqli_query($conn, $sql);
+                $r = mysqli_fetch_assoc($s);
+                $last_upload_date = $r["value"];
+
+            } catch (Exception $e){
+
+                echo "Fetching 'Last Update' value failed." . $e->getMessage();
+            }   // catch()
+
+            finally {
+                $conn = null;
+                return $last_upload_date;
+            }   // class{}
+        }   // GetTimeStamp()
+
+        function __construct($sc){
+            $this->timeStamp = $this->GetTimeStamp();
+            $this->stageCars = $sc;
+        }
+    }   // prodStage{}
+
+
+    $prod_stages = [];
+
+    for($stageID = CHECKINPRESCAN; $stageID <= READYFORDELIVERY; ++$stageID){
+        $prod_stages[$stageID] = new Production_Stage($stageID);
+    }
+
+    ComputePartsReceived($prod_stages);
+
+    echo json_encode(new ProdStage($prod_stages));
+
+}   //  Process_GET()
 
 
 function ProcessPUT($carObj)

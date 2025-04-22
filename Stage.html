@@ -10,7 +10,22 @@
 <body ng-controller='StageCtrlr' style='font-size: x-small'>
     <table align='center' width='100%' border=0>
     <tr>
-        <td>
+        <td align='left'>
+            <input type='button' value='Reset Filters' ng-click='ResetFilters();' />
+        </td>
+        <td align='right'>
+            <input type='button' value='Unassigned Cars' ng-click='UnassignedCarsFilter();' ng-class='UC_Class'/>
+        </td>
+        <td align='right'>
+            <input type='button' value='Switch Colors' ng-click='ChooseBGMode(BackgroundMode);'>
+            &nbsp;by:&nbsp;{{ BackgroundMode }}
+        </td>
+        <td align='right'>
+            Last Update: {{ lastUpdate }}
+        </td>
+    </tr>
+    <tr>
+        <td align='left'>
             Technician:
             <select ng-model='tech'>
                 <option value=''>All Techs</option>
@@ -20,9 +35,6 @@
             </select>
         </td>
         <td align='left'>
-            <input type='button' value='Unassigned Cars' ng-click='UnassignedCarsFilter();' ng-class='UC_Class'/>
-        </td>
-        <td>
             Estimator:
             <select ng-model='estim'>
                 <option value=''>All Estimators</option>
@@ -31,14 +43,7 @@
                 </option>
             </select>
         </td>
-        <td>
-            <input type='button' value='Reset Filters' ng-click='ResetFilters();'>
-        </td>
-        <td align='right'>
-            <input type='button' value='Switch Color' ng-click='ChooseBGMode(BackgroundMode);'>
-            &nbsp;by:&nbsp;{{ BackgroundMode }}
-        </td>
-        <td align='right'>
+        <td align='left'>
             Search: <input type='text' ng-model='searchText'/>&nbsp;
             <input type='button' value='Clear' ng-click='searchText = ""'>
         </td>
@@ -53,262 +58,262 @@
     </table>
 
     <table border=1>
-        <tr class='heading'>
-            <th width='{{ colWidth }}%' ng-click='MoveCar(0);'>
-                Check-In/Pre-scan
-            </th>
-            <th width='{{ colWidth }}%' ng-click='MoveCar(1);'>
-                Disassembly
-            </th>
-            <th width='{{ colWidth }}%' ng-click='MoveCar(2);'>
-                Repair<br>Plan
-            </th>
-            <th width='{{ colWidth }}%' ng-click='MoveCar(3);'>
-                Awaiting<br>Approval
-            </th>
-            <th width='{{ colWidth }}%' ng-click='MoveCar(4);'>
-                Waiting<br>for Parts
-            </th>
-            <th width='{{ colWidth }}%' ng-click='MoveCar(5);'>
-                Body
-            </th>
-            <th width='{{ colWidth }}%' ng-click='MoveCar(6);'>
-                Primer
-            </th>
-            <th width='{{ colWidth }}%' ng-click='MoveCar(7);'>
-                Paint
-            </th>
-            <th width='{{ colWidth }}%' ng-click='MoveCar(8);'>
-                Delay
-            </th>
-            <th width='{{ colWidth }}%' ng-click='MoveCar(9);'>
-                Reassembly
-            </th>
-            <th width='{{ colWidth }}%' ng-click='MoveCar(10);'>
-                Sublet
-            </th>
-            <th width='{{ colWidth }}%' ng-click='MoveCar(11);'>
-                Detail
-            </th>
-            <th width='{{ colWidth }}%' ng-click='MoveCar(12);'>
-                Final QC/<br>Post Scan
-            </th>
-            <th width='{{ colWidth }}%' ng-click='MoveCar(13);'>
-                Ready for<br>Delivery
-            </th>
-        </tr>
-        <tr>
-            <td valign='top' class="bgLiteGrey">
-                <table border="1" id='CheckInPreScan' width='100%'>
-                <tr ng-init='lastCarIndex = production_stage[0].cars.length - 1'
-                    ng-repeat='eachCar in production_stage[0].cars
+    <tr class='heading'>
+        <th width='{{ colWidth }}%' ng-click='MoveCar(0);'>
+            Check-In/Pre-scan
+        </th>
+        <th width='{{ colWidth }}%' ng-click='MoveCar(1);'>
+            Disassembly
+        </th>
+        <th width='{{ colWidth }}%' ng-click='MoveCar(2);'>
+            Repair<br>Plan
+        </th>
+        <th width='{{ colWidth }}%' ng-click='MoveCar(3);'>
+            Awaiting<br>Approval
+        </th>
+        <th width='{{ colWidth }}%' ng-click='MoveCar(4);'>
+            Waiting<br>for Parts
+        </th>
+        <th width='{{ colWidth }}%' ng-click='MoveCar(5);'>
+            Body
+        </th>
+        <th width='{{ colWidth }}%' ng-click='MoveCar(6);'>
+            Primer
+        </th>
+        <th width='{{ colWidth }}%' ng-click='MoveCar(7);'>
+            Paint
+        </th>
+        <th width='{{ colWidth }}%' ng-click='MoveCar(8);'>
+            Delay
+        </th>
+        <th width='{{ colWidth }}%' ng-click='MoveCar(9);'>
+            Reassembly
+        </th>
+        <th width='{{ colWidth }}%' ng-click='MoveCar(10);'>
+            Sublet
+        </th>
+        <th width='{{ colWidth }}%' ng-click='MoveCar(11);'>
+            Detail
+        </th>
+        <th width='{{ colWidth }}%' ng-click='MoveCar(12);'>
+            Final QC/<br>Post Scan
+        </th>
+        <th width='{{ colWidth }}%' ng-click='MoveCar(13);'>
+            Ready for<br>Delivery
+        </th>
+    </tr>
+    <tr>
+        <td valign='top' class="bgLiteGrey">
+            <table border="1" id='CheckInPreScan' width='100%'>
+            <tr ng-init='lastCarIndex = production_stage[0].cars.length - 1'
+                ng-repeat='eachCar in production_stage[0].cars
+                            | filter: { locationID: locID }
+                            | filter: { technician: tech }
+                            | filter: { estimator: estim }
+                            | filter : searchText
+                            | FilterUnassignedCars : filterOn' >
+                <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
+                    <div ng-include='"Stage_Car.html"' ng-class='Set_BG_Class(BackgroundMode, eachCar);'>
+                </td>
+            </tr>
+            </table>
+        </td>
+        <td valign='top' class="bgLiteGrey">
+            <table border="1" id='Disassembly' width='100%'>
+            <tr ng-init='lastCarIndex = production_stage[1].cars.length - 1'
+                ng-repeat='eachCar in production_stage[1].cars
+                            | filter: { locationID: locID }
+                            | filter: { technician: tech }
+                            | filter: { estimator: estim }
+                            | filter : searchText
+                            | FilterUnassignedCars : filterOn' >
+                <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
+                    <div ng-include='"Stage_Car.html"' ng-class='Set_BG_Class(BackgroundMode, eachCar);'>
+                </td>
+            </tr>
+            </table>
+        </td>
+        <td valign='top' class="bgLiteGrey">
+            <table border="1" id='RepairPlan' width='100%'>
+            <tr ng-init='lastCarIndex = production_stage[2].cars.length - 1'
+                ng-repeat='eachCar in production_stage[2].cars
+                            | filter: { locationID: locID }
+                            | filter: { technician: tech }
+                            | filter: { estimator: estim }
+                            | filter : searchText
+                            | FilterUnassignedCars : filterOn' >
+                <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
+                    <div ng-include='"Stage_Car.html"' ng-class='Set_BG_Class(BackgroundMode, eachCar);'>
+                </td>
+            </tr>
+            </table>
+        </td>
+        <td valign='top' class="bgLiteGrey">
+            <table border="1" id='AwaitingApproval' width='100%'>
+            <tr ng-init='lastCarIndex = production_stage[3].cars.length - 1'
+                ng-repeat='eachCar in production_stage[3].cars
+                            | filter: { locationID: locID }
+                            | filter: { technician: tech }
+                            | filter: { estimator: estim }
+                            | filter : searchText
+                            | FilterUnassignedCars : filterOn' >
+                <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
+                    <div ng-include='"Stage_Car.html"' ng-class='Set_BG_Class(BackgroundMode, eachCar);'>
+                </td>
+            </tr>
+            </table>
+        </td>
+        <td valign='top' class="bgLiteGrey">
+            <table border="1" id='AwaitingParts' width='100%'>
+            <tr ng-init='lastCarIndex = production_stage[4].cars.length - 1'
+                ng-repeat='eachCar in production_stage[4].cars
+                    | filter: { locationID: locID }
+                    | filter: { technician: tech }
+                    | filter: { estimator: estim }
+                    | filter : searchText
+                    | FilterUnassignedCars : filterOn' >
+                <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
+                    <div ng-include='"Stage_Car.html"' ng-class='Set_BG_Class(BackgroundMode, eachCar);'>
+                </td>
+            </tr>
+            </table>
+        </td>
+        <td valign='top' class="bgLiteGrey">
+            <table border="1" id='Body' width='100%'>
+            <tr ng-init='lastCarIndex = production_stage[5].cars.length - 1'
+                ng-repeat='eachCar in production_stage[5].cars
+                            | filter: { locationID: locID }
+                            | filter: { technician: tech }
+                            | filter: { estimator: estim }
+                            | filter : searchText
+                            | FilterUnassignedCars : filterOn' >
+                <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
+                    <div ng-include='"Stage_Car.html"' ng-class='Set_BG_Class(BackgroundMode, eachCar);'>
+                </td>
+            </tr>
+            </table>
+        </td>
+        <td valign='top' class="bgLiteGrey">
+            <table border="1" id='Primer' width='100%'>
+            <tr ng-init='lastCarIndex = production_stage[6].cars.length - 1'
+                ng-repeat='eachCar in production_stage[6].cars
+                            | filter: { locationID: locID }
+                            | filter: { technician: tech }
+                            | filter: { estimator: estim }
+                            | filter : searchText
+                            | FilterUnassignedCars : filterOn' >
+                <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
+                    <div ng-include='"Stage_Car.html"' ng-class='Set_BG_Class(BackgroundMode, eachCar);'>
+                </td>
+            </tr>
+            </table>
+        </td>
+        <td valign='top' class="bgLiteGrey">
+            <table border="1" id='Paint' width='100%'>
+            <tr ng-init='lastCarIndex = production_stage[7].cars.length - 1'
+                ng-repeat='eachCar in production_stage[7].cars
+                            | filter: { locationID: locID }
+                            | filter: { technician: tech }
+                            | filter: { estimator: estim }
+                            | filter : searchText
+                            | FilterUnassignedCars : filterOn' >
+                <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
+                    <div ng-include='"Stage_Car.html"' ng-class='Set_BG_Class(BackgroundMode, eachCar);'>
+                </td>
+            </tr>
+            </table>
+        </td>
+        <td valign='top' class="bgLiteGrey">
+            <table border="1" id='Delay' width='100%'>
+            <tr ng-init='lastCarIndex = production_stage[8].cars.length - 1'
+                ng-repeat='eachCar in production_stage[8].cars
+                            | filter: { locationID: locID }
+                            | filter: { technician: tech }
+                            | filter: { estimator: estim }
+                            | filter : searchText
+                            | FilterUnassignedCars : filterOn' >
+                <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
+                    <div ng-include='"Stage_Car.html"' ng-class='Set_BG_Class(BackgroundMode, eachCar);'></div>
+                </td>
+            </tr>
+            </table>
+        </td>
+        <td valign='top' class="bgLiteGrey">
+            <table border="1" id='Re-assembly' width='100%'>
+            <tr ng-init='lastCarIndex = production_stage[9].cars.length - 1'
+                ng-repeat='eachCar in production_stage[9].cars
+                            | filter: { locationID: locID }
+                            | filter: { technician: tech }
+                            | filter: { estimator: estim }
+                            | filter : searchText
+                            | FilterUnassignedCars : filterOn' >
+                <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
+                    <div ng-include='"Stage_Car.html"' ng-class='Set_BG_Class(BackgroundMode, eachCar);'></div>
+                </td>
+            </tr>
+            </table>
+        </td>
+        <td valign='top' class="bgLiteGrey">
+            <table border="1" id='Sublet' width='100%'>
+                <tr ng-init='lastCarIndex = production_stage[10].cars.length -1'
+                    ng-repeat='eachCar in production_stage[10].cars
                                 | filter: { locationID: locID }
                                 | filter: { technician: tech }
                                 | filter: { estimator: estim }
                                 | filter : searchText
                                 | FilterUnassignedCars : filterOn' >
-                    <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
-                        <div ng-include='"Stage_Car.html"' ng-class='Set_BG_Class(BackgroundMode, eachCar);'>
-                    </td>
-                </tr>
-                </table>
-            </td>
-            <td valign='top' class="bgLiteGrey">
-                <table border="1" id='Disassembly' width='100%'>
-                <tr ng-init='lastCarIndex = production_stage[1].cars.length - 1'
-                    ng-repeat='eachCar in production_stage[1].cars
+                <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
+                    <div ng-include='"Stage_Car.html"' ng-class='Set_BG_Class(BackgroundMode, eachCar);'></div>
+                </td>
+            </tr>
+            </table>
+        </td>
+        <td valign='top' class="bgLiteGrey">
+            <table border="1" id='Detail' width='100%'>
+                <tr ng-init='lastCarIndex = production_stage[11].cars.length - 1'
+                    ng-repeat='eachCar in production_stage[11].cars
                                 | filter: { locationID: locID }
                                 | filter: { technician: tech }
                                 | filter: { estimator: estim }
                                 | filter : searchText
                                 | FilterUnassignedCars : filterOn' >
-                    <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
-                        <div ng-include='"Stage_Car.html"' ng-class='Set_BG_Class(BackgroundMode, eachCar);'>
-                    </td>
-                </tr>
-                </table>
-            </td>
-            <td valign='top' class="bgLiteGrey">
-                <table border="1" id='RepairPlan' width='100%'>
-                <tr ng-init='lastCarIndex = production_stage[2].cars.length - 1'
-                    ng-repeat='eachCar in production_stage[2].cars
+                <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
+                    <div ng-include='"Stage_Car.html"' ng-class='Set_BG_Class(BackgroundMode, eachCar);'>
+                </td>
+            </tr>
+            </table>
+        </td>
+        <td valign='top' class="bgLiteGrey">
+            <table border="1" id='FinalQC' width='100%'>
+                <tr ng-init='lastCarIndex = production_stage[12].cars.length - 1'
+                    ng-repeat='eachCar in production_stage[12].cars
                                 | filter: { locationID: locID }
                                 | filter: { technician: tech }
                                 | filter: { estimator: estim }
                                 | filter : searchText
                                 | FilterUnassignedCars : filterOn' >
-                    <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
-                        <div ng-include='"Stage_Car.html"' ng-class='Set_BG_Class(BackgroundMode, eachCar);'>
-                    </td>
-                </tr>
-                </table>
-            </td>
-            <td valign='top' class="bgLiteGrey">
-                <table border="1" id='AwaitingApproval' width='100%'>
-                <tr ng-init='lastCarIndex = production_stage[3].cars.length - 1'
-                    ng-repeat='eachCar in production_stage[3].cars
+                <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
+                    <div ng-include='"Stage_Car.html"' ng-class='Set_BG_Class(BackgroundMode, eachCar);'>
+                </td>
+            </tr>
+            </table>
+        </td>
+        <td valign='top' class="bgLiteGrey">
+            <table border="1" id='ForDelivery' width='100%'>
+                <tr ng-init='lastCarIndex = production_stage[13].cars.length - 1'
+                    ng-repeat='eachCar in production_stage[13].cars
                                 | filter: { locationID: locID }
                                 | filter: { technician: tech }
                                 | filter: { estimator: estim }
                                 | filter : searchText
                                 | FilterUnassignedCars : filterOn' >
-                    <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
-                        <div ng-include='"Stage_Car.html"' ng-class='Set_BG_Class(BackgroundMode, eachCar);'>
-                    </td>
-                </tr>
-                </table>
-            </td>
-            <td valign='top' class="bgLiteGrey">
-                <table border="1" id='AwaitingParts' width='100%'>
-                <tr ng-init='lastCarIndex = production_stage[4].cars.length - 1'
-                    ng-repeat='eachCar in production_stage[4].cars
-                        | filter: { locationID: locID }
-                        | filter: { technician: tech }
-                        | filter: { estimator: estim }
-                        | filter : searchText
-                        | FilterUnassignedCars : filterOn' >
-                    <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
-                        <div ng-include='"Stage_Car.html"' ng-class='Set_BG_Class(BackgroundMode, eachCar);'>
-                    </td>
-                </tr>
-                </table>
-            </td>
-            <td valign='top' class="bgLiteGrey">
-                <table border="1" id='Body' width='100%'>
-                <tr ng-init='lastCarIndex = production_stage[5].cars.length - 1'
-                    ng-repeat='eachCar in production_stage[5].cars
-                                | filter: { locationID: locID }
-                                | filter: { technician: tech }
-                                | filter: { estimator: estim }
-                                | filter : searchText
-                                | FilterUnassignedCars : filterOn' >
-                    <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
-                        <div ng-include='"Stage_Car.html"' ng-class='Set_BG_Class(BackgroundMode, eachCar);'>
-                    </td>
-                </tr>
-                </table>
-            </td>
-            <td valign='top' class="bgLiteGrey">
-                <table border="1" id='Primer' width='100%'>
-                <tr ng-init='lastCarIndex = production_stage[6].cars.length - 1'
-                    ng-repeat='eachCar in production_stage[6].cars
-                                | filter: { locationID: locID }
-                                | filter: { technician: tech }
-                                | filter: { estimator: estim }
-                                | filter : searchText
-                                | FilterUnassignedCars : filterOn' >
-                    <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
-                        <div ng-include='"Stage_Car.html"' ng-class='Set_BG_Class(BackgroundMode, eachCar);'>
-                    </td>
-                </tr>
-                </table>
-            </td>
-            <td valign='top' class="bgLiteGrey">
-                <table border="1" id='Paint' width='100%'>
-                <tr ng-init='lastCarIndex = production_stage[7].cars.length - 1'
-                    ng-repeat='eachCar in production_stage[7].cars
-                                | filter: { locationID: locID }
-                                | filter: { technician: tech }
-                                | filter: { estimator: estim }
-                                | filter : searchText
-                                | FilterUnassignedCars : filterOn' >
-                    <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
-                        <div ng-include='"Stage_Car.html"' ng-class='Set_BG_Class(BackgroundMode, eachCar);'>
-                    </td>
-                </tr>
-                </table>
-            </td>
-            <td valign='top' class="bgLiteGrey">
-                <table border="1" id='Delay' width='100%'>
-                <tr ng-init='lastCarIndex = production_stage[8].cars.length - 1'
-                    ng-repeat='eachCar in production_stage[8].cars
-                                | filter: { locationID: locID }
-                                | filter: { technician: tech }
-                                | filter: { estimator: estim }
-                                | filter : searchText
-                                | FilterUnassignedCars : filterOn' >
-                    <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
-                        <div ng-include='"Stage_Car.html"' ng-class='Set_BG_Class(BackgroundMode, eachCar);'></div>
-                    </td>
-                </tr>
-                </table>
-            </td>
-            <td valign='top' class="bgLiteGrey">
-                <table border="1" id='Re-assembly' width='100%'>
-                <tr ng-init='lastCarIndex = production_stage[9].cars.length - 1'
-                    ng-repeat='eachCar in production_stage[9].cars
-                                | filter: { locationID: locID }
-                                | filter: { technician: tech }
-                                | filter: { estimator: estim }
-                                | filter : searchText
-                                | FilterUnassignedCars : filterOn' >
-                    <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
-                        <div ng-include='"Stage_Car.html"' ng-class='Set_BG_Class(BackgroundMode, eachCar);'></div>
-                    </td>
-                </tr>
-                </table>
-            </td>
-            <td valign='top' class="bgLiteGrey">
-                <table border="1" id='Sublet' width='100%'>
-                    <tr ng-init='lastCarIndex = production_stage[10].cars.length -1'
-                        ng-repeat='eachCar in production_stage[10].cars
-                                    | filter: { locationID: locID }
-                                    | filter: { technician: tech }
-                                    | filter: { estimator: estim }
-                                    | filter : searchText
-                                    | FilterUnassignedCars : filterOn' >
-                    <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
-                        <div ng-include='"Stage_Car.html"' ng-class='Set_BG_Class(BackgroundMode, eachCar);'></div>
-                    </td>
-                </tr>
-                </table>
-            </td>
-            <td valign='top' class="bgLiteGrey">
-                <table border="1" id='Detail' width='100%'>
-                    <tr ng-init='lastCarIndex = production_stage[11].cars.length - 1'
-                        ng-repeat='eachCar in production_stage[11].cars
-                                    | filter: { locationID: locID }
-                                    | filter: { technician: tech }
-                                    | filter: { estimator: estim }
-                                    | filter : searchText
-                                    | FilterUnassignedCars : filterOn' >
-                    <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
-                        <div ng-include='"Stage_Car.html"' ng-class='Set_BG_Class(BackgroundMode, eachCar);'>
-                    </td>
-                </tr>
-                </table>
-            </td>
-            <td valign='top' class="bgLiteGrey">
-                <table border="1" id='FinalQC' width='100%'>
-                    <tr ng-init='lastCarIndex = production_stage[12].cars.length - 1'
-                        ng-repeat='eachCar in production_stage[12].cars
-                                    | filter: { locationID: locID }
-                                    | filter: { technician: tech }
-                                    | filter: { estimator: estim }
-                                    | filter : searchText
-                                    | FilterUnassignedCars : filterOn' >
-                    <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
-                        <div ng-include='"Stage_Car.html"' ng-class='Set_BG_Class(BackgroundMode, eachCar);'>
-                    </td>
-                </tr>
-                </table>
-            </td>
-            <td valign='top' class="bgLiteGrey">
-                <table border="1" id='ForDelivery' width='100%'>
-                    <tr ng-init='lastCarIndex = production_stage[13].cars.length - 1'
-                        ng-repeat='eachCar in production_stage[13].cars
-                                    | filter: { locationID: locID }
-                                    | filter: { technician: tech }
-                                    | filter: { estimator: estim }
-                                    | filter : searchText
-                                    | FilterUnassignedCars : filterOn' >
-                    <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
-                        <div ng-include='"Stage_Car.html"' ng-class='Set_BG_Class(BackgroundMode, eachCar);'>
-                    </td>
-                </tr>
-                </table>
-            </td>
-        </tr>
+                <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
+                    <div ng-include='"Stage_Car.html"' ng-class='Set_BG_Class(BackgroundMode, eachCar);'>
+                </td>
+            </tr>
+            </table>
+        </td>
+    </tr>
     </table>
 </body>
 </html>
