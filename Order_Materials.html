@@ -7,7 +7,7 @@
             <td id='colTechs' colspan="2">
                 Order for:
                 <select ng-model='technician'>
-                    <option ng-repeat='eachTech in techList| filter: { locID: locationID }' value='{{eachTech.firstName}}'>
+                    <option ng-repeat='eachTech in techList| filter: { locID: locationID }' value='{{eachTech.firstName}},{{eachTech.locID}}'>
                         {{ eachTech.firstName }}
                     </option>
                 </select>  <b style='color : red'>← Start Here</b>

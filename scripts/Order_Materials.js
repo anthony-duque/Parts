@@ -100,10 +100,12 @@ var OrderMaterialsCtlr = function($scope, $http, utility){
 
 
     $scope.SubmitOrder = function(){
+        
+        var techInfo = $scope.technician.split(',');
 
         var order = {
-            "technician": $scope.technician,
-            "locationID": $scope.locationID,
+            "technician": techInfo[0],
+            "locationID": techInfo[1],
             "materials" : $scope.ordersList
         }
 
