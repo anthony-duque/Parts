@@ -173,15 +173,34 @@ var stageCtrlr = function($scope, $http, $window, utility){
 
     function GetTechList(){
 
+        function Technician(name, locationID) {
+          this.name = name;
+          this.locationID = locationID;
+        }   //
+
         $scope.techList = [];
+
+        var technician  = null;
+        var nameFound   = false;
 
         $scope.production_stage.forEach((stage, i) => {
             stage.cars.forEach((car, j) => {
-                if (!$scope.techList.includes(car.technician)){
-                    if(car.technician > ''){
-                        $scope.techList.push(car.technician);
+
+                nameFound = false;
+
+                $scope.techList.forEach((technician, i) => {
+                    if (technician.name == car.technician){
+                        nameFound = true;
+                    }
+                });
+
+                if (nameFound == false){    // if estimator is not yer in the list
+                    if (car.technician.length > 0){
+                        technician = new Technician(car.technician, car.locationID);
+                        $scope.techList.push(technician);       // add him
                     }
                 }
+
             });
         });
         console.log($scope.techList);
@@ -195,12 +214,10 @@ var stageCtrlr = function($scope, $http, $window, utility){
           this.locationID = locationID;
         }   //
 
-        var estimator = null;
+        $scope.estimatorList    = [];
 
-        $scope.estimatorList = [];
-
-        var estim = null;
-        var nameAlreadyAdded = false;
+        var estimator   = null;
+        var nameFound   = false;
 
         $scope.production_stage.forEach((stage, i) => {
             stage.cars.forEach((car, j) => {

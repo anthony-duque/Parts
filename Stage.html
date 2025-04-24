@@ -30,7 +30,7 @@
             <select ng-model='tech'>
                 <option value=''>All Techs</option>
                 <option ng-repeat='eachTech in techList' value='{{ eachTech }}'>
-                    {{ eachTech }}
+                    {{ eachTech.name }}
                 </option>
             </select>
         </td>
