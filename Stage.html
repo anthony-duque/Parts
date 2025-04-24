@@ -39,7 +39,7 @@
             <select ng-model='estim'>
                 <option value=''>All Estimators</option>
                 <option ng-repeat='estimator in estimatorList' value='{{ estimator }}'>
-                    {{ estimator }}
+                    {{ estimator.name }}
                 </option>
             </select>
         </td>
@@ -53,6 +53,17 @@
                 <option value=1 selected>CarStar City Auto</option>
                 <option value=2>CarStar Simi Valley</option>
             </select>
+        </td>
+    </tr>
+    </table>
+    <table ng-show='tech.length > 0'>
+    <tr>
+        <td>
+            <img ng-src='./images/JERRY.jpg' style="max-width: 100px; max-height: 100px"  alt="{{ eachCar.Technician }}">
+            {{ eachTech.technician }}
+        </td>
+        <td ng-repeat='eachCar in production_stage[6].cars'>
+            <div ng-include='"Stage_Car.html"' ng-class='Set_BG_Class(BackgroundMode, eachCar);'>
         </td>
     </tr>
     </table>

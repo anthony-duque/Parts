@@ -190,13 +190,33 @@ var stageCtrlr = function($scope, $http, $window, utility){
 
     function GetEstimatorList(){
 
+        function Estimator(name, locationID) {
+          this.name = name;
+          this.locationID = locationID;
+        }   //
+
+        var estimator = null;
+
         $scope.estimatorList = [];
+
+        var estim = null;
+        var nameAlreadyAdded = false;
 
         $scope.production_stage.forEach((stage, i) => {
             stage.cars.forEach((car, j) => {
-                if (!$scope.estimatorList.includes(car.estimator)){
-                    if(car.estimator > ''){
-                        $scope.estimatorList.push(car.estimator);
+
+                nameFound = false;
+
+                $scope.estimatorList.forEach((estimator, i) => {
+                    if (estimator.name == car.estimator){
+                        nameFound = true;
+                    }
+                });
+
+                if (nameFound == false){    // if estimator is not yer in the list
+                    if (car.estimator.length > 0){
+                        estimator = new Estimator(car.estimator, car.locationID);
+                        $scope.estimatorList.push(estimator);       // add him
                     }
                 }
             });
@@ -214,6 +234,7 @@ var stageCtrlr = function($scope, $http, $window, utility){
         $scope.UC_Class = '';
 
     }   // ResetFilters()
+
 
 
     $scope.UnassignedCarsFilter = function(){
