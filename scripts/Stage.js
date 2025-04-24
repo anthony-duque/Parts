@@ -173,9 +173,9 @@ var stageCtrlr = function($scope, $http, $window, utility){
 
     function GetTechList(){
 
-        function Technician(name, locationID) {
+        function Technician(name, loc_ID) {
           this.name = name;
-          this.locationID = locationID;
+          this.locationID = loc_ID;
         }   //
 
         $scope.techList = [];
@@ -209,9 +209,9 @@ var stageCtrlr = function($scope, $http, $window, utility){
 
     function GetEstimatorList(){
 
-        function Estimator(name, locationID) {
+        function Estimator(name, loc_ID) {
           this.name = name;
-          this.locationID = locationID;
+          this.locationID = loc_ID;
         }   //
 
         $scope.estimatorList    = [];
