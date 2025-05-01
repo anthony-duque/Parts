@@ -95,6 +95,7 @@ sqlStmt;
     }
 }   // Production_Stage {}
 
+
 class Part{
 
     public $ro_quantity;
@@ -119,6 +120,18 @@ class Part{
 }   // Part{}
 
 
+class Sublet{
+
+    public $part_description;
+    public $vendor_name;
+
+    function __construct($rec){
+        $this->part_description = $rec["Part_Description"];
+        $this->vendor_name      = $rec["Vendor_Name"];
+    }
+}   // Sublet{}
+
+
 class Car{
 
     public $ro_num;
@@ -130,6 +143,7 @@ class Car{
     public $technician;
     public $estimator;
     public $parts = [];
+    public $sublet = [];
     public $parts_unordered;
     public $parts_waiting;
     public $parts_received;
@@ -139,6 +153,35 @@ class Car{
     public $locationID;
     public $insurance;
     public $stageID;
+
+
+    function Get_Sublet_List($dbConn){
+
+        $sublets = [];
+
+        $sql =  <<<strSQL
+                    SELECT Part_Description, Vendor_Name
+                    FROM PartsStatusExtract
+                    WHERE Part_Type = 'Sublet'
+                        AND RO_Num = $this->ro_num
+                        AND Loc_ID = $this->locationID
+                strSQL;
+
+        try {
+
+            $s = mysqli_query($dbConn, $sql);
+
+            while($r = mysqli_fetch_assoc($s)){
+                array_push($sublets, new Sublet($r));
+            }   //while{}
+
+        } catch(Exception $e){
+            echo "Fetching Sublet List failed.";
+        }   // try-catch
+
+        return $sublets;
+    }   // Get_Sublet_List()
+
 
     function Get_Parts_List($dbConn){
 
@@ -196,6 +239,7 @@ class Car{
         $this->insurance        = $rec["Insurance"];
         $this->stageID          = $rec["stage_ID"];
         $this->parts            = $this->Get_Parts_List($dbConn);
+        $this->sublet           = $this->Get_Sublet_List($dbConn);
 
     }   // Car($rec)
 }   // Car{}
@@ -213,11 +257,12 @@ function Notify_Estimator($car)
 
     $body = <<<emailMsg
 
-            $car->ro_num - $car->owner [ $car->vehicle ] is already in Paint.
+            $car->ro_num - $car->owner [ $car->vehicle ]
 
-            But there may still have possible issues with parts.
+            is already in Paint. But there may still be possible issues with parts.
 
     emailMsg;
+
     echo $body; // test
 
 //    $headers = 'MIME-Version: 1.0';
@@ -232,9 +277,10 @@ function Notify_Estimator($car)
         echo "Email:" . $to;
     } else {
 
-        $to = Get_Email_Address($car->estimator, 'ESTIMATOR');
-//        $to         = "8053778977@txt.att.net";
-        $headers    .= "Cc: Jim<JimD@cityautobody.net>, Parts<parts@cityautobody.net>";
+        $to = Get_Email_Address('ESTIMATOR', $car->locationID, $car->estimator);
+//        echo $to;
+//        $headers    .= "Cc: Jim<JimD@cityautobody.net>," . Get_Email_Address('PARTS', $car->locationID);
+//        echo $headers;
     }
 
     mail($to, $subject, $body, $headers);

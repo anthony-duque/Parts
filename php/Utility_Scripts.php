@@ -96,27 +96,38 @@ function GetCellEmailAddress($userName){
 }
 
 
-function Get_Email_Address($name, $deptCode){
+function Get_Email_Address($deptCode, $loc_ID, $name = ''){
 
 	require('db_open.php');
 
-	$firstName = strtoupper($name);
 	$emailAddress = "";
 
-	$sqlQuery = <<<strSQL
+	$whereClause = "WHERE deptCode = '$deptCode' AND locID = $loc_ID";
 
+	if (strlen($name) > 0){
+		$firstName = strtoupper($name);
+		$whereClause .= " AND UPPER(firstName) = '$firstName'";
+	}
+
+	$sqlQuery = <<<strSQL
 		SELECT email
 		FROM Employee_Table
-		WHERE UPPER(firstName) = '$firstName';
-
+		$whereClause;
 	strSQL;
+
+	echo $sqlQuery;
 
 	try{
 
         $s = $conn->query($sqlQuery);
-		$r = mysqli_fetch_assoc($s);
-		$emailAddress = $r["email"];
-		echo "Fetching email address for " . $name . "." . $emailAddress . "<";
+
+		while($r = mysqli_fetch_assoc($s)){
+			$emailAddress .= $r["email"] . ',';
+//			echo "Fetching email address for " . $name . "." . $emailAddress . "<";
+		}
+
+		$emailAddress = rtrim($emailAddress, ',');
+		echo $emailAddress;
 
     } catch (Exception $e){
 
