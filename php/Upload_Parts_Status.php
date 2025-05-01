@@ -47,7 +47,8 @@ function Upload_Parts_Status_CSV($parts_status_extract_file){
     		VALUES
 strSQL;
 
-    $row = 0;	// record counter
+    $row    = 0;	// record counter
+    $values = '';
 
     while (($data = fgetcsv($handle, 500, ",")) !== FALSE){
 
@@ -89,11 +90,15 @@ strSQL;
 
         $location           = "'" . Cleanup_Text($data[SHOPLOCATION]) . "'";
 
-        $values = "(" . $ro_number . ", " . $line . ", " . $part_number . ", " .
+        $values .= "(" . $ro_number . ", " . $line . ", " . $part_number . ", " .
                   $part_description . ", " . $part_type . ", " . $vendor_name . ", " .
     			  $ro_quantity . ", " . $ordered_quantity . ", " . $order_date . ", " .
     			  $expected_delivery . ", ". $received_quantity . ", " .
-    			  $invoice_date . "," . $returned_quantity ."," . $location . ")";
+    			  $invoice_date . "," . $returned_quantity ."," . $location . "),";
+
+        }
+
+        $values = rtrim($values, ',');
 
         $insert_sql = $tsql . $values;
     //	echo $insert_sql . '<br/><br/>';
@@ -104,7 +109,6 @@ strSQL;
         } else {
           echo "Error: " . $insert_sql . "<br>" . $conn->error;
         }
-    }
 
     	// to take out the dash and numbers after the actual vendor name
     $sql = 'UPDATE PartsStatusExtract ' .
