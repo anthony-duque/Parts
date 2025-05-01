@@ -43,7 +43,7 @@ function Upload_Daily_Out_CSV($daily_out_extract_file){
 strSQL;
 
 	$row = 0;	// record counter
-
+    $values = '';
 
 	while (($data = fgetcsv($handle, 500, ",")) !== FALSE) {
 
@@ -81,20 +81,24 @@ strSQL;
 
         $insurance       = "'" . Cleanup_Text($data[INSURANCE]) . "'";
 
-        $values = "(". $ro_num . ", " . $owner . ", " . $vehicle . ", " . $vehicle_color  . ", " .
+        $values .= "(". $ro_num . ", " . $owner . ", " . $vehicle . ", " . $vehicle_color  . ", " .
 					$license_plate . ", " . $parts_received . ", " . $vehicle_in . ", " .
                   	$current_phase . ", " . $scheduled_out . ", " . $technician . ", " .
-                    $estimator . ", " . $location . ", " . $insurance . ")";
+                    $estimator . ", " . $location . ", " . $insurance . "),";
 
-        $insert_sql = $tsql . $values;
+    }
+
+    $values = rtrim($values, ',');
+
+    $insert_sql = $tsql . $values;
 //		echo $insert_sql . '<br/>';
 
-		if ($conn->query($insert_sql) === TRUE) {
-	      ; //echo $ro_num . " uploaded<br/>";
-	    } else {
-	      echo "Error: " . $insert_sql . "<br>" . $conn->error;
-	    }
+    if ($conn->query($insert_sql) === TRUE) {
+      ; //echo $ro_num . " uploaded<br/>";
+    } else {
+      echo "Error: " . $insert_sql . "<br>" . $conn->error;
     }
+
 
     fclose($handle);
 	$conn = null;
