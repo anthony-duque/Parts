@@ -101,7 +101,7 @@ var stageCtrlr = function($scope, $http, $window, utility){
         // Used to move a car by clicking on the stage heading
     $scope.MoveCar = function(stageID){
 
-        if ($scope.carPicked == null){
+        if ($scope.carPicked == null){  // no car selected
             ;
         } else {
             var currStageID = $scope.carPicked.stageID;
