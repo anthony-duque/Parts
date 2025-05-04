@@ -47,7 +47,8 @@ switch($method){
       break;
 
    case "GET":  // get cars on the Paint List
-      Process_GET();
+        $stage_count = $_GET["stages_count"];
+      Process_GET($stage_count);
       break;
 
    default:
@@ -245,49 +246,7 @@ class Car{
 }   // Car{}
 
 
-function Notify_Estimator($car)
-{
-    echo "<br/><br/>RO " . $car->ro_num . " notify " . $car->estimator;
-
-    $test_mode = false;
-
-    $subject    = $car->ro_num . " ($car->owner) Possible parts issues";
-
-    $body       = "";
-
-    $body = <<<emailMsg
-
-            $car->ro_num - $car->owner [ $car->vehicle ]
-
-            is already in Paint. But there may still be possible issues with parts.
-
-    emailMsg;
-
-    echo $body; // test
-
-//    $headers = 'MIME-Version: 1.0';
-//    $headers .= 'Content-type: text/html; charset=iso-8859-1';
-    $headers = "From: Automated Email<donotreply@cityautobody.net>\r\n";
-
-    if ($test_mode){
-//            $to = "8053778977@txt.att.net";
-//        $to = "8054282425@txt.att.net";
-//            $to = "somebody@example.com, somebodyelse@example.com"            $to         = "adduxe@hotmail.com";
-        $headers    .= "Cc: Sonny<adduxe@gmail.com>";
-        echo "Email:" . $to;
-    } else {
-
-        $to = Get_Email_Address('ESTIMATOR', $car->locationID, $car->estimator);
-//        echo $to;
-//        $headers    .= "Cc: Jim<JimD@cityautobody.net>," . Get_Email_Address('PARTS', $car->locationID);
-//        echo $headers;
-    }
-
-    mail($to, $subject, $body, $headers);
-}
-
-
-function Process_GET(){
+function Process_GET($stageCount){
 
 //    $update = $_GET["update"];
     class ProdStage{
@@ -327,15 +286,15 @@ function Process_GET(){
     }   // prodStage{}
 
 
-    $prod_stages = [];
+    $production_cars = [];
 
-    for($stageID = CHECKINPRESCAN; $stageID <= READYFORDELIVERY; ++$stageID){
-        $prod_stages[$stageID] = new Production_Stage($stageID);
+    for($stage = 0; $stage < $stageCount; ++$stage){
+        $production_cars[$stage] = new Production_Stage($stage);
     }
 
-    ComputePartsReceived($prod_stages);
+    ComputePartsReceived($production_cars);
 
-    echo json_encode(new ProdStage($prod_stages));
+    echo json_encode(new ProdStage($production_cars));
 
 }   //  Process_GET()
 

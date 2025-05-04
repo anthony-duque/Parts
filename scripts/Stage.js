@@ -5,11 +5,32 @@ var stageCtrlr = function($scope, $http, $window, utility){
     $scope.filterOn         = false;
     $scope.BackgroundMode   = 'Parts Status';
 
-    GetCars();
 
-    function GetCars(){
+    function GetStageHeadings(loc_ID){
+        if (loc_ID > 0){
+            $http.get('./php/Stage_Headings.php?locationID=' + $scope.locID)  // get all locations by default
+                  .then(
+                        function(response){
+                            if (response.data){
+                                console.log("Stages fetched successfully!");
+                                console.log(response.data);
+                                $scope.stages = response.data;
+                                GetCars($scope.stages.length);
+                            }
+                        }
+                  )         // then()
+                  .catch(
+                        function(response){
+                            console.log("Stages list not fetched.");
+                        }
+                 );
+        }
+    }    // function GetCars()
 
-        $http.get('./php/Stage.php')  // get all locations by default
+
+    function GetCars(num_of_stages){
+
+        $http.get('./php/Stage.php?stages_count=' + num_of_stages)  // get all locations by default
               .then(
                     function(response){
                         if (response.data){
@@ -34,6 +55,11 @@ var stageCtrlr = function($scope, $http, $window, utility){
                     }
              );
     }    // function GetCars()
+
+
+    $scope.SwitchShops = function(locationID){
+        GetStageHeadings(locationID);
+    }
 
 
     $scope.DoubleClicked = function(carViewPage){
@@ -124,7 +150,7 @@ var stageCtrlr = function($scope, $http, $window, utility){
                         $scope.production_stage[i].cars.splice(j, 1);
 
                             // update record in db
-                        $http.put('./php/Stage.php', JSON.stringify(carToMove))
+                        $http.put('./php/Car_Stage.php', JSON.stringify(carToMove))
                             .then(function(response){
                                 if(response.data){
                                     console.log(response.data);
@@ -253,7 +279,6 @@ var stageCtrlr = function($scope, $http, $window, utility){
     }   // ResetFilters()
 
 
-
     $scope.UnassignedCarsFilter = function(){
 
         $scope.tech = "";
@@ -271,7 +296,5 @@ var stageCtrlr = function($scope, $http, $window, utility){
     }   // UnassignedCarsFilter()
 
 }   // stageCtrlr()
-
-
 
 app.controller("StageCtrlr", stageCtrlr);

@@ -51,7 +51,7 @@
         </td>
         <td align='right'>
             Shop:
-            <select ng-model='locID'>
+            <select ng-model='locID' ng-change='SwitchShops(locID);'>
                 <option value=1 selected>CarStar City Auto</option>
                 <option value=2>CarStar Simi Valley</option>
             </select>
