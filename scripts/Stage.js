@@ -7,6 +7,7 @@ var stageCtrlr = function($scope, $http, $window, utility){
 
 
     function GetStageHeadings(loc_ID){
+
         if (loc_ID > 0){
             $http.get('./php/Stage_Headings.php?locationID=' + $scope.locID)  // get all locations by default
                   .then(
@@ -15,7 +16,7 @@ var stageCtrlr = function($scope, $http, $window, utility){
                                 console.log("Stages fetched successfully!");
                                 console.log(response.data);
                                 $scope.stages = response.data;
-                                GetCars($scope.stages.length);
+                                GetCars($scope.stages.length, loc_ID);
                             }
                         }
                   )         // then()
@@ -28,9 +29,9 @@ var stageCtrlr = function($scope, $http, $window, utility){
     }    // function GetCars()
 
 
-    function GetCars(num_of_stages){
+    function GetCars(num_of_stages, locationID){
 
-        $http.get('./php/Stage.php?stages_count=' + num_of_stages)  // get all locations by default
+        $http.get('./php/Stage.php?stages_count=' + num_of_stages + '&locID=' + locationID)  // get all locations by default
               .then(
                     function(response){
                         if (response.data){

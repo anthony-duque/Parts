@@ -5,21 +5,6 @@ error_reporting(E_ALL);
 
 require('Utility_Scripts.php');
 
-const CHECKINPRESCAN    = 0;
-const DISSEMBLY         = 1;
-const REPAIR_PLAN       = 2;
-const PENDING_APPROVAL  = 3;
-const WAITINGFORPARTS   = 4;
-const BODY_WORK         = 5;
-const FOR_PRIMER        = 6;
-const FOR_PAINT         = 7;
-const DELAYED           = 8;
-const REASSEMBLY        = 9;
-const SUBLET            = 10;
-const FOR_DETAIL        = 11;
-const FINALQC_POSTSCAN  = 12;
-const READYFORDELIVERY  = 13;
-
 $method = $_SERVER['REQUEST_METHOD'];
 
 switch($method){
@@ -48,7 +33,8 @@ switch($method){
 
    case "GET":  // get cars on the Paint List
         $stage_count = $_GET["stages_count"];
-      Process_GET($stage_count);
+        $loc_id = $_GET["locID"];
+      Process_GET($loc_id, $stage_count);
       break;
 
    default:
@@ -62,7 +48,7 @@ class Production_Stage {
 
     public $cars = [];
 
-    function GetCars($stage_ID){
+    function GetCars($locID, $stage_ID){
 
         $strSQL = <<<sqlStmt
            SELECT
@@ -74,7 +60,7 @@ class Production_Stage {
                 r.Vehicle_In, r.CurrentPhase, r.Scheduled_Out, Insurance
             FROM Repairs r INNER JOIN Car_Stage ps
                     ON r.RONum = ps.ro_Num AND r.Loc_ID = ps.loc_ID
-            WHERE ps.stage_ID = $stage_ID
+            WHERE r.Loc_ID = $locID AND ps.stage_ID = $stage_ID
 sqlStmt;
 
         require('db_open.php');
@@ -91,8 +77,8 @@ sqlStmt;
     }   // GetCars()
 
 
-    function __construct($stageID){
-        $this->cars = $this->GetCars($stageID);
+    function __construct($locationID, $stageID){
+        $this->cars = $this->GetCars($locationID, $stageID);
     }
 }   // Production_Stage {}
 
@@ -246,7 +232,7 @@ class Car{
 }   // Car{}
 
 
-function Process_GET($stageCount){
+function Process_GET($locID, $stageCount){
 
 //    $update = $_GET["update"];
     class ProdStage{
@@ -289,7 +275,7 @@ function Process_GET($stageCount){
     $production_cars = [];
 
     for($stage = 0; $stage < $stageCount; ++$stage){
-        $production_cars[$stage] = new Production_Stage($stage);
+        $production_cars[$stage] = new Production_Stage($locID, $stage);
     }
 
     ComputePartsReceived($production_cars);
@@ -297,40 +283,5 @@ function Process_GET($stageCount){
     echo json_encode(new ProdStage($production_cars));
 
 }   //  Process_GET()
-
-
-function ProcessPUT($carObj)
-{
-
-    require('db_open.php');
-
-    $tsql = <<<strSQL
-            UPDATE Car_Stage
-            SET stage_ID = $carObj->stageID
-            WHERE ro_Num = $carObj->ro_num
-                AND loc_ID = $carObj->locationID
-        strSQL;
-
-    try{
-
-        $result = $conn->query($tsql);
-        echo "Car " . $carObj->ro_num . " stage updated.";
-
-    } catch (Exception $e){
-
-        echo "Failed to update stage status for RO " . $carObj->ro_Num . $e->getMessage();
-
-    } finally {
-
-        $conn = null;        // close the database connection
-        if (($carObj->parts_percent < 100) &&
-            ($carObj->stageID == FOR_PAINT))
-        {
-            echo $carObj->ro_num . " => Stage: " . $carObj->stageID . " =>  Parts:" . $carObj->parts_percent . " %";
-            Notify_Estimator($carObj);
-        }
-    }
-
-}   // ProcessPUT()
 
 ?>
