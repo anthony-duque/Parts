@@ -71,7 +71,7 @@ class Production_Stage {
                 r.Vehicle, LCASE(r.Vehicle_Color) AS Vehicle_Color,
                 SUBSTRING_INDEX(r.Technician, ' ', 1) AS Technician,
                 r.Vehicle_In, r.CurrentPhase, r.Scheduled_Out, Insurance
-            FROM Repairs r INNER JOIN Production_Stage ps
+            FROM Repairs r INNER JOIN Car_Stage ps
                     ON r.RONum = ps.ro_Num AND r.Loc_ID = ps.loc_ID
             WHERE ps.stage_ID = $stage_ID
 sqlStmt;
@@ -346,7 +346,7 @@ function ProcessPUT($carObj)
     require('db_open.php');
 
     $tsql = <<<strSQL
-            UPDATE Production_Stage
+            UPDATE Car_Stage
             SET stage_ID = $carObj->stageID
             WHERE ro_Num = $carObj->ro_num
                 AND loc_ID = $carObj->locationID

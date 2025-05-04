@@ -2,8 +2,8 @@ var app = angular.module("StageApp", []);
 
 var stageCtrlr = function($scope, $http, $window, utility){
 
-    $scope.filterOn = false;
-    $scope.BackgroundMode = 'Parts Status';
+    $scope.filterOn         = false;
+    $scope.BackgroundMode   = 'Parts Status';
 
     GetCars();
 
