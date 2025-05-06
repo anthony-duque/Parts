@@ -11,7 +11,7 @@
 
 <body ng-controller='StageCtrlr' style='font-size: x-small'>
     <table align='center' width='100%' border=0>
-    <tr>
+    <tr ng-show='locID > 0'>
         <td align='left'>
             <input type='button' value='Reset Filters' ng-click='ResetFilters();' />
         </td>
@@ -27,7 +27,7 @@
         </td>
     </tr>
     <tr>
-        <td align='left'>
+        <td align='left' ng-show='locID > 0'>
             Technician:
             <select ng-model='tech'>
                 <option value=''>All Techs</option>
@@ -36,7 +36,7 @@
                 </option>
             </select>
         </td>
-        <td align='left'>
+        <td align='left' ng-show='locID > 0'>
             Estimator:
             <select ng-model='estim'>
                 <option value=''>All Estimators</option>
@@ -45,13 +45,13 @@
                 </option>
             </select>
         </td>
-        <td align='left'>
+        <td align='left' ng-show='locID > 0'>
             Search: <input type='text' ng-model='searchText'/>&nbsp;
             <input type='button' value='Clear' ng-click='searchText = ""'>
         </td>
         <td align='right'>
             <div ng-hide='locID > 0' style='color : red;'>
-                <b>Select a shop</b>
+                <blink><b>Select a shop</b></blink>
             </div>
             Shop:
             <select ng-model='locID' ng-change='SwitchShops(locID);'>

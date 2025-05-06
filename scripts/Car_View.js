@@ -18,7 +18,7 @@ var carViewCtrlr = function($scope, $http, utility){
 
     $scope.GoBackToMainPage = function(){
         self.close();
-        opener.location.reload();
+//        opener.location.reload();
     }
 
     $scope.sortField = "+received_quantity"; // initially sort list by received qty
