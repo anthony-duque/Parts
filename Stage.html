@@ -62,8 +62,12 @@
     </tr>
     </table>
 
-    <table id=id="tblPriority" ng-show=false>
+    <table id=id="tblPriority" ng-show="false">
     <tr>
+        <th align='center'>
+            <img ng-src='./images/{{ tech.toUpperCase() }}.jpg' style="max-width: 100px; max-height: 100px"  alt="{{ eachCar.Technician }}">
+            <br/>{{ tech }}
+        </th>
         <td ng-repeat='eachCar in production_stage[1].cars'
             ng-class='eachCar.borderColor'
             ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>

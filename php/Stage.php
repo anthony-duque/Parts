@@ -106,7 +106,7 @@ class Part{
     }   // Part()
 }   // Part{}
 
-
+/*
 class Sublet{
 
     public $part_description;
@@ -117,7 +117,7 @@ class Sublet{
         $this->vendor_name      = $rec["Vendor_Name"];
     }
 }   // Sublet{}
-
+*/
 
 class Car{
 
@@ -130,7 +130,7 @@ class Car{
     public $technician;
     public $estimator;
     public $parts = [];
-    public $sublet = [];
+//    public $sublet = [];
     public $parts_unordered;
     public $parts_waiting;
     public $parts_received;
@@ -141,7 +141,7 @@ class Car{
     public $insurance;
     public $stageID;
 
-
+/*
     function Get_Sublet_List($dbConn){
 
         $sublets = [];
@@ -168,7 +168,7 @@ class Car{
 
         return $sublets;
     }   // Get_Sublet_List()
-
+*/
 
     function Get_Parts_List($dbConn){
 
@@ -226,7 +226,7 @@ class Car{
         $this->insurance        = $rec["Insurance"];
         $this->stageID          = $rec["stage_ID"];
         $this->parts            = $this->Get_Parts_List($dbConn);
-        $this->sublet           = $this->Get_Sublet_List($dbConn);
+//        $this->sublet           = $this->Get_Sublet_List($dbConn);
 
     }   // Car($rec)
 }   // Car{}
