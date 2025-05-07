@@ -69,6 +69,32 @@
 
     <br/>
 
+    <table width='40%' border="1"align='center'>
+    <thead>
+        <tr>
+            <th colspan="2" class='lightBlue' ng-click='showSublet = !showSublet'>
+                S U B L E T S
+            </th>
+        </tr>
+        <tr ng-show='showSublet'>
+            <th>Description</th>
+            <th>Company</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat='sublet in car.subletList' ng-class='ToggleColor($index, "white", "orange");' ng-show='showSublet'>
+            <td align='center'>
+                {{ sublet.part_description }}
+            </td>
+            <td align='center'>
+                {{ sublet.vendor_name }}
+            </td>
+        </tr>
+    </tbody>
+    </table>
+
+    <br/>
+
     <table width=100% align='center' id='carParts'>
         <tr>
             <td align='left'>

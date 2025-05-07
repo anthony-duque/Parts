@@ -2,6 +2,7 @@ var app = angular.module("carViewModule", []);
 
 var carViewCtrlr = function($scope, $http, utility){
 
+    $scope.showSublet = false;
         // get the value of ro num from the queryString
     var params = getQueryParams(window.location.href);
     $scope.roNum = params.roNum;
@@ -32,6 +33,12 @@ var carViewCtrlr = function($scope, $http, utility){
     $scope.PartStatus = function(objPart){
         return utility.ColorPartStatus(objPart);
     }   // PartStatus()
+
+
+    $scope.ToggleColor = function(x, oddRowClass, evenRowClass){
+        return utility.ToggleRows(x, oddRowClass, evenRowClass);
+    }   // CheckParts()
+
 
     function getQueryParams(url) {
 
