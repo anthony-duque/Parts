@@ -21,6 +21,7 @@ require('Utility_Scripts.php');
         public $estimator;
         public $technician;
         public $location;
+        public $insurance;
         public $partsList = [];
 
         function __construct($rec){
@@ -35,7 +36,7 @@ require('Utility_Scripts.php');
             $this->estimator        = $rec["Estimator"];
             $this->technician       = toProperCase($rec["Technician"]);
             $this->location         = $rec["Location"];
-
+            $this->insurance        = $rec["Insurance"];
         }   // Car()
     }   // Car{}
 
@@ -128,7 +129,7 @@ require('Utility_Scripts.php');
         $sql = <<<strSQL
                     SELECT RONum, Owner, Vehicle, Estimator, Technician,
                         Vehicle_Color, License_Plate, Vehicle_In, Scheduled_Out,
-                        Location, Loc_ID
+                        Location, Loc_ID, Insurance
                     FROM Repairs
                     WHERE RONum = $roNum AND Loc_ID = $locID
                 strSQL;

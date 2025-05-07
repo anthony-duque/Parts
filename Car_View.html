@@ -14,11 +14,11 @@
             <th rowspan="2">
                 <img ng-src='./images/{{ car.location }}.png' style="max-width: 75px; max-height: 75px">
             </th>
-            <th width='5%' align='center'>
-                {{ car.ro_num }}  -
+            <th width='10%' align='left'>
+                {{ car.ro_num }}
             </th>
-            <th align='left' width='35%'>
-                {{ car.owner }}
+            <th align='left'>
+                {{ car.vehicle }}
             </th>
             <td align='left' width='5%'>
                 Color:
@@ -40,8 +40,11 @@
             </th>
         </tr>
         <tr>
-            <th align='left' colspan="2">
-                {{ car.vehicle }}
+            <th align='left'>
+                {{ car.owner }}
+            </th>
+            <th align='left'>
+                {{ car.insurance }}
             </th>
             <td align='left'>
                 License:
