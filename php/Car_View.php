@@ -22,7 +22,8 @@ require('Utility_Scripts.php');
         public $technician;
         public $location;
         public $insurance;
-        public $partsList = [];
+        public $partsList   = [];
+        public $subletList  = [];
 
         function __construct($rec){
 
@@ -82,6 +83,18 @@ require('Utility_Scripts.php');
     }   // Part{}
 
 
+    class Sublet{
+
+        public $part_description;
+        public $vendor_name;
+
+        function __construct($rec){
+            $this->part_description = $rec["Part_Description"];
+            $this->vendor_name      = $rec["Vendor_Name"];
+        }
+    }   // Sublet{}
+
+
     function GetPartsList($ro, $locID, $dbConn){
 
         $sql = <<<strSQL
@@ -122,6 +135,34 @@ require('Utility_Scripts.php');
     }   // GetPartsList()
 
 
+    function GetSubletList($ro_num, $loc_id, $dbConn){
+
+        $sublets = [];
+
+        $sql =  <<<strSQL
+                    SELECT Part_Description, Vendor_Name
+                    FROM PartsStatusExtract
+                    WHERE Part_Type = 'Sublet'
+                        AND RO_Num = $ro_num
+                        AND Loc_ID = $loc_id
+                strSQL;
+
+        try {
+
+            $s = mysqli_query($dbConn, $sql);
+
+            while($r = mysqli_fetch_assoc($s)){
+                array_push($sublets, new Sublet($r));
+            }   //while{}
+
+        } catch(Exception $e){
+            echo "Fetching Sublet List failed.";
+        }   // try-catch
+
+        return $sublets;
+    }   // Get_Sublet_List()
+
+
     function ProcessGET($roNum, $locID){
 
         require('db_open.php');
@@ -141,6 +182,7 @@ require('Utility_Scripts.php');
 
             $car = new Car($r);
             $car->partsList = GetPartsList($roNum, $locID, $conn);
+            $car->subletList = GetSubletList($roNum, $locID, $conn);
 
         } catch(Exception $e){
 

@@ -77,8 +77,12 @@
             </th>
         </tr>
         <tr ng-show='showSublet'>
-            <th>Description</th>
-            <th>Company</th>
+            <th ng-hide='car.subletList.length == 0'>
+                Description
+            </th>
+            <th ng-hide='car.subletList.length == 0'>
+                Company
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -89,6 +93,9 @@
             <td align='center'>
                 {{ sublet.vendor_name }}
             </td>
+        </tr>
+        <tr ng-show='car.subletList.length == 0'>
+            <th colspan=2>No sublets required for this repair.</th>
         </tr>
     </tbody>
     </table>
