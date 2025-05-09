@@ -87,10 +87,12 @@ require('Utility_Scripts.php');
 
         public $part_description;
         public $vendor_name;
+        public $received_quantity;
 
         function __construct($rec){
-            $this->part_description = $rec["Part_Description"];
-            $this->vendor_name      = $rec["Vendor_Name"];
+            $this->part_description     = $rec["Part_Description"];
+            $this->vendor_name          = $rec["Vendor_Name"];
+            $this->received_quantity    = $rec["Received_Qty"];
         }
     }   // Sublet{}
 
@@ -140,11 +142,13 @@ require('Utility_Scripts.php');
         $sublets = [];
 
         $sql =  <<<strSQL
-                    SELECT Part_Description, Vendor_Name
+                    SELECT Part_Description, Vendor_Name,
+                        Received_Qty
                     FROM PartsStatusExtract
                     WHERE Part_Type = 'Sublet'
                         AND RO_Num = $ro_num
                         AND Loc_ID = $loc_id
+                    ORDER BY Received_Qty
                 strSQL;
 
         try {

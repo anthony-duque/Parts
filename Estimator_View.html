@@ -6,7 +6,7 @@
             <img ng-src="./images/{{ eachEst.estimator }}.jpg" style="max-width: 100px; max-height: 100px" alt="{{ eachCar.Estimator }}" />
             {{ eachEst.estimator }}
         </th>
-        <td ng-repeat="eachCar in eachEst.cars | orderBy : sortCars | filter: searchText | FilterInOutCars : carsInOut" height='100%' align='center'  ng-class='CheckParts(eachCar);'>
+        <td ng-repeat="eachCar in eachEst.cars | orderBy : sortCars | filter: searchText | FilterInOutCars : carsInOut" height='100%' align='center' ng-class='CheckParts(eachCar);'>
             <a href="Car_View.html?roNum={{ eachCar.ro_num }}&locationID={{ eachCar.loc_ID }}" target="CarStatus">
             <table width='150' height='100%'>
                 <tr>
@@ -50,7 +50,7 @@
                         </table>
                     </td>
                 </tr>
-                <tr ng-hide='eachCar.parts_percent == 100'>
+                <tr ng-show='eachCar.parts_percent < 100'>
                     <td valign='bottom'>
                         <table height='10' width='100%' border=1 valign='bottom'>
                         <tr>

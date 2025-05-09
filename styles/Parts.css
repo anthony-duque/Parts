@@ -17,8 +17,17 @@
 }
 
 .greenOnWhite{
-    background-color: black;
-    color: lightgreen;
+    background-color: lightgreen;
+    color: white;
+}
+
+.whiteOnGreen{
+    background-color: green;
+    color: white;
+}
+
+.redOnWhite{
+    color: red;
 }
 
 .lightGreen {
@@ -108,4 +117,13 @@ a.arrow{
 
 .OTHER{
     background-color: white;
+}
+
+.whiteOnRed{
+    background-color: red;
+    color: white;
+}
+
+.bottomBorderOnly{
+    border-bottom-style: groove;
 }
