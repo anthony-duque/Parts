@@ -5,6 +5,15 @@ var stageCtrlr = function($scope, $http, $window, utility){
     $scope.filterOn         = false;
     $scope.BackgroundMode   = 'Parts Status';
 
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const locID = urlParams.get('locID');
+
+    if (locID > ''){    // Get the cars automatically
+                        //  if the location is set in querystring
+        $scope.locID = locID;
+        GetStageHeadings(locID);
+    }
 
     function GetStageHeadings(loc_ID){
 
@@ -47,6 +56,9 @@ var stageCtrlr = function($scope, $http, $window, utility){
 
                             GetTechList();      // to populate Tech List dropdown
                             GetEstimatorList(); // to populate Estimator List dropdown
+
+                            SetProperShop();
+
                         }   // if (response.data)
                     }
               )         // then()
