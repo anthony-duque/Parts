@@ -106,18 +106,20 @@ class Part{
     }   // Part()
 }   // Part{}
 
-/*
+
 class Sublet{
 
     public $part_description;
     public $vendor_name;
+    public $received_quantity;
 
     function __construct($rec){
-        $this->part_description = $rec["Part_Description"];
-        $this->vendor_name      = $rec["Vendor_Name"];
+        $this->part_description     = $rec["Part_Description"];
+        $this->vendor_name          = $rec["Vendor_Name"];
+        $this->received_quantity    = $rec["Received_Qty"];
     }
 }   // Sublet{}
-*/
+
 
 class Car{
 
@@ -130,7 +132,7 @@ class Car{
     public $technician;
     public $estimator;
     public $parts = [];
-//    public $sublet = [];
+    public $subletS = [];
     public $parts_unordered;
     public $parts_waiting;
     public $parts_received;
@@ -141,17 +143,16 @@ class Car{
     public $insurance;
     public $stageID;
 
-/*
     function Get_Sublet_List($dbConn){
 
         $sublets = [];
 
         $sql =  <<<strSQL
-                    SELECT Part_Description, Vendor_Name
+                    SELECT Part_Description, Vendor_Name, Received_Qty
                     FROM PartsStatusExtract
                     WHERE Part_Type = 'Sublet'
-                        AND RO_Num = $this->ro_num
-                        AND Loc_ID = $this->locationID
+                    AND RO_Num = $this->ro_num AND Loc_ID = $this->locationID
+                    ORDER BY Received_Qty
                 strSQL;
 
         try {
@@ -168,7 +169,7 @@ class Car{
 
         return $sublets;
     }   // Get_Sublet_List()
-*/
+
 
     function Get_Parts_List($dbConn){
 
@@ -226,7 +227,7 @@ class Car{
         $this->insurance        = $rec["Insurance"];
         $this->stageID          = $rec["stage_ID"];
         $this->parts            = $this->Get_Parts_List($dbConn);
-//        $this->sublet           = $this->Get_Sublet_List($dbConn);
+        $this->sublet           = $this->Get_Sublet_List($dbConn);
 
     }   // Car($rec)
 }   // Car{}
