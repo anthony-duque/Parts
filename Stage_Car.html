@@ -52,6 +52,11 @@
                 All Parts In
             </td>
         </tr>
+        <tr>
+            <td ng-show='eachCar.sublets.length > 0' align='center'>
+                Sublets
+            </td>
+        </tr>
         </table>
     </td>
 </tr>
@@ -59,17 +64,20 @@
     <td valign='bottom'>
         <table height='10' width='100%' border=1 valign='bottom'>
         <tr>
-            <td class='noParts' align='center' width='25%' ng-show='eachCar.parts_unordered > 0'>
+            <td class='noParts' align='center' ng-show='eachCar.parts_unordered > 0'>
                 {{ eachCar.parts_unordered }}
             </td>
-            <td class='waitingForParts' align='center' width='25%' ng-show='eachCar.parts_waiting > 0'>
+            <td class='waitingForParts' align='center' ng-show='eachCar.parts_waiting > 0'>
                 {{ eachCar.parts_waiting }}
             </td>
-            <td class='partsComplete' align='center' width='25%' ng-show='eachCar.parts_received > 0'>
+            <td class='partsComplete' align='center' ng-show='eachCar.parts_received > 0'>
                 {{ eachCar.parts_received }}
             </td>
-            <td class='lightBlue' align='center' width='25%' ng-show='eachCar.parts_returned > 0'>
+            <td class='lightBlue' align='center' ng-show='eachCar.parts_returned > 0'>
                 {{ eachCar.parts_returned }}
+            </td>
+            <td ng-show='eachCar.sublets.length > 0' align='center' ng-class='BG_SubletsStatus(eachCar.sublets);'>
+                S
             </td>
         </tr>
         </table>

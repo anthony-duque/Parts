@@ -296,6 +296,43 @@ var stageCtrlr = function($scope, $http, $window, utility){
 
     }   // UnassignedCarsFilter()
 
+
+    $scope.BG_SubletsStatus = function(subletList){
+
+        var bgClass = "waitingForParts";
+
+        if ((subletList == null) || (subletList.length == 0)){
+
+            bgClass = "lightGreen";
+
+        } else {
+
+            var count_done = 0;
+
+            subletList.forEach((sublet, i) => {
+                if(sublet.received_quantity > 0){
+                    ++count_done;
+                }
+            });
+
+            switch (true) {
+
+                case (count_done == 0):
+                    bgClass = "whiteOnRed";
+                    break;
+
+                case (count_done == subletList.length):
+                    bgClass = "lightGreen";
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        return bgClass;
+    }   // BG_SubletsStatus()
+
 }   // stageCtrlr()
 
 app.controller("StageCtrlr", stageCtrlr);
