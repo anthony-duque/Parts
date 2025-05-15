@@ -7,7 +7,7 @@ var stageCtrlr = function($scope, $http, $window, utility){
 
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
-    const locID = urlParams.get('locID');
+    const locID = urlParams.get('locationID');
 
     if (locID > ''){    // Get the cars automatically
                         //  if the location is set in querystring
