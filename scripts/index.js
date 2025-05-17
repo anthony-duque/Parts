@@ -76,6 +76,8 @@ var TabsCtrlr = function($scope, $http, utility){
     Get_Shop_Locations();
     GetUploadTimeStamp();
 
+    /////////////////////////////////////////////
+
     function Get_Shop_Locations(){
         $http.get('./php/index.php')
             .then(handleSuccess)
@@ -83,7 +85,7 @@ var TabsCtrlr = function($scope, $http, utility){
     }
 
 
-    function GetUploadTimeStamp(){
+    function GetUploadTimeStamp(timeObj){
 
         $http.get('./php/Get_Upload_Time.php')  // get all locations by default
               .then(
