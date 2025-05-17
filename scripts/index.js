@@ -73,13 +73,37 @@ var TabsCtrlr = function($scope, $http, utility){
         $scope.tabView = tabView;
     }   // PickTab()
 
-    GetLastUpdate();
+    Get_Shop_Locations();
+    GetUploadTimeStamp();
 
-    function GetLastUpdate(){
+    function Get_Shop_Locations(){
         $http.get('./php/index.php')
             .then(handleSuccess)
             .catch(handleError);
     }
+
+
+    function GetUploadTimeStamp(){
+
+        $http.get('./php/Get_Upload_Time.php')  // get all locations by default
+              .then(
+                    function(response){
+                        if (response.data){
+                            console.log("Last Upload Time fetched successfully!");
+                            console.log(response.data);
+
+                            const last_update = new Date (response.data);
+                            $scope.last_update = last_update.toLocaleString();
+                        }
+                    }
+              )         // then()
+              .catch(
+                    function(response){
+                        console.log("Last Upload Time not fetched.");
+                    }
+             );
+    }    // GetUploadTimeStamp()
+
 
     function handleSuccess(response)
     {
@@ -87,8 +111,6 @@ var TabsCtrlr = function($scope, $http, utility){
             console.log(response.data);
 
                 // Last Update Date
-            const last_update = new Date (response.data.last_update);
-            $scope.last_update = last_update.toLocaleString();
             $scope.locations = response.data.locations;
 
         }
