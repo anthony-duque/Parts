@@ -34,7 +34,7 @@ switch($method){
    case "GET":  // get cars on the Paint List
         $stage_count = $_GET["stages_count"];
         $loc_id = $_GET["locID"];
-      Process_GET($loc_id, $stage_count);
+        Process_GET($loc_id, $stage_count);
       break;
 
    default:
@@ -52,7 +52,7 @@ class Production_Stage {
 
         $strSQL = <<<sqlStmt
            SELECT
-                r.RONum, r.Location, r.Loc_ID, ps.stage_ID,
+                r.RONum, r.Loc_ID, ps.stage_ID,
                 SUBSTRING_INDEX(r.Estimator, ' ', 1) AS Estimator,
                 SUBSTRING_INDEX(r.Owner, ',', 1) AS Owner,
                 r.Vehicle, LCASE(r.Vehicle_Color) AS Vehicle_Color,
@@ -222,7 +222,6 @@ class Car{
         $this->parts_percent    = 0;
         $this->scheduled_out    = GetDisplayDate($rec["Scheduled_Out"]);
         $this->scheduled_out    = substr($this->scheduled_out, 0, 5);
-        $this->location         = $rec["Location"];
         $this->locationID       = $rec["Loc_ID"];
         $this->insurance        = $rec["Insurance"];
         $this->stageID          = $rec["stage_ID"];
@@ -238,36 +237,9 @@ function Process_GET($locID, $stageCount){
 //    $update = $_GET["update"];
     class ProdStage{
 
-        public $timeStamp;
         public $stageCars = [];
 
-        function GetTimeStamp(){
-
-            require('db_open.php');
-
-            $last_upload_date = '';
-
-            $sql = "SELECT value FROM Adhoc_Table WHERE name = 'LAST_UPLOAD'";
-
-            try{
-
-                $s = mysqli_query($conn, $sql);
-                $r = mysqli_fetch_assoc($s);
-                $last_upload_date = $r["value"];
-
-            } catch (Exception $e){
-
-                echo "Fetching 'Last Update' value failed." . $e->getMessage();
-            }   // catch()
-
-            finally {
-                $conn = null;
-                return $last_upload_date;
-            }   // class{}
-        }   // GetTimeStamp()
-
         function __construct($sc){
-            $this->timeStamp = $this->GetTimeStamp();
             $this->stageCars = $sc;
         }
     }   // prodStage{}

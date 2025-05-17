@@ -13,7 +13,33 @@ var stageCtrlr = function($scope, $http, $window, utility){
                         //  if the location is set in querystring
         $scope.locID = locID;
         GetStageHeadings(locID);
+        GetUploadTimeStamp();
     }
+
+////////////////////////////////////
+
+    function GetUploadTimeStamp(){
+
+        $http.get('./php/Get_Upload_Time.php')  // get all locations by default
+              .then(
+                    function(response){
+                        if (response.data){
+                            console.log("Last Upload Time fetched successfully!");
+                            console.log(response.data);
+
+                            const last_update = new Date (response.data);
+                            console.log("converted time: " + last_update);
+                            $scope.lastUpdate = last_update.toLocaleString();
+                        }
+                    }
+              )         // then()
+              .catch(
+                    function(response){
+                        console.log("Last Upload Time not fetched.");
+                    }
+             );
+    }    // GetUploadTimeStamp()
+
 
     function GetStageHeadings(loc_ID){
 
@@ -35,7 +61,7 @@ var stageCtrlr = function($scope, $http, $window, utility){
                         }
                  );
         }
-    }    // function GetCars()
+    }    // function GetStageHeadings()
 
 
     function GetCars(num_of_stages, locationID){
@@ -48,9 +74,6 @@ var stageCtrlr = function($scope, $http, $window, utility){
                             console.log(response.data);
 
                             $scope.production_stage = response.data.stageCars;
-
-                            const last_update = new Date (response.data.timeStamp);
-                            $scope.lastUpdate = last_update.toLocaleString();
 
                             $scope.colWidth         = (1 / $scope.production_stage.length) * 100;
 
