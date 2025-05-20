@@ -22,6 +22,23 @@
                 <input type='text' ng-model='searchText'>
                 &nbsp;<input type='button' value='Clear' ng-click='searchText = ""'>
             </td>
+            <td ng-show='productionView == "Estimator_View.html"'>
+                Estimator:  <select ng-model='estim'>
+                                <option value=''>All Estimators</option>
+                                <option value='Kevin'>Kevin</option>
+                                <option value='Ray'>Ray</option>
+                                <option value='Tony'>Tony</option>
+                                <option value='LANCE'>LANCE</option>
+                            </select>
+            </td>
+            <td ng-show='productionView == "Technician_View.html"'>
+                Technician:  <select ng-model='tech'>
+                                <option value=''>All Techs</option>
+                                <option value='JERRY'>JERRY</option>
+                                <option value='NACHO'>NACHO</option>
+                                <option value='JOSE'>JOSE</option>
+                            </select>
+            </td>
             <td width='25%' align='right'>
                 <div ng-show='productionView == "Estimator_View.html"'>
                     <input type='radio' ng-model='carsInOut' value='all'>
