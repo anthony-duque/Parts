@@ -25,7 +25,6 @@
         public $location;
         public $loc_ID;
 
-
         function __construct($rec){
 
             $this->ro_num           = $rec["RONum"];

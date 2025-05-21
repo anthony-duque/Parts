@@ -1,13 +1,56 @@
 
-var prodController = function($scope, utility){
+var prodController = function($scope, $http, utility){
 
     $scope.carsInOut    = 'all';
     $scope.sortCars     = '+parts_percent';
     $scope.sortMode     = 'Sort by Parts Received';
     $scope.dueMode      = "What's not Due";
 
-        // default View is Technician View
+    // default View is Technician View
     $scope.productionView = 'Technician_View.html';
+
+    Get_Technician_List();
+    Get_Estimator_List();
+
+//////////////////////////////////////////////////////////
+
+
+    function Handle_Success(fetchedList){
+            console.log(fetchedList + " fetch successful.")
+
+        }
+
+    function Handle_Error(response){
+        console.log(response);
+    }
+
+    function Get_Technician_List(){
+
+        $http.get('./php/Technician_List.php')  // get all locations by default
+              .then(function(response){
+                  if(response.data){
+                      console.log(response.data);
+                      $scope.tech_list = response.data;
+                      Handle_Success("Technician List");
+                  }
+              }).catch(Handle_Error);
+
+    }     // Get_Technician_List()
+
+
+    function Get_Estimator_List(){
+
+        $http.get('./php/Estimator_List.php')  // get all locations by default
+        .then(function(response){
+            if(response.data){
+                console.log(response.data);
+                $scope.estim_list = response.data;
+                Handle_Success("Technician List");
+            }
+        }).catch(Handle_Error);
+
+    }     // Get_Estimator_List()
+
 
     $scope.SortCarsDue = function (sortField){
 
