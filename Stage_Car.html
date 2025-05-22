@@ -1,7 +1,7 @@
 <table width='100%' align='center' border=0 ng-dblclick='DoubleClicked("Car_View.html?roNum=" + eachCar.ro_num + "&locationID=" + eachCar.locationID)'>
 <tr>
-    <td rowspan='9' valign='middle'>
-        <a ng-click='MoveStage(eachCar.ro_num, eachCar.locationID, -1);' href='' class='arrow' ng-hide='eachCar.stageID == 0'>
+    <td rowspan='10' valign='middle'>
+        <a ng-click='MoveStage(eachCar, -1);' href='' class='arrow' ng-hide='eachCar.stageID == 0'>
             &#x2190;
         </a>
     </td>
@@ -10,8 +10,8 @@
             &#x2191;
         </a>
     </td>
-    <td rowspan='9' valign='middle'>
-        <a ng-click='MoveStage(eachCar.ro_num, eachCar.locationID, 1);' href='' class='arrow' ng-hide='eachCar.stageID == (stages.length - 1)'>
+    <td rowspan='10' valign='middle'>
+        <a ng-click='MoveStage(eachCar, 1);' href='' class='arrow' ng-hide='eachCar.stageID == (stages.length - 1)'>
             &#x2192;
         </a>
     </td>
@@ -96,6 +96,11 @@
 <tr>
     <td align='center'>
         Due: {{ eachCar.scheduled_out }}
+    </td>
+</tr>
+<tr>
+    <td align='center'>
+        {{ eachCar.insurance }}
     </td>
 </tr>
 <tr>

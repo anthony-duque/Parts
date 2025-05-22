@@ -5,6 +5,8 @@ var stageCtrlr = function($scope, $http, $window, utility){
     $scope.filterOn         = false;
     $scope.BackgroundMode   = 'Parts Status';
 
+    $scope.priorityCars = [];
+
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const locID = urlParams.get('locationID');
@@ -64,6 +66,14 @@ var stageCtrlr = function($scope, $http, $window, utility){
     }    // function GetStageHeadings()
 
 
+    function GetPriorityCars(){
+
+        $scope.priorityCars["Jerry"] = $scope.production_stage[3].cars;
+        $scope.priorityCars["Jose"] = $scope.production_stage[9].cars;
+        $scope.priorityCars["Nacho"] = $scope.production_stage[7].cars;
+    }
+
+
     function GetCars(num_of_stages, locationID){
 
         $http.get('./php/Stage.php?stages_count=' + num_of_stages + '&locID=' + locationID)  // get all locations by default
@@ -79,6 +89,8 @@ var stageCtrlr = function($scope, $http, $window, utility){
 
                             GetTechList();      // to populate Tech List dropdown
                             GetEstimatorList(); // to populate Estimator List dropdown
+
+                            GetPriorityCars();
 
                             SetProperShop();
 
@@ -103,7 +115,7 @@ var stageCtrlr = function($scope, $http, $window, utility){
     }
 
 
-    $scope.ChangeBorder = function(roNum, locID){
+    $scope.ChangeBorder = function(selectedCar){
 
         for(let i=0; i < $scope.production_stage.length; ++i){
             for(let j=0; j < $scope.production_stage[i].cars.length; ++j){
@@ -115,8 +127,8 @@ var stageCtrlr = function($scope, $http, $window, utility){
         for(let i=0; i < $scope.production_stage.length; ++i){
             for(let j=0; j < $scope.production_stage[i].cars.length; ++j){
 
-                if (($scope.production_stage[i].cars[j].ro_num === roNum) &&
-                    ($scope.production_stage[i].cars[j].locationID === locID)){
+                if (($scope.production_stage[i].cars[j].ro_num === selectedCar.ro_num) &&
+                    ($scope.production_stage[i].cars[j].locationID === selectedCar.locationID)){
 
                     $scope.production_stage[i].cars[j].borderColor = 'red';
 
@@ -148,7 +160,7 @@ var stageCtrlr = function($scope, $http, $window, utility){
 
 
         // Used to move a car to a stage by an increment value
-    $scope.MoveStage = function(roNum, locID, incr){
+    $scope.MoveStage = function(car, incr){
 
         // find the RO
         var carFound = false;
@@ -161,14 +173,14 @@ var stageCtrlr = function($scope, $http, $window, utility){
 
                 for(let j=0; j < $scope.production_stage[i].cars.length; ++j){
 
-                    if (($scope.production_stage[i].cars[j].ro_num === roNum) &&
-                        ($scope.production_stage[i].cars[j].locationID === locID)){
+                    if (($scope.production_stage[i].cars[j].ro_num === car.ro_num) &&
+                        ($scope.production_stage[i].cars[j].locationID === car.locationID)){
 
                         carFound = true;
 
                         newStageID = parseInt($scope.production_stage[i].cars[j].stageID) + incr;
 
-                        $scope.ChangeBorder(roNum, locID);  // highlight the car
+                        $scope.ChangeBorder(car);  // highlight the car
 
                         $scope.production_stage[i].cars[j].stageID = newStageID;
 

@@ -47,6 +47,7 @@
         public $scheduled_out;
         public $location;
         public $loc_ID;
+        public $insurance;
 
         function __construct($rec){
 
@@ -64,6 +65,7 @@
             $this->scheduled_out    = substr($this->scheduled_out, 0, 5);
             $this->location         = $rec["Location"];
             $this->loc_ID           = $rec["Loc_ID"];
+            $this->insurance        = $rec["Insurance"];
 
         }   // Car($rec)
     }   // Car{}
@@ -129,7 +131,7 @@
                         RONum, SUBSTRING_INDEX(Owner, ',', 1) AS Owner,
                         Vehicle, Estimator, Scheduled_Out,
                         LOWER(Vehicle_Color) as Vehicle_Color,
-                        Location, Loc_ID
+                        Location, Loc_ID, Insurance
                     FROM Repairs
                     WHERE Technician > '' $loc_condition
                     ORDER BY Technician, PartsReceived DESC
