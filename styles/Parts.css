@@ -91,28 +91,28 @@ a.arrow{
 }
 
 .ALLSTATE{  /*  Allstate Insurance */
-    background-color: coral;
+    background-color: red;
 }
 
 .STATE{     /* State Farm */
-    background-color: lightblue;
+    background-color: red;
 }
 
 .MERCURY{
-    background-color: orange;
+    background-color: pink;
 }
 
 .AUTO{
-    background-color: lightgreen;
+    background-color: pink;
 }
 
 .DEALER{
-    background-color: mediumpurple;
+    background-color: white;
     color : white;
 }
 
 .USAA{
-    background-color: gold;
+    background-color: pink;
 }
 
 .OTHER{
