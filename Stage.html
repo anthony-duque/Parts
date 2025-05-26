@@ -62,16 +62,17 @@
     </tr>
     </table>
 
-    <table id=id="tblPriority" ng-show="false">
+    <table id=id="tblPriority" border=1>
     <tr>
-        <th align='center'>
+        <th align='center' ng-show='tech > ""'>
             <img ng-src='./images/{{ tech.toUpperCase() }}.jpg' style="max-width: 100px; max-height: 100px"  alt="{{ eachCar.Technician }}">
             <br/>{{ tech }}
         </th>
-        <td ng-repeat='eachCar in production_stage[1].cars'
+        <td ng-repeat='eachCar in priorityCars | filter : { locationID : locID, technician : tech }'
             ng-class='eachCar.borderColor'
-            ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
-            <div ng-include='"Stage_Car.html"' ng-class='Set_BG_Class(BackgroundMode, eachCar);'></div>
+            ng-click='ChangeBorder(eachCar);'
+            width='150'>
+            <div ng-include='"Priority_Car.html"' ng-class='Set_BG_Class(BackgroundMode, eachCar);'></div>
         </td>
     </tr>
     </table>
@@ -92,7 +93,7 @@
                             | filter: { estimator: estim }
                             | filter : searchText
                             | FilterUnassignedCars : filterOn' >
-                <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar.ro_num, eachCar.locationID);'>
+                <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar);'>
                     <div ng-include='"Stage_Car.html"' ng-class='Set_BG_Class(BackgroundMode, eachCar);'>
                 </td>
             </tr>

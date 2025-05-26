@@ -1,17 +1,17 @@
 <table width='100%' align='center' border=0 ng-dblclick='DoubleClicked("Car_View.html?roNum=" + eachCar.ro_num + "&locationID=" + eachCar.locationID)'>
 <tr>
     <td rowspan='10' valign='middle'>
-        <a ng-click='MoveStage(eachCar, -1);' href='' class='arrow' ng-hide='eachCar.stageID == 0'>
+        <a ng-click='MovePriority(eachCar, -1);' href='' class='arrow' ng-hide='eachCar.stageID == 0'>
             &#x2190;
         </a>
     </td>
     <td align='center'>
-        <a href='' class='arrow' ng-click='PlaceInQueue(eachCar);' ng-show='tech > ""'>
+        <a ng-click='' href='' class='arrow' ng-hide='true'>
             &#x2191;
         </a>
     </td>
     <td rowspan='10' valign='middle'>
-        <a ng-click='MoveStage(eachCar, 1);' href='' class='arrow' ng-hide='eachCar.stageID == (stages.length - 1)'>
+        <a ng-click='MovePriority(eachCar, 1);' href='' class='arrow' ng-hide='eachCar.stageID == (stages.length - 1)'>
             &#x2192;
         </a>
     </td>
@@ -19,7 +19,7 @@
 <tr>
     <td align='center'>
         <b>
-            {{ eachCar.vehicle.split(' ')[1] + " " + eachCar.vehicle.split(' ')[2] }}
+            {{  eachCar.vehicle.split(' ')[1] + " " + eachCar.vehicle.split(' ')[2]  }}
         </b>
     </td>
 </tr>
@@ -106,7 +106,7 @@
 <tr>
     <td></td>
     <td align='center'>
-        <a ng-click='' href='' ng-hide='$index === $index' class='arrow'>
+        <a ng-click='RemoveFromQueue(eachCar);' href='' ng-show='tech > ""' class='arrow'>
             &#x2193;
         </a>
     </td>
