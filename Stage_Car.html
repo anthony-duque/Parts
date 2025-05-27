@@ -1,6 +1,6 @@
 <table width='100%' align='center' border=0 ng-dblclick='DoubleClicked("Car_View.html?roNum=" + eachCar.ro_num + "&locationID=" + eachCar.locationID)'>
 <tr>
-    <td rowspan='10' valign='middle'>
+    <td rowspan='2' valign='middle'>
         <a ng-click='MoveStage(eachCar, -1);' href='' class='arrow' ng-hide='eachCar.stageID == 0'>
             &#x2190;
         </a>
@@ -10,97 +10,15 @@
             &#x2191;
         </a>
     </td>
-    <td rowspan='10' valign='middle'>
+    <td rowspan='2' valign='middle'>
         <a ng-click='MoveStage(eachCar, 1);' href='' class='arrow' ng-hide='eachCar.stageID == (stages.length - 1)'>
             &#x2192;
         </a>
     </td>
 </tr>
 <tr>
-    <td align='center'>
-        <b>
-            {{ eachCar.vehicle.split(' ')[1] + " " + eachCar.vehicle.split(' ')[2] }}
-        </b>
-    </td>
-</tr>
-<tr>
-    <td align='center'>
-        <i>
-            [{{ eachCar.vehicle_color }}]
-        </i>
-    </td>
-</tr>
-<tr>
-    <td align='center'>
-        <b><i>
-        {{ eachCar.owner }}
-        </i></b>
-    </td>
-</tr>
-<tr>
-    <td align='center'>
-        <b><u>
-        {{ eachCar.ro_num }}
-        </u></b>
-    </td>
-</tr>
-<tr ng-show='eachCar.parts_percent == 100'>
-    <td align='center'>
-        <table align='center' border=1>
-        <tr>
-            <td align='center'>
-                All Parts In
-            </td>
-        </tr>
-        <tr>
-            <td ng-show='eachCar.sublets.length > 0' align='center'>
-                Sublets
-            </td>
-        </tr>
-        </table>
-    </td>
-</tr>
-<tr ng-hide='eachCar.parts_percent == 100'>
-    <td valign='bottom'>
-        <table height='10' width='100%' border=1 valign='bottom'>
-        <tr>
-            <td class='noParts' align='center' ng-show='eachCar.parts_unordered > 0'>
-                {{ eachCar.parts_unordered }}
-            </td>
-            <td class='waitingForParts' align='center' ng-show='eachCar.parts_waiting > 0'>
-                {{ eachCar.parts_waiting }}
-            </td>
-            <td class='partsComplete' align='center' ng-show='eachCar.parts_received > 0'>
-                {{ eachCar.parts_received }}
-            </td>
-            <td class='lightBlue' align='center' ng-show='eachCar.parts_returned > 0'>
-                {{ eachCar.parts_returned }}
-            </td>
-            <td ng-show='eachCar.sublets.length > 0' align='center' ng-class='BG_SubletsStatus(eachCar.sublets);'>
-                S
-            </td>
-        </tr>
-        </table>
-    </td>
-</tr>
-<tr>
-    <td align='center'>
-        &nbsp;{{ eachCar.technician }}
-    </td>
-</tr>
-<tr>
-    <td align='center'>
-        &nbsp;{{ eachCar.estimator }}
-    </td>
-</tr>
-<tr>
-    <td align='center'>
-        Due: {{ eachCar.scheduled_out }}
-    </td>
-</tr>
-<tr>
-    <td align='center'>
-        {{ eachCar.insurance.split(' ')[0] + " " + eachCar.insurance.split(' ')[1] }}
+    <td>
+        <div ng-include='"Car.html"'></div>
     </td>
 </tr>
 <tr>

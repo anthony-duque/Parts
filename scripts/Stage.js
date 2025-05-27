@@ -16,6 +16,7 @@ var stageCtrlr = function($scope, $http, $window, utility){
         $scope.locID = locID;
         GetStageHeadings(locID);
         GetUploadTimeStamp();
+
     }
 
 ////////////////////////////////////
@@ -68,9 +69,61 @@ var stageCtrlr = function($scope, $http, $window, utility){
 
     function GetPriorityCars(){
 
-        $scope.priorityCars["Jerry"] = $scope.production_stage[3].cars;
-        $scope.priorityCars["Jose"] = $scope.production_stage[9].cars;
-        $scope.priorityCars["Nacho"] = $scope.production_stage[7].cars;
+        $http.get('./php/Tech_Car_Priority.php')  // get all locations by default
+              .then(
+                    function(response){
+
+                        if (response.data){
+
+                            console.log("Priority Cars fetched successfully!");
+                            console.log(response.data);
+
+                            var priorityROs = response.data;
+
+                            var priorityRO  = 0, priorityLocID  = 0;
+                            var prodRO      = 0, prodLocID   = 0;
+                            var carFound    = false;
+//                            var priorityCar = null;
+
+                            priorityROs.forEach((eachRO, i) => {
+
+                                priorityRO      = eachRO.roNum;
+                                priorityLocID   = eachRO.locID;
+
+                                for(var i = 0; i < $scope.production_stage.length; ++i){
+
+                                    carFound    = false;
+
+                                    for(var j = 0; j < $scope.production_stage[i].cars.length; ++j){
+
+                                        prodRO      = $scope.production_stage[i].cars[j].ro_num;
+                                        prodLocID   = $scope.production_stage[i].cars[j].locationID;
+
+                                        if ((priorityRO == prodRO) && (priorityLocID == prodLocID)){
+
+                                            $scope.priorityCars.push($scope.production_stage[i].cars[j]);
+                                            carFound = true;
+                                            break;  // quit searching for the car in the current stage
+                                        }
+                                    }
+
+                                    if (carFound){
+                                        break;    // stop looking for the car in the other stages
+                                    }
+                                }   // for()
+                            });
+
+//                            GetCars($scope.stages.length, loc_ID);
+                        }
+                    }
+              )         // then()
+              .catch(
+                    function(response){
+                        console.log("Stages list not fetched.");
+                    }
+             );
+
+
     }
 
 
@@ -117,6 +170,7 @@ var stageCtrlr = function($scope, $http, $window, utility){
 
     $scope.ChangeBorder = function(selectedCar){
 
+            // Clear border of previous selected car
         for(let i=0; i < $scope.production_stage.length; ++i){
             for(let j=0; j < $scope.production_stage[i].cars.length; ++j){
                 $scope.production_stage[i].cars[j].borderColor = '';
@@ -124,6 +178,7 @@ var stageCtrlr = function($scope, $http, $window, utility){
         }
 
         var carFound = false;
+
         for(let i=0; i < $scope.production_stage.length; ++i){
             for(let j=0; j < $scope.production_stage[i].cars.length; ++j){
 
@@ -379,6 +434,48 @@ var stageCtrlr = function($scope, $http, $window, utility){
 
         return bgClass;
     }   // BG_SubletsStatus()
+
+
+    $scope.PlaceInQueue = function(car){
+
+        var foundCarInQueue = false;
+
+            // check if the car is already in the priorityList
+        $scope.priorityCars.forEach((eachCar, i) => {
+            if (eachCar.ro_num == car.ro_num){
+                foundCarInQueue = true;
+            }
+        });
+
+            // place the car in queue if not already there
+        if(!foundCarInQueue){
+            $scope.priorityCars.push(car);
+        }
+    }   // PlaceInQueue()
+
+
+    $scope.RemoveFromQueue = function(car){
+
+        //$scope.priorityCars[car.technician].push(car);
+        var carIndex = -1;
+
+        $scope.priorityCars.forEach((eachCar, i) => {
+            if ((eachCar.ro_num == car.ro_num) &&
+                (eachCar.locationID == car.locationID)){
+                carIndex = i;
+            }
+        });
+
+        $scope.priorityCars.splice(carIndex, 1);
+
+    }   // RemoveFromQueue()
+
+
+    $scope.MovePriority = function(car, increment){
+
+
+    }   // MovePriority()
+
 
 }   // stageCtrlr()
 
