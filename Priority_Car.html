@@ -1,4 +1,8 @@
-<table width='100%' align='center' border=0 ng-dblclick='DoubleClicked("Car_View.html?roNum=" + eachCar.ro_num + "&locationID=" + eachCar.locationID)'>
+<table  ng-controller='PriorityCarController'
+        width='100%'
+        align='center'
+        border=0
+        ng-dblclick='DoubleClicked("Car_View.html?roNum=" + eachCar.ro_num + "&locationID=" + eachCar.locationID)'>
 <tr>
     <td rowspan='2' valign='middle' ng-hide='$index == 0'>
         <a ng-click='MovePriority(eachCar, -1);' href='' class='arrow'>

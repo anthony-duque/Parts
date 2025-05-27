@@ -3,6 +3,8 @@
     <title>Production Stage</title>
     <script src='./scripts/angularjs.js'></script>
     <script src='./scripts/Stage.js'></script>
+    <script src='./scripts/Stage_Car.js'></script>
+    <script src='./scripts/Priority_Car.js'></script>
     <script src='./scripts/Filters.js'></script>
     <script src='./scripts/UtilityFunctions.js'></script>
     <link rel='stylesheet' href="./styles/Parts.css" />
@@ -92,7 +94,9 @@
                             | filter : searchText
                             | FilterUnassignedCars : filterOn' >
                 <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar);'>
-                    <div ng-include='"Stage_Car.html"' ng-class='Set_BG_Class(BackgroundMode, eachCar);'>
+                    <div ng-include='"Stage_Car.html"'
+                         ng-class='Set_BG_Class(BackgroundMode, eachCar);'>
+                    </div>
                 </td>
             </tr>
             </table>

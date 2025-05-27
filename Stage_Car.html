@@ -1,4 +1,8 @@
-<table width='100%' align='center' border=0 ng-dblclick='DoubleClicked("Car_View.html?roNum=" + eachCar.ro_num + "&locationID=" + eachCar.locationID)'>
+<table  ng-controller='StageCarController'
+        width='100%'
+        align='center'
+        border=0
+        ng-dblclick='DoubleClicked("Car_View.html?roNum=" + eachCar.ro_num + "&locationID=" + eachCar.locationID)'>
 <tr>
     <td rowspan='2' valign='middle'>
         <a ng-click='MoveStage(eachCar, -1);' href='' class='arrow' ng-hide='eachCar.stageID == 0'>
