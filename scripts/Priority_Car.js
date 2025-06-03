@@ -14,7 +14,7 @@ var PriorityCarCtrlr = function($scope){
         $scope.priorityCars.splice(carIndex, 1);
     }   // RemoveFromQueue()
 
-
+        // Move a car up or down on priority
     $scope.MovePriority = function(car, increment){
         alert("Move Priority");
     }   // MovePriority()

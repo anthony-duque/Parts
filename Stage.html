@@ -62,9 +62,9 @@
     </tr>
     </table>
 
-    <table id=id="tblPriority" border=1>
+    <table id=id="tblPriority" border='1' ng-show='tech > ""'>
     <tr>
-        <th align='center' ng-show='tech > ""'>
+        <th align='center'>
             <img ng-src='./images/{{ tech.toUpperCase() }}.jpg' style="max-width: 100px; max-height: 100px"  alt="{{ eachCar.Technician }}">
             <br/>{{ tech }}
         </th>

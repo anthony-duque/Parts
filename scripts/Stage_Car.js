@@ -72,11 +72,33 @@ var StageCarCtrlr = function($scope, $http, $window, utility){
             }
         });
 
-            // place the car in queue if not already there
-        if(!foundCarInQueue){
-            $scope.priorityCars.push(car);
+        if(foundCarInQueue){
+            alert("Car is already in the queue.");
+            return;     // car already in queue.  Just return.
         }
-    }   // PlaceInQueue()
+
+        // place the car in queue if not already there
+
+        $scope.priorityCars.push(car);
+
+            // insert car in the database
+        $http.post('./php/Tech_Car_Priority.php', JSON.stringify(car))
+
+            .then(function(response){
+                if (response.data){
+                    console.log(response.data);
+                    console.log("Car added to Priority List");
+                }
+            },
+            function(response){
+                console.log("Car was not added to Priority List");
+                console.log(response.status);
+                console.log(response.statusText);
+                console.log(response.headers());
+            });
+
+        }
+       // PlaceInQueue()
 
 }   // StageCarCtrlr()
 

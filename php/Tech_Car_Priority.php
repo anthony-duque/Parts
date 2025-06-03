@@ -1,4 +1,40 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+header('Access-Allow-Control-Origin: *');
+
+    $method = $_SERVER['REQUEST_METHOD'];
+
+    switch($method){
+
+       case 'POST':;
+          $json = file_get_contents('php://input');
+          $data = json_decode($json);
+          ProcessPOST($data);
+          break;
+
+       case "PUT":    // Could read from input and query string
+          echo 'PUT';
+          ProcessPUT();
+          break;
+
+       case "GET":  // get cars on the Paint List
+          $priorityList = ProcessGET();
+          echo json_encode($priorityList);
+          break;
+
+       case "DELETE":
+          $qString = $_GET["id"];
+          echo "DELETE = " . $qString;
+          break;
+
+       default:
+          break;
+    }
+
+////////////////////////////////////////////////
 
 class PriorityCar{
 
@@ -11,35 +47,37 @@ class PriorityCar{
     }
 }
 
-//$roNums = [4326, 4497, 4606, 4267, 4297];
-///$strROs = implode(',', $roNums);
 
+function ProcessGET(){
 
-$sql = <<<strSQL
-            SELECT RO_Num, LocationID
-            FROM Tech_Car_Priority
-        strSQL;
+    $sql = <<<strSQL
+                SELECT RO_Num, LocationID
+                FROM Tech_Car_Priority
+            strSQL;
 
-try{
+    try{
 
-require 'db_open.php';
+    require 'db_open.php';
 
-    $priorityCars = [];
+        $priorityCars = [];
 
-    $s = mysqli_query($conn, $sql);
+        $s = mysqli_query($conn, $sql);
 
-    while($r = mysqli_fetch_assoc($s)){
-        array_push($priorityCars, new PriorityCar($r));
-    }   // while()
+        while($r = mysqli_fetch_assoc($s)){
+            array_push($priorityCars, new PriorityCar($r));
+        }   // while()
 
-} catch(Exception $e){
+    } catch(Exception $e){
 
-    echo "Fetching Priority Cars List failed." . $e->getMessage();
+        echo "Fetching Priority Cars List failed." . $e->getMessage();
 
-} finally {
+    } finally {
 
-    $conn = null;
-    echo json_encode($priorityCars);
+        $conn = null;
+         return $priorityCars;
 
-}   // try-catch{}
+    }   // try-catch{}
+
+}   // ProcessGET()
+
 ?>
