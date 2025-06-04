@@ -26,8 +26,8 @@ header('Access-Allow-Control-Origin: *');
           break;
 
        case "DELETE":
-          $qString = $_GET["id"];
-          echo "DELETE = " . $qString;
+          $id = $_GET["id"];
+          echo "DELETE = " . $id;
           break;
 
        default:
@@ -40,24 +40,31 @@ class PriorityCar{
 
     public $roNum;
     public $locID;
+    public $priority;
+    public $deptCode;
+    public $technician;
 
     function __construct($rec){
-        $this->roNum    = $rec["RO_Num"];
-        $this->locID    = $rec["LocationID"];
-    }
-}
+        $this->roNum        = $rec["RO_Num"];
+        $this->locID        = $rec["LocationID"];
+        $this->priority     = $rec["Priority"];
+        $this->deptCode     = $rec["Dept_Code"];
+        $this->technician   = $rec["Dept_Code"];
+    }   // construct()
+
+}   // PriorityCar{}
 
 
 function ProcessGET(){
 
+    require 'db_open.php';
+
     $sql = <<<strSQL
-                SELECT RO_Num, LocationID
+                SELECT RO_Num, LocationID, Priority, Dept_Code, Technician
                 FROM Tech_Car_Priority
             strSQL;
 
     try{
-
-    require 'db_open.php';
 
         $priorityCars = [];
 
@@ -79,5 +86,37 @@ function ProcessGET(){
     }   // try-catch{}
 
 }   // ProcessGET()
+
+
+function ProcessPOST($car){
+
+    //echo "pCar = " . var_dump($car);
+
+    require 'db_open.php';
+
+    $tsql = <<<strSQL
+
+        INSERT INTO Tech_Car_Priority
+            (Technician, RO_Num, Priority, LocationID, Dept_Code)
+        VALUES
+            ('$car->technician', $car->roNum, $car->priority, $car->locationID, '$car->deptCode');
+    strSQL;
+
+    try{
+
+        $conn->query($tsql);
+
+    } catch(Exception $e){
+
+        echo "Error: " . $tsql . "<br>" . $conn->error;
+
+    } finally {
+
+        $conn = null;
+
+    }   // try-catch
+
+}   // ProcessPOST()
+
 
 ?>

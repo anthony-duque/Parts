@@ -61,44 +61,57 @@ var StageCarCtrlr = function($scope, $http, $window, utility){
         }   // for (i)
     }   // MoveStage()
 
+
     $scope.PlaceInQueue = function(car){
 
         var foundCarInQueue = false;
+        var priority = -1;
 
             // check if the car is already in the priorityList
         $scope.priorityCars.forEach((eachCar, i) => {
+
             if (eachCar.ro_num == car.ro_num){
                 foundCarInQueue = true;
             }
-        });
+
+        });     // forEach()
 
         if(foundCarInQueue){
+
             alert("Car is already in the queue.");
             return;     // car already in queue.  Just return.
-        }
 
-        // place the car in queue if not already there
+        } else {
 
-        $scope.priorityCars.push(car);
+                // place the car in queue if not already there
+            carIndex = ($scope.priorityCars.push(car) - 1);
 
-            // insert car in the database
-        $http.post('./php/Tech_Car_Priority.php', JSON.stringify(car))
+            var pCar = {
+                priority    : carIndex,
+                technician  : car.technician,
+                roNum       : car.ro_num,
+                locationID  : car.locationID,
+                deptCode    : 'BODY'
+            };  // pCar{}
 
-            .then(function(response){
-                if (response.data){
-                    console.log(response.data);
-                    console.log("Car added to Priority List");
-                }
-            },
-            function(response){
-                console.log("Car was not added to Priority List");
-                console.log(response.status);
-                console.log(response.statusText);
-                console.log(response.headers());
-            });
+                // insert car in the database
+            $http.post('./php/Tech_Car_Priority.php', JSON.stringify(pCar))
 
-        }
-       // PlaceInQueue()
+                .then(function(response){
+                    if (response.data){
+                        console.log(response.data);
+                        console.log("Car added to Priority List");
+                    }
+                },
+                function(response){
+                    console.log("Car was not added to Priority List");
+                    console.log(response.status);
+                    console.log(response.statusText);
+                    console.log(response.headers());
+                });
+            }   // $http.post()
+
+        }   // PlaceInQueue()
 
 }   // StageCarCtrlr()
 
