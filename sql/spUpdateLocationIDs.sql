@@ -32,4 +32,12 @@ BEGIN
 	WHERE ps.id IS NULL AND r.CurrentPhase NOT LIKE '[%%]'
 	ORDER BY r.RONum;
 
+	DELETE FROM Tech_Car_Priority
+	WHERE id IN
+		(SELECT * FROM (SELECT tcp.id
+						FROM Tech_Car_Priority tcp LEFT JOIN Repairs r
+							ON tcp.RO_Num = r.RONum AND tcp.LocationID = r.Loc_ID
+						WHERE r.id IS NULL) AS p
+		);
+
 END

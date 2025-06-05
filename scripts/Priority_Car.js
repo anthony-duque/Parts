@@ -13,12 +13,6 @@ var PriorityCarCtrlr = function($scope, $http){
             // remove the car from the priority queue
         $scope.priorityCars.splice(carIndex, 1);
 
-        var pCar = {
-            technician  : car.technician,
-            roNum       : car.ro_num,
-            locationID  : car.locationID
-        };  // pCar{}
-
         $http.delete('./php/Tech_Car_Priority.php?ro=' + car.ro_num
                             + '&tech=' + car.technician + '&locID=' + car.locationID)
             .then(
