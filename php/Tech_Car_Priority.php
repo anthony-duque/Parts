@@ -9,26 +9,26 @@ header('Access-Allow-Control-Origin: *');
 
     switch($method){
 
-       case 'POST':;
-          $json = file_get_contents('php://input');
-          $data = json_decode($json);
-          ProcessPOST($data);
-          break;
+       case 'POST':
+            $json = file_get_contents('php://input');
+            $data = json_decode($json);
+            ProcessPOST($data);
+            break;
 
        case "PUT":    // Could read from input and query string
-          echo 'PUT';
-          ProcessPUT();
-          break;
+            echo 'PUT';
+            ProcessPUT();
+            break;
 
        case "GET":  // get cars on the Paint List
-          $priorityList = ProcessGET();
-          echo json_encode($priorityList);
-          break;
+            $priorityList = ProcessGET();
+            echo json_encode($priorityList);
+            break;
 
        case "DELETE":
-          $id = $_GET["id"];
-          echo "DELETE = " . $id;
-          break;
+            echo "DELETE";
+            ProcessDELETE();
+            break;
 
        default:
           break;
@@ -53,6 +53,37 @@ class PriorityCar{
     }   // construct()
 
 }   // PriorityCar{}
+
+
+function ProcessDELETE(){
+
+    require 'db_open.php';
+
+    $ro     = $_GET["ro"];
+    $tech   = $_GET["tech"];
+    $locID  = $_GET["locID"];
+
+    $tsql = <<<strSQL
+        DELETE FROM Tech_Car_Priority
+        WHERE   RO_Num = $ro AND
+                Technician = '$tech' AND
+                LocationID = $locID
+    strSQL;
+
+    try{
+
+        $conn->query($tsql);
+
+    } catch(Exception $e){
+
+        echo "Error: " . $tsql . "<br>" . $conn->error;
+
+    } finally {
+
+        $conn = null;
+
+    }   // try-catch
+}   // ProcessDELETE()
 
 
 function ProcessGET(){
