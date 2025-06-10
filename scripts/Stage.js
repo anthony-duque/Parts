@@ -20,6 +20,40 @@ var stageCtrlr = function($scope, $http, $window, utility){
 
 ////////////////////////////////////
 
+    $scope.RemoveFromQueue = function(car){
+
+        var carIndex = -1;
+
+        $scope.priorityCars.forEach((eachCar, i) => {
+            if ((eachCar.ro_num == car.ro_num) &&
+                (eachCar.locationID == car.locationID)){
+                carIndex = i;
+            }
+        });
+            // remove the car from the priority queue
+        if (carIndex > -1){
+            $scope.priorityCars.splice(carIndex, 1);
+
+            $http.delete('./php/Tech_Car_Priority.php?ro=' + car.ro_num
+                                + '&tech=' + car.technician + '&locID=' + car.locationID)
+                .then(
+                    function(response){
+                        if(response.data){
+                            console.log("Car RO no. $car.ro_num deleted from the Priority Queue.");
+                            console.log(response.data);
+                        }
+                    },
+                    function(response){
+                        console.log("RO no. $car.ro_num was not deleted from the Priority List");
+                        console.log(response.status);
+                        console.log(response.statusText);
+                        console.log(response.headers());
+                    }
+                );
+        }   // if (carIndex...
+    }   // RemoveFromQueue()
+
+
     function GetUploadTimeStamp(){
 
         $http.get('./php/Get_Upload_Time.php')  // get all locations by default
@@ -64,6 +98,7 @@ var stageCtrlr = function($scope, $http, $window, utility){
                  );
         }
     }    // function GetStageHeadings()
+
 
     function GetPriorityCars(){
 
@@ -120,7 +155,7 @@ var stageCtrlr = function($scope, $http, $window, utility){
                         console.log("Stages list not fetched.");
                     }
              );
-    }
+    }    // GetPriorityCars()
 
 
     function GetCars(num_of_stages, locationID){
@@ -197,15 +232,90 @@ var stageCtrlr = function($scope, $http, $window, utility){
     }   // ChangeBorder()
 
 
+    function UpdateCarStageInDB(car){
+
+        $http.put('./php/Car_Stage.php', JSON.stringify(car))
+            .then(function(response){
+                if(response.data){
+                    console.log(response.data);
+                }
+            }, function(response){
+                console.log("Car_Stage service does not exist.");
+                console.log(response.status);
+                console.log(response.statusText);
+                console.log(response.headers());
+            });
+    }   // UpdatePriorityCarInDB()
+
+
+        // Used to move a car to a stage by an increment value
+    $scope.MoveStage = function(car, incr){
+
+        // find the RO
+        var carFound = false;
+        var newStageID = -1;
+        var carToMove = null;
+
+        for(let i=0; i < $scope.production_stage.length; ++i){
+
+            if($scope.production_stage[i].cars.length > 0){
+
+                for(let j=0; j < $scope.production_stage[i].cars.length; ++j){
+
+                    if (($scope.production_stage[i].cars[j].ro_num === car.ro_num) &&
+                        ($scope.production_stage[i].cars[j].locationID === car.locationID)){
+
+                        carFound = true;
+
+                        newStageID = parseInt($scope.production_stage[i].cars[j].stageID) + incr;
+
+                        $scope.ChangeBorder(car);  // highlight the car
+
+                        $scope.production_stage[i].cars[j].stageID = newStageID;
+
+                            // insert the car to its new stage
+                        carToMove = $scope.production_stage[i].cars[j];
+
+                            // move the car to the bottom or insert somewhere you took it from
+                        if (j >= $scope.production_stage[i + incr].cars.length){
+                            $scope.production_stage[i + incr].cars.push(carToMove);
+                        } else {
+                            $scope.production_stage[i + incr].cars.splice(j, 0, carToMove);
+                        }
+
+                            // remove the car from it's previous stage
+                        $scope.production_stage[i].cars.splice(j, 1);
+
+                            // update record in db
+                        UpdateCarStageInDB(carToMove);
+
+                            // Remove car from Priority List
+                            // Remove the car in the Priority Queue if it's there
+                        $scope.RemoveFromQueue(carToMove);;
+
+                        break;
+                    }   // if (($scope...))
+                }   // for (j)
+            }   // if()
+
+            if (carFound == true){
+                break;                  // don't cyle through the rest of the cars
+            }
+        }   // for (i)
+    }   // MoveStage()
+
+
         // Used to move a car by clicking on the stage heading
     $scope.MoveCar = function(stageID){
 
         if ($scope.carPicked == null){  // no car selected
             ;
         } else {
+
             var currStageID = $scope.carPicked.stageID;
             var incr = stageID - currStageID;
-            $scope.MoveStage($scope.carPicked.ro_num, $scope.carPicked.locationID, incr);
+
+            $scope.MoveStage($scope.carPicked, incr);
         }
     }   // MoveCar()
 
@@ -329,7 +439,6 @@ var stageCtrlr = function($scope, $http, $window, utility){
         } else {
             $scope.UC_Class = '';
         }
-
     }   // UnassignedCarsFilter()
 
 
