@@ -64,6 +64,10 @@
     color: white
 }
 
+.showBorders{
+    border: 2px solid black;
+}
+
 .orange{
     color: white;
     background-color: orange;

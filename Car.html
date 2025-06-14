@@ -27,20 +27,24 @@
         </u></b>
     </td>
 </tr>
+<tr ng-show='eachCar.parts.length == 0'>
+    <td class='showBorders' align='center'>
+        No Parts<br/>Needed
+    </td>
+</tr>
+<tr ng-show='eachCar.parts.length > 0 && eachCar.parts_percent == 100'>
+    <td class='showBorders' align='center'>
+        All Parts In
+    </td>
+</tr>
+<tr ng-show='eachCar.sublets.length== 0'>
+    <td align='center' class='showBorders'>
+        No<br/>Sublets<br>Required
+    </td>
+</tr>
 <tr ng-show='eachCar.parts_percent == 100'>
-    <td align='center'>
-        <table align='center' border=1>
-        <tr>
-            <td align='center'>
-                All Parts In
-            </td>
-        </tr>
-        <tr>
-            <td ng-show='eachCar.sublets.length > 0' align='center'>
-                Sublets
-            </td>
-        </tr>
-        </table>
+    <td ng-show='eachCar.sublets.length > 0' align='center' class='showBorders'>
+        All<br/>Sublets<br/>Done
     </td>
 </tr>
 <tr ng-hide='eachCar.parts_percent == 100'>
