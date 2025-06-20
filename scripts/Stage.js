@@ -20,6 +20,10 @@ var stageCtrlr = function($scope, $http, $window, utility){
 
 ////////////////////////////////////
 
+    $scope.Test = function(n){
+        alert("Test " + n);
+    }
+
     $scope.RemoveFromQueue = function(car){
 
         var carIndex = -1;

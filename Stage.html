@@ -84,7 +84,7 @@
         </th>
     </tr>
     <tr class="bgLiteGrey">
-        <td valign='top' ng-repeat='stage in stages'>
+        <td valign='top' ng-repeat='stage in stages' ng-click='MoveCar(stage.order_no);'>
             <table border="1" id='CheckInPreScan' width='100%'>
             <tr ng-init='lastCarIndex = production_stage[stage.order_no].cars.length - 1'
                 ng-repeat='eachCar in production_stage[stage.order_no].cars
