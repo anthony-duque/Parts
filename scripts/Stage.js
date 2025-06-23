@@ -319,7 +319,13 @@ var stageCtrlr = function($scope, $http, $window, utility){
             var currStageID = $scope.carPicked.stageID;
             var incr = stageID - currStageID;
 
-            $scope.MoveStage($scope.carPicked, incr);
+            if (incr == 0){
+                ;
+            } else {
+                $scope.MoveStage($scope.carPicked, incr);
+                $scope.carPicked.borderColor = null;
+                $scope.carPicked = null;
+            }
         }
     }   // MoveCar()
 
