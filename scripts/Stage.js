@@ -296,7 +296,8 @@ var stageCtrlr = function($scope, $http, $window, utility){
                             // Remove car from Priority List
                             // Remove the car in the Priority Queue if it's there
                         $scope.RemoveFromQueue(carToMove);;
-
+                        $scope.carPicked.borderColor = null;
+                        $scope.carPicked = null;
                         break;
                     }   // if (($scope...))
                 }   // for (j)
@@ -323,8 +324,6 @@ var stageCtrlr = function($scope, $http, $window, utility){
                 ;
             } else {
                 $scope.MoveStage($scope.carPicked, incr);
-                $scope.carPicked.borderColor = null;
-                $scope.carPicked = null;
             }
         }
     }   // MoveCar()
