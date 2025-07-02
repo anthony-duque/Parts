@@ -251,6 +251,20 @@ var stageCtrlr = function($scope, $http, $window, utility){
             });
     }   // UpdatePriorityCarInDB()
 
+    $scope.SameAsPickedCar = function(car){
+
+        var sameAsPicked = false;
+
+        if ($scope.carPicked != null){
+
+            if ((car.ro_num == $scope.carPicked.ro_num) &&
+                (car.locationID == $scope.carPicked.locationID)){
+                    sameAsPicked = true;
+                }
+        }
+
+        return sameAsPicked;
+    }   // SameAsPickedCar()
 
         // Used to move a car to a stage by an increment value
     $scope.MoveStage = function(car, incr){
