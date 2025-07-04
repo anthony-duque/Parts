@@ -27,11 +27,13 @@ BEGIN
 	INSERT INTO Car_Stage
 		(ro_Num, loc_ID, stage_ID)
 	SELECT r.RONum, r.Loc_ID,
-		CASE
-			WHEN SUBSTRING_INDEX(r.CurrentPhase, " ", 1) REGEXP '[0-9]'
+		CASE WHEN UPPER(r.CurrentPhase) = '[SCHEDULED]'
+			THEN -1
+		CASE WHEN SUBSTRING_INDEX(r.CurrentPhase, " ", 1) REGEXP '[0-9]'
 			THEN FLOOR(SUBSTRING_INDEX(r.CurrentPhase, " ", 1))
-			ELSE 0
-		END AS stageID 
+		ELSE
+			0
+		END AS stageID
 	FROM Repairs r LEFT JOIN Car_Stage ps
 		ON r.RONum = ps.ro_Num AND r.Loc_ID = ps.loc_ID
 	WHERE ps.id IS NULL

@@ -15,14 +15,11 @@ var stageCtrlr = function($scope, $http, $window, utility){
                         //  if the location is set in querystring
         $scope.locID = locID;
         GetStageHeadings(locID);
-        GetUploadTimeStamp();
     }   // if (locID > '')
 
-////////////////////////////////////
+    GetUploadTimeStamp();
 
-    $scope.Test = function(n){
-        alert("Test " + n);
-    }
+////////////////////////////////////
 
     $scope.RemoveFromQueue = function(car){
 
@@ -307,7 +304,13 @@ var stageCtrlr = function($scope, $http, $window, utility){
                             // update record in db
                         UpdateCarStageInDB(carToMove);
 
-                            // Remove car from Priority List
+                            // if a car was moved to paint with issues with parts
+                        if ($scope.stages[newStageID].description.toUpperCase() == 'PAINT'){
+                            if(carToMove.parts_percent < 100){
+                                //
+                            }
+                        }
+
                             // Remove the car in the Priority Queue if it's there
                         $scope.RemoveFromQueue(carToMove);;
                         $scope.carPicked.borderColor = null;
