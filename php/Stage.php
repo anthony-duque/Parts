@@ -99,7 +99,7 @@ function Process_GET($locID, $stageCount){
 
     $production_cars = [];
 
-    for($stage = -1; $stage < $stageCount; ++$stage){
+    for($stage = 0; $stage < $stageCount; ++$stage){
         $production_cars[$stage] = new Production_Stage($locID, $stage);
     }
 
