@@ -263,6 +263,57 @@ var stageCtrlr = function($scope, $http, $window, utility){
         return sameAsPicked;
     }   // SameAsPickedCar()
 
+    const NOTIFICATION_STAGE = "PAINT";
+
+    function Notify_Estimator(car){
+
+        var url = window.location;
+        var pStatLink = url.origin + "/Parts/Car_View.html?roNum=" + car.ro_num + "&locationID=" + car.locationID;
+        var partsStatus = "<a href='" + pStatLink + "' target='CarStatus'>" +
+                    "HERE</a>";
+
+        var emailSubj = "RO " + car.ro_num + " ( " + car.owner + ") has possible parts issues";
+
+        var emailBody =
+                "RO no.  : " + car.ro_num + "<br/>" +
+                "Owner   : " + car.owner + "<br/>" +
+                "Vehicle : " + car.vehicle + "<br/>" +
+                "<br/>" +
+                "has been moved to " + NOTIFICATION_STAGE + " stage." + "<br/>" +
+                "But there may still be possible issues with its parts." + "<br/>" +
+                "Click " + partsStatus + " to check on the vehicle's Parts List";
+
+        var emailTo  = 'ESTIMATOR';
+        var emailCC  = 'PARTS_MGR';
+
+        const email = {
+            ro_num      :   car.ro_num,
+            loc_id      :   car.locationID,
+            to          :   emailTo,
+            cc          :   emailCC,
+            subject     :   emailSubj,
+            body        :   emailBody
+        };
+
+        $http.post('./php/Email.php', JSON.stringify(email))
+            .then(function(response){
+                if (response.data.search("successful!") > -1){
+                    console.log(response.data);
+                    console.log("Estimator Notified");
+                } else {
+                    console.log("Estimator Notification failed.");
+                }
+            },
+            function(response){
+                console.log("Estimator Notification failed");
+                console.log(response.status);
+                console.log(response.statusText);
+                console.log(response.headers());
+            });    // $http.post()
+//        alert(emailBody);
+    }   // Notify_Estimator()
+
+
         // Used to move a car to a stage by an increment value
     $scope.MoveStage = function(car, incr){
 
@@ -305,11 +356,12 @@ var stageCtrlr = function($scope, $http, $window, utility){
                         UpdateCarStageInDB(carToMove);
 
                             // if a car was moved to paint with issues with parts
-                        if ($scope.stages[newStageID].description.toUpperCase() == 'PAINT'){
+                        if ($scope.stages[newStageID].description.toUpperCase() == NOTIFICATION_STAGE){
+
                             if(carToMove.parts_percent < 100){
-                                //
-                            }
-                        }
+                                Notify_Estimator(carToMove);
+                            }   // if (carToMove)
+                        }   // if ($scope.stages...)
 
                             // Remove the car in the Priority Queue if it's there
                         $scope.RemoveFromQueue(carToMove);;
@@ -556,9 +608,8 @@ var stageCtrlr = function($scope, $http, $window, utility){
                     console.log(response.status);
                     console.log(response.statusText);
                     console.log(response.headers());
-                });
-            }   // $http.post()
-
+                });    // $http.post()
+            }
         }   // PlaceInQueue()
 
 }   // stageCtrlr()
