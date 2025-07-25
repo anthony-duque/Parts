@@ -56,7 +56,7 @@ app.factory('utility', function(){
 
                 // Returned part
             case "RETURNED":
-                bkgrnd_class = 'lightBlue';
+                bkgrnd_class = 'orange';
                 break;
 
                 // Part ordered but not received
@@ -97,6 +97,7 @@ app.factory('utility', function(){
                 break;
 
                 // All parts ordered but still waiting for parts.
+            case (carObj.parts_returned > 0):
             case (carObj.parts_waiting > 0):
                 bgClass = 'waitingForParts';
                 break;

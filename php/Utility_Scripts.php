@@ -23,6 +23,7 @@ function ComputePartStatus($ro_qty, $ordered_qty, $received_qty, $returned_qty){
 			break;
 
 		case ($received_qty == 0) && ($ordered_qty > 0):
+		case ($received_qty < $ordered_qty) && ($received_qty > 0): // received qty less than what's required
 			$partStatus = "ORDERED";
 			break;
 
