@@ -5,30 +5,27 @@ error_reporting(E_ALL);
 
 require('Utility_Scripts.php');
 
-const CHECKINPRESCAN    = 0;
-const DISSEMBLY         = 1;
-const REPAIR_PLAN       = 2;
-const PENDING_APPROVAL  = 3;
-const WAITINGFORPARTS   = 4;
-const BODY_WORK         = 5;
-const FOR_PRIMER        = 6;
-const FOR_PAINT         = 7;
-const DELAYED           = 8;
-const REASSEMBLY        = 9;
-const SUBLET            = 10;
-const FOR_DETAIL        = 11;
-const FINALQC_POSTSCAN  = 12;
-const READYFORDELIVERY  = 13;
+$vendorParts = Get_Parts_By_Vendor_Estimator();
+echo json_encode($vendorParts);
 
-$productionStages = [];
+///////////////////////////////
 
-for($stageID = CHECKINPRESCAN; $stageID <= READYFORDELIVERY; ++$stageID){
-    $stageCars = new StageCars($stageID);
-//    echo json_encode($stageCars->cars);
-    $productionStages[$stageID] = $stageCars->cars;
-}
+class Part{
 
-echo json_encode($productionStages);
+    public $number;
+    public $description;
+    public $type;
+    public $quantity;
+
+    function __construct($rec){
+
+        $this->number       = $rec["Part_Number"];
+        $this->description  = $rec["Part_Description"];
+        $this->type         = $rec["Part_Type"];
+        $this->quantity     = $rec["RO_Qty"];
+
+    }   // __construct()
+}   // Part{}
 
 
 class Car{
@@ -36,58 +33,165 @@ class Car{
     public $ro_num;
     public $owner;
     public $vehicle;
-    public $color;
-    public $estimator;
-    public $locationID;
-    public $currentPhase;
-    public $stageID;
+    public $parts = [];
 
-    function __construct($rec){
-        $this->ro_num   = $rec["RONum"];
-        $this->owner    = toProperCase($rec["Owner"]);
-        $this->vehicle  = toProperCase($rec["Vehicle"]);
-        $this->color    = toProperCase($rec["Vehicle_Color"]);
-        $this->technician = toProperCase($rec["Technician"]);
-        $this->estimator  = toProperCase($rec["Estimator"]);
-        $this->locationID = $rec["Loc_ID"];
-        $this->currentPhase = $rec["CurrentPhase"];
-        $this->stageID    = $rec["Stage_ID"];
-    }   // constructor()
-}  // class Car{}
+    private function Get_Parts_By_Car($loc_id, $db_conn){
+
+        $sql = <<<strSQL
+
+                SELECT Part_Description, Part_Number, Part_Type, RO_Qty
+                FROM PartsStatusExtract
+                WHERE TRIM(Vendor_Name) NOT LIKE '*%IN%HOUSE%'
+                    AND Part_Type NOT IN ('Sublet', 'FIX ME')
+                    AND Loc_ID = $loc_id AND RO_Num = $this->ro_num
+            strSQL;
+
+        try {
+
+            $s = mysqli_query($db_conn, $sql);
+
+            while($r = mysqli_fetch_assoc($s)){
+                array_push($this->parts, new Part($r));
+            }   //while{}
+
+        } catch(Exception $e){
+            echo "Fetching Parts List failed.";
+        }   // try-catch
+
+    }   // Get_Parts_By_Car()
+    function __construct($rec, $locID, $dbConn){
+
+        $this->ro_num   = $rec["RO_Num"];
+        $this->vehicle  = $rec["Vehicle"];
+        $this->owner    = $rec["Owner"];
+        $this->Get_Parts_By_Car($locID, $dbConn);
+    }   // __construct()
+
+}   // Car{}
 
 
-class StageCars{
+class Estimator{
 
+    public $name;
     public $cars = [];
 
-    function GetCars($stage_ID){
+    private function Get_Estimator_Cars($loc_id, $db_conn){
 
-        $strSQL = <<<sqlStmt
-                    SELECT RONum, SUBSTRING_INDEX(Owner, ',', 1) AS Owner,
-                            Vehicle, Vehicle_In, CurrentPhase,
-                            SUBSTRING_INDEX(Technician, ' ', 1) AS Technician,
-                            SUBSTRING_INDEX(Estimator, ' ', 1) AS Estimator, Vehicle_Color, Loc_ID,Stage_ID
-                    FROM Repairs
-                    WHERE Stage_ID = $stage_ID
-                sqlStmt;
+        $sql = <<<strSQL
+                SELECT DISTINCT RO_Num, Vehicle, Owner
+                FROM Repairs r INNER JOIN PartsStatusExtract pse
+                    ON r.Loc_ID = pse.Loc_ID AND r.RONum = pse.RO_Num
+                WHERE r.RONum <> 1004
+                    AND TRIM(pse.Vendor_Name) NOT LIKE '*%IN%HOUSE%'
+                    AND pse.Part_Type NOT IN ('Sublet', 'FIX ME')
+                    AND r.Loc_ID = $loc_id AND r.Estimator = '$this->name'
+                ORDER BY RO_Num
+            strSQL;
 
-        require('db_open.php');
+        try {
 
-        $s = mysqli_query($conn, $strSQL);
+            $s = mysqli_query($db_conn, $sql);
+
+            while($r = mysqli_fetch_assoc($s)){
+
+                array_push($this->cars, new Car($r, $loc_id, $db_conn));
+            }   //while{}
+
+        } catch(Exception $e){
+            echo "Fetching cars failed.";
+        }   // try-catch
+
+    }   // Get_Estimator_Cars()
+
+    function __construct($rec, $locID, $dbConn){
+
+        $this->name = $rec["Estimator"];
+        $this->Get_Estimator_Cars($locID, $dbConn);
+
+    }   // construct()
+}   // class Estimator{}
+
+
+class Vendor{
+
+    public $name;
+    public $locID;
+    public $estimators = [];
+
+        // Get all the Estimators for this vendor
+    private function Get_Vendor_Estimators($db_conn){
+
+        $sql = <<<strSQL
+            SELECT DISTINCT Estimator
+            FROM Repairs r INNER JOIN PartsStatusExtract pse
+                ON r.Loc_ID = pse.Loc_ID AND r.RONum = pse.RO_Num
+            WHERE r.RONum <> 1004
+                AND TRIM(pse.Vendor_Name) NOT LIKE '*%IN%HOUSE%'
+                AND pse.Part_Type NOT IN ('Sublet', 'FIX ME')
+                AND r.Loc_ID = $this->locID
+           ORDER BY r.Estimator
+        strSQL;
+
+        try {
+
+            $s = mysqli_query($db_conn, $sql);
+
+            while($r = mysqli_fetch_assoc($s)){
+                array_push($this->estimators, new Estimator($r, $this->locID, $db_conn));
+            }   //while{}
+
+        } catch(Exception $e){
+            echo "Fetching Estimator List failed.";
+        }   // try-catch
+
+    }   // Get_Estimators()
+
+    function __construct($rec, $dbConn){
+        $this->name = $rec["Vendor_Name"];
+        $this->locID = $rec["Loc_ID"];
+        $this->Get_Vendor_Estimators($dbConn);
+    }   // __construct()
+
+}   // Vendor{}
+
+//////////////////////////////////////////////////////////
+
+function Get_Parts_By_Vendor_Estimator(){
+
+    require('db_open.php');
+
+    $vendorList = [];
+
+    $sql = <<<strSQL
+                SELECT DISTINCT pse.Vendor_Name, r.Loc_ID
+                FROM Repairs r INNER JOIN PartsStatusExtract pse
+            	   ON r.RONum = pse.RO_Num AND r.Loc_ID = pse.Loc_ID
+                WHERE
+                    TRIM(r.Estimator) > '' AND
+           	        r.RONum <> 1004 AND
+           	        TRIM(pse.Vendor_Name) NOT LIKE '*%IN%HOUSE%' AND
+           	        pse.Part_Type NOT IN ('Sublet', 'FIX ME')
+                ORDER BY pse.Vendor_Name
+strSQL;
+
+    try {
+
+        $s = mysqli_query($conn, $sql);
 
         while($r = mysqli_fetch_assoc($s)){
-            array_push($this->cars, new Car($r));
-        }   // while()
+
+            array_push($vendorList, new Vendor($r, $conn));
+
+        }   //while{}
+
+    } catch(Exception $e){
+        echo "Fetching Vendor List of parts failed.";
+    } finally {
 
         $conn = null;
+        return $vendorList;
 
-        return $this->cars;
-    }   // function()
-
-    function __construct($sID){
-        $this->cars = $this->GetCars($sID);
-    }   // function __construct()
-
-}   // ProductionStage{}
+    }   // try-catch
+}
 
 ?>
