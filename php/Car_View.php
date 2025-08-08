@@ -72,13 +72,8 @@ require('Utility_Scripts.php');
             $this->invoice_date         = GetDisplayDate($rec["Invoice_Date"]);
             $this->returned_quantity    = $rec["Returned_Qty"];
             $this->expected_delivery    = GetDisplayDate($rec["Expected_Delivery"]);
+            $this->part_status          = $rec["Part_Status"];
 
-            $this->part_status          = ComputePartStatus(
-                                            $this->ro_quantity,
-                                            $this->ordered_quantity,
-                                            $this->received_quantity,
-                                            $this->returned_quantity
-                                        );
         }   // Part()
     }   // Part{}
 
@@ -102,14 +97,14 @@ require('Utility_Scripts.php');
         $sql = <<<strSQL
                 SELECT Line, Part_Number, Part_Description, Order_Date,
                         Vendor_Name, RO_Qty, Ordered_Qty, Received_Qty,
-                        Returned_Qty, Expected_Delivery, Invoice_Date
+                        Returned_Qty, Expected_Delivery, Invoice_Date,
+                        Part_Status
                 FROM PartsStatusExtract
                 WHERE (Part_Number <> 'Remanufactured')
-                    AND (Line > 0)
+                    AND Line > 0
                     AND (Part_Number > '' OR Vendor_Name > '')
-                    AND Vendor_Name NOT LIKE '**%'
-                    AND Part_Number NOT LIKE 'Aftermarket%'
-                    AND (Part_Type <> 'Sublet')
+                    AND Vendor_Name NOT LIKE '*%'
+                    AND Part_Type NOT IN ('FIX ME','Sublet')
                     AND RO_Num = $ro
                     AND Loc_ID = $locID
                 ORDER BY Ordered_Qty ASC;

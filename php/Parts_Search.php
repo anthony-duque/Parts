@@ -37,12 +37,7 @@ require('Utility_Scripts.php');
             $this->expected_delivery    = GetDisplayDate($rec["Expected_Delivery"]);
             $this->order_date           = GetDisplayDate($rec["Order_Date"]);
             $this->invoice_date         = GetDisplayDate($rec["Invoice_Date"]);
-            $this->part_status          = ComputePartStatus(
-                                            $this->ro_quantity,
-                                            $this->ordered_quantity,
-                                            $this->received_quantity,
-                                            $this->returned_quantity
-                                        );
+            $this->part_status          = $rec["Part_Status"];
 
             $this->vehicle_in           = GetDisplayDate($rec["Vehicle_In"]);
             $this->current_phase        = $rec["CurrentPhase"];
@@ -61,7 +56,7 @@ require('Utility_Scripts.php');
 
         $sql = <<<strSQL
                 SELECT RO_Num, Part_Number, Part_Description, Vendor_Name,
-                      RO_Qty, Ordered_Qty, Received_Qty, Returned_Qty,
+                      RO_Qty, Ordered_Qty, Received_Qty, Returned_Qty, Part_Status,
                       Expected_Delivery, Order_Date, Invoice_Date, pse.Loc_ID,
                       Vehicle_In, CurrentPhase, SUBSTRING_INDEX(r.Owner, ',', 1) AS Owner
 

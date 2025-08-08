@@ -21,12 +21,8 @@
             $this->ordered_quantity  = $rec["Ordered_Qty"];
             $this->received_quantity = $rec["Received_Qty"];
             $this->returned_quantity = $rec["Returned_Qty"];
-            $this->part_status       = ComputePartStatus(
-                                            $this->ro_quantity,
-                                            $this->ordered_quantity,
-                                            $this->received_quantity,
-                                            $this->returned_quantity
-                                        );
+            $this->part_status       = $rec["Part_Status"];
+
         }   // Part()
     }   // Part{}
 
@@ -88,7 +84,7 @@
 
         $sql =  <<<strSQL
                     SELECT RO_Qty, Ordered_Qty, Received_Qty,
-                        Returned_Qty, Location, Loc_ID
+                        Returned_Qty, Location, Loc_ID, Part_Status
                     FROM PartsStatusExtract
                     WHERE (Part_Number <> 'Remanufactured')
                             AND (Line > 0)

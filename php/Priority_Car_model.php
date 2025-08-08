@@ -89,7 +89,7 @@ class Car{
         $allParts = [];
 
         $sql =  <<<strSQL
-                    SELECT RO_Qty, Ordered_Qty, Received_Qty, Returned_Qty
+                    SELECT RO_Qty, Ordered_Qty, Received_Qty, Returned_Qty, Part_Status
                     FROM PartsStatusExtract
                     WHERE Part_Number NOT IN ('Sublet', 'Remanufactured')
                         AND (Line > 0)
@@ -159,12 +159,8 @@ class Part{
         $this->ordered_quantity  = $rec["Ordered_Qty"];
         $this->received_quantity = $rec["Received_Qty"];
         $this->returned_quantity = $rec["Returned_Qty"];
-        $this->part_status       = ComputePartStatus(
-                                        $this->ro_quantity,
-                                        $this->ordered_quantity,
-                                        $this->received_quantity,
-                                        $this->returned_quantity
-                                    );
+        $this->part_status       = $rec["Part_Status"];
+
     }   // Part()
 }   // Part{}
 
@@ -192,19 +188,6 @@ function ProcessPOST($car){
                 ($car.technician, $car.ro_num, $car.locationID, 'BODY');
     strSQL;
 
-    echo $sql;
-/*
-    require('db_open.php');
-
-    if ($conn->query($sql . $values) === TRUE) {
-      ;// echo $ro_num . " uploaded<br/>";
-    } else {
-      echo "Error: " . $sql . "<br>" . $conn->error;
-    }
-
-    $conn = null;
-*/
 }   // ProcessPOST()
-
 
 ?>

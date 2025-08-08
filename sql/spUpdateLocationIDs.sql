@@ -16,6 +16,25 @@ BEGIN
 	SET pse.Loc_ID = li.id
 	WHERE pse.Location = li.Location;
 
+	UPDATE PartsStatusExtract
+	SET Part_Status =
+		CASE
+
+			WHEN (Received_Qty = 0) AND (Ordered_Qty = 0) AND (RO_Qty > 0)
+			THEN 'NOT ORDERED'
+
+			WHEN (Received_Qty = Returned_Qty) AND (Returned_Qty > 0)
+			THEN 'RETURNED'
+
+			WHEN (Received_Qty = 0) AND (Ordered_Qty > 0)
+			THEN 'ORDERED'
+
+			WHEN (Received_Qty < Ordered_Qty) AND (Received_Qty > 0)
+			THEN 'ORDERED'
+
+			ELSE 'RECEIVED'
+		END;
+
 	DELETE FROM Car_Stage
 	WHERE id IN
 		(SELECT * FROM (SELECT ps.id
@@ -27,12 +46,13 @@ BEGIN
 	INSERT INTO Car_Stage
 		(ro_Num, loc_ID, stage_ID)
 	SELECT r.RONum, r.Loc_ID,
-		CASE WHEN UPPER(r.CurrentPhase) = '[SCHEDULED]'
-			THEN -1
-		CASE WHEN SUBSTRING_INDEX(r.CurrentPhase, " ", 1) REGEXP '[0-9]'
-			THEN FLOOR(SUBSTRING_INDEX(r.CurrentPhase, " ", 1))
-		ELSE
-			0
+		CASE
+			WHEN UPPER(r.CurrentPhase) = '[SCHEDULED]'
+				THEN -1
+			WHEN SUBSTRING_INDEX(r.CurrentPhase, " ", 1) REGEXP '[0-9]'
+				THEN FLOOR(SUBSTRING_INDEX(r.CurrentPhase, " ", 1))
+			ELSE
+				0
 		END AS stageID
 	FROM Repairs r LEFT JOIN Car_Stage ps
 		ON r.RONum = ps.ro_Num AND r.Loc_ID = ps.loc_ID

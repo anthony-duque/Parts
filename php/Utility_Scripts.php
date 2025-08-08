@@ -8,34 +8,6 @@ define ("IN_HOUSE_VENDORS",
 		'Jim''s Tire Center',
 		'PRO TECH DIAGNOSTICS'");
 
-function ComputePartStatus($ro_qty, $ordered_qty, $received_qty, $returned_qty){
-
-	$partStatus = '';
-
-	switch(true){
-
-		case ($received_qty == 0) && ($ordered_qty == 0) && ($ro_qty > 0):
-			$partStatus = "NOT ORDERED";
-			break;
-
-		case ($received_qty == $returned_qty) && ($returned_qty > 0):
-			$partStatus = "RETURNED";
-			break;
-
-		case ($received_qty == 0) && ($ordered_qty > 0):
-		case ($received_qty < $ordered_qty) && ($received_qty > 0): // received qty less than what's required
-			$partStatus = "ORDERED";
-			break;
-
-		default:
-			$partStatus = "RECEIVED";
-			break;
-	}   // switch()
-
-	return $partStatus;
-
-}   // ComputePartStatus
-
 
 function Get_SQL_date($dateString){
 
