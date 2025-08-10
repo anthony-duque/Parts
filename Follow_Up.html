@@ -1,0 +1,118 @@
+<html ng-app='SampleApp'>
+<head>
+    <title>Follow Up Tab</title>
+    <script src='./scripts/angularjs.js'></script>
+    <script src='./scripts/sample.js'></script>
+</head>
+<body ng-controller='SampleController'>
+
+    <table width='100%'>
+    <tr>
+        <td>
+            Location:
+            <select ng-model='locationID'>
+                <option value='' disabled selected>
+                    All Locations
+                </option>
+                <option value='1'>
+                    Carstar City Auto Body
+                </option>
+                <option value='2'>
+                    Carstar Simi Valley
+                </option>
+            </select>
+        </td>
+        <td>
+            Vendor:
+            <select ng-model='vendorName'>
+                <option value='' disabled selected>
+                    All Vendors
+                </option>
+                <option value='ANTELOPE VALLEY CHEVY'>
+                    ANTELOPE VALLEY CHEVY
+                </option>
+                <option value='1ST NISSAN'>
+                    1ST NISSAN
+                </option>
+                <option value='SIMI VALLEY TOYOTA'>
+                    SIMI VALLEY TOYOTA
+                </option>
+            </select>
+        </td>
+        <td>
+            Estimator:
+            <select ng-model='est_name'>
+                <option value='Jim Defalco'>
+                    Jim Defalco
+                </option>
+                <option value='Chad White'>
+                    Chad White
+                </option>
+                <option value='LANCE ROGERS'>
+                    LANCE ROGERS
+                </option>
+                <option value='Lucas Rose'>
+                    Lucas Rose
+                </option>
+            </select>
+        </td>
+        <td>
+            Status:
+            <select>
+                <option>
+                    ORDERED
+                </option>
+                <option>
+                    NOT ORDERED
+                </option>
+            </select>
+        </td>
+    </tr>
+    </table>
+    <br/>
+    <table border='1' width='100%'>
+    <caption>Follow Up Parts</caption>
+    <tr ng-repeat='eachVendor in vendors | filter : { locID: locationID, name : vendorName }'>
+        <td valign='top' width='15%'>
+            {{ eachVendor.name }} - {{ eachVendor.locID }}
+        </td>
+        <td>
+            <table border='1' width='100%'>
+            <tr ng-repeat='eachEstimator in eachVendor.estimators | filter : { name : est_name }'>
+                <td>
+                    {{ eachEstimator.name }}
+                </td>
+                <td>
+                    <table border='1' width='100%'>
+                    <tr ng-repeat='eachCar in eachEstimator.cars'>
+                        <td width='25%'>
+                            {{ eachCar.ro_num }}
+                            <br/>
+                            {{ eachCar.vehicle }}
+                        </td>
+                        <td>
+                            <table border='1' width='100%'>
+                            <tr ng-repeat='eachPart in eachCar.parts'>
+                                <td>
+                                    {{ eachPart.number }}
+                                </td>
+                                <td width='35%'>
+                                    {{ eachPart.description }}
+                                </td>
+                                <td width='15%'>
+                                    {{ eachPart.status }}
+                                </td>
+                            </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    </table>
+                </td>
+            </tr>
+            </table>
+        </td>
+    </tr>
+    </table>
+
+</body>
+</html>

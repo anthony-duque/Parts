@@ -12,8 +12,7 @@ var sampleCtlr = function($scope, $http){
                         if (response.data){
                             console.log("List of Assigned cars fetched successfully!");
                             console.log(response.data);
-                            $scope.cars = response.data;
-                            $scope.colWidth = (1 / $scope.cars.length) * 100;
+                            $scope.vendors = response.data;
                         }
                     }
               )         // then()
@@ -25,4 +24,4 @@ var sampleCtlr = function($scope, $http){
     }    // function GetCars()
 }   // sampleCtlr
 
-sampleApp.controller("SampleCtlr", sampleCtlr);
+sampleApp.controller("SampleController", sampleCtlr);
