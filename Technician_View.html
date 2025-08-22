@@ -1,12 +1,13 @@
 
 <table id='TechnicianCars' border=1 width='100%' ng-controller="TechnicianViewController">
 
-    <tr ng-repeat='eachTech in technicians | filter : { technician : tech } | filter : searchText | FilterByLocation : locationID'>
+    <tr ng-repeat='eachTech in technicians | filter : { name : tech, location_ID : locationID } | filter : searchText'>
         <th align='center'>
-            <img ng-src='./images/{{ eachTech.technician }}.jpg' style="max-width: 100px; max-height: 100px"  alt="{{ eachCar.Technician }}">
-            {{ eachTech.technician }}
+            <img ng-src='./images/{{ eachTech.name }}.jpg' style="max-width: 100px; max-height: 100px"  alt="{{ eachCar.name }}">
+            <br/>
+            {{ eachTech.name }}
         </th>
-        <td ng-repeat="eachCar in eachTech.cars| orderBy : sortCars | filter: searchText" height='100%' ng-class='CheckParts(eachCar);' align='center'>
+        <td ng-repeat="eachCar in eachTech.cars| orderBy : sortCars | filter: searchText | filter : { loc_ID : locationID }" height='100%' ng-class='CheckParts(eachCar);' align='center'>
             <a href="Car_View.html?roNum={{ eachCar.ro_num }}&locationID={{ eachCar.loc_ID }}" target="CarStatus">
             <table width='150' height='100%''>
                 <tr>

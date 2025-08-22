@@ -10,7 +10,7 @@
      switch($method){
 
         case 'POST':
-//            echo 'POST';
+
             $rcvdJson = file_get_contents('php://input');
             //echo $rcvdJson;
             $data = json_decode($rcvdJson);
@@ -18,8 +18,7 @@
             break;
 
         case "GET":
-  //         echo 'GET';
-//           $id = $_GET[""];
+
            $repairs = ProcessGET();
            echo json_encode($repairs);
            break;
@@ -34,10 +33,6 @@
         require('db_open.php');
 
         $records = null;
-
-//        if ($id > ''){
-//            ;// Get just one record
-//        } else {
 
             $sql = "SELECT RONum, Owner, Technician, Estimator " .
                     "FROM Repairs";
@@ -87,6 +82,5 @@
 
        $conn = null;        // close the database
    }    // ProcessPOST()
-
 
 ?>

@@ -58,7 +58,7 @@
             $this->parts_returned   = 0;
             $this->parts_percent    = 0;
             $this->scheduled_out    = GetDisplayDate($rec["Scheduled_Out"]);
-            $this->scheduled_out    = substr($this->scheduled_out, 0, 5);
+            $this->scheduled_out   = substr($this->scheduled_out, 0, 5);
             $this->location         = $rec["Location"];
             $this->loc_ID           = $rec["Loc_ID"];
             $this->insurance        = $rec["Insurance"];
@@ -68,12 +68,13 @@
 
     class Technician_Repairs{
 
-        public $technician;
+        public $name;
+        public $location_ID;
         public $cars = [];
 
         function __construct($rec){
-
-            $this->technician    = $rec["Technician"];
+            $this->name         = $rec["Technician"];
+            $this->location_ID  = $rec["Loc_ID"]; 
         }   // Repair($rec)
     };  // Repair{}
 

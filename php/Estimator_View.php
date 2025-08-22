@@ -72,10 +72,12 @@
     class Estimator_Repairs{
 
         public $estimator;
+        public $location_ID;
         public $cars = [];
 
         function __construct($rec){
-            $this->estimator    = $rec["Estimator"];
+            $this->name    = $rec["Estimator"];
+            $this->location_ID  = $rec["Loc_ID"];             
         }   // Repair($rec)
 
     };  // Repair{}
