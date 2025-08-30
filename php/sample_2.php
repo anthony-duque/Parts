@@ -70,59 +70,56 @@ require('db_open.php');
 
     try {
 
-        $vendor     = "VENDOR";
         $locID      = 0;
         $vendorList = [];
         $carList    = [];
         $vendor     = null;
-        $vendorName = "";
+        $vendorName = "VENDOR";
         $roNum      = 0;
         $partNumber = "";
         $car        = null;
+        $part       = null;
 
         $s = mysqli_query($conn, $sql);
 
         while($r = mysqli_fetch_assoc($s)){
 
+                // for the same vendor last read
             if (($vendorName == $r["Vendor_Name"]) && ($locID == $r["Loc_ID"])){
 
                 if ($roNum != $r["RONum"]){
 
-                    array_push($vendor->cars, $car);
+                    array_push($vendor->cars, $car);    // push the car from previous RO
 
                     $roNum      = $r["RONum"];  // the new RO
                     $car        = new Car($r);  // a new entry in the cars
-                    $part       = new Part($r); // a new part
-
-                    array_push($car->parts, $part);
-
-                } else {    // as long as it's still in the same RO
-
-                    $part       = new Part($r);
-                    array_push($car->parts, $part);
 
                 }// if ($roNum...)
 
             } else {    // for a new vendor
 
-                if ($vendor != "VENDOR"){
-                    array_push($vendorList, $vendor);
-                }   // if($vendor != )
+                switch($vendorName){
+                    case "VENDOR":
+                        break;
+                    default:
+                        array_push($vendorList, $vendor);
+                        break;
+                }
+    //            if ($vendor != "VENDOR"){
+    //            }   // if($vendor != )
 
                 $vendorName = $r["Vendor_Name"];
                 $locID      = $r["Loc_ID"];
 
                 $vendor     = new Vendor($r);   // create a new vendor
-
+                                                // when it's different from the last one
                 $roNum      = $r["RONum"];
                 $car        = new Car($r);      // create a new car
 
-                $part       = new Part($r);     // create a new part
-
-                array_push($car->parts, $part);
-                array_push($vendor->cars, $car);
-
             }   // if (($vendorName...))-else
+
+            $part       = new Part($r); // a new part
+            array_push($car->parts, $part);
 
         }   //while{}
 
@@ -135,6 +132,5 @@ require('db_open.php');
         return $vendorList;
 
     }   // try-catch
-
 
 ?>
