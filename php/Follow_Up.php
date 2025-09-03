@@ -4,6 +4,7 @@ class Part{
 
     public $number;
     public $description;
+    public $type;
     public $status;
     public $quantity;
     public $date_ordered;
@@ -11,6 +12,7 @@ class Part{
     function __construct($rec){
         $this->number       = $rec["Part_Number"];
         $this->description  = $rec["Part_Description"];
+        $this->type         = $rec["Part_Type"];
         $this->status       = $rec["Part_Status"];
         $this->quantity     = $rec["RO_Qty"];
         $this->date_ordered = $rec["Order_Date"];
@@ -63,7 +65,7 @@ require('db_open.php');
                 TRIM(r.Estimator) > '' AND
                 r.RONum <> 1004 AND
                 TRIM(pse.Vendor_Name) NOT LIKE '*%IN%HOUSE%' AND
-                pse.Part_Type NOT IN ('Sublet', 'FIX ME') AND
+                pse.Part_Type NOT IN ('Sublet', 'FIX ME', 'Stock') AND
                 pse.Part_Status IN ('NOT ORDERED', 'ORDERED')
             ORDER BY pse.Vendor_Name,r.Loc_ID, r.Estimator, r.RONum
         strSQL;
@@ -99,14 +101,15 @@ require('db_open.php');
             } else {    // for a new vendor
 
                 switch($vendorName){
-                    case "VENDOR":
-                        break;
+
+                    case "VENDOR":      // this code is needed or else
+                        break;          // there will be a null vendor at the top of the list
+
                     default:
-                        array_push($vendorList, $vendor);
+                        array_push($vendor->cars, $car);    // push the car from previous RO
+                        array_push($vendorList, $vendor);   // push the last vendor
                         break;
                 }
-    //            if ($vendor != "VENDOR"){
-    //            }   // if($vendor != )
 
                 $vendorName = $r["Vendor_Name"];
                 $locID      = $r["Loc_ID"];

@@ -1,8 +1,8 @@
-<html ng-app='SampleApp'>
+<html ng-app="SampleApp">
 <head>
-    <title>Follow Up Tab</title>
-    <script src='./scripts/angularjs.js'></script>
-    <script src='./scripts/sample.js'></script>
+  <title>Sample Page</title>
+  <script src="./scripts/angularjs.js"></script>
+  <script src="./scripts/sample.js"></script>
 </head>
 <body ng-controller='SampleController'>
 
@@ -11,7 +11,7 @@
         <td>
             Location:
             <select ng-model='locationID'>
-                <option value='' disabled selected>
+                <option value='' selected>
                     All Locations
                 </option>
                 <option value='1'>
@@ -42,6 +42,9 @@
         <td>
             Estimator:
             <select ng-model='est_name'>
+                <option value='' disabled selected>
+                    All Estimators
+                </option>
                 <option value='Jim Defalco'>
                     Jim Defalco
                 </option>
@@ -58,52 +61,52 @@
         </td>
         <td>
             Status:
-            <select>
-                <option>
+            <select ng-model='partStatus'>
+                <option value='' default>
+                    Any Status
+                </option>
+                <option value='ORDERED'>
                     ORDERED
                 </option>
-                <option>
+                <option value='NOT ORDERED'>
                     NOT ORDERED
                 </option>
-            </select>
+            </select> {{ partStatus }}
         </td>
     </tr>
     </table>
-    <br/>
-    <table border='1' width='100%'>
-    <caption>Follow Up Parts</caption>
-    <tr ng-repeat='eachVendor in vendors | filter : { locID: locationID, name : vendorName }'>
-        <td valign='top' width='15%'>
+
+    <table border='1' align='center' width='100%'>
+    <tr>
+        <th>Vendor</th>
+        <th>Cars</th>
+    </tr>
+    <tr ng-repeat='eachVendor in vendors | filter: { locID : locationID}' ng-hide='((eachVendor.name.length > 0) &&  (partStatus == "NOT ORDERED"))'>
+        <td width='15%'>
             {{ eachVendor.name }} - {{ eachVendor.locID }}
         </td>
         <td>
             <table border='1' width='100%'>
-            <tr ng-repeat='eachEstimator in eachVendor.estimators | filter : { name : est_name }'>
-                <td>
-                    {{ eachEstimator.name }}
-                </td>
-                <td>
+            <tr ng-repeat='eachCar in eachVendor.cars' ng-show='filteredParts.length > 0'>
+                <th width='20%'>
+                    {{ eachCar.roNum }}
+                    <br/>
+                    {{ eachCar.vehicle }}
+                </th>
+                <th>
                     <table border='1' width='100%'>
-                    <tr ng-repeat='eachCar in eachEstimator.cars'>
+                    <tr ng-repeat='eachPart in filteredParts = (eachCar.parts | filter : { status : partStatus } : true)'>
                         <td width='25%'>
-                            {{ eachCar.ro_num }}
-                            <br/>
-                            {{ eachCar.vehicle }}
+                            {{ eachPart.number }}
                         </td>
-                        <td>
-                            <table border='1' width='100%'>
-                            <tr ng-repeat='eachPart in eachCar.parts'>
-                                <td>
-                                    {{ eachPart.number }}
-                                </td>
-                                <td width='35%'>
-                                    {{ eachPart.description }}
-                                </td>
-                                <td width='15%'>
-                                    {{ eachPart.status }}
-                                </td>
-                            </tr>
-                            </table>
+                        <td width='25%'>
+                            {{ eachPart.type }}
+                        </td>
+                        <td width='25%'>
+                            {{ eachPart.description }}
+                        </td>
+                        <td width='25%'>
+                            {{ eachPart.status }}
                         </td>
                     </tr>
                     </table>
@@ -113,6 +116,5 @@
         </td>
     </tr>
     </table>
-
 </body>
 </html>
