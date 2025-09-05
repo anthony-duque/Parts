@@ -41,21 +41,12 @@
         </td>
         <td>
             Estimator:
-            <select ng-model='est_name'>
-                <option value='' disabled selected>
+            <select ng-model='estimatorName'>
+                <option selected default>
                     All Estimators
                 </option>
-                <option value='Jim Defalco'>
-                    Jim Defalco
-                </option>
-                <option value='Chad White'>
-                    Chad White
-                </option>
-                <option value='LANCE ROGERS'>
-                    LANCE ROGERS
-                </option>
-                <option value='Lucas Rose'>
-                    Lucas Rose
+                <option ng-repeat='estimator in estimators' value='{{ estimator.name }}'>
+                    {{ estimator.name }} - {{ estimator.locID }}
                 </option>
             </select>
         </td>
@@ -87,11 +78,13 @@
         </td>
         <td>
             <table border='1' width='100%'>
-            <tr ng-repeat='eachCar in eachVendor.cars' ng-show='filteredParts.length > 0'>
+            <tr ng-repeat='eachCar in eachVendor.cars | filter : { estimator : estimatorName }' ng-show='filteredParts.length > 0'>
                 <th width='20%'>
                     {{ eachCar.roNum }}
                     <br/>
                     {{ eachCar.vehicle }}
+                    <br/>
+                    {{ eachCar.estimator }}
                 </th>
                 <th>
                     <table border='1' width='100%'>
