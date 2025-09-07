@@ -27,6 +27,7 @@ class Car{
     public $vehicle;
     public $owner;
     public $estimator;
+    public $locID;
     public $parts = [];
 
     function __construct($rec){
@@ -34,6 +35,7 @@ class Car{
         $this->vehicle      = $rec["Vehicle"];
         $this->owner        = $rec["Owner"];
         $this->estimator    = $rec["Estimator"];
+        $this->locID        = $rec["Loc_ID"];
     }   // __construct()
 
 }   // Car{}
@@ -56,11 +58,13 @@ class Vendor{
 require('db_open.php');
 
     $sql = <<<strSQL
-            SELECT pse.Vendor_Name, r.Loc_ID, r.Estimator, r.RONum, r.Vehicle, r.Owner,
+            SELECT pse.Vendor_Name, r.Loc_ID, li.Location, r.Estimator, r.RONum, r.Vehicle, r.Owner,
             	pse.Part_Number, pse.Part_Description, pse.Part_Type, pse.RO_Qty,
             	pse.Ordered_Qty, pse.Order_Date, pse.Part_Status
             FROM Repairs r INNER JOIN PartsStatusExtract pse
                ON r.RONum = pse.RO_Num AND r.Loc_ID = pse.Loc_ID
+               INNER JOIN Location_IDs li
+               ON r.Loc_ID = li.id
             WHERE
                 TRIM(r.Estimator) > '' AND
                 r.RONum <> 1004 AND
