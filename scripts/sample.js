@@ -13,7 +13,9 @@ var sampleCtlr = function($scope, $http){
                             console.log("Follow up Parts List fetched successfully!");
                             console.log(response.data);
                             $scope.vendors = response.data;
-                            GetEstimators();
+                            $scope.estimatorList    = GetEstimatorList();  // for Estimator dropdown
+                            $scope.vendorList       = GetVendorList();        // for Vendor dropdown
+                            $scope.shopList         = GetShopList();
                         }
                     }
               )         // then()
@@ -25,16 +27,11 @@ var sampleCtlr = function($scope, $http){
     }    // function GetCars()
 
 
-    function GetEstimators(){
+    function GetEstimatorList(){
 
         var estimatorList   = [];
         var estimatorName   = 'eStImAtOr';
         var locationID      = 0;
-
-        const Estimator = {
-            "name"   :  "",
-            "locID"  :  0
-        }
 
         $scope.vendors.forEach((vendor) => {
 
@@ -66,9 +63,109 @@ var sampleCtlr = function($scope, $http){
             });   //  forEach(car)
         });   // forEach(vendor)
 
-//        console.log(estimatorList);
-        $scope.estimators = estimatorList;
+        return estimatorList;
     }   // function GetEstimators()
+
+
+    function GetVendorList(){
+
+        var vendorList   = [];
+        var vendorName   = 'vEnDoR';
+        var locationID      = 0;
+
+        $scope.vendors.forEach((vendor) => {
+
+            locationID = vendor.locID;
+
+            if (vendor.name.length > 0){
+
+                var vendorFound = false;
+
+                    // is the estimator already in the list?
+                vendorList.forEach((vList) => {
+                    if ((vList.name == vendor.name) &&
+                        (vList.locID == locationID)){
+                        vendorFound = true;
+                    }
+                });
+
+                    // vendor is not yet in the list
+                if (!vendorFound){
+                        // add the vendor to the list
+                    var newVendor = new Object();
+
+                    newVendor.name   = vendor.name;
+                    newVendor.locID  = locationID;
+
+                    vendorList.push(newVendor);
+                }   // if(!vendorFound)
+            }
+
+        });   // forEach(vendor)
+
+        return vendorList;
+    }   // function GetEstimators()
+
+
+    function GetShopList(){
+
+        var shopList   = [];
+        var shopName   = 'sHoP';
+        var shopID     = 0;
+
+        $scope.vendors.forEach((vendor) => {
+
+            shopID = vendor.locID;
+
+            if (vendor.locName.length > 0){
+
+                var shopFound = false;
+
+                    // is the estimator already in the list?
+                shopList.forEach((shop) => {
+                    if ((shop.name == vendor.locName) &&
+                        (shop.locID == shopID)){
+                        shopFound = true;
+                    }
+                });
+
+                    // vendor is not yet in the list
+                if (!shopFound){
+
+                        // add the vendor to the list
+                    var newShop = new Object();
+
+                    newShop.name   = vendor.locName;
+                    newShop.locID  = shopID;
+
+                    shopList.push(newShop);
+                }   // if(!vendorFound)
+            }
+
+        });   // forEach(vendor)
+
+        return shopList;
+    }   // function GetEstimators()
+
+
+    $scope.showHideVendor = function(pStatus, vendorName){
+
+        var hideVendor = false;
+
+        switch(true){
+
+            case ((pStatus == "NOT ORDERED") && (vendorName.length > 0)):
+            case ((pStatus == "ORDERED") && (vendorName.length < 1)):
+                hideVendor = true;
+                break;
+            default:
+                break;  // ie. hideVendor = false
+        }
+
+        return hideVendor;
+
+    }   // showHideVendor()
+
 
 }   // sampleCtlr
 

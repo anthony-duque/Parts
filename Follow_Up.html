@@ -14,11 +14,8 @@
                 <option value='' selected>
                     All Locations
                 </option>
-                <option value='1'>
-                    Carstar City Auto Body
-                </option>
-                <option value='2'>
-                    Carstar Simi Valley
+                <option ng-repeat='eachShop in shopList' value='{{ eachShop.locID }}'>
+                    {{ eachShop.name }} (Shop {{ eachShop.locID }})
                 </option>
             </select>
         </td>
@@ -29,7 +26,7 @@
                     All Vendors
                 </option>
                 <option ng-repeat='vendor in vendorList' value='{{ vendor.name }}'>
-                    {{ vendor.name }} ({{ vendor.locID }})
+                    {{ vendor.name }} (Shop {{ vendor.locID }})
                 </option>
             </select>
         </td>
@@ -66,9 +63,13 @@
         <th>Vendor</th>
         <th>Cars</th>
     </tr>
-    <tr ng-repeat='eachVendor in vendors | filter: { name : vendorName, locID : locationID }' ng-show='filteredCars.length > 0'   ng-hide='((partStatus == "NOT ORDERED") && (eachVendor.name.length > 0))'>
+    <tr ng-repeat='eachVendor in vendors | filter: { name : vendorName, locID : locationID }'
+        ng-show='filteredCars.length > 0'
+        ng-hide='showHideVendor(partStatus, eachVendor.name)'>
         <td width='15%'>
-            {{ eachVendor.name }} ({{ eachVendor.locID }})
+            {{ eachVendor.name }}
+            <br/>
+            (Shop {{ eachVendor.locID }})
         </td>
         <td>
             <table border='1' width='100%'>

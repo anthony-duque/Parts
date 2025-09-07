@@ -44,12 +44,14 @@ class Car{
 class Vendor{
 
     public $name;
-    public $locID;
     public $cars = [];
+    public $locID;
+    public $locName;
 
     function __construct($rec){
         $this->name     = $rec["Vendor_Name"];
         $this->locID    = $rec["Loc_ID"];
+        $this->locName  = $rec["Location"];
     }   // __construct()
 
 }   // Vendor{}
