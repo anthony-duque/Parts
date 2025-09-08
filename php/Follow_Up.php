@@ -5,7 +5,7 @@ class Part{
     public $number;
     public $description;
     public $type;
-    public $status;
+    public $part_status;
     public $quantity;
     public $date_ordered;
 
@@ -13,7 +13,7 @@ class Part{
         $this->number       = $rec["Part_Number"];
         $this->description  = $rec["Part_Description"];
         $this->type         = $rec["Part_Type"];
-        $this->status       = $rec["Part_Status"];
+        $this->part_status  = $rec["Part_Status"];
         $this->quantity     = $rec["RO_Qty"];
         $this->date_ordered = $rec["Order_Date"];
     }   // construct()
@@ -47,11 +47,15 @@ class Vendor{
     public $cars = [];
     public $locID;
     public $locName;
+    public $phoneNum;
+    public $email;
 
     function __construct($rec){
         $this->name     = $rec["Vendor_Name"];
         $this->locID    = $rec["Loc_ID"];
         $this->locName  = $rec["Location"];
+        $this->phoneNum = $rec["phone_number"];
+        $this->email    = $rec["email"];
     }   // __construct()
 
 }   // Vendor{}
@@ -60,20 +64,23 @@ class Vendor{
 require('db_open.php');
 
     $sql = <<<strSQL
-            SELECT pse.Vendor_Name, r.Loc_ID, li.Location, r.Estimator, r.RONum, r.Vehicle, r.Owner,
-            	pse.Part_Number, pse.Part_Description, pse.Part_Type, pse.RO_Qty,
-            	pse.Ordered_Qty, pse.Order_Date, pse.Part_Status
-            FROM Repairs r INNER JOIN PartsStatusExtract pse
-               ON r.RONum = pse.RO_Num AND r.Loc_ID = pse.Loc_ID
-               INNER JOIN Location_IDs li
-               ON r.Loc_ID = li.id
-            WHERE
-                TRIM(r.Estimator) > '' AND
-                r.RONum <> 1004 AND
-                TRIM(pse.Vendor_Name) NOT LIKE '*%IN%HOUSE%' AND
-                pse.Part_Type NOT IN ('Sublet', 'FIX ME', 'Stock') AND
-                pse.Part_Status IN ('NOT ORDERED', 'ORDERED')
-            ORDER BY pse.Vendor_Name,r.Loc_ID, r.Estimator, r.RONum
+
+                SELECT pse.Vendor_Name, r.Loc_ID, li.Location, r.Estimator, r.RONum, r.Vehicle, r.Owner,
+                	pse.Part_Number, pse.Part_Description, pse.Part_Type, pse.RO_Qty,
+                	pse.Ordered_Qty, pse.Order_Date, pse.Part_Status, v.phone_number, v.email
+                FROM Repairs r INNER JOIN PartsStatusExtract pse
+                   		ON r.RONum = pse.RO_Num AND r.Loc_ID = pse.Loc_ID
+                   INNER JOIN Location_IDs li
+                   		ON r.Loc_ID = li.id
+                   LEFT JOIN Vendors v
+                   		ON pse.Vendor_Name = v.name
+                WHERE
+                    TRIM(r.Estimator) > '' AND
+                    r.RONum <> 1004 AND
+                    TRIM(pse.Vendor_Name) NOT LIKE '*%IN%HOUSE%' AND
+                    pse.Part_Type NOT IN ('Sublet', 'FIX ME', 'Stock') AND
+                    pse.Part_Status IN ('NOT ORDERED', 'ORDERED')
+                ORDER BY pse.Vendor_Name,r.Loc_ID, r.Estimator, r.RONum
         strSQL;
 
     try {

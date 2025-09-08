@@ -1,6 +1,8 @@
-var sampleApp = angular.module("SampleApp", []);
+var app = angular.module("SampleApp", []);
 
-var sampleCtlr = function($scope, $http){
+var sampleCtlr = function($scope, $http, utility){
+
+    $scope.carsInOut    = 'all';
 
     GetCars();
 
@@ -166,7 +168,12 @@ var sampleCtlr = function($scope, $http){
 
     }   // showHideVendor()
 
+        // Computes the background color for a row
+        // based on ordered, received, and returned quantities.
+    $scope.PartStatus = function(objPart){
+        return utility.ColorPartStatus(objPart);
+    }   // PartStatus()
 
 }   // sampleCtlr
 
-sampleApp.controller("SampleController", sampleCtlr);
+app.controller("SampleController", sampleCtlr);
