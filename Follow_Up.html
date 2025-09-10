@@ -1,27 +1,7 @@
-<html ng-app="SampleApp">
-<head>
-  <title>Sample Page</title>
-  <script src="./scripts/angularjs.js"></script>
-  <script src="./scripts/sample.js"></script>
-  <script src="./scripts/UtilityFunctions.js"></script>
-  <!-- Universal Style Sheet -->
-  <link rel="stylesheet" href="./styles/Parts.css">
-</head>
-<body ng-controller='SampleController'>
-
+<div ng-controller='FollowUpController'>
+    <br/>
     <table width='100%'>
     <tr>
-        <td>
-            Location:
-            <select ng-model='locationID'>
-                <option value='' selected>
-                    All Locations
-                </option>
-                <option ng-repeat='eachShop in shopList' value='{{ eachShop.locID }}'>
-                    {{ eachShop.name }} (Shop {{ eachShop.locID }})
-                </option>
-            </select>
-        </td>
         <td>
             Vendor:
             <select ng-model='vendorName'>
@@ -71,7 +51,7 @@
         </td>
     </tr>
     </table>
-
+    <br/>
     <table border='1' align='center' width='100%'>
     <tr>
         <th>Vendor</th>
@@ -79,47 +59,70 @@
     </tr>
     <tr ng-repeat='eachVendor in vendors | filter: { name : vendorName, locID : locationID }'
         ng-show='filteredCars.length > 0'
-        ng-hide='showHideVendor(partStatus, eachVendor.name)'>
+        ng-hide='showHideVendor(partStatus, eachVendor.name)'
+        ng-class='ToggleColor($index, "white", "lightGreen");'>
+
         <td width='15%' valign='top' align='center'>
-            (Shop {{ eachVendor.locID }})
-            <br/>
-            {{ eachVendor.name }}
-            <br/>
-            {{ eachVendor.phoneNum }}
-            <br/>
-            {{ eachVendor.email }}
+            <table>
+            <tr>
+                <td align='center'>
+                    (Shop {{ eachVendor.locID }})
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    {{ eachVendor.name }}
+                </th>
+            </tr>
+            <tr ng-show='eachVendor.phoneNum.length > 0'>
+                <td align='center'>
+                    Phone: <b>{{ eachVendor.phoneNum }}</b>
+                </td>
+            </tr>
+            <tr ng-show='eachVendor.email.length > 0'>
+                <td align='center'>
+                    Email: <b>{{ eachVendor.email }}</b>
+                </td>
+            </tr>
+            </table>
         </td>
-            <br/>
-        <td>
+        <td bgcolor='white'>
             <table border='1' width='100%'>
-            <tr ng-repeat='eachCar in filteredCars = (eachVendor.cars | filter : { estimator : estimatorName, locID : locationID })'
+            <tr ng-repeat='eachCar in filteredCars = (eachVendor.cars | filter : { estimator : estimatorName, locID : locationID } | FilterInOutCars : carsInOut)'
+                ng-class='ToggleColor($index, "white", "lightBlue");'
                 ng-show='filteredParts.length > 0'>
-                <td width='20%' align='center'>
+                <td width='15%' align='center'>
                     <a href="Car_View.html?roNum={{ eachCar.roNum }}&locationID={{ eachCar.locID }}" target="CarStatus">
-                        {{ eachCar.roNum }}
+                        <b>{{ eachCar.roNum }}</b>
                         <br/>
                         {{ eachCar.vehicle.split(' ')[0] + " " + eachCar.vehicle.split(' ')[1] + " " + eachCar.vehicle.split(' ')[2] }}
                         <br/>
                         {{ eachCar.estimator }}
                     </a>
                 </td>
-                <th>
+                <td bgcolor='white'>
                     <table border='1' width='100%'>
                     <tr ng-repeat='eachPart in filteredParts = (eachCar.parts | filter : { part_status : partStatus } : true)'
                         ng-class="PartStatus(eachPart)">
-                        <td width='25%'>
+                        <td width='15%' align='center'>
                             <a href='http://www.google.com/search?tbm=isch&q={{ eachPart.number }}' target='CarPart' >
                                 {{ eachPart.number }}
                             </a>
                         </td>
-                        <td width='25%' align='center'>
+                        <td width='10%' align='center'>
                             {{ eachPart.type }}
                         </td>
-                        <td width='25%'>
+                        <td width='45%'>
                             {{ eachPart.description }}
                         </td>
-                        <td width='25%' align='center'>
+                        <td width='15%' align='center'>
                             {{ eachPart.part_status }}
+                        </td>
+                        <td width='5%' align='center'>
+                            {{ eachPart.quantity }}
+                        </td>
+                        <td width='10%' align='center'>
+                            {{ eachPart.order_date }}
                         </td>
                     </tr>
                     </table>
@@ -129,5 +132,4 @@
         </td>
     </tr>
     </table>
-</body>
-</html>
+</div>

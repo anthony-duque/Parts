@@ -17,7 +17,7 @@ var TabsCtrlr = function($scope, $http, utility){
             'Materials'     : "inactive",
             'ReturnForms'   : "inactive",
             'PaintList'     : "inactive",
-            'UnorderedParts': "inactive",
+            'FollowUp'      : "inactive",
             'Vendors'       : "inactive"
          };
 
@@ -53,8 +53,8 @@ var TabsCtrlr = function($scope, $http, utility){
                 tabView = 'Paint_List.html';
                 break;
 
-            case 'UnorderedParts':
-                tabView = 'Unordered_Parts.html';
+            case 'FollowUp':
+                tabView = 'Follow_Up.html';
                 break;
 
             case 'ReturnForms':
