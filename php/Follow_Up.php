@@ -1,5 +1,7 @@
 <?php
 
+require 'Utility_Scripts.php';
+
 class Part{
 
     public $number;
@@ -7,7 +9,7 @@ class Part{
     public $type;
     public $part_status;
     public $quantity;
-    public $date_ordered;
+    public $order_date;
 
     function __construct($rec){
         $this->number       = $rec["Part_Number"];
@@ -15,7 +17,7 @@ class Part{
         $this->type         = $rec["Part_Type"];
         $this->part_status  = $rec["Part_Status"];
         $this->quantity     = $rec["RO_Qty"];
-        $this->date_ordered = $rec["Order_Date"];
+        $this->order_date   = GetDisplayDate($rec["Order_Date"]);
     }   // construct()
 
 }   // Part{}
@@ -25,6 +27,8 @@ class Car{
 
     public $roNum;
     public $vehicle;
+    public $vehicle_in;
+    public $current_phase;
     public $owner;
     public $estimator;
     public $locID;
@@ -33,6 +37,8 @@ class Car{
     function __construct($rec){
         $this->roNum        = $rec["RONum"];
         $this->vehicle      = $rec["Vehicle"];
+        $this->vehicle_in   = $rec["Vehicle_In"];
+        $this->current_phase = $rec["CurrentPhase"];
         $this->owner        = $rec["Owner"];
         $this->estimator    = $rec["Estimator"];
         $this->locID        = $rec["Loc_ID"];
@@ -65,7 +71,8 @@ require('db_open.php');
 
     $sql = <<<strSQL
 
-                SELECT pse.Vendor_Name, r.Loc_ID, li.Location, r.Estimator, r.RONum, r.Vehicle, r.Owner,
+                SELECT pse.Vendor_Name, r.Loc_ID, li.Location, r.Estimator, r.RONum,
+                    r.Vehicle, r.Owner, r.Vehicle_In, r.CurrentPhase,
                 	pse.Part_Number, pse.Part_Description, pse.Part_Type, pse.RO_Qty,
                 	pse.Ordered_Qty, pse.Order_Date, pse.Part_Status, v.phone_number, v.email
                 FROM Repairs r INNER JOIN PartsStatusExtract pse
@@ -77,8 +84,9 @@ require('db_open.php');
                 WHERE
                     TRIM(r.Estimator) > '' AND
                     r.RONum <> 1004 AND
+                    LENGTH(pse.Part_Number) > 0 AND
                     TRIM(pse.Vendor_Name) NOT LIKE '*%IN%HOUSE%' AND
-                    pse.Part_Type NOT IN ('Sublet', 'FIX ME', 'Stock') AND
+                    pse.Part_Type NOT IN ('Sublet', 'FIX ME', 'Stock', 'Glass', 'Re-Manufactured') AND
                     pse.Part_Status IN ('NOT ORDERED', 'ORDERED')
                 ORDER BY pse.Vendor_Name,r.Loc_ID, r.Estimator, r.RONum
         strSQL;
