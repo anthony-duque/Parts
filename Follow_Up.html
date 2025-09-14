@@ -92,16 +92,31 @@
                 ng-class='ToggleColor($index, "white", "lightBlue");'
                 ng-show='filteredParts.length > 0'>
                 <td width='15%' align='center'>
-                    <a href="Car_View.html?roNum={{ eachCar.roNum }}&locationID={{ eachCar.locID }}" target="CarStatus">
-                        <b>{{ eachCar.roNum }}</b>
-                        <br/>
-                        {{ eachCar.vehicle.split(' ')[0] + " " + eachCar.vehicle.split(' ')[1] + " " + eachCar.vehicle.split(' ')[2] }}
-                        <br/>
-                        {{ eachCar.estimator }}
-                        <br/><br/>
-                        {{ eachCar.vin.slice(0,9) }}<b>{{ eachCar.vin.slice(9,17) }}</b>
-                        <br/><br/>
-                    </a>
+                        <table align='center'>
+                        <tr>
+                            <td align='center'>
+                                <a href="Car_View.html?roNum={{ eachCar.roNum }}&locationID={{ eachCar.locID }}" target="CarStatus">
+                                    <b>{{ eachCar.roNum }}</b>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align='center'>
+                                {{ eachCar.vehicle.split(' ')[0] + " " + eachCar.vehicle.split(' ')[1] + " " + eachCar.vehicle.split(' ')[2] }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align='center'>
+                                {{ eachCar.estimator }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align='center'>
+                                <br/>
+                                {{ eachCar.vin.slice(0,9) }}<b>{{ eachCar.vin.slice(9,17) }}</b>
+                            </td>
+                        </tr>
+                        </table>
                 </td>
                 <td bgcolor='white'>
                     <table border='1' width='100%'>
