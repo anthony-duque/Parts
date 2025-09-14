@@ -33,6 +33,7 @@ class Car{
     public $estimator;
     public $locID;
     public $parts = [];
+    public $vin;
 
     function __construct($rec){
         $this->roNum        = $rec["RONum"];
@@ -42,6 +43,7 @@ class Car{
         $this->owner        = $rec["Owner"];
         $this->estimator    = $rec["Estimator"];
         $this->locID        = $rec["Loc_ID"];
+        $this->vin          = $rec["VIN"];
     }   // __construct()
 
 }   // Car{}
@@ -71,24 +73,28 @@ require('db_open.php');
 
     $sql = <<<strSQL
 
-                SELECT pse.Vendor_Name, r.Loc_ID, li.Location, r.Estimator, r.RONum,
-                    r.Vehicle, r.Owner, r.Vehicle_In, r.CurrentPhase,
-                	pse.Part_Number, pse.Part_Description, pse.Part_Type, pse.RO_Qty,
-                	pse.Ordered_Qty, pse.Order_Date, pse.Part_Status, v.phone_number, v.email
-                FROM Repairs r INNER JOIN PartsStatusExtract pse
-                   		ON r.RONum = pse.RO_Num AND r.Loc_ID = pse.Loc_ID
-                   INNER JOIN Location_IDs li
-                   		ON r.Loc_ID = li.id
-                   LEFT JOIN Vendors v
-                   		ON pse.Vendor_Name = v.name
-                WHERE
-                    TRIM(r.Estimator) > '' AND
-                    r.RONum <> 1004 AND
-                    LENGTH(pse.Part_Number) > 0 AND
-                    TRIM(pse.Vendor_Name) NOT LIKE '*%IN%HOUSE%' AND
-                    pse.Part_Type NOT IN ('Sublet', 'FIX ME', 'Stock', 'Glass', 'Re-Manufactured') AND
-                    pse.Part_Status IN ('NOT ORDERED', 'ORDERED')
-                ORDER BY pse.Vendor_Name,r.Loc_ID, r.Estimator, r.RONum
+            SELECT pse.Vendor_Name, r.Loc_ID, li.Location, r.Estimator,
+                r.RONum, r.Vehicle, r.Owner, r.Vehicle_In, r.CurrentPhase,
+            	pse.Part_Number, pse.Part_Description, pse.Part_Type,
+                pse.RO_Qty,	pse.Ordered_Qty, pse.Order_Date, pse.Part_Status,
+                v.phone_number, v.email, siv.VIN
+            FROM Repairs r INNER JOIN PartsStatusExtract pse
+               		ON r.RONum = pse.RO_Num AND r.Loc_ID = pse.Loc_ID
+                LEFT JOIN Scheduled_In_VIN siv
+                    ON r.RONum = siv.RO_Num AND r.Loc_ID = siv.Loc_ID
+               INNER JOIN Location_IDs li
+               		ON r.Loc_ID = li.id
+               LEFT JOIN Vendors v
+               		ON pse.Vendor_Name = v.name
+            WHERE
+                TRIM(r.Estimator) > '' AND
+                r.RONum <> 1004 AND
+                LENGTH(pse.Part_Number) > 0 AND
+                TRIM(pse.Vendor_Name) NOT LIKE '*%IN%HOUSE%' AND
+                pse.Part_Type NOT IN ('Sublet', 'FIX ME', 'Stock', 'Glass', 'Re-Manufactured') AND
+                pse.Part_Status IN ('NOT ORDERED', 'ORDERED')
+            ORDER BY pse.Vendor_Name,r.Loc_ID, r.Estimator, r.RONum;
+
         strSQL;
 
     try {
