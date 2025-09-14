@@ -108,12 +108,12 @@
                         <tr>
                             <td align='center'>
                                 {{ eachCar.estimator }}
+                                <br/><br/>
                             </td>
                         </tr>
-                        <tr>
+                        <tr ng-show='eachCar.vin.length > 0'>
                             <td align='center'>
-                                <br/>
-                                {{ eachCar.vin.slice(0,9) }}<b>{{ eachCar.vin.slice(9,17) }}</b>
+                                [ <i>{{ eachCar.vin.slice(0,9) }}</i><b>{{ eachCar.vin.slice(9,17) }}</b> ]
                             </td>
                         </tr>
                         </table>
