@@ -62,7 +62,7 @@ class Car{
                         AND (Part_Number > '' OR Vendor_Name > '')
                         AND Vendor_Name NOT LIKE '**%'
                         AND Part_Number NOT LIKE 'Aftermarket%'
-                        AND (Part_Type <> 'Sublet')
+                        AND Part_Type NOT IN ('FIX ME','Sublet')
                         AND RO_Num = $this->ro_num
                         AND Loc_ID = $this->locationID
                     ORDER BY Ordered_Qty ASC
