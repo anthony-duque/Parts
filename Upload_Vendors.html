@@ -1,0 +1,46 @@
+<html ng-app='UploadVendorsApp'>
+
+<head>
+    <title>Upload Vendor</title>
+    <script src='./scripts/angularjs.js'></script>
+    <script src='./scripts/Upload_Vendors.js'></script>
+</head>
+
+<body ng-controller='UploadVendorsCtrlr'>
+    <form method='POST' action='./php/Upload_Vendors.php' enctype='multipart/form-data'>
+        <table align='center' valign='middle'>
+        <tr>
+            <th colspan="2">Upload Vendors File</th>
+        </tr>
+        <tr>
+            <td align='right'>
+                Vendors Extract File
+            </td>
+            <td>
+                <input type='file' name='VendorFile' required></input>
+            </td>
+        </tr>
+        <!--tr>
+            <td align='right'>
+                Shop:
+            </td>
+            <td colspan='2'>
+                <select name='shopID'>
+                    <option value='' disabled selected required>
+                        Pick a Location
+                    </option>
+                    <option n -repeat='shop in locations' value='{{ shop.id }}'>
+                        { { shop.location } }
+                    </option>
+                </select>
+            </td>
+        </tr -->
+        <tr>
+            <td align='center' colspan='2'>
+                <input type='submit' value='Upload Vendors' />
+            </td>
+        </tr>
+        </table>
+    </form>
+</body>
+</html>
