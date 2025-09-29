@@ -23,7 +23,7 @@
         $extractFile = TARGET_DIR . CSV_FILENAME;
         $upload_OK = move_uploaded_file($_FILES["VendorFile"]["tmp_name"], $extractFile);
 
-    } catch(Exception $e){
+    } catch(Exception $e) {
         echo "There was an error uploading the " . basename($_FILES["VendorFile"]["name"]);
 //        header("Location: ../Upload_Vendors.html");
     } finally {
@@ -63,12 +63,20 @@ function Upload_Vendors_Extract($csv_file){
         ++$row;
 
         if ($row == 1){
+
             $num = count($data);
+
         } else {
 
             $location     = $data[LOCATION];
+
             $name         = str_replace("'", "\'", $data[NAME]);
             $name         = str_replace('�', '-', $name);
+
+            if (strpos($name, ' - ') > 0){
+                $name         = substr($name, 0, strrpos($name, " - "));
+            }   // if (strpos...)
+
     		$aftermarket  = $data[AFTERMKT];
             $oem          = $data[OEM];
             $opt_oem      = $data[OPT_OEM];
@@ -120,6 +128,5 @@ strSQL;
     $conn->close();
 
 }   // function Upload_Vendors_Extract()
-
 
 ?>
