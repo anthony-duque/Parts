@@ -85,7 +85,7 @@ require('db_open.php');
                INNER JOIN Location_IDs li
                		ON r.Loc_ID = li.id
                LEFT JOIN Vendors v
-               		ON pse.Vendor_Name = v.name
+               		ON pse.Vendor_Name = v.name AND r.Loc_ID = v.location_ID
             WHERE
                 TRIM(r.Estimator) > '' AND
                 r.RONum <> 1004 AND
