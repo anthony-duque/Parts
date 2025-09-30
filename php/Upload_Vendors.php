@@ -107,6 +107,18 @@ function Upload_Vendors_Extract($csv_file){
 
     require('db_open.php');
 
+        //  Delete all records from the Scheduled_In_VIN table.
+    $sql = "DELETE FROM Vendors";
+
+    if ($conn->query($sql) === TRUE) {
+        echo "<br/><br/>Vendors table cleared.<br/>";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+        $conn->close();
+        exit;
+    }   // if ($conn...)
+
+
     if ($conn->query($tsql) === TRUE) {
 
       echo $row . " vendors successfully uploaded!";

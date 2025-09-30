@@ -120,7 +120,7 @@ var TabsCtrlr = function($scope, $http, utility){
 
     function handleError(response)
     {
-        console.log("Repair records not fetched.");
+        console.log("Shop locations not fetched.");
     }
 
 
