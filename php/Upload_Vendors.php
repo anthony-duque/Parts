@@ -1,5 +1,9 @@
 <?php
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
     const LOCATION      = 0;
     const NAME          = 1;
     const AFTERMKT      = 2;
@@ -23,16 +27,19 @@
         $extractFile = TARGET_DIR . CSV_FILENAME;
         $upload_OK = move_uploaded_file($_FILES["VendorFile"]["tmp_name"], $extractFile);
 
-    } catch(Exception $e) {
-        echo "There was an error uploading the " . basename($_FILES["VendorFile"]["name"]);
-//        header("Location: ../Upload_Vendors.html");
-    } finally {
         if ($upload_OK){
             Upload_Vendors_Extract($extractFile);
             echo "<br/> Vendors upload successful!";
-        }
-    }
+        }else {
+            echo "<br/> Vendors upload successful!";
 
+        }
+
+    } catch(Exception $e) {
+        echo "There was an error uploading the vendors file." . $e->getMessage();
+//        echo "There was an error uploading the " . basename($_FILES["VendorFile"]["name"]);
+//        header("Location: ../Upload_Vendors.html");
+    }
 
 function Upload_Vendors_Extract($csv_file){
 
@@ -103,7 +110,6 @@ function Upload_Vendors_Extract($csv_file){
 
     $tsql = rtrim($tsql, ',');
     $tsql = $tsql . ';';
-//    echo $tsql;
 
     require('db_open.php');
 
@@ -138,7 +144,6 @@ strSQL;
     }
 
     $conn->close();
-
 }   // function Upload_Vendors_Extract()
 
 ?>
