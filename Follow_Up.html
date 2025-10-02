@@ -81,7 +81,12 @@
             </tr>
             <tr ng-show='eachVendor.email.length > 0'>
                 <td align='center'>
-                    Email: <b>{{ eachVendor.email }}</b>
+                    Email:
+                    <a href= "mailto:{{ eachVendor.email }}">
+                        <b><i>
+                        {{ eachVendor.email }}
+                        </b></i>
+                    </a>
                 </td>
             </tr>
             </table>
