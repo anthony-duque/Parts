@@ -33,7 +33,7 @@ require('db_open.php');
 
     } catch(Exception $e){
 
-        echo "Fetchin Estimator List failed." . $e->getMessage();
+        echo "Fetching Estimator List failed." . $e->getMessage();
 
     } finally {
 
