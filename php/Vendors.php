@@ -39,7 +39,8 @@
             public $state;
             public $zipcode;
             public $email;
-            public $discount;
+            public $location_ID;
+            public $location;
 
             function __construct($rec){
                 $this->name         = $rec["name"];
@@ -50,7 +51,8 @@
                 $this->state        = $rec["state"];
                 $this->zipcode      = $rec["zipcode"];
                 $this->email        = $rec["email"];
-                $this->discount     = $rec["discount"];
+                $this->location_ID  = $rec["location_ID"];
+                $this->location     = $rec["shop_location"];
             }
         }
 
@@ -60,7 +62,7 @@
                 SELECT
                     name, oem, phone_number,
                     address, city, state, zipcode,
-                    email, discount
+                    email, location_ID, shop_location
                 FROM Vendors
                 ORDER BY name
             strSQL;
