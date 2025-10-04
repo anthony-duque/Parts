@@ -10,6 +10,7 @@ class Part{
     public $part_status;
     public $quantity;
     public $order_date;
+    public $eta_date;
 
     function __construct($rec){
         $this->number       = $rec["Part_Number"];
@@ -18,6 +19,7 @@ class Part{
         $this->part_status  = $rec["Part_Status"];
         $this->quantity     = $rec["RO_Qty"];
         $this->order_date   = GetDisplayDate($rec["Order_Date"]);
+        $this->eta_date     = GetDisplayDate($rec["Expected_Delivery"]);
     }   // construct()
 
 }   // Part{}
@@ -77,7 +79,7 @@ require('db_open.php');
                 r.RONum, r.Vehicle, r.Owner, r.Vehicle_In, r.CurrentPhase,
             	pse.Part_Number, pse.Part_Description, pse.Part_Type,
                 pse.RO_Qty,	pse.Ordered_Qty, pse.Order_Date, pse.Part_Status,
-                v.phone_number, v.email, siv.VIN
+                v.phone_number, v.email, siv.VIN, pse.Expected_Delivery
             FROM Repairs r INNER JOIN PartsStatusExtract pse
                		ON r.RONum = pse.RO_Num AND r.Loc_ID = pse.Loc_ID
                 LEFT JOIN Scheduled_In_VIN siv
