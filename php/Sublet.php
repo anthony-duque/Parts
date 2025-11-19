@@ -35,7 +35,11 @@ switch($method){
       break;
 
    case "GET":  // get cars on the Paint List
-      Process_GET();
+      $ro_Num = $_GET["roNum"];
+      $loc_ID = $_GET["locationID"];
+
+      $car_sublets = Process_GET($ro_Num, $loc_ID);
+      echo json_encode($car_sublets);
       break;
 
    default:
@@ -48,15 +52,49 @@ class Sublet{
 
     public $part_description;
     public $vendor_name;
+    public $received_quantity;
 
     function __construct($rec){
-        $this->part_description = $rec["Part_Description"];
-        $this->vendor_name      = $rec["Vendor_Name"];
+        $this->part_description     = $rec["Part_Description"];
+        $this->vendor_name          = $rec["Vendor_Name"];
+        $this->received_quantity    = $rec["Received_Qty"];
     }
 }   // Sublet{}
 
 
-function
+function Process_GET($roNum, $locID){
+
+    $carSublets = [];
+
+    $sqlQuery = <<<strSQL
+            SELECT Part_Description, Vendor_Name, Received_Qty
+            FROM PartsStatusExtract
+            WHERE Part_Type = 'Sublet' AND RO_Num = $roNum AND Loc_ID = $locID
+            ORDER BY Received_Qty
+        strSQL;
+
+//        echo $sqlQuery;
+    require('db_open.php');
+
+    try{
+
+        $s = mysqli_query($conn, $sqlQuery);
+
+        while($r = mysqli_fetch_assoc($s)){
+            array_push($carSublets, new Sublet($r));
+        }   //while{}
+
+    } catch (Exception $e){
+
+        echo "Fetching Car Sublets failed." . $e->getMessage();
+    }   // catch()
+
+    finally {
+        $conn = null;
+        return $carSublets;
+    }   // try-catch
+
+}   // Process_GET()
 
 
 
