@@ -1,0 +1,84 @@
+appointments = [
+	{
+		dayDate :	"Wed Oct 22 2025",
+		scheds	:
+			[
+				{
+					slot 		:	"8:30 am",
+				 	owner		:	"Wong",
+				 	vehicle		:	"2025 Honda CR-V",
+				 	insurance	:	"Self-pay",
+				 	phone_num	:	"(805) 402-9846",
+				 	ro_num		:	1234,
+				 	reason		:	"Estimate"
+				 },
+				{
+					slot 		:	"9:00 am",
+				 	owner		:	"Doyle",
+				 	vehicle		:	"2020 Subaru Forester",
+				 	insurance	:	"State Farm",
+				 	phone_num	:	"(805) 577-6586",,
+
+				 	ro_num		:	5678,
+				 	reason		:	"Drop-off"
+				 }
+			]
+	},
+	{
+		dayDate 	:	"Wed Oct 23 2025",
+		schedules	:
+			[
+				{
+					slot 		:	"12:30 pm",
+				 	owner		:	"Lois Kennedy",
+				 	vehicle		:	"2026 Mercedes SLK",
+				 	insurance	:	"AAA",
+				 	phone_num	:	"(818) 867-5587",
+				 	ro_num		:	4321,
+				 	reason		:	"Inspection"
+				 },
+				{
+					slot 		:	"4:00 pm",
+				 	owner		:	"Ramirez, Jackie",
+				 	vehicle		:	"2002 Toyota Tacoma",
+				 	insurance	:	"Mercury",
+				 	phone_num	:	"(805) 237-9685",
+				 	ro_num		:	9782,
+				 	reason		:	"Estimate"
+				 }
+			]
+	}
+];
+
+
+class Schedule{
+	slot		:	varchar[10],
+	owner		:	varchar[25],
+	vehicle		:	varchar[30],
+	insurance	:	varchar[20],
+ 	phone_num	:	varchar[15],
+ 	ro_num		:	unsigned tinyint,
+ 	reason		:	varchar[15]
+}
+
+class Appointment{
+	dayDate		:	varchar[20],
+	scheds		:	[Schedule]
+}
+
+
+/*
+
+Appointment table
+
+id - int,
+apptDate	- date,
+apptTime - time,
+owner 	- varchar(25),
+vehicle 	- varchar(30),
+apptReason - varchar(20),
+insurance - varchar(20),
+phone_num - varchar(15),
+ro_num - unsigned tinyint
+
+*/

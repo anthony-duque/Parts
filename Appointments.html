@@ -1,0 +1,166 @@
+<html ng-app='AppointmentsApp'>
+   <head>
+      <script src='./scripts/angularjs.js'></script>
+      <script src='./scripts/Appointments.js'></script>
+   </head>
+   <body ng-controller='AppointmentsCtrlr'>
+      <style>
+
+         .red{
+            background-color: pink;
+         }
+
+         .box {
+            width: 500px;
+            height: 500px;
+            background-color: lightblue;
+            position: absolute; /* Allows for precise positioning */
+         }
+
+         .box2 {
+            left: {{ (screenWidth / 2) - 250 }}px;
+            top: {{ (screenHeight / 2) - 250 }}px;
+            z-index: 2; /* Higher z-index, appears in front */
+         }
+
+      </style>
+
+      <datalist id='reasonList'>
+         <option value='Estimate'/>
+         <option value='Dropoff'/>
+         <option value='Inspection'/>
+      </datalist>
+
+      <div class="box box2" ng-show='slotClicked'>
+         <table align='center' valign='center' border='1'>
+         <caption style='font-size: medium;'>
+            <br/>
+            <b><u>A P P O I N T M E N T</u></b>
+            <br/><br/>
+            {{ appt_day }}, {{ appt_slot }}
+            <br/><br/>
+         </caption>
+         <tr>
+            <th align='right'>
+               Reason:
+            </th>
+            <td>
+               <input list='reasonList'></input>
+            </td>
+            <!-- td align='left'>
+               <select required>
+                  <option value='' disabled selected>
+                     Reason for Appointment
+                  </option>
+                  <option value='dropoff'>
+                     Drop-off
+                  </option>
+                  <option value='Estimate'>
+                     Estimate
+                  </option>
+                  <option value='Inspection'>
+                     Inspection
+                  </option>
+               </select>
+            </td -->
+         </tr>
+         <tr>
+            <th align='right'>
+               Owner:
+            </th>
+            <td align='left'>
+               <input type='text'></input>
+            </td>
+         </tr>
+         <tr>
+            <th align='right'>
+               Vehicle:
+            </th>
+            <td align='left'>
+               <input type='text'></input>
+            </td>
+         </tr>
+         <tr>
+            <th align='right'>
+               Insurance:
+            </th>
+            <td align='left'>
+               <input type='text'></input>
+            </td>
+         </tr>
+         <tr>
+            <th align='right'>
+               RO:
+            </th>
+            <td align='left'>
+               <input type='text'></input>
+            </td>
+         </tr>
+         <tr>
+            <th align='right'>
+               Phone:
+            </th>
+            <td align='left'>
+               <input type="tel" name="telphone" placeholder="(888) 888-8888" pattern="([0-9]{3})[0-9]{3}-[0-9]{4}" maxlength="12"  title="Ten digits code" />
+            </td>
+         </tr>
+         <tr>
+            <td align='center'>
+            </td>
+            <td align='center'>
+               <input type='button' value='Save' ng-click='slotClicked = false;'>
+               <input type='button' value='Cancel' ng-click='slotClicked = false;'>
+            </td>
+         </tr>
+         </table>
+      </div>
+
+      <table align='center' border=1 width='95%'>
+      <tr>
+         <td ng-repeat='day in firstWeek' ng-hide='(day.indexOf("Sun ") > -1) || (day.indexOf("Sat ") > -1)' valign='top' >
+            <table border='1' width='100%'>
+            <tr>
+               <th colspan='2'>
+                  {{ day }}
+               </th>
+            </tr>
+            <tr ng-repeat='slot in timeSlots'
+               ng-class='slotFound(day + " " + slot);'
+               ng-click='clicked(day, slot);'>
+               <td width='30%' align='center'>
+                  {{ slot }}
+               </td>
+               <td>
+                  &nbsp;
+               </td>
+            </tr>
+            </table>
+         </td>
+      </tr>
+      </table>
+      <br/>
+      <table align='center' border=1 width='95%'>
+      <tr>
+         <td ng-repeat='day in secondWeek' valign='top' ng-hide='(day.indexOf("Sun ") > -1) || (day.indexOf("Sat ") > -1)'>
+            <table border='1' width='100%'>
+            <tr>
+               <th colspan='2'>
+                  {{ day }}
+               </th>
+            </tr>
+            <tr ng-repeat='slot in timeSlots'
+               ng-class='slotFound(day + " " + slot);'
+               ng-click='clicked(day, slot);'>
+               <td width='30%' align='center'>
+                  {{ slot }}
+               </td>
+               <td>
+                   &nbsp;
+               </td>
+            </tr>
+            </table>
+         </td>
+      </tr>
+      </table>
+ </body>
+</html>

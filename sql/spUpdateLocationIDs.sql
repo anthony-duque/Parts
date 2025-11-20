@@ -18,22 +18,22 @@ BEGIN
 
 	UPDATE PartsStatusExtract
 	SET Part_Status =
-		CASE
+			CASE
 
-			WHEN (Received_Qty = 0) AND (Ordered_Qty = 0) AND (RO_Qty > 0)
-			THEN 'NOT ORDERED'
+				WHEN (Received_Qty = 0) AND (Ordered_Qty = 0) AND (RO_Qty > 0)
+				THEN 'NOT ORDERED'
 
-			WHEN (Received_Qty = Returned_Qty) AND (Returned_Qty > 0)
-			THEN 'RETURNED'
+				WHEN (Received_Qty = Returned_Qty) AND (Returned_Qty > 0)
+				THEN 'RETURNED'
 
-			WHEN (Received_Qty = 0) AND (Ordered_Qty > 0)
-			THEN 'ORDERED'
+				WHEN (Received_Qty = 0) AND (Ordered_Qty > 0)
+				THEN 'ORDERED'
 
-			WHEN (Received_Qty < Ordered_Qty) AND (Received_Qty > 0)
-			THEN 'ORDERED'
+				WHEN (Received_Qty < Ordered_Qty) AND (Received_Qty > 0)
+				THEN 'ORDERED'
 
-			ELSE 'RECEIVED'
-		END;
+				ELSE 'RECEIVED'
+			END;
 
 	DELETE FROM Car_Stage
 	WHERE id IN
@@ -48,7 +48,7 @@ BEGIN
 	SELECT r.RONum, r.Loc_ID,
 		CASE
 			WHEN UPPER(r.CurrentPhase) = '[SCHEDULED]'
-				THEN -1
+				THEN 0
 			WHEN SUBSTRING_INDEX(r.CurrentPhase, " ", 1) REGEXP '[0-9]'
 				THEN FLOOR(SUBSTRING_INDEX(r.CurrentPhase, " ", 1))
 			ELSE
@@ -60,5 +60,9 @@ BEGIN
 			AND r.CurrentPhase <> '[Completed]'
 			AND Vehicle_In < DATE_ADD(CURDATE(), INTERVAL 1 DAY)
 	ORDER BY r.RONum;
+
+	UPDATE Scheduled_In_VIN siv INNER JOIN Location_IDs locID
+	SET siv.Loc_ID = locID.id
+	WHERE UPPER(siv.Location) = UPPER(locID.Location);
 
 END
