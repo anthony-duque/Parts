@@ -50,7 +50,7 @@ app.factory('utility', function(){
         switch (part.part_status){
 
                 // Part hasn't been ordered
-            case "NOT ORDERED":
+            case "NOT_ORDERED":
                 bkgrnd_class = "noParts";
                 break;
 

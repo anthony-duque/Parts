@@ -155,7 +155,7 @@ var followUpCtlr = function($scope, $http, utility){
 
         switch(true){
 
-            case ((pStatus == "NOT ORDERED") && (vendorName.length > 0)):
+            case ((pStatus == "NOT_ORDERED") && (vendorName.length > 0)):
             case ((pStatus == "ORDERED") && (vendorName.length < 1)):
                 hideVendor = true;
                 break;

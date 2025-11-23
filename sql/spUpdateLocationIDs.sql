@@ -21,7 +21,7 @@ BEGIN
 			CASE
 
 				WHEN (Received_Qty = 0) AND (Ordered_Qty = 0) AND (RO_Qty > 0)
-				THEN 'NOT ORDERED'
+				THEN 'NOT_ORDERED'
 
 				WHEN (Received_Qty = Returned_Qty) AND (Returned_Qty > 0)
 				THEN 'RETURNED'

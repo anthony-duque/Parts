@@ -163,7 +163,7 @@ function ComputePartsReceived(&$repairs){
 
 				switch($part->part_status){
 
-					case "NOT ORDERED":
+					case "NOT_ORDERED":
 						++$unordered;
 						break;
 

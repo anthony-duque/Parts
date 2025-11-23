@@ -94,7 +94,7 @@ require('db_open.php');
                 LENGTH(pse.Part_Number) > 0 AND
                 TRIM(pse.Vendor_Name) NOT LIKE '*%IN%HOUSE%' AND
                 pse.Part_Type NOT IN ('Sublet', 'FIX ME', 'Stock', 'Glass', 'Re-Manufactured') AND
-                pse.Part_Status IN ('NOT ORDERED', 'ORDERED')
+                pse.Part_Status IN ('NOT_ORDERED', 'ORDERED')
             ORDER BY pse.Vendor_Name,r.Loc_ID, r.Estimator, r.RONum;
 
         strSQL;
