@@ -156,6 +156,21 @@ CREATE TABLE `Repairs` (
 ) COMMENT='List of active vehicles (pre-ordered and cars in shop).';
 
 
+CREATE TABLE `Scheduled_In_VIN` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `Scheduled_In` date DEFAULT NULL COMMENT 'Scheduled In Date',
+  `RO_Num` mediumint unsigned NOT NULL COMMENT 'Repair Order Number',
+  `VIN` varchar(17) DEFAULT NULL COMMENT 'Vehicle Identification Number',
+  `RO_Hours` float DEFAULT '0' COMMENT 'Number of hours to fix the vehicle.',
+  `Assigned_Hours` float DEFAULT '0' COMMENT 'Number of assigned hours.',
+  `Estimate_Amt` float DEFAULT '0' COMMENT 'Estimate amount the vehicle repair would cost.',
+  `Total_Loss` tinyint(1) DEFAULT '0',
+  `Location` varchar(50) DEFAULT NULL COMMENT 'Shop Location',
+  `Loc_ID` smallint unsigned DEFAULT '0' COMMENT 'Location ID set depending on the value in Location_ID table.',
+  PRIMARY KEY (`id`)
+) COMMENT='Scheduled In, VIN, RO Hours, Assigned Hours, Estimate Amount, Total Loss';
+
+
 CREATE TABLE `Stage_Headings` (
   `id` smallint unsigned NOT NULL AUTO_INCREMENT,
   `Description` varchar(50) NOT NULL,
