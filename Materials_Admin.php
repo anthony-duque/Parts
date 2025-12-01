@@ -1,11 +1,24 @@
+<?php
+require_once 'php/session_handler.php';
+requireLogin();
+?>
+<!DOCTYPE html>
 <html ng-app="MatAdminApp">
 <head>
+    <title>Materials Admin</title>
+    <link rel='stylesheet' href="./styles/Parts.css" />
+    <link rel='stylesheet' href='./styles/auth.css'>
     <script src='./scripts/angularjs.min.js'></script>
     <script src='./scripts/Materials_Admin.js'></script>
     <script src='./scripts/UtilityFunctions.js'></script>
-    <link rel='stylesheet' href="./styles/Parts.css" />
 </head>
 <body ng-controller="MatAdminCtlr">
+    <div class="header">
+        <a href='Admin.php'>Back to Admin</a>
+        <form method="POST" action="logout.php" style="margin: 0;">
+            <button type="submit" class="logout-btn">Logout</button>
+        </form>
+    </div>
     <table id='tblMain' width='100%' border=1 valign='top'>
     <tr>
         <td id='colEntry' width='50%' valign='top'>

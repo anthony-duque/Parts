@@ -4,6 +4,9 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+require('session_handler.php');
+requireLogin();
+
 require('Utility_Scripts.php');
 require('Upload_Daily_Out.php');
 require('Upload_Parts_Status.php');
@@ -26,7 +29,7 @@ try{
     }
 } catch(Exception $e){
     echo "There was an error uploading the " . basename($_FILES["DailyOutCSV"]["name"]);
-    header("Location: ../Upload_Extracts.html");
+    header("Location: ../Upload_Extracts.php");
 }
 
     // Process Parts Status extract file
@@ -41,7 +44,7 @@ try{
     }
 } catch(Exception $e){
     echo "The was an error uploading the " . basename($_FILES["PartsStatusCSV"]["name"]);
-    header("Location: ./Upload_Extracts.html");
+    header("Location: ./Upload_Extracts.php");
 }
 
 require('db_open.php');
@@ -71,4 +74,4 @@ $conn = null;
 
 ?>
 <br/><br/>
-<input type='button' value="Back to Admin Menu" onclick='window.location.href="../Admin.html";'>
+<input type='button' value="Back to Admin Menu" onclick='window.location.href="../Admin.php";'>

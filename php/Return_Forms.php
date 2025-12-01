@@ -4,6 +4,9 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+require('session_handler.php');
+requireLogin();
+
 const TARGET_DIR    = "../images/return_forms/";  // destination folder on the server
 
 $method = $_SERVER['REQUEST_METHOD'];
@@ -43,7 +46,7 @@ function ProcessPOST(){
 
         if ($upload_OK){
             echo "<br/> Return Form/s uploaded successfully!";
-            header("Location: ../Return_Forms.html");
+            header("Location: ../Upload_Return_Form.php");
         }
 
     } catch(Exception $e){

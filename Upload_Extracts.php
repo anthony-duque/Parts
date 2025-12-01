@@ -1,10 +1,22 @@
+<?php
+require_once 'php/session_handler.php';
+requireLogin();
+?>
+<!DOCTYPE html>
 <html ng-app="csvUploadApp">
 <head>
     <title>Extracts Upload</title>
+    <link rel='stylesheet' href='./styles/auth.css'>
     <script src='./scripts/angularjs.min.js'></script>
     <script src='./scripts/Extracts_Upload.js'></script>
 </head>
 <body ng-controller='csvUploadController'>
+    <div class="header">
+        <a href='Admin.php'>Back to Admin</a>
+        <form method="POST" action="logout.php" style="margin: 0;">
+            <button type="submit" class="logout-btn">Logout</button>
+        </form>
+    </div>
     <form action="./php/Upload_Extracts.php" method='POST' enctype='multipart/form-data'>
         <input type='hidden' name='uploadDateTime' value='{{ currDateTime }}'>
         <table align='center'>
