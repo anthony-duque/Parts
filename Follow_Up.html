@@ -142,7 +142,7 @@
                 <td bgcolor='white'>
                     <table border='1' width='100%'>
                     <tr ng-repeat='eachPart in filteredParts = (eachCar.parts | filter : { part_status : partStatus } : true)'
-                        ng-class="PartStatus(eachPart)">
+                        class='{{ eachPart.part_status }}'>
                         <td width='15%' align='center'>
                             <a href='http://www.google.com/search?tbm=isch&q={{ eachPart.number }}' target='CarPart' >
                                 {{ eachPart.number }}

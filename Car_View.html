@@ -1,9 +1,14 @@
 <html ng-app='carViewModule'>
 <head>
     <title>Car Parts Status</title>
+
     <script src="./scripts/angularjs.min.js"></script>
+    <!-- <script src="./scripts/bootstrap.js"></script> -->
+ 
     <script src="./scripts/Car_View.js"></script>
     <script src='./scripts/UtilityFunctions.js'></script>
+  
+    <!-- <link rel='stylesheet' href="./styles/bootstrap.css" /> -->
     <link rel='stylesheet' href="./styles/Parts.css" />
 </head>
 
@@ -108,7 +113,7 @@
 
     <br/>
 
-    <table width=100% align='center' id='carParts'>
+    <table width=100% align='center' id='carParts' class="table table-hover">
         <tr>
             <td align='left'>
                 <input type='button' value="Go Back" ng-click='GoBackToMainPage();'>
@@ -165,7 +170,7 @@
             </th>
         </tr>
         <tr ng-repeat='eachPart in car.partsList | orderBy: sortField | filter: searchText'
-            ng-class="PartStatus(eachPart)">
+            class="{{ eachPart.part_status }}">
             <td align='center'>
                 {{ eachPart.line_num }}
             </td>

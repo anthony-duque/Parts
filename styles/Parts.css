@@ -6,12 +6,29 @@
     background-color: lightgreen;
 }
 
+.RECEIVED{
+    background-color: lightgreen;
+}
+
 .waitingForParts{
+    background-color: yellow;
+}
+
+.ORDERED{
     background-color: yellow;
 }
 
 .noParts{
     background-color: pink;
+}
+
+.NOT_ORDERED{
+    background-color: pink;
+}
+
+.RETURNED{
+    color: white;
+    background-color: orange;
 }
 
 .heading{
