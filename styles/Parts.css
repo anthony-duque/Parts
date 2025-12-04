@@ -2,121 +2,153 @@
     background-color: gainsboro;
 }
 
+
 .partsComplete{
     background-color: lightgreen;
 }
+
 
 .RECEIVED{
     background-color: lightgreen;
 }
 
+
 .waitingForParts{
     background-color: yellow;
 }
+
 
 .ORDERED{
     background-color: yellow;
 }
 
+
 .noParts{
     background-color: pink;
 }
 
+
 .NOT_ORDERED{
     background-color: pink;
 }
+
 
 .RETURNED{
     color: white;
     background-color: orange;
 }
 
+
 .heading{
     background-color: black;
     color: white;
 }
+
 
 .greenOnWhite{
     background-color: lightgreen;
     color: white;
 }
 
+
 .whiteOnGreen{
     background-color: green;
     color: white;
 }
 
+
 .redOnWhite{
     color: red;
 }
+
 
 .lightGreen {
     background-color: lightgreen;
 }
 
-.completed {
-    background-color: lightgreen;
-}
 
 .underway {
     background-color: yellow;
 }
 
+
 .notStarted {
     background-color: pink;
 }
+
 
 .lightBlue {
     background-color: lightblue;
 }
 
+
 .white {
     background-color: white;
 }
+
 
 .active{
     background-color: white;
     color: black;
 }
 
+
 .inactive{
     background-color: gray;
     color: white
 }
 
+
 .showBorders{
     border: 2px solid black;
 }
+
+
+.someUnordered{
+    color: white;
+    background-color: orange;
+}
+
 
 .orange{
     color: white;
     background-color: orange;
 }
 
-.orange:visited{
-    color: white;
-}
-
-.orange:link{
-    color: white;
-}
 
 a.arrow{
     text-decoration: none;
 }
+
 
 .red{
     border-color: red;
     border-width:4;
 }
 
+
+.whiteOnRed{
+    background-color: red;
+    color: white;
+}
+
+
 .bgLiteGrey{
     background-color: lightgray;
 }
 
+
+.bottomBorderOnly{
+    border-bottom-style: groove;
+}
+
+
+/** Insurance Companies Background Colors **/
+
 .ALLSTATE{  /*  Allstate Insurance */
     background-color: red;
 }
+
 
 .STATE{     /* State Farm */
     background-color: red;
@@ -143,11 +175,4 @@ a.arrow{
     background-color: white;
 }
 
-.whiteOnRed{
-    background-color: red;
-    color: white;
-}
-
-.bottomBorderOnly{
-    border-bottom-style: groove;
-}
+/** End Insurance Companies Background Colors **/
