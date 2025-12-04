@@ -69,12 +69,6 @@ var carViewCtrlr = function($scope, $http, utility){
         $scope.sortField = utility.SortField(sortFld, $scope.sortField);
     }  // SortParts()
 
-        // Computes the background color for a row
-        // based on ordered, received, and returned quantities.
-    $scope.PartStatus = function(objPart){
-        return utility.ColorPartStatus(objPart);
-    }   // PartStatus()
-
 
     $scope.ToggleColor = function(x, oddRowClass, evenRowClass){
         return utility.ToggleRows(x, oddRowClass, evenRowClass);

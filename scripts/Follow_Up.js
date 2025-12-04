@@ -167,13 +167,6 @@ var followUpCtlr = function($scope, $http, utility){
 
     }   // showHideVendor()
 
-        // Computes the background color for a row
-        // based on ordered, received, and returned quantities.
-    $scope.PartStatus = function(objPart){
-        return utility.ColorPartStatus(objPart);
-    }   // PartStatus()
-
-
     $scope.Reset_Filters = function(){
 
         $scope.vendorName       = "";

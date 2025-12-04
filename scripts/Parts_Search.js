@@ -29,11 +29,6 @@ var PartsSearchCtrlr = function($scope, $http, utility){
           .catch(handleError);   // .then()
     } // GetAllParts()
 
-    $scope.PartStatus = function(partInfo){
-
-        return utility.ColorPartStatus(partInfo);
-
-    }   // PartStatus()
 
     $scope.SortParts = function(sortFld){
 
