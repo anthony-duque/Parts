@@ -87,14 +87,13 @@
                     SELECT RO_Qty, Ordered_Qty, Received_Qty,
                         Returned_Qty, Location, Loc_ID, Part_Status
                     FROM PartsStatusExtract
-                    WHERE (Part_Number <> 'Remanufactured')
-                            AND (Line > 0)
-                            AND (Part_Number > '' OR Vendor_Name > '')
-                            AND Vendor_Name NOT LIKE '**%'
-                            AND Part_Number NOT LIKE 'Aftermarket%'
-                            AND (Part_Type <> 'Sublet')
-                            AND RO_Num = $roNum
-                            AND Loc_ID = $locID
+                    WHERE Part_Number NOT IN ('Sublet', 'Remanufactured')
+                        AND (Line > 0)
+                        AND (Part_Number > '' OR Vendor_Name > '')
+                        AND Vendor_Name NOT LIKE '**%'
+                        AND Part_Type NOT IN ('Sublet')
+                        AND RO_Num = $roNum
+                        AND Loc_ID = $locID
                     ORDER BY Ordered_Qty ASC;
                 strSQL;
         try {

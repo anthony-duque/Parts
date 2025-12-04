@@ -144,8 +144,7 @@
                         AND (Line > 0)
                         AND (Part_Number > '' OR Vendor_Name > '')
                         AND Vendor_Name NOT LIKE '**%'
-                        AND Part_Number NOT LIKE 'Aftermarket%'
-                        AND (Part_Type <> 'Sublet')
+                        AND Part_Type NOT IN ('Sublet')
                         AND RO_Num = $roNum
                         AND Loc_ID = $locID
                     ORDER BY Ordered_Qty ASC

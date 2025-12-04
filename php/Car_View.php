@@ -100,11 +100,11 @@ require('Utility_Scripts.php');
                         Returned_Qty, Expected_Delivery, Invoice_Date,
                         Part_Status
                 FROM PartsStatusExtract
-                WHERE (Part_Number <> 'Remanufactured')
+                WHERE Part_Number NOT IN ('Sublet', 'Remanufactured')
                     AND Line > 0
                     AND (Part_Number > '' OR Vendor_Name > '')
-                    AND Vendor_Name NOT LIKE '*%'
-                    AND Part_Type NOT IN ('FIX ME','Sublet')
+                    AND Vendor_Name NOT LIKE '**%'
+                    AND Part_Type NOT IN ('Sublet')
                     AND RO_Num = $ro
                     AND Loc_ID = $locID
                 ORDER BY Ordered_Qty ASC;
