@@ -33,17 +33,21 @@
         </tr>
     </table>
 
-    <table align='center' width='90%' border=1>
+    <table align='center' width='90%' border=1 class="table-hover">
         <tr class="heading">
             <th ng-click='SortParts("ro_num");'>
                 RO
             </th>
-            <th ng-click='SortParts("owner");'>
-                Owner
-            </th>
-            <th ng-click='SortParts("part_number");'>
-                Part No.
-            </th>
+            <td ng-click='SortParts("owner");' align="center">
+                <b>
+                    Owner
+                </b>
+            </td>
+            <td ng-click='SortParts("part_number");'>
+                <b>
+                    Part No.
+                </b>
+            </td>
             <th ng-click='SortParts("part_description");'>
                 Part Description
             </th>
@@ -81,6 +85,7 @@
                 Returned
             </th>
         </tr>
+        <tbody>
         <tr ng-repeat='eachPart in allParts | filter: searchText | PartsByStatus : status | orderBy: sortFld | FilterInOutCars : carsInOut'
             class="{{ eachPart.part_status }}">
             <td align='center'>
@@ -129,5 +134,6 @@
                 {{ eachPart.returned_quantity }}
             </td>
         </tr>
+        </tbody>
     </table>
 </div>
