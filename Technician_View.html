@@ -2,7 +2,7 @@
 <table id='TechnicianCars' border=1 width='100%' ng-controller="TechnicianViewController">
 
     <tr ng-repeat='eachTech in technicians | filter : { name : tech, location_ID : locationID } | filter : searchText'>
-        <td align='center' valign="middle">
+        <td align='center' valign="middle" class="showBorders">
             <img ng-src='./images/{{ eachTech.name }}.jpg' style="max-width: 100px; max-height: 100px"  alt="{{ eachCar.name }}">
             <br/>
             <b>
@@ -10,7 +10,7 @@
             </b>
         </td>
         <td ng-repeat="eachCar in eachTech.cars| orderBy : sortCars | filter: searchText | filter : { loc_ID : locationID }" 
-            align='center' class="showBorders" ng-class='CheckParts(eachCar);'>
+            align='center' valign="top" class="showBorders" ng-class='CheckParts(eachCar);'>
             <a href="Car_View.html?roNum={{ eachCar.ro_num }}&locationID={{ eachCar.loc_ID }}" target="CarStatus">
             <table width='150' height='100%'>
                 <tr>
@@ -94,6 +94,7 @@
                 </tr>
             </table>
             </a>
+            <br/>
         </td>
     </tr>
 </table>
