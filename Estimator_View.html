@@ -1,17 +1,18 @@
 
-<table id='EstimatorCars' border=1 width='100%' ng-controller="EstimatorViewController" class="table table-bordered">
+<table id='EstimatorCars' border=1 width='100%' ng-controller="EstimatorViewController">
 
     <tr ng-repeat="eachEst in estimators | filter : { name : estim, location_ID : locationID }  | filter : searchText">
-        <td align='center' ng-click='SortCars("status");'>
+        <td align='center' ng-click='SortCars("status");' height="100%" valign="middle">
             <img ng-src="./images/{{ eachEst.name }}.jpg" style="max-width: 100px; max-height: 100px" alt="{{ eachCar.Estimator }}" />
             <br/>
             <b>
                 {{ eachEst.name }}
             </b>
         </td>
-        <td ng-repeat="eachCar in eachEst.cars | orderBy : sortCars | filter: searchText | FilterInOutCars : carsInOut | filter : { loc_ID : locationID }" height='100%' align='center'>
+        <td ng-repeat="eachCar in eachEst.cars | orderBy : sortCars | filter: searchText | FilterInOutCars : carsInOut | filter : { loc_ID : locationID }" 
+            class="showBorders" align='center' ng-class='CheckParts(eachCar);'>
             <a href="Car_View.html?roNum={{ eachCar.ro_num }}&locationID={{ eachCar.loc_ID }}" target="CarStatus">
-            <table width='150' height='100%' align="center" ng-class='CheckParts(eachCar);'>
+            <table width='150' height='100%' align="center">
                 <tr>
                     <td align='center'>
                         <img ng-src='./images/{{ eachCar.location }}.png' style="max-width: 100px; max-height: 100px">
