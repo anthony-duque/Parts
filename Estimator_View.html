@@ -1,37 +1,48 @@
 
-<table id='EstimatorCars' border=1 width='100%' ng-controller="EstimatorViewController">
+<table id='EstimatorCars' border=1 width='100%' ng-controller="EstimatorViewController" class="table table-bordered">
 
     <tr ng-repeat="eachEst in estimators | filter : { name : estim, location_ID : locationID }  | filter : searchText">
-        <th align='center' ng-click='SortCars("status");'>
+        <td align='center' ng-click='SortCars("status");'>
             <img ng-src="./images/{{ eachEst.name }}.jpg" style="max-width: 100px; max-height: 100px" alt="{{ eachCar.Estimator }}" />
-            {{ eachEst.name }}
-        </th>
-        <td ng-repeat="eachCar in eachEst.cars | orderBy : sortCars | filter: searchText | FilterInOutCars : carsInOut | filter : { loc_ID : locationID }" height='100%' align='center' ng-class='CheckParts(eachCar);'>
+            <br/>
+            <b>
+                {{ eachEst.name }}
+            </b>
+        </td>
+        <td ng-repeat="eachCar in eachEst.cars | orderBy : sortCars | filter: searchText | FilterInOutCars : carsInOut | filter : { loc_ID : locationID }" height='100%' align='center'>
             <a href="Car_View.html?roNum={{ eachCar.ro_num }}&locationID={{ eachCar.loc_ID }}" target="CarStatus">
-            <table width='150' height='100%'>
+            <table width='150' height='100%' align="center" ng-class='CheckParts(eachCar);'>
                 <tr>
                     <td align='center'>
                         <img ng-src='./images/{{ eachCar.location }}.png' style="max-width: 100px; max-height: 100px">
                     </td>
                 </tr>
                 <tr>
-                    <th>
-                        {{ eachCar.ro_num }}
-                    </th>
-                </tr>
-                <tr>
-                    <th>
-                        <u>{{ eachCar.owner }}</u>
-                    </th>
-                </tr>
-                <tr>
-                    <th>
-                        {{ eachCar.vehicle.split(' ')[1] + " " + eachCar.vehicle.split(' ')[2] }}
-                    </th>
+                    <td align='center'>
+                        <b>
+                            {{ eachCar.ro_num }}
+                        </b>
+                    </td>
                 </tr>
                 <tr>
                     <td align='center'>
-                        <i>[ {{ eachCar.vehicle_color }} ]</i>
+                        <b>
+                            {{ eachCar.owner }}
+                        </b>
+                    </td>
+                </tr>
+                <tr>
+                    <td align='center'>
+                        <u>
+                            {{ eachCar.vehicle.split(' ')[1] + " " + eachCar.vehicle.split(' ')[2] }}
+                        </u>
+                    </td>
+                </tr>
+                <tr>
+                    <td align='center'>
+                        <i>
+                            [ {{ eachCar.vehicle_color }} ]
+                        </i>
                     </td>
                 </tr>
                 <tr>

@@ -54,7 +54,7 @@ app.factory('utility', function(){
                 // There are parts received or ordered but there
                 // is at least one part that has not been ordered
             case (carObj.parts_unordered > 0):
-                bgClass = 'orange';
+                bgClass = 'someUnordered';
                 break;
 
                 // All parts ordered but still waiting for parts.
