@@ -169,6 +169,7 @@
                 <br/>
             </th>
         </tr>
+        <tbody>
         <tr ng-repeat='eachPart in car.partsList | orderBy: sortField | filter: searchText'
             class="{{ eachPart.part_status }}">
             <td align='center'>
@@ -210,6 +211,7 @@
                 {{ eachPart.returned_quantity }}
             </td>
         </tr>
+        </tbody>
     </table>
 
 </body>

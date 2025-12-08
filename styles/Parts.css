@@ -143,6 +143,9 @@ a.arrow{
     border-bottom-style: groove;
 }
 
+.table-hover tbody tr:hover {
+    background-color: lightgray;
+}
 
 /** Insurance Companies Background Colors **/
 
