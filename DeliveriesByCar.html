@@ -45,7 +45,7 @@
 </table>
 
 <table border='1' width='90%' align='center' ng-controller='DeliveriesByCarCtrlr'>
-    <tr ng-repeat='eachCar in allCars | filter: searchText | FilterInOutCars : carsInOut'
+    <tr ng-repeat='eachCar in allCars | filter: searchText | filter : { location_ID : locationID } | FilterInOutCars : carsInOut'
         ng-class='ToggleColor($index, "lightGreen", "white");'
         ng-hide='eachCar.vendors.length == 0'>
         <td align='center' width='15%'>
