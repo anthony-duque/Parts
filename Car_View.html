@@ -3,25 +3,27 @@
     <title>Car Parts Status</title>
 
     <script src="./scripts/angularjs.min.js"></script>
-    <!-- <script src="./scripts/bootstrap.js"></script> -->
+    <script src="./scripts/bootstrap.js"></script>
  
     <script src="./scripts/Car_View.js"></script>
     <script src='./scripts/UtilityFunctions.js'></script>
   
-    <!-- <link rel='stylesheet' href="./styles/bootstrap.css" /> -->
+    <link rel='stylesheet' href="./styles/bootstrap.css" />
     <link rel='stylesheet' href="./styles/Parts.css" />
 </head>
 
 <body ng-controller="carViewController">
 
-    <table width='100%' align=center border=0 class='heading'>
+    <table width='100%' align=center border=1 class='heading'>
         <tr>
             <th rowspan="2">
                 <img ng-src='./images/{{ car.location }}.png' style="max-width: 75px; max-height: 75px">
             </th>
-            <th width='10%' align='left'>
-                {{ car.ro_num }}
-            </th>
+            <td width='10%'>
+                <b>
+                    {{ car.ro_num }}
+                </b>
+            </td>
             <th align='left'>
                 {{ car.vehicle }}
             </th>
@@ -77,19 +79,27 @@
     <table width='40%' border="1"align='center'>
     <thead>
         <tr>
-            <th colspan='3' ng-click='showSublet = !showSublet' ng-class='BG_SubletsStatus(car.subletList);'>
-                S U B L E T S
-            </th>
+            <td colspan='3' ng-click='showSublet = !showSublet' ng-class='BG_SubletsStatus(car.subletList);' align="center">
+                <b>
+                    S U B L E T S
+                </b>
+            </td>
         </tr>
         <tr ng-show='showSublet' class='lightBlue'>
-            <th ng-hide='car.subletList.length == 0'>
-                Description
-            </th>
-            <th ng-hide='car.subletList.length == 0'>
-                Done
-            </th>
-            <th ng-hide='car.subletList.length == 0'>
-                Company
+            <td ng-hide='car.subletList.length == 0' align="center">
+                <b>
+                    Description
+                </b>
+            </td>
+            <td ng-hide='car.subletList.length == 0' align="center">
+                <b>
+                    Done?
+                </b>
+            </td>
+            <td ng-hide='car.subletList.length == 0' align="center">
+                <b>
+                    Company
+                </b>
             </th>
         </tr>
     </thead>
@@ -106,14 +116,19 @@
             </th>
         </tr>
         <tr ng-show='car.subletList.length == 0'>
-            <th colspan=2>No sublets required for this repair.</th>
+            <td colspan=2 align="center">
+                <b>
+                    No sublets required for this repair.
+                </b>
+            </td>
         </tr>
     </tbody>
     </table>
 
     <br/>
 
-    <table width=100% align='center' id='carParts' class="table table-hover">
+    <table width=100% align='center' id='carParts' class="table-hover">
+        <thead>
         <tr>
             <td align='left'>
                 <input type='button' value="Go Back" ng-click='GoBackToMainPage();'>
@@ -124,42 +139,62 @@
             </td>
         </tr>
         <tr>
-            <th class='bottomBorderOnly' ng-click="SortParts('line_num');">
-                Line
-            </th>
-            <th class='bottomBorderOnly' ng-click="SortParts('part_number');">
-                Part Number
-            </th>
+            <td class='bottomBorderOnly' ng-click="SortParts('line_num');" align="center">
+                <b>
+                    Line
+                </b>
+            </td>
+            <td class='bottomBorderOnly' ng-click="SortParts('part_number');">
+                <b>
+                    Part Number
+                </b>
+            </td>
             <th class='bottomBorderOnly' ng-click="SortParts('part_description');">
                 Part Description
             </th>
-            <th class='bottomBorderOnly' ng-click="SortParts('part_status');">
-                Part Status
-            </th>
-            <th class='bottomBorderOnly' ng-click="SortParts('vendor_name');">
-                Vendor Name
-            </th>
+            <td class='bottomBorderOnly' ng-click="SortParts('part_status');" align="center">
+                <b>
+                    Part Status
+                </b>
+            </td>
+            <td class='bottomBorderOnly' ng-click="SortParts('vendor_name');" align="center">
+                <b>
+                    Vendor Name
+                </b>
+            </td>
             <th class='bottomBorderOnly' ng-click="SortParts('ro_quantity');">
                 RO<br/>Qty
             </th>
-            <th class='bottomBorderOnly' ng-click="SortParts('ordered_quantity');">
-                Ordered<br/>Qty
-            </th>
-            <th class='bottomBorderOnly' ng-click="SortParts('ordered_quantity');">
-                Order<br/>Date
-            </th>
-            <th class='bottomBorderOnly' ng-click="SortParts('expected_delivery');">
-                Expected<br/>Delivery
-            </th>
-            <th class='bottomBorderOnly' ng-click="SortParts('received_quantity');">
-                Receive<br/>Date
-            </th>
-            <th class='bottomBorderOnly' ng-click="SortParts('received_quantity');">
-                Received<br/>Qty
-            </th>
-            <th class='bottomBorderOnly' ng-click="SortParts('returned_quantity');">
-                Returned<br/>Qty
-            </th>
+            <td class='bottomBorderOnly' ng-click="SortParts('ordered_quantity');" align="center">
+                <b>
+                    Ordered<br/>Qty
+                </b>
+            </td>
+            <td class='bottomBorderOnly' ng-click="SortParts('ordered_quantity');" align="center">
+                <b>
+                    Order<br/>Date
+                </b>
+            </td>
+            <td class='bottomBorderOnly' ng-click="SortParts('expected_delivery');" align="center">
+                <b>
+                    Expected<br/>Delivery
+                </b>
+            </td>
+            <td class='bottomBorderOnly' ng-click="SortParts('received_quantity');" align="center">
+                <b>
+                    Receive<br/>Date
+                </b>
+            </td>
+            <td class='bottomBorderOnly' ng-click="SortParts('received_quantity');" align="center">
+                <b>
+                    Received<br/>Qty
+                </b>
+            </td>
+            <td class='bottomBorderOnly' ng-click="SortParts('returned_quantity');" align="center">
+                <b>
+                    Returned<br/>Qty
+                </b>
+            </td>
         </tr>
         <tr ng-show='car.partsList.length == 0'>
             <th colspan='12' class='lightgreen'>
@@ -169,13 +204,14 @@
                 <br/>
             </th>
         </tr>
+        </thead>
         <tbody>
         <tr ng-repeat='eachPart in car.partsList | orderBy: sortField | filter: searchText'
             class="{{ eachPart.part_status }}">
             <td align='center'>
                 {{ eachPart.line_num }}
             </td>
-            <td align='center'>
+            <td>
                 <a href='http://www.google.com/search?tbm=isch&q={{ eachPart.part_number }}' target='CarPart' >
                     {{ eachPart.part_number }}
                 </a>
