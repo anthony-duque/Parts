@@ -35,10 +35,12 @@
     class Vendor {
 
         public $name;
+        public $location_ID;
         public $cars = [];
 
         function __construct($rec, $dbConn){
             $this->name = str_replace("'", "''", $rec["Vendor_Name"]);
+            $this->location_ID = $rec["Loc_ID"];
         }   // Vendor()
 
         function Get_Cars_for_Vendor($dbConn, $sqlDtClause){
@@ -173,7 +175,7 @@
     function Get_All_Vendors($dbConn, $sqlDateClause){
 
         $sql = <<<strSQL
-                    SELECT DISTINCT Vendor_Name
+                    SELECT DISTINCT pse.Vendor_Name, pse.Loc_ID 
                     FROM PartsStatusExtract pse INNER JOIN Repairs r
                         ON pse.RO_Num = r.RONum
                     WHERE Vendor_Name NOT IN (%s)
