@@ -1,30 +1,39 @@
 <html ng-app="StageApp">
 <head>
     <title>Production Stage</title>
+ 
     <script src='./scripts/angularjs.min.js'></script>
+    <script src='./scripts/bootstrap.js'></script>
+ 
     <script src='./scripts/Stage.js'></script>
     <script src='./scripts/Stage_Car.js'></script>
     <script src='./scripts/Priority_Car.js'></script>
     <script src='./scripts/Filters.js'></script>
     <script src='./scripts/UtilityFunctions.js'></script>
+
     <link rel='stylesheet' href="./styles/Parts.css" />
+    <link rel='stylesheet' href="./styles/bootstrap.css" />
 </head>
 <body ng-controller='StageCtrlr' style='font-size: x-small'>
-    <table align='center' width='100%' border=0>
+    <br/>
+    <table align='center' width='100%' border=0 class="bgLiteGrey">
     <tr ng-show='locID > 0'>
         <td align='left'>
-            <input type='button' value='Reset Filters' ng-click='ResetFilters();' />
+            <input type='button' value='Reset Filters' ng-click='ResetFilters();' class="btn btn-primary"/>
         </td>
         <td align='right'>
-            <input type='button' value='Unassigned Cars' ng-click='UnassignedCarsFilter();' ng-class='UC_Class'/>
+            <input type='button' value='Unassigned Cars' ng-click='UnassignedCarsFilter();' ng-class='UC_Class' class="btn btn-warning"/>
         </td>
         <td align='right'>
-            <input type='button' value='Switch Colors' ng-click='ChooseBGMode(BackgroundMode);'>
+            <input type='button' value='Switch Colors' ng-click='ChooseBGMode(BackgroundMode);' class="btn btn-danger">
             &nbsp;by:&nbsp;{{ BackgroundMode }}
         </td>
         <td align='right'>
             Last Update: {{ lastUpdate }}
         </td>
+    </tr>
+    <tr>
+        <td colspan="4"><br/></td>
     </tr>
     <tr>
         <td align='left' ng-show='locID > 0'>
@@ -60,14 +69,19 @@
             </select>
         </td>
     </tr>
+    <tr>
+        <td colspan="4"><br/></td>
+    </tr>
     </table>
 
     <table id=id="tblPriority" border='1' ng-show='tech > ""'>
     <tr>
-        <th align='center' ng-click='PlaceInQueue(carPicked);'>
+        <td align='center' ng-click='PlaceInQueue(carPicked);'>
             <img ng-src='./images/{{ tech.toUpperCase() }}.jpg' style="max-width: 100px; max-height: 100px"  alt="{{ eachCar.Technician }}">
-            <br/>{{ tech }}
-        </th>
+            <br/>
+            <b>{{ tech }}</b>
+            <br/>
+        </td>
         <td ng-repeat='eachCar in priorityCars | filter : { locationID : locID, technician : tech }'
             ng-class='eachCar.borderColor'
             ng-click='ChangeBorder(eachCar);'
@@ -77,23 +91,25 @@
     </tr>
     </table>
 
-    <table border=1>
+    <table class="bgLiteGrey">
     <tr class='heading'>
-        <th ng-repeat='stage in stages' width='{{ colWidth }}%' ng-click='MoveCar(stage.order_no);'>
-            {{ stage.description  }}
-        </th>
+        <td ng-repeat='stage in stages' width='{{ colWidth }}%' ng-click='MoveCar(stage.order_no);' align="center">
+            <b>
+                {{ stage.description  }}
+            </b>
+        </td>
     </tr>
-    <tr class="bgLiteGrey">
-        <td valign='top' ng-repeat='stage in stages' ng-click='MoveCar(stage.order_no);'>
-            <table border="1" width='100%'>
+    <tr>
+        <td valign='top' ng-repeat='stage in stages' ng-click='MoveCar(stage.order_no);' class="showBorders">
+            <table width='100%'>
             <tr ng-init='lastCarIndex = production_stage[stage.order_no].cars.length - 1'
                 ng-repeat='eachCar in production_stage[stage.order_no].cars
                             | filter: { locationID: locID }
                             | filter: { technician: tech}
                             | filter: { estimator: estim }
                             | filter : searchText
-                            | FilterUnassignedCars : filterOn' >
-                <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar);'>
+                            | FilterUnassignedCars : filterOn'>
+                <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar);' class="showBorders">
                     <div ng-include='"Stage_Car.html"'
                          ng-class='Set_BG_Class(BackgroundMode, eachCar);'>
                     </div>

@@ -133,11 +133,14 @@ a.arrow{
     color: white;
 }
 
-
 .bgLiteGrey{
     background-color: lightgray;
 }
 
+
+.liteGrayBorder{
+    border-color: lightgray;
+}
 
 .bottomBorderOnly{
     border-bottom-style: groove;
