@@ -104,6 +104,15 @@
 }
 
 
+.thinBorders{
+    border: 1px solid black;
+}
+
+
+.whiteBorders{
+    border: 1px solid white;
+}
+
 .someUnordered{
  /*   color: white;     */
     background-color: orange;
