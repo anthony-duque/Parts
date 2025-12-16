@@ -55,7 +55,6 @@
             <td align='center' colspan="2">
                 <h4>Shop:</h4>
                 <select ng-model='locationID' class="form-select">
-                    <option value=0 selected>All Locations</option>
                     <option ng-repeat='loc in locations' value='{{ loc.id }}'>{{ loc.location }}</option>
                 </select>
             </td>
