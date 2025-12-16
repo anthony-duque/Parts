@@ -1,9 +1,6 @@
 <div  ng-controller='DeliveriesController'>
 
     <table width='90%' align='center'>
-        <caption>
-            <b>Deliveries</b>
-        </caption>
         <tr>
             <td>
                 <b><i><u>Delivered:</u></i></b>
@@ -17,11 +14,11 @@
                 <input type='radio' ng-model='viewBy' value='DeliveriesByVendor.html' ng-click='Get_All_Cars(numDays);'>Vendor</input>
             </td>
             <td align='center'>
-                Search: <input type='text' ng-model='searchText' />
-                &nbsp;<input type='button' value='Clear' ng-click='searchText = ""'>
+                <b>Search:</b><input type='text' ng-model='searchText' />
+                &nbsp;<input type='button' value='Clear' ng-click='searchText = ""' class="btn btn-warning">
             </td>
             <td align='right'>
-                <select ng-model='carsInOut'>
+                <select ng-model='carsInOut' class="form-select">
                     <option value='all' selected>
                         For All Cars
                     </option>

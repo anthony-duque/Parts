@@ -36,26 +36,26 @@
         <td colspan="4"><br/></td>
     </tr>
     <tr>
-        <td align='left' ng-show='locID > 0'>
-            Technician:
-            <select ng-model='tech'>
+        <td align='center' ng-show='locID > 0' style='color : blue;'>
+            <b>Technician:</b>
+            <select ng-model='tech' class="form-select">
                 <option value=''>All Techs</option>
                 <option ng-repeat='eachTech in techList | filter: { locationID: locID }' value='{{ eachTech.name }}'>
                     {{ eachTech.name }}
                 </option>
             </select>
         </td>
-        <td align='left' ng-show='locID > 0'>
-            Estimator:
-            <select ng-model='estim'>
+        <td align='center' ng-show='locID > 0' style='color : red;'>
+            <b>Estimator:</b>
+            <select ng-model='estim' class="form-select">
                 <option value=''>All Estimators</option>
                 <option ng-repeat='estimator in estimatorList | filter: { locationID: locID }' value='{{ estimator.name }}'>
                     {{ estimator.name }}
                 </option>
             </select>
         </td>
-        <td align='left' ng-show='locID > 0'>
-            Search: <input type='text' ng-model='searchText'/>&nbsp;
+        <td align='center' ng-show='locID > 0'>
+            <b>Search:</b>&nbsp;<input type='text' ng-model='searchText'/>&nbsp;
             <input type='button' value='Clear' ng-click='searchText = ""' class="btn btn-success">
         </td>
         <td align='right'>
@@ -63,7 +63,7 @@
                 <blink><b>Select a shop</b></blink>
             </div>
             Shop:
-            <select ng-model='locID' ng-change='SwitchShops(locID);'>
+            <select ng-model='locID' ng-change='SwitchShops(locID);' class="form-select">
                 <option value=1 selected>CarStar City Auto</option>
                 <option value=2>CarStar Simi Valley</option>
             </select>

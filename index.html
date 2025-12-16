@@ -5,7 +5,7 @@
 
     <!-- script src='./scripts/angularjs.js'></script-->
     <script src='./scripts/angularjs.min.js'></script>
-    <script src='./scripts/bootstrap.js'></script>
+    <script src='./scripts/bootstrap.bundle.min.js.js'></script>
  
     <script src='./scripts/index.js'></script>
 
@@ -43,7 +43,7 @@
 
     <!-- Universal Style Sheet -->
     <link rel="stylesheet" href="./styles/Parts.css">
-    <link rel="stylesheet" href="./styles/bootstrap.css">
+    <link rel="stylesheet" href="./styles/bootstrap.min.css">
 
 </head>
 <body ng-controller='TabsController'>
@@ -53,8 +53,8 @@
                 Today's Date: {{ dateToday }}
             </td>
             <td align='center' colspan="2">
-                Shop:
-                <select ng-model='locationID'>
+                <h4>Shop:</h4>
+                <select ng-model='locationID' class="form-select">
                     <option value=0 selected>All Locations</option>
                     <option ng-repeat='loc in locations' value='{{ loc.id }}'>{{ loc.location }}</option>
                 </select>
@@ -63,43 +63,43 @@
                 Data last updated:  {{ last_update }}
             </td>
         </tr>
-        <tr role='button' class="p-2 border">
-            <td ng-class='Tabs.Production' ng-click='PickTab("Production");' align="center" class="whiteBorders">
+        <tr role='button'>
+            <td ng-class='Tabs.Production' ng-click='PickTab("Production");' align="center">
                 <b>
                     Production
                 </b>
             </td>
-            <td ng-class='Tabs.Deliveries' ng-click='PickTab("Deliveries");' align="center" class="whiteBorders">
+            <td ng-class='Tabs.Deliveries' ng-click='PickTab("Deliveries");' align="center">
                 <b>
                     Deliveries
                 </b>
             </td>
-            <td ng-class='Tabs.PartsSearch' ng-click='PickTab("PartsSearch");' align="center" class="whiteBorders">
+            <td ng-class='Tabs.PartsSearch' ng-click='PickTab("PartsSearch");' align="center">
                 <b>
                     Parts Search
                 </b>
             </td>
-            <td ng-class='Tabs.Materials' ng-click='PickTab("Materials");' align="center" class="whiteBorders">
+            <td ng-class='Tabs.Materials' ng-click='PickTab("Materials");' align="center">
                 <b>
                     Materials
                 </b>
             </td>
-            <td ng-class='Tabs.FollowUp' ng-click='PickTab("FollowUp");' align="center" class="whiteBorders">
+            <td ng-class='Tabs.FollowUp' ng-click='PickTab("FollowUp");' align="center">
                 <b>
                     Follow-Up
                 </b>
             </td>
-            <td ng-class='Tabs.ReturnForms' ng-click='PickTab("ReturnForms");' align="center" class="whiteBorders">
+            <td ng-class='Tabs.ReturnForms' ng-click='PickTab("ReturnForms");' align="center">
                 <b>
                     Return Forms
                 </b>
             </td>
-            <td ng-class='Tabs.PaintList' ng-click='PickTab("PaintList");' align="center" class="whiteBorders">
+            <td ng-class='Tabs.PaintList' ng-click='PickTab("PaintList");' align="center">
                 <b>
                     Paint List
                 </b>
             </td>
-            <td ng-class='Tabs.Vendors' ng-click='PickTab("Vendors");' align="center" class="whiteBorders">
+            <td ng-class='Tabs.Vendors' ng-click='PickTab("Vendors");' align="center">
                 <b>
                     Vendors
                 </b>

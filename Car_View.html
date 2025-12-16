@@ -20,9 +20,7 @@
                 <img ng-src='./images/{{ car.location }}.png' style="max-width: 75px; max-height: 75px">
             </th>
             <td width='10%'>
-                <b>
-                    {{ car.ro_num }}
-                </b>
+                {{ car.ro_num }}
             </td>
             <th align='left'>
                 {{ car.vehicle }}
@@ -127,18 +125,21 @@
 
     <br/>
 
-    <table width=100% align='center' id='carParts' class="table-hover">
+    <table width='100%'' align='center' id='carParts' class="table-hover">
         <thead>
         <tr>
-            <td align='left'>
-                <input type='button' value="Go Back" ng-click='GoBackToMainPage();'>
+            <td align='left' colspan="4">
+                <input type='button' value="Go Back" ng-click='GoBackToMainPage();' class="btn btn-danger">
             </td>
             <td align='center' colspan='6'>
                 Search: <input type='text' ng-model='searchText' />
-                &nbsp;<input type='button' value='Clear' ng-click='searchText = ""'>
+                &nbsp;<input type='button' value='Clear' ng-click='searchText = ""' class="btn btn-warning">
             </td>
         </tr>
         <tr>
+            <td colspan="12"><br/></td>
+        </tr>
+        <tr class="heading">
             <td class='bottomBorderOnly' ng-click="SortParts('line_num');" align="center">
                 <b>
                     Line

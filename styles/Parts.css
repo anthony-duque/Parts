@@ -40,8 +40,11 @@
 
 
 .heading{
+    font-size: large;
+    font-weight: bold;
     background-color: black;
     color: white;
+    text-align: center;
 }
 
 
@@ -90,12 +93,14 @@
 .active{
     background-color: white;
     color: black;
+    border: 2px solid gray;
 }
 
 
 .inactive{
-    background-color: gray;
-    color: white
+    background-color: black;
+    color: white;
+    border: 1px solid white;
 }
 
 

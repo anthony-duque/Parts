@@ -2,9 +2,9 @@
     <br/>
     <table width='100%'>
     <tr>
-        <td>
-            Vendor:
-            <select ng-model='vendorName'>
+        <td align="center">
+            <h4><u>Filter by Vendor:</u></h4>
+            <select ng-model='vendorName' class="form-select">
                 <option value='' selected>
                     All Vendors
                 </option>
@@ -13,9 +13,9 @@
                 </option>
             </select>
         </td>
-        <td>
-            Estimator:
-            <select ng-model='estimatorName'>
+        <td align="center">
+            <h4><u>Filter by Estimator:</u></h4>
+            <select ng-model='estimatorName' class="form-select">
                 <option value='' selected>
                     All Estimators
                 </option>
@@ -24,9 +24,9 @@
                 </option>
             </select>
         </td>
-        <td>
-            Status:
-            <select ng-model='partStatus'>
+        <td align="center">
+            <h4><u>Filter by Status:</u></h4>
+            <select ng-model='partStatus' class="form-select">
                 <option value='' default>
                     Any Status
                 </option>
@@ -38,6 +38,10 @@
                 </option>
             </select>
         </td>
+            <td align='center' width='33%'>
+                <b>Search:</b> <input type='text' ng-model='searchText' />
+                &nbsp;<input type='button' value='Clear' ng-click='searchText = ""' class="btn btn-warning">
+            </td>
         <td align='right'>
             <input type='radio' ng-model='carsInOut' value='all' selected>
                 All Cars
@@ -107,70 +111,76 @@
             </tr>
             </table>
         </td>
-        <td bgcolor='white'>
-            <table border='1' width='100%'>
-            <tr ng-repeat='eachCar in filteredCars = (eachVendor.cars | filter : { estimator : estimatorName, locID : locationID } | FilterInOutCars : carsInOut)'
-                ng-class='ToggleColor($index, "white", "lightBlue");'
-                ng-show='filteredParts.length > 0'>
-                <td width='15%' align='center'>
-                        <table align='center'>
-                        <tr>
-                            <td align='center'>
-                                <a href="Car_View.html?roNum={{ eachCar.roNum }}&locationID={{ eachCar.locID }}" target="CarStatus">
-                                    <b>{{ eachCar.roNum }}</b>
+        <td bgcolor='white' class="thinBorders">
+            <a href="Car_View.html?roNum={{ eachCar.roNum }}&locationID={{ eachCar.locID }}" target="CarStatus">
+                <table border='1' width='100%'>
+                <tr ng-repeat='eachCar in filteredCars = (eachVendor.cars | filter : searchText | filter : { estimator : estimatorName, locID : locationID } | FilterInOutCars : carsInOut)'
+                    ng-class='ToggleColor($index, "white", "lightBlue");'
+                    ng-show='filteredParts.length > 0'>
+                    <td width='15%' align='center'>
+                            <table align='center'>
+                            <tr>
+                                <td align='center'>
+                                        <b>{{ eachCar.roNum }}</b>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align='center'>
+                                        <b>{{ eachCar.owner }}</b>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align='center'>
+                                    {{ eachCar.vehicle.split(' ')[0] + " " + eachCar.vehicle.split(' ')[1] + " " + eachCar.vehicle.split(' ')[2] }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align='center'>
+                                    {{ eachCar.estimator }}
+                                    <br/><br/>
+                                </td>
+                            </tr>
+                            <tr ng-show='eachCar.vin.length > 0'>
+                                <td align='center'>
+                                    VIN: <i>{{ eachCar.vin.slice(0,9) }}</i><b>{{ eachCar.vin.slice(9,17) }}</b>
+                                </td>
+                            </tr>
+                            </table>
+                    </td>
+                    <td bgcolor='white'>
+                        <table border='1' width='100%'>
+                        <tr ng-repeat='eachPart in filteredParts = (eachCar.parts | filter : { part_status : partStatus } : true)'
+                            class='{{ eachPart.part_status }}'>
+                            <td width='15%' align='center'>
+                                <a href='http://www.google.com/search?tbm=isch&q={{ eachPart.number }}' target='CarPart' >
+                                    {{ eachPart.number }}
                                 </a>
                             </td>
-                        </tr>
-                        <tr>
-                            <td align='center'>
-                                {{ eachCar.vehicle.split(' ')[0] + " " + eachCar.vehicle.split(' ')[1] + " " + eachCar.vehicle.split(' ')[2] }}
+                            <td width='10%' align='center'>
+                                {{ eachPart.type }}
                             </td>
-                        </tr>
-                        <tr>
-                            <td align='center'>
-                                {{ eachCar.estimator }}
-                                <br/><br/>
+                            <td width='35%'>
+                                {{ eachPart.description }}
                             </td>
-                        </tr>
-                        <tr ng-show='eachCar.vin.length > 0'>
-                            <td align='center'>
-                                VIN: <i>{{ eachCar.vin.slice(0,9) }}</i><b>{{ eachCar.vin.slice(9,17) }}</b>
+                            <td width='15%' align='center'>
+                                {{ eachPart.part_status }}
+                            </td>
+                            <td width='5%' align='center'>
+                                {{ eachPart.quantity }}
+                            </td>
+                            <td width='10%' align='center'>
+                                {{ eachPart.order_date }}
+                            </td>
+                            <td width='10%' align='center'>
+                                {{ eachPart.eta_date }}
                             </td>
                         </tr>
                         </table>
                 </td>
-                <td bgcolor='white'>
-                    <table border='1' width='100%'>
-                    <tr ng-repeat='eachPart in filteredParts = (eachCar.parts | filter : { part_status : partStatus } : true)'
-                        class='{{ eachPart.part_status }}'>
-                        <td width='15%' align='center'>
-                            <a href='http://www.google.com/search?tbm=isch&q={{ eachPart.number }}' target='CarPart' >
-                                {{ eachPart.number }}
-                            </a>
-                        </td>
-                        <td width='10%' align='center'>
-                            {{ eachPart.type }}
-                        </td>
-                        <td width='35%'>
-                            {{ eachPart.description }}
-                        </td>
-                        <td width='15%' align='center'>
-                            {{ eachPart.part_status }}
-                        </td>
-                        <td width='5%' align='center'>
-                            {{ eachPart.quantity }}
-                        </td>
-                        <td width='10%' align='center'>
-                            {{ eachPart.order_date }}
-                        </td>
-                        <td width='10%' align='center'>
-                            {{ eachPart.eta_date }}
-                        </td>
-                    </tr>
-                    </table>
-                </td>
             </tr>
             </table>
+        </a>
         </td>
     </tr>
     </table>

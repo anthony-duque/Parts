@@ -5,19 +5,19 @@
         <table id='tblTechList'>
         <tr>
             <td id='colTechs' colspan="2">
-                Order for:
-                <select ng-model='technician'>
+                <b style='color : red'>Order for:</b>
+                <select ng-model='technician' class="form-select">
                     <option ng-repeat='eachTech in techList| filter: { locID: locationID } | orderBy:"firstName"' value='{{eachTech.firstName}},{{eachTech.locID}}'>
                         {{ eachTech.firstName }}
                     </option>
-                </select>  <b style='color : red'>← Start Here</b>
+                </select>
             </td>
         </tr>
         <tr ng-show='technician.length > 0'>
             <td>
                 <br/>
                 Search: <input type='text' ng-model='searchText' placeholder="Enter any text"></input>
-                <input type='button' ng-click='searchText = ""' value='Clear'>
+                <input type='button' ng-click='searchText = ""' value='Clear' class="btn btn-warning">
             </td>
         </tr>
         </table>
@@ -27,7 +27,7 @@
         <table id='tblMaterialsListTbl' ng-show='technician.length > 0'>
         <tr>
             <td>
-                <input type='button' value='New Item' ng-click='Add_New_Material();'/>
+                <input type='button' value='New Item' ng-click='Add_New_Material();' class="btn btn-primary"/>
             </td>
         </tr>
         <tr>
@@ -133,7 +133,7 @@
         <table align='center' ng-show='ordersList.length > 0'>
         <tr>
             <td align='center'>
-                <input type='submit' value='Submit Request' ng-click='SubmitOrder();'/>
+                <input type='submit' value='Submit Request' ng-click='SubmitOrder();' class="btn btn-success"/>
             </td>
         </tr>
         </table>

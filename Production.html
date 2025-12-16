@@ -18,25 +18,25 @@
                             value="Technician_View.html" />
             </td>
             <td align='center' width='25%'>
-                Search:
+                <b>Search:<
                 <input type='text' ng-model='searchText'>
-                &nbsp;<input type='button' value='Clear' ng-click='searchText = ""'>
+                &nbsp;<input type='button' value='Clear' ng-click='searchText = ""' class="btn btn-warning">
             </td>
             <td ng-show='productionView == "Estimator_View.html"' align='center'>
-                Estimator:  <select ng-model='estim'>
-                                <option value=''>All Estimators</option>
-                                <option ng-repeat='eachEstim in estim_list | filter : { locID : locationID }' value='{{eachEstim.name}}'>
-                                    {{eachEstim.name}}
-                                </option>
-                            </select>
+                <select ng-model='estim'  class="form-select">
+                    <option value=''>All Estimators</option>
+                    <option ng-repeat='eachEstim in estim_list | filter : { locID : locationID }' value='{{eachEstim.name}}'>
+                        {{eachEstim.name}}
+                    </option>
+                </select>
             </td>
             <td ng-show='productionView == "Technician_View.html"' align='center'>
-                Technician:  <select ng-model='tech'>
-                                <option value=''>All Technicians</option>
-                                <option ng-repeat='eachTech in tech_list | filter : { locID : locationID }' value='{{eachTech.name}}'>
-                                    {{eachTech.name}}
-                                </option>
-                            </select>
+                <select ng-model='tech' class="form-select">
+                    <option value=''>All Technicians</option>
+                    <option ng-repeat='eachTech in tech_list | filter : { locID : locationID }' value='{{eachTech.name}}'>
+                        {{eachTech.name}}
+                    </option>
+                </select>
             </td>
             <td width='25%' align='right'>
                 <div ng-show='productionView == "Estimator_View.html"'>

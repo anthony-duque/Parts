@@ -1,35 +1,35 @@
 <table width='90%' align='center' border=1>
-<tr class='greenOnWhite'>
+<tr class='heading'>
     <th width='15%'>
         Car
     </th>
     <th>
         <table border=1 width='100%'>
-            <tr class='greenOnWhite'>
-                <th width='29%'>
+            <tr>
+                <td width='29%' class='heading inactive'>
                     Vendor
-                </th>
+                </td>
                 <th>
                     <table width='100%'>
-                        <tr class='greenOnWhite'>
-                                <th align='center' width='100%'>
+                        <tr>
+                            <td align='center' width='100%' class='heading inactive'>
                                 Part
-                                </th>
+                            </td>
                         </tr>
                         <tr>
                             <td width='100%'>
                                 <table width='100%' border=1>
-                                    <tr class='greenOnWhite'>
-                                        <th width='50%'>
+                                    <tr class='heading'>
+                                        <td width='50%' class="inactive">
                                             Description
                                         </th>
-                                        <th width='30%'>
+                                        <th width='30%' class="inactive">
                                             Number
                                         </th>
-                                        <th width='5%'>
+                                        <th width='5%' class="inactive">
                                             Qty
                                         </th>
-                                        <th>
+                                        <th class="inactive">
                                             Date
                                         </th>
                                     </tr>
@@ -99,7 +99,7 @@
                                 <td align='center' width='5%'>
                                     {{ eachPart.received_quantity }}
                                 </td>
-                                <td>
+                                <td align="center">
                                     {{ eachPart.invoice_date }}
                                 </td>
                             </tr>

@@ -18,11 +18,11 @@
             </td>
             <td align='center' width='33%'>
                 Search: <input type='text' ng-model='searchText' />
-                &nbsp;<input type='button' value='Clear' ng-click='searchText = ""'>
+                &nbsp;<input type='button' value='Clear' ng-click='searchText = ""' class="btn btn-warning">
             </td>
-            <td align='right'>
+            <td align='left'>
                 Filter by:
-                <select ng-model='status'>
+                <select ng-model='status' class="form-select">
                     <option value=''>All</option>
                     <option value='RECEIVED'>Received</option>
                     <option value='ORDERED'>Ordered</option>
@@ -35,7 +35,7 @@
 
     <table align='center' width='90%' border=1 class="table-hover">
         <tr class="heading">
-            <th ng-click='SortParts("ro_num");'>
+            <td ng-click='SortParts("ro_num");'>
                 RO
             </th>
             <td ng-click='SortParts("owner");' align="center">
