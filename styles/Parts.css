@@ -195,5 +195,18 @@ a.arrow{
 .OTHER{
     background-color: white;
 }
-
 /** End Insurance Companies Background Colors **/
+
+@font-face {
+    font-family: 'PartsAppFont';
+    src: url('BlackOpsOne-Regular.ttf') format('truetype');
+}
+
+.PartsAppHeading{
+    font-family: 'PartsAppFont';
+    font-size: large;
+    font-weight: bold;
+    background-color: black;
+    color: white;
+    text-align: center;
+}

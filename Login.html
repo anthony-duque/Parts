@@ -1,0 +1,40 @@
+<html ng-app="LoginApp" >
+<head>
+    <title>THe Parts App - Login Page</title>
+    <script src="./scripts/angularjs.min.js"></script>
+    <script src="./scripts/Login.js"></script>
+    <link rel="stylesheet" type="text/css" href="./styles/Parts.css" />
+    <link rel="stylesheet" type="text/css" href="./styles/bootstrap.min.css" />
+</head>
+<body ng-controller="LoginAppController" style="background-color: black; color: white;">
+    
+    <table align="center" border="0" style="vertical-align: middle; height: 25%;">
+    <tr>
+        <th align="center" colspan="2" class="PartsAppHeading">
+            <h1>The Parts App</h1>
+        </th>
+    </tr>
+    <tr>
+        <th align="right">
+            Username / Email:
+        </th>
+        <td align="left">
+            <input type="text" name="username_email" />
+        </td>
+    </tr>
+    <tr>
+        <th align="right">
+            Password:
+        </th>
+        <td>
+            <input type="password" name="password" />
+        </td>
+    </tr>
+    <tr>
+        <td align="center" colspan="2">
+            <input type="button" value="Login" class="btn btn-secondary"/>
+        </td>
+    </tr>
+    </table>
+</body>
+</html>
