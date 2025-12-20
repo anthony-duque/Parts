@@ -46,20 +46,20 @@
     <link rel="stylesheet" href="./styles/bootstrap.min.css">
 
 </head>
-<body ng-controller='TabsController'>
+<body ng-controller='TabsController' style="background-color: lightgrey;">
     <table border='1' width='100%'>
         <tr>
             <td colspan="3" align='left'>
-                Today's Date: {{ dateToday }}
+                <b>Today's Date:</b> <u>{{ dateToday }}</u>
             </td>
             <td align='center' colspan="2">
-                <h4>Shop:</h4>
+                <h4 class="red">Shop:</h4>
                 <select ng-model='locationID' class="form-select">
                     <option ng-repeat='loc in locations' value='{{ loc.id }}'>{{ loc.location }}</option>
                 </select>
             </td>
             <td colspan='3' align='right'>
-                Data last updated:  {{ last_update }}
+                <b>Data last updated:</b> {{ last_update }}
             </td>
         </tr>
         <tr role='button'>
