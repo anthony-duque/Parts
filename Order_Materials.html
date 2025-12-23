@@ -1,4 +1,4 @@
-<table id='tblMain' width='100%' border='1' ng-controller='OrderMaterialsController'>
+<table id='tblMain' width='100%' border='2' border-color="green" ng-controller='OrderMaterialsController'>
 <tr>
     <td width='50%'>
 
@@ -28,9 +28,10 @@
         <tr>
             <td>
                 <input type='button' value='New Item' ng-click='Add_New_Material();' class="btn btn-primary"/>
+                <br/><br/>
             </td>
         </tr>
-        <tr>
+        <tr class="heading">
             <th>Part Number</th>
             <th>Brand</th>
             <th>Description</th>
@@ -86,29 +87,40 @@
         </tr>
         </table>
     </td>
-    <td width='50%' align='center' valign='top'>
-        <table id='tblOrderList' ng-show='technician.length > 0' border='1' width='80%' class=''>
+    <td width='40%' align='left' valign='top'>
+        <br/><br/><br/><br/><br/><br/><br/><br/>
+        <table id='tblOrderList' ng-show='technician.length > 0' width='90%' align='left'>
+        <thead>
         <tr>
-            <th>
-                Qty
-            </th>
-            <th>
-                Unit
-            </th>
-            <th>
-                Part No.
-            </th>
-            <th>
-                Brand
-            </th>
-            <th>
-                Description
-            </th>
-            <th>
-                Received
-            </th>
+            <td colspan="6" align="center">
+                <u><h4>Ordered Materials</h4></u>
+            </td>
         </tr>
-        <tr ng-repeat='eachItem in ordersList'  ng-class='ToggleColor($index, "active", "inactive");'>
+        <tr class="heading">
+            <td>
+                Received
+            </td>
+            <td>
+                Qty
+            </td>
+            <td>
+                Unit
+            </td>
+            <td>
+                Part No.
+            </td>
+            <td>
+                Brand
+            </td>
+            <td>
+                Description
+            </td>
+        </tr>
+        </thead>
+        <tr ng-repeat='eachItem in ordersList' ng-class='ToggleColor($index, "white", "lightBlue");'>
+            <td align='center'>
+                <input type='checkbox' ng-model='eachItem.received' />
+            </td>
             <td align='center'>
                 {{ eachItem.ordered_qty }}
             </td>
@@ -124,16 +136,11 @@
             <td align='center'>
                 {{ eachItem.description }}
             </td>
-            <td align='center'>
-                <input type='checkbox' ng-model='eachItem.received' />
-            </td>
         </tr>
-        </table>
-
-        <table align='center' ng-show='ordersList.length > 0'>
         <tr>
-            <td align='center'>
-                <input type='submit' value='Submit Request' ng-click='SubmitOrder();' class="btn btn-success"/>
+            <td colspan="6" align='center'>
+                <br/><br/>
+                <input type='submit' value='Submit Request' ng-click='SubmitOrder();' class="btn btn-success" ng-show='ordersList.length > 0'/>
             </td>
         </tr>
         </table>
