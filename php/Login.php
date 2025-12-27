@@ -13,8 +13,8 @@
         }
     }   // Login{}
 
-    $username = $_POST['user_name'];
-    $password = $_POST['pass_word'];
+    $username = $_GET['user_name'];
+    $password = $_GET['pass_word'];
 
     $sql = <<<strSQL
                 SELECT
@@ -24,19 +24,20 @@
                     AND pass_code = '$password';
             strSQL;
 
-    echo $sql;
+ //   echo $sql;
 
     try{
 
         $s = mysqli_query($conn, $sql);
-
         $r = mysqli_fetch_assoc($s);
 
+        $loginSuccessful = false;
+
         if($r){
-            echo "Login successful.";
-        } else {
-            echo "Login failed.";
+            $loginSuccessful = true;
         }
+
+        echo json_encode($loginSuccessful);
 
     } catch(Exception $e){
 
