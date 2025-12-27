@@ -36,41 +36,44 @@
 
 <body ng-controller="LoginAppController" style="background-color: black; color: white;">
     
-    <table align="center" border="0" style="vertical-align: middle; height: 25%;">
-    <tr>
-        <th align="center" colspan="2" class="PartsAppHeading">
-            <h1>The Parts App</h1>
-        </th>
-    </tr>
-    <tr>
-        <th align="right">
-            Username / Email:&nbsp;
-        </th>
-        <td align="left">
-            <input type="text" name="username_email" placeholder="Enter your username or email"
-                    ng-model="username_email" ng-click="loginCorrect = true;" required />
-        </td>
-    </tr>
-    <tr>
-        <td align="right">
-            <b>Password</b>:&nbsp;
-        </td>
-        <td align="left">
-            <input type="password" name="password" placeholder="Enter password here"
-                    ng-model="password" ng-click="loginCorrect = true;" required />
-        </td>
-    </tr>
-    <tr>
-        <td align="center" colspan="2">
-            <input type="submit" value="Login" class="btn btn-secondary" ng-click="login(username_email, password);" />
-        </td>
-    </tr>
-    <tr ng-show="loginCorrect == false">
-        <td align="center" colspan="2" class="red tilt-shake">
-            Wrong username or password
-        </td>
-    </tr>
-    </table>
+    <form method="POST" action="./php/Login.php">
 
+        <table align="center" border="0" style="vertical-align: middle; height: 25%;">
+        <tr>
+            <th align="center" colspan="2" class="PartsAppHeading">
+                <h1>The Parts App</h1>
+            </th>
+        </tr>
+        <tr>
+            <th align="right">
+                Username / Email:&nbsp;
+            </th>
+            <td align="left">
+                <input type="text" name="user_name" placeholder="Enter your username or email"
+                        ng-model="username_email" ng-click="loginCorrect = true;" required />
+            </td>
+        </tr>
+        <tr>
+            <td align="right">
+                <b>Password</b>:&nbsp;
+            </td>
+            <td align="left">
+                <input type="password" name="pass_word" placeholder="Enter password here"
+                        ng-model="password" ng-click="loginCorrect = true;" required />
+            </td>
+        </tr>
+        <tr>
+            <td align="center" colspan="2">
+                <input type="submit" value="Login" class="btn btn-secondary" ng- click="login(username_email, password);" />
+            </td>
+        </tr>
+        <tr ng-show="loginCorrect == false">
+            <td align="center" colspan="2" class="red tilt-shake">
+                Wrong username or password
+            </td>
+        </tr>
+        </table>
+
+    </form>
 </body>
 </html>
