@@ -24,6 +24,7 @@
 
         if($r){
 
+
             $loginSuccessful = true;
 
             setcookie("locationID", $r["id"], [
