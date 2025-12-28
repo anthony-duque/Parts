@@ -1,11 +1,19 @@
-var app = angular.module("TabsApp", []);
 
-var TabsCtrlr = function($scope, $http, utility){
+var app = angular.module("TabsApp", ['ngCookies']);
 
-    const DEFAULT_VIEW = 'Production.html';
+var TabsCtrlr = function($scope, $http, $cookies, utility){
 
     $scope.locationID = '';
 
+        // alert($cookies.get('locationID'));
+    if ($cookies.get('locationID') > 0){
+        $scope.locationID = $cookies.get('locationID');
+    } else {
+        window.location.href = './Login.html';
+    }
+
+    const DEFAULT_VIEW = 'Production.html';
+    
     $scope.tabView = DEFAULT_VIEW;   // initial tab view
 
     $scope.dateToday = new Date().toLocaleDateString();
@@ -19,7 +27,8 @@ var TabsCtrlr = function($scope, $http, utility){
             'PaintList'     : "inactive",
             'FollowUp'      : "inactive",
             'Vendors'       : "inactive"
-         };
+        };
+
 
     $scope.PickTab = function(tabName){
 

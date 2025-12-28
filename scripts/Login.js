@@ -1,4 +1,5 @@
-var app = angular.module('LoginApp', []);
+
+var app = angular.module('LoginApp',[]);
 
 function loginController($scope, $http) {
 
