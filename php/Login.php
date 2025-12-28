@@ -2,17 +2,6 @@
 
     require('db_open.php');
 
-    class Login{
-
-        public $username;
-        public $password;
-
-        function __construct($rec){
-            $this->username = $rec["location_code"];
-            $this->password = $rec["pass_code"];
-        }
-    }   // Login{}
-
     $username = $_GET['user_name'];
     $password = $_GET['pass_word'];
 
@@ -34,7 +23,27 @@
         $loginSuccessful = false;
 
         if($r){
+
             $loginSuccessful = true;
+
+            setcookie("locationID", $r["id"], [
+                'expires' => time() + (60 * 60 * 24),  // = 86400 secs. ( i.e. 1 day)
+                'path' => '/',
+                'secure' => true    // only send cookie over secure connections
+//                'httponly' => true, 
+//                'samesite' => 'Strict'
+            ]);        
+        } else {
+
+            unset($_COOKIE["locationID"]);
+
+            setcookie("locationID", "", [
+                'expires' => time() + (60 * 60 * 24),  // = 86400 secs. ( i.e. 1 day)
+                'path' => '/',
+                'secure' => true    // only send cookie over secure connections
+//                'httponly' => true, 
+//                'samesite' => 'Strict'
+            ]);        
         }
 
         echo json_encode($loginSuccessful);
