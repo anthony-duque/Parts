@@ -1,5 +1,43 @@
 <?php
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+
+function deleteCookie($name) {
+
+    unset($_COOKIE[$name]);
+
+    setcookie($name, "", [
+        'expires' => time() + (60 * 60 * 8),  // = 8 Hours
+        'path' => '/',
+        'secure' => true    // only send cookie over secure connections
+//                'httponly' => true, 
+//                'samesite' => 'Strict'
+    ]);
+
+}   // deleteCookie()
+
+////////////////////////////////////
+
+$method = $_SERVER['REQUEST_METHOD'];
+
+switch($method){
+
+    case 'POST': // logout
+        deleteCookie("locationID");
+        break;
+
+    default:                // login is always GET
+        Login();
+        break;
+}   // switch
+
+////////////////////////////////////
+
+function Login(){
+
     require('db_open.php');
 
     $username = $_GET['user_name'];
@@ -39,29 +77,15 @@
 
             } else {
                 
-                unset($_COOKIE["locationID"]);
+                deleteCookie("locationID");
 
-                setcookie("locationID", "", [
-                    'expires' => time() + (60 * 60 * 8),  // = 8 Hours
-                    'path' => '/',
-                    'secure' => true    // only send cookie over secure connections
-    //                'httponly' => true, 
-    //                'samesite' => 'Strict'
-                ]);        
             }   // if (is_null(...))
 
         } else {
 
-            unset($_COOKIE["locationID"]);
+            deleteCookie("locationID");
 
-            setcookie("locationID", "", [
-                'expires' => time() + (60 * 60 * 8),  // = 8 Hours
-                'path' => '/',
-                'secure' => true    // only send cookie over secure connections
-//                'httponly' => true, 
-//                'samesite' => 'Strict'
-            ]);        
-        }
+        }   // if(isset($r))
 
         echo json_encode($loginSuccessful);
 
@@ -75,5 +99,5 @@
 
     }   // try-catch{}
 
-
+}
 ?>

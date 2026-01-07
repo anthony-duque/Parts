@@ -137,6 +137,24 @@ var TabsCtrlr = function($scope, $http, $cookies, utility){
         return utility.ToggleRows(x, oddRowClass, evenRowClass);
     }   // CheckParts()
 
+
+    $scope.Logout = function(){
+
+        $http.post('./php/Login.php')
+        
+            .then(
+                function(response){
+                    console.log("Logged out successfully.");
+                    window.location.href = './Login.html';
+                }
+            )
+            .catch(
+                function(response){
+                    console.log("Logout failed.");
+                }
+            );
+    }   // Logout()
+
 }
 
 app.controller("TabsController", TabsCtrlr);
