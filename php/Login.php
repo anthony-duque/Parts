@@ -7,7 +7,7 @@
 
     $sql = <<<strSQL
                 SELECT
-                    id
+                    id, active_end_date
                 FROM Location_IDs
                 WHERE location_code = '$username' 
                     AND pass_code = '$password';
@@ -22,18 +22,34 @@
 
         $loginSuccessful = false;
 
-        if($r){
+        if(isset($r)){
 
+            if (is_null($r["active_end_date"]) || ($r["active_end_date"] >= date("Y-m-d")) ){ 
 
-            $loginSuccessful = true;
+                    // active_end_date is either NULL (no end date) or in the future
+                $loginSuccessful = true;
 
-            setcookie("locationID", $r["id"], [
-                'expires' => time() + (60 * 60 * 8),  // = 8 Hours
-                'path' => '/',
-                'secure' => true    // only send cookie over secure connections
-//                'httponly' => true, 
-//                'samesite' => 'Strict'
-            ]);        
+                setcookie("locationID", $r["id"], [
+                    'expires' => time() + (60 * 60 * 8),  // = 8 Hours
+                    'path' => '/',
+                    'secure' => true    // only send cookie over secure connections
+                    //                'httponly' => true, 
+                    //                'samesite' => 'Strict'
+                ]); 
+
+            } else {
+                
+                unset($_COOKIE["locationID"]);
+
+                setcookie("locationID", "", [
+                    'expires' => time() + (60 * 60 * 8),  // = 8 Hours
+                    'path' => '/',
+                    'secure' => true    // only send cookie over secure connections
+    //                'httponly' => true, 
+    //                'samesite' => 'Strict'
+                ]);        
+            }   // if (is_null(...))
+
         } else {
 
             unset($_COOKIE["locationID"]);
