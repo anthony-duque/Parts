@@ -621,6 +621,24 @@ var stageCtrlr = function($scope, $http, $window, $cookies, utility){
             }
         }   // PlaceInQueue()
 
+        
+        $scope.Logout = function(){
+
+            $http.post('./php/Login.php')
+            
+                .then(
+                    function(response){
+                        console.log("Logged out successfully.");
+                        window.location.href = './Login.html';
+                    }
+                )
+                .catch(
+                    function(response){
+                        console.log("Logout failed.");
+                    }
+                );
+        }   // Logout()
+
 }   // stageCtrlr()
 
 app.controller("StageCtrlr", stageCtrlr);
