@@ -51,7 +51,7 @@
             </td>
             <td align='left'>
                 <i><u>VIN:</u></i>&nbsp;
-                {{ car.vin }}
+                <i>{{ car.vin.slice(0,9) }}</i><u>{{ car.vin.slice(9,17) }}</u>
             </td>
             <td align='left'>
                 <i><u>License:</u></i>&nbsp;
