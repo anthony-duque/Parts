@@ -34,7 +34,6 @@
 
 
 .RETURNED{
-    color: white;
     background-color: orange;
 }
 
@@ -124,9 +123,7 @@
 }
 
 
-.orange{
-    
-    color: white;    
+.orange{    
     background-color: orange;
 }
 
