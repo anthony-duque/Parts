@@ -6,6 +6,7 @@ require('Utility_Scripts.php');
 
         public $ro_num;
         public $part_number;
+        public $line_no;
         public $part_description;
         public $vendor_name;
         public $ordered_quantity;
@@ -26,6 +27,7 @@ require('Utility_Scripts.php');
             $this->ro_num               = $rec["RO_Num"];
             $this->part_number          = $rec["Part_Number"];
             $this->part_description     = $rec["Part_Description"];
+            $this->line_no              = $rec["Line"];
 
             $this->vendor_name          = strtolower($rec["Vendor_Name"]);
             $this->vendor_name          =  ucwords($this->vendor_name);
@@ -55,7 +57,7 @@ require('Utility_Scripts.php');
         require('db_open.php');
 
         $sql = <<<strSQL
-                SELECT RO_Num, Part_Number, Part_Description, Vendor_Name,
+                SELECT RO_Num, Part_Number, Part_Description, Vendor_Name, Line,
                       RO_Qty, Ordered_Qty, Received_Qty, Returned_Qty, Part_Status,
                       Expected_Delivery, Order_Date, Invoice_Date, pse.Loc_ID,
                       Vehicle_In, CurrentPhase, SUBSTRING_INDEX(r.Owner, ',', 1) AS Owner
