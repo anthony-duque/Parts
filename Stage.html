@@ -94,38 +94,44 @@
     </tr>
     </table>
 
-    <table class="bgLiteGrey">
-    <tr class='heading'>
-        <td ng-repeat='stage in stages' 
-            width='{{ colWidth }}%'  
-            class="whiteBorders" 
-            ng-click='MoveCar(stage.order_no);' 
-            align="center">
-            <b>
-                {{ stage.description  }}
-            </b>
-        </td>
-    </tr>
-    <tr>
-        <td valign='top' ng-repeat='stage in stages' ng-click='MoveCar(stage.order_no);' class="thinBorders">
-            <table width='100%'>
-            <tr ng-init='lastCarIndex = production_stage[stage.order_no].cars.length - 1'
-                ng-repeat='eachCar in production_stage[stage.order_no].cars
-                            | filter: { locationID: locID }
-                            | filter: { technician: tech}
-                            | filter: { estimator: estim }
-                            | filter : searchText
-                            | FilterUnassignedCars : filterOn'>
-                <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar);' class="thinBorders" role="button" class="p-2 border">
-                    <div ng-include='"Stage_Car.html"'
-                         ng-class='Set_BG_Class(BackgroundMode, eachCar);'>
-                    </div>
+    <div class="scrollable_table">
+        <table class="bgLiteGrey tblHeader">
+        <thead>
+            <tr class='heading'>
+                <td ng-repeat='stage in stages' 
+                    width='{{ colWidth }}%'  
+                    class="whiteBorders" 
+                    ng-click='MoveCar(stage.order_no);' 
+                    align="center">
+                    <b>
+                        {{ stage.description  }}
+                    </b>
                 </td>
             </tr>
-            </table>
-        </td>
-    </tr>
-    </table>
+        </thead>
+        <tbody>
+            <tr>
+                <td valign='top' ng-repeat='stage in stages' ng-click='MoveCar(stage.order_no);' class="thinBorders">
+                    <table width='100%'>
+                    <tr ng-init='lastCarIndex = production_stage[stage.order_no].cars.length - 1'
+                        ng-repeat='eachCar in production_stage[stage.order_no].cars
+                                    | filter: { locationID: locID }
+                                    | filter: { technician: tech}
+                                    | filter: { estimator: estim }
+                                    | filter : searchText
+                                    | FilterUnassignedCars : filterOn'>
+                        <td ng-class='eachCar.borderColor' ng-click='ChangeBorder(eachCar);' class="thinBorders" role="button" class="p-2 border">
+                            <div ng-include='"Stage_Car.html"'
+                                ng-class='Set_BG_Class(BackgroundMode, eachCar);'>
+                            </div>
+                        </td>
+                    </tr>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+        </table>
+    </div>
     <br/>
 </body>
 </html>

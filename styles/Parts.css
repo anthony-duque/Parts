@@ -220,20 +220,20 @@ a.arrow{
 .tblHeader {
     /* Ensures proper layout */
     border-collapse: collapse;
-}
 
-.tblHeader thead td {
+    thead{
 
-    /* Makes the header stick to the top of its scrolling container */
-    position: sticky;
-    top: 0;
+        /* Makes the header stick to the top of its scrolling container */
+        position: sticky;
+        top: 0;
 
-    /* Adds a background color so content doesn't show through the header */
-    
-    background-color: #000;
-    
-    /* Ensures the header stays on top of the scrolling body content */
-    z-index: 1;
+        /* Adds a background color so content doesn't show through the header */
+        
+        background-color: #000;
+        
+        /* Ensures the header stays on top of the scrolling body content */
+        z-index: 1;
+    }    
 }
 
 /*** End of styling for scrollable tables ***/

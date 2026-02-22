@@ -35,63 +35,63 @@
 
     <div class="scrollable_table">
         <table align='center' width='95%' border=1 class="table-hover tblHeader">
-            <thead>        
-                <tr class="heading">
-                    <td ng-click='SortParts("ro_num");'>
-                        RO
-                    </td>
-                    <td ng-click='SortParts("owner");' align="center">
-                        <b>
-                            Owner
-                        </b>
-                    </td>
-                    <td ng-click='SortParts("line_no");' align="center">
-                        Line
-                    </td>
-                    <td ng-click='SortParts("part_number");'>
-                        <b>
-                            Part No.
-                        </b>
-                    </td>
-                    <td ng-click='SortParts("part_description");'>
-                        Part Description
-                    </td>
-                    <td ng-click='SortParts("part_status");'>
-                        Status
-                    </td>
-                    <td ng-click='SortParts("vendor_name");'>
-                        Vendor
-                    </td>
-                    <td ng-click='SortParts("ro_quantity");'>
-                        Reqd<br>
-                        Qty
-                    </td>
-                    <td ng-click='SortParts("order_date");'>
-                        Order<br>
-                        Date
-                    </td>
-                    <td ng-click='SortParts("ordered_quantity");'>
-                        Order<br>
-                        Qty
-                    </td>
-                    <td ng-click='SortParts("expected_delivery");'>
-                        ETA<br>
-                        Date
-                    </td>
-                    <td ng-click='SortParts("received_quantity");'>
-                        Recvd<br>
-                        Qty
-                    </td>
-                    <td ng-click='SortParts("invoice_date");'>
-                        Recvd<br>
-                        Date
-                    </td>
-                    <td ng-click='SortParts("returned_quantity");'>
-                        Returned
-                    </td>
-                </tr>
-            </thead>
-            <tbody>
+        <thead>        
+            <tr class="heading">
+                <td ng-click='SortParts("ro_num");'>
+                    RO
+                </td>
+                <td ng-click='SortParts("owner");' align="center">
+                    <b>
+                        Owner
+                    </b>
+                </td>
+                <td ng-click='SortParts("line_no");' align="center">
+                    Line
+                </td>
+                <td ng-click='SortParts("part_number");'>
+                    <b>
+                        Part No.
+                    </b>
+                </td>
+                <td ng-click='SortParts("part_description");'>
+                    Part Description
+                </td>
+                <td ng-click='SortParts("part_status");'>
+                    Status
+                </td>
+                <td ng-click='SortParts("vendor_name");'>
+                    Vendor
+                </td>
+                <td ng-click='SortParts("ro_quantity");'>
+                    Reqd<br>
+                    Qty
+                </td>
+                <td ng-click='SortParts("order_date");'>
+                    Order<br>
+                    Date
+                </td>
+                <td ng-click='SortParts("ordered_quantity");'>
+                    Order<br>
+                    Qty
+                </td>
+                <td ng-click='SortParts("expected_delivery");'>
+                    ETA<br>
+                    Date
+                </td>
+                <td ng-click='SortParts("received_quantity");'>
+                    Recvd<br>
+                    Qty
+                </td>
+                <td ng-click='SortParts("invoice_date");'>
+                    Recvd<br>
+                    Date
+                </td>
+                <td ng-click='SortParts("returned_quantity");'>
+                    Returned
+                </td>
+            </tr>
+        </thead>
+        <tbody>
             <tr ng-repeat='eachPart in allParts | filter: searchText | filter: {locationID : locationID} | PartsByStatus : status | orderBy: sortFld | FilterInOutCars : carsInOut'
                 class="{{ eachPart.part_status }}">
                 <td align='center'>
@@ -143,6 +143,6 @@
                     {{ eachPart.returned_quantity }}
                 </td>
             </tr>
-            </tbody>
+        </tbody>
         </table>
 </div>
