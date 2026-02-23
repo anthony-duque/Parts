@@ -68,7 +68,7 @@
         </tr>
     </table>
 
-    <br/>
+    <input type='button' value="Go Back" ng-click='GoBackToMainPage();' class="btn btn-danger">
 
     <table width='30%' border="1" align='center' class="table-hover">
     <thead>
@@ -120,134 +120,130 @@
     </table>
 
     <br/>
-
-    <table width='100%' align='center' id='carParts' class="table-hover">
+    <div class="scrollable_table">
+    <table width='100%' align='center' id='carParts' class="table-hover tblHeader">
         <thead>
-        <tr>
-            <td align='left' colspan="2">
-                <input type='button' value="Go Back" ng-click='GoBackToMainPage();' class="btn btn-danger">
-            </td>
-            <td align='center' colspan='6'>
-                Search: <input type='text' ng-model='searchText' />
-                &nbsp;<input type='button' value='Clear' ng-click='searchText = ""' class="btn btn-warning">
-            </td>
-        </tr>
-        <tr>
-            <td colspan="12"><br/></td>
-        </tr>
-        <tr class="heading">
-            <td class='bottomBorderOnly' ng-click="SortParts('line_num');" align="center">
-                <b>
-                    Line
-                </b>
-            </td>
-            <td class='bottomBorderOnly' ng-click="SortParts('part_number');" align="left">
-                <b>
-                    Part Number
-                </b>
-            </td>
-            <td class='bottomBorderOnly' ng-click="SortParts('part_description');" align="left">
-                <b>
-                    Part Description
-                </b>
-            </td>
-            <td class='bottomBorderOnly' ng-click="SortParts('part_status');" align="center">
-                <b>
-                    Part Status
-                </b>
-            </td>
-            <td class='bottomBorderOnly' ng-click="SortParts('vendor_name');" align="center">
-                <b>
-                    Vendor Name
-                </b>
-            </td>
-            <th class='bottomBorderOnly' ng-click="SortParts('ro_quantity');">
-                RO<br/>Qty
-            </th>
-            <td class='bottomBorderOnly' ng-click="SortParts('ordered_quantity');" align="center">
-                <b>
-                    Ordered<br/>Qty
-                </b>
-            </td>
-            <td class='bottomBorderOnly' ng-click="SortParts('ordered_quantity');" align="center">
-                <b>
-                    Order<br/>Date
-                </b>
-            </td>
-            <td class='bottomBorderOnly' ng-click="SortParts('expected_delivery');" align="center">
-                <b>
-                    Expected<br/>Delivery
-                </b>
-            </td>
-            <td class='bottomBorderOnly' ng-click="SortParts('received_quantity');" align="center">
-                <b>
-                    Receive<br/>Date
-                </b>
-            </td>
-            <td class='bottomBorderOnly' ng-click="SortParts('received_quantity');" align="center">
-                <b>
-                    Received<br/>Qty
-                </b>
-            </td>
-            <td class='bottomBorderOnly' ng-click="SortParts('returned_quantity');" align="center">
-                <b>
-                    Returned<br/>Qty
-                </b>
-            </td>
-        </tr>
-        <tr ng-show='car.partsList.length == 0'>
-            <th colspan='12' class='lightgreen'>
-                <br/>
-                No parts required for this repair.
-                <br/>
-                <br/>
-            </th>
-        </tr>
+            <tr>
+                <td align='right' colspan='5'>
+                    Search: <input type='text' ng-model='searchText' />
+                    &nbsp;<input type='button' value='Clear' ng-click='searchText = ""' class="btn btn-warning">
+                </td>
+                 <td colspan="7">
+                </td>
+            </tr>
+            <tr class="heading">
+                <td class='bottomBorderOnly' ng-click="SortParts('line_num');" align="center">
+                    <b>
+                        Line
+                    </b>
+                </td>
+                <td class='bottomBorderOnly' ng-click="SortParts('part_number');" align="left">
+                    <b>
+                        Part Number
+                    </b>
+                </td>
+                <td class='bottomBorderOnly' ng-click="SortParts('part_description');" align="left">
+                    <b>
+                        Part Description
+                    </b>
+                </td>
+                <td class='bottomBorderOnly' ng-click="SortParts('part_status');" align="center">
+                    <b>
+                        Part Status
+                    </b>
+                </td>
+                <td class='bottomBorderOnly' ng-click="SortParts('vendor_name');" align="center">
+                    <b>
+                        Vendor Name
+                    </b>
+                </td>
+                <th class='bottomBorderOnly' ng-click="SortParts('ro_quantity');">
+                    RO<br/>Qty
+                </th>
+                <td class='bottomBorderOnly' ng-click="SortParts('ordered_quantity');" align="center">
+                    <b>
+                        Order<br/>Date
+                    </b>
+                </td>
+                <td class='bottomBorderOnly' ng-click="SortParts('ordered_quantity');" align="center">
+                    <b>
+                        Ordered<br/>Qty
+                    </b>
+                </td>
+                <td class='bottomBorderOnly' ng-click="SortParts('expected_delivery');" align="center">
+                    <b>
+                        Expected<br/>Delivery
+                    </b>
+                </td>
+                <td class='bottomBorderOnly' ng-click="SortParts('received_quantity');" align="center">
+                    <b>
+                        Receive<br/>Date
+                    </b>
+                </td>
+                <td class='bottomBorderOnly' ng-click="SortParts('received_quantity');" align="center">
+                    <b>
+                        Received<br/>Qty
+                    </b>
+                </td>
+                <td class='bottomBorderOnly' ng-click="SortParts('returned_quantity');" align="center">
+                    <b>
+                        Returned<br/>Qty
+                    </b>
+                </td>
+            </tr>
+            <tr ng-show='car.partsList.length == 0'>
+                <th colspan='12' class='lightgreen'>
+                    <br/>
+                    No parts required for this repair.
+                    <br/>
+                    <br/>
+                </th>
+            </tr>
         </thead>
         <tbody class="table-hover">
-        <tr ng-repeat='eachPart in car.partsList | orderBy: sortField | filter: searchText'
-            class="{{ eachPart.part_status }}">
-            <td align='center'>
-                {{ eachPart.line_num }}
-            </td>
-            <td>
-                <a href='http://www.google.com/search?tbm=isch&q={{ eachPart.part_number }}' target='CarPart' >
-                    {{ eachPart.part_number }}
-                </a>
-            </td>
-            <td align='left'>
-                {{ eachPart.part_description }}
-            </td>
-            <td align='center'>
-                {{ eachPart.part_status }}
-            </td>
-            <td align='center'>
-                {{ eachPart.vendor_name }}
-            </td>
-            <td align='center'>
-                {{ eachPart.ro_quantity }}
-            </td>
-            <td align='center'>
-                {{ eachPart.ordered_quantity }}
-            </td>
-            <td align='center'>
-                {{ eachPart.order_date }}
-            </td>
-            <td align='center'>
-                {{ eachPart.expected_delivery }}
-            </td>
-            <td align='center'>
-                {{ eachPart.invoice_date }}
-            </td>
-            <td align='center'>
-                {{ eachPart.received_quantity }}
-            </td>
-            <td align='center'>
-                {{ eachPart.returned_quantity }}
-            </td>
-        </tr>
+            <tr ng-repeat='eachPart in car.partsList | orderBy: sortField | filter: searchText'
+                class="{{ eachPart.part_status }}">
+                <td align='center'>
+                    {{ eachPart.line_num }}
+                </td>
+                <td>
+                    <a href='http://www.google.com/search?tbm=isch&q={{ eachPart.part_number }}' target='CarPart' >
+                        {{ eachPart.part_number }}
+                    </a>
+                </td>
+                <td align='left'>
+                    {{ eachPart.part_description }}
+                </td>
+                <td align='center'>
+                    {{ eachPart.part_status }}
+                </td>
+                <td align='center'>
+                    {{ eachPart.vendor_name }}
+                </td>
+                <td align='center'>
+                    {{ eachPart.ro_quantity }}
+                </td>
+                <td align='center'>
+                    {{ eachPart.order_date }}
+                </td>
+                <td align='center'>
+                    {{ eachPart.ordered_quantity }}
+                </td>
+                <td align='center'>
+                    {{ eachPart.expected_delivery }}
+                </td>
+                <td align='center'>
+                    {{ eachPart.invoice_date }}
+                </td>
+                <td align='center'>
+                    {{ eachPart.received_quantity }}
+                </td>
+                <td align='center'>
+                    {{ eachPart.returned_quantity }}
+                </td>
+            </tr>
         </tbody>
     </table>
-
+    </div>
 </body>
 </html>
