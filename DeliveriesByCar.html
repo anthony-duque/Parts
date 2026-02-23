@@ -1,12 +1,16 @@
-<table width='90%' align='center' border=1>
-<tr class='heading'>
-    <th width='15%'>
-        Car
-    </th>
-    <th>
-        <table border=1 width='100%'>
+
+<div class="scrollable_table">
+
+<table border='1' width='90%' align='center' ng-controller='DeliveriesByCarCtrlr'class="tblHeader">
+    <thead>
+    <tr class='heading'>
+        <th width='15%'>
+            Car
+        </th>
+        <th>
+            <table border=1 width='100%'>
             <tr>
-                <td width='29%' class='heading inactive'>
+                <td width='28.5%' class='heading inactive'>
                     Vendor
                 </td>
                 <th>
@@ -19,32 +23,30 @@
                         <tr>
                             <td width='100%'>
                                 <table width='100%' border=1>
-                                    <tr class='heading'>
-                                        <td width='50%' class="inactive">
-                                            Description
-                                        </th>
-                                        <th width='30%' class="inactive">
-                                            Number
-                                        </th>
-                                        <th width='5%' class="inactive">
-                                            Qty
-                                        </th>
-                                        <th class="inactive">
-                                            Date
-                                        </th>
-                                    </tr>
+                                <tr class='heading'>
+                                    <td width='50%' class="inactive">
+                                        Description
+                                    </th>
+                                    <th width='30%' class="inactive">
+                                        Number
+                                    </th>
+                                    <th width='5%' class="inactive">
+                                        Qty
+                                    </th>
+                                    <th class="inactive">
+                                        Date
+                                    </th>
+                                </tr>
                                 </table>
                             </td>
                         </tr>
-                        </table>
-                    </th>
-                </tr>
+                    </table>
+                </th>
+            </tr>
             </table>
         </th>
     </tr>
-</table>
-
-<table border='1' width='90%' align='center' ng-controller='DeliveriesByCarCtrlr'>
+    </thead>
     <tr ng-repeat='eachCar in allCars | filter: searchText | filter : { location_ID : locationID } | FilterInOutCars : carsInOut'
         ng-class='ToggleColor($index, "lightGreen", "white");'
         ng-hide='eachCar.vendors.length == 0'>
@@ -110,3 +112,4 @@
         </td>
     </tr>
 </table>
+</div>
