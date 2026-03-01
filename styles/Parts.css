@@ -34,7 +34,6 @@
 
 
 .RETURNED{
-    color: white;
     background-color: orange;
 }
 
@@ -124,9 +123,7 @@
 }
 
 
-.orange{
-    
-    color: white;    
+.orange{    
     background-color: orange;
 }
 
@@ -195,5 +192,56 @@ a.arrow{
 .OTHER{
     background-color: white;
 }
-
 /** End Insurance Companies Background Colors **/
+
+@font-face {
+    font-family: 'PartsAppFont';
+    src: url('BlackOpsOne-Regular.ttf') format('truetype');
+}
+
+.PartsAppHeading{
+    font-family: 'PartsAppFont';
+    font-size: large;
+    font-weight: bold;
+    background-color: black;
+    color: white;
+    text-align: center;
+}
+
+
+/*** Styling for scrollable tables ***/
+body {
+
+    height: 100%;
+    width:  100%;
+    margin:  0;
+    padding: 0;
+}
+
+.scrollable_table {
+    /* This creates a fixed height container that will scroll */
+    max-height: 80%;
+/*    max-height: 710px; */   
+    overflow-y: auto;
+}
+
+.tblHeader {
+    /* Ensures proper layout */
+    border-collapse: collapse;
+
+    thead{
+
+        /* Makes the header stick to the top of its scrolling container */
+        position: sticky;
+        top: 0;
+
+        /* Adds a background color so content doesn't show through the header */
+        
+        background-color: #000;
+        
+        /* Ensures the header stays on top of the scrolling body content */
+        z-index: 1;
+    }    
+}
+
+/*** End of styling for scrollable tables ***/

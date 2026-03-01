@@ -22,6 +22,8 @@ require('Utility_Scripts.php');
         public $technician;
         public $location;
         public $insurance;
+        public $vin;
+        public $stage;
         public $partsList   = [];
         public $subletList  = [];
 
@@ -38,8 +40,13 @@ require('Utility_Scripts.php');
             $this->technician       = toProperCase($rec["Technician"]);
             $this->location         = $rec["Location"];
             $this->insurance        = $rec["Insurance"];
+            $this->vin              = $rec["VIN"];
+            $this->stage            = $rec["Stage"];
+
         }   // Car()
+
     }   // Car{}
+
 
     class Part{
 
@@ -167,11 +174,15 @@ require('Utility_Scripts.php');
         require('db_open.php');
 
         $sql = <<<strSQL
-                    SELECT RONum, Owner, Vehicle, Estimator, Technician,
-                        Vehicle_Color, License_Plate, Vehicle_In, Scheduled_Out,
-                        Location, Loc_ID, Insurance
-                    FROM Repairs
-                    WHERE RONum = $roNum AND Loc_ID = $locID
+                    SELECT 
+                        r.RONum, r.Owner, r.Vehicle, r.Estimator, r.Technician,
+                        r.Vehicle_Color, r.License_Plate, r.Vehicle_In, r.Scheduled_Out,
+                        r.Location, r.Loc_ID, r.Insurance, siv.VIN, s.Description AS Stage
+                    FROM 
+                        Repairs r LEFT JOIN Scheduled_In_VIN siv ON r.RONum = siv.RO_Num
+                        LEFT JOIN Car_Stage cs ON r.RONum = cs.RO_Num AND r.Loc_ID = cs.Loc_ID
+                        LEFT JOIN Stage_Headings s ON cs.stage_ID = s.Order_No AND s.Loc_ID = cs.Loc_ID
+                    WHERE RONum = $roNum AND r.Loc_ID = $locID
                 strSQL;
 
         try{

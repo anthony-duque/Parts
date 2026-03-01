@@ -1,4 +1,4 @@
-<div ng-controller='PartsSearchController'>
+<div ng-controller='PartsSearchController' style="height : 100%;">
 
     <table align='center' width='90%'>
         <caption>
@@ -33,107 +33,116 @@
         </tr>
     </table>
 
-    <table align='center' width='90%' border=1 class="table-hover">
-        <tr class="heading">
-            <td ng-click='SortParts("ro_num");'>
-                RO
-            </th>
-            <td ng-click='SortParts("owner");' align="center">
-                <b>
-                    Owner
-                </b>
-            </td>
-            <td ng-click='SortParts("part_number");'>
-                <b>
-                    Part No.
-                </b>
-            </td>
-            <th ng-click='SortParts("part_description");'>
-                Part Description
-            </th>
-            <th ng-click='SortParts("part_status");'>
-                Status
-            </th>
-            <th ng-click='SortParts("vendor_name");'>
-                Vendor
-            </th>
-            <th ng-click='SortParts("ro_quantity");'>
-                Reqd<br>
-                Qty
-            </th>
-            <th ng-click='SortParts("ordered_quantity");'>
-                Ordered<br>
-                Qty
-            </th>
-            <th ng-click='SortParts("order_date");'>
-                Order<br>
-                Date
-            </th>
-            <th ng-click='SortParts("expected_delivery");'>
-                Expected<br>
-                Date
-            </th>
-            <th ng-click='SortParts("received_quantity");'>
-                Recvd<br>
-                Qty
-            </th>
-            <th ng-click='SortParts("invoice_date");'>
-                Received<br>
-                Date
-            </th>
-            <th ng-click='SortParts("returned_quantity");'>
-                Returned
-            </th>
-        </tr>
+    <div class="scrollable_table">
+        <table align='center' width='95%' border=1 class="table-hover tblHeader">
+        <thead>        
+            <tr class="heading">
+                <td ng-click='SortParts("ro_num");'>
+                    RO
+                </td>
+                <td ng-click='SortParts("owner");' align="center">
+                    <b>
+                        Owner
+                    </b>
+                </td>
+                <td ng-click='SortParts("line_no");' align="center">
+                    Line
+                </td>
+                <td ng-click='SortParts("part_number");'>
+                    <b>
+                        Part No.
+                    </b>
+                </td>
+                <td ng-click='SortParts("part_description");'>
+                    Part Description
+                </td>
+                <td ng-click='SortParts("part_status");'>
+                    Status
+                </td>
+                <td ng-click='SortParts("vendor_name");'>
+                    Vendor
+                </td>
+                <td ng-click='SortParts("ro_quantity");'>
+                    Reqd<br>
+                    Qty
+                </td>
+                <td ng-click='SortParts("order_date");'>
+                    Order<br>
+                    Date
+                </td>
+                <td ng-click='SortParts("ordered_quantity");'>
+                    Order<br>
+                    Qty
+                </td>
+                <td ng-click='SortParts("expected_delivery");'>
+                    ETA<br>
+                    Date
+                </td>
+                <td ng-click='SortParts("received_quantity");'>
+                    Recvd<br>
+                    Qty
+                </td>
+                <td ng-click='SortParts("invoice_date");'>
+                    Recvd<br>
+                    Date
+                </td>
+                <td ng-click='SortParts("returned_quantity");'>
+                    Returned
+                </td>
+            </tr>
+        </thead>
         <tbody>
-        <tr ng-repeat='eachPart in allParts | filter: searchText | filter: {locationID : locationID} | PartsByStatus : status | orderBy: sortFld | FilterInOutCars : carsInOut'
-            class="{{ eachPart.part_status }}">
-            <td align='center'>
-                <a href="Car_View.html?roNum={{ eachPart.ro_num }}&locationID={{ eachPart.locationID }}" target="CarStatus">
-                    {{ eachPart.ro_num }}
-                </a>
-            </td>
-            <td align='center'>
-                <a href="Car_View.html?roNum={{ eachPart.ro_num }}" target="CarStatus">
-                    {{ eachPart.owner }}
-                </a>
-            </td>
-            <td align='center'>
-                <a href='http://www.google.com/search?tbm=isch&q={{ eachPart.part_number }}' target='CarPart' >
-                    {{ eachPart.part_number }}
-                </a>
-            </td>
-            <td>
-                {{ eachPart.part_description }}
-            </td>
-            <td align='center'>
-                {{ eachPart.part_status }}
-            </td>
-            <td align='center'>
-                {{ eachPart.vendor_name }}
-            </td>
-            <td align='center'>
-                {{ eachPart.ro_quantity }}
-            </td>
-            <td align='center'>
-                {{ eachPart.ordered_quantity }}
-            </td>
-            <td>
-                {{ eachPart.order_date }}
-            </td>
-            <td>
-                {{ eachPart.expected_delivery }}
-            </td>
-            <td align='center'>
-                {{ eachPart.received_quantity }}
-            </td>
-            <td align='center'>
-                {{ eachPart.invoice_date }}
-            </td>
-            <td align='center'>
-                {{ eachPart.returned_quantity }}
-            </td>
-        </tr>
+            <tr ng-repeat='eachPart in allParts | filter: searchText | filter: {locationID : locationID} | PartsByStatus : status | orderBy: sortFld | FilterInOutCars : carsInOut'
+                class="{{ eachPart.part_status }}">
+                <td align='center'>
+                    <a href="Car_View.html?roNum={{ eachPart.ro_num }}&locationID={{ eachPart.locationID }}" target="CarStatus">
+                        {{ eachPart.ro_num }}
+                    </a>
+                </td>
+                <td align='center'>
+                    <a href="Car_View.html?roNum={{ eachPart.ro_num }}" target="CarStatus">
+                        {{ eachPart.owner }}
+                    </a>
+                </td>
+                <td align='center'>
+                    {{ eachPart.line_no }}
+                </td>
+                <td align='center'>
+                    <a href='http://www.google.com/search?tbm=isch&q={{ eachPart.part_number }}' target='CarPart' >
+                        {{ eachPart.part_number }}
+                    </a>
+                </td>
+                <td>
+                    {{ eachPart.part_description }}
+                </td>
+                <td align='center'>
+                    {{ eachPart.part_status }}
+                </td>
+                <td align='center'>
+                    {{ eachPart.vendor_name }}
+                </td>
+                <td align='center'>
+                    {{ eachPart.ro_quantity }}
+                </td>
+                <td>
+                    {{ eachPart.order_date }}
+                </td>
+                <td align='center'>
+                    {{ eachPart.ordered_quantity }}
+                </td>
+                <td>
+                    {{ eachPart.expected_delivery }}
+                </td>
+                <td align='center'>
+                    {{ eachPart.received_quantity }}
+                </td>
+                <td align='center'>
+                    {{ eachPart.invoice_date }}
+                </td>
+                <td align='center'>
+                    {{ eachPart.returned_quantity }}
+                </td>
+            </tr>
         </tbody>
-    </table>
+        </table>
 </div>

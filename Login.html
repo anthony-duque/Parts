@@ -1,0 +1,77 @@
+<html ng-app="LoginApp">
+
+<head>
+
+    <title>THe Parts App - Login Page</title>
+    
+    <script src="./scripts/angularjs.min.js"></script>
+    <script src="./scripts/Login.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="./styles/Parts.css" />
+    <link rel="stylesheet" type="text/css" href="./styles/bootstrap.min.css" />
+
+    <style>
+
+        input[type="text"], input[type="password"] {
+            background-color: black;
+            color: white;
+            border: 1px solid white;
+        }
+        
+        @keyframes tilt-shaking {
+            0% { transform: translateX(0) }
+            25% { transform: translateX(5px) }
+            50% { transform: translateX(-5px) }
+            75% { transform: translateX(5px) }
+            100% { transform: translateX(0) }
+        }
+
+        .tilt-shake {
+            animation: tilt-shaking 0.25s;
+        }
+    
+    </style>
+
+</head>
+
+<body ng-controller="LoginAppController" style="background-color: black; color: white;">
+    
+
+    <table align="center" border="0" style="vertical-align: middle; height: 25%;">
+    <tr>
+        <th align="center" colspan="2" class="PartsAppHeading">
+            <h1>The Parts App</h1>
+        </th>
+    </tr>
+    <tr>
+        <th align="right">
+            Username / Email:&nbsp;
+        </th>
+        <td align="left">
+            <input type="text" placeholder="Enter your username"
+                    ng-model="username_email" ng-click="loginCorrect = 'true';" required />
+        </td>
+    </tr>
+    <tr>
+        <td align="right">
+            <b>Password</b>:&nbsp;
+        </td>
+        <td align="left">
+            <input type="password" placeholder="Enter password here"
+                    ng-model="password" ng-click="loginCorrect = 'true';" required />
+        </td>
+    </tr>
+    <tr>
+        <td align="center" colspan="2">
+            <input type="button" value="Login" class="btn btn-secondary" ng-click="login(username_email, password);" />
+        </td>
+    </tr>
+    <tr ng-show="loginCorrect == 'false'">
+        <td align="center" colspan="2" class="red tilt-shake">
+            Wrong username or password
+        </td>
+    </tr>
+    </table>
+
+</body>
+</html>

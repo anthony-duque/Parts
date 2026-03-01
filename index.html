@@ -6,6 +6,7 @@
     <!-- script src='./scripts/angularjs.js'></script-->
     <script src='./scripts/angularjs.min.js'></script>
     <script src='./scripts/bootstrap.bundle.min.js.js'></script>
+    <script src='./scripts/angular-cookies.js'></script>
  
     <script src='./scripts/index.js'></script>
 
@@ -46,62 +47,48 @@
     <link rel="stylesheet" href="./styles/bootstrap.min.css">
 
 </head>
-<body ng-controller='TabsController'>
+<body ng-controller='TabsController' style="background-color: lightgrey;">
     <table border='1' width='100%'>
         <tr>
             <td colspan="3" align='left'>
-                Today's Date: {{ dateToday }}
+                <b>Today's Date:</b> <u>{{ dateToday }}</u>
             </td>
             <td align='center' colspan="2">
-                <h4>Shop:</h4>
+                <h4 class="red">Shop:</h4>
                 <select ng-model='locationID' class="form-select">
                     <option ng-repeat='loc in locations' value='{{ loc.id }}'>{{ loc.location }}</option>
                 </select>
             </td>
             <td colspan='3' align='right'>
-                Data last updated:  {{ last_update }}
+                <b>Data last updated:</b> {{ last_update }}
+                <br>
+                <button class="btn btn-danger" ng-click='Logout();'>Logout</button>
             </td>
         </tr>
-        <tr role='button'>
+        <tr role='button' class="heading">
             <td ng-class='Tabs.Production' ng-click='PickTab("Production");' align="center">
-                <b>
-                    Production
-                </b>
+                Production
             </td>
             <td ng-class='Tabs.Deliveries' ng-click='PickTab("Deliveries");' align="center">
-                <b>
-                    Deliveries
-                </b>
+                Deliveries
             </td>
             <td ng-class='Tabs.PartsSearch' ng-click='PickTab("PartsSearch");' align="center">
-                <b>
-                    Parts Search
-                </b>
+                Parts Search
             </td>
             <td ng-class='Tabs.Materials' ng-click='PickTab("Materials");' align="center">
-                <b>
-                    Materials
-                </b>
+                Materials
             </td>
             <td ng-class='Tabs.FollowUp' ng-click='PickTab("FollowUp");' align="center">
-                <b>
-                    Follow-Up
-                </b>
+                Follow-Up
             </td>
             <td ng-class='Tabs.ReturnForms' ng-click='PickTab("ReturnForms");' align="center">
-                <b>
-                    Return Forms
-                </b>
+                Return Forms
             </td>
             <td ng-class='Tabs.PaintList' ng-click='PickTab("PaintList");' align="center">
-                <b>
-                    Paint List
-                </b>
+                Paint List
             </td>
             <td ng-class='Tabs.Vendors' ng-click='PickTab("Vendors");' align="center">
-                <b>
-                    Vendors
-                </b>
+                Vendors
             </td>
         </tr>
     </table>

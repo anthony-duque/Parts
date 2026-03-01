@@ -64,9 +64,6 @@ if ($conn->query($tsql) === TRUE) {
   echo "Error: " . $tsql . "<br>" . $conn->error;
 }
 
-
-
-
 $conn = null;
 
 ?>

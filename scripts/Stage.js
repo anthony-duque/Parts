@@ -1,6 +1,13 @@
-var app = angular.module("StageApp", []);
+var app = angular.module("StageApp", ['ngCookies']);
 
-var stageCtrlr = function($scope, $http, $window, utility){
+var stageCtrlr = function($scope, $http, $window, $cookies, utility){
+
+        // alert($cookies.get('locationID'));
+    if ($cookies.get('locationID') > 0){
+        $scope.locationID = $cookies.get('locationID');
+    } else {
+        window.location.href = './Login.html';
+    }
 
     $scope.filterOn         = false;
     $scope.BackgroundMode   = 'Parts Status';
@@ -18,6 +25,8 @@ var stageCtrlr = function($scope, $http, $window, utility){
     }   // if (locID > '')
 
     GetUploadTimeStamp();
+
+//    alert($cookies.get('locationID'));
 
 ////////////////////////////////////
 
@@ -611,6 +620,24 @@ var stageCtrlr = function($scope, $http, $window, utility){
                 });    // $http.post()
             }
         }   // PlaceInQueue()
+
+        
+        $scope.Logout = function(){
+
+            $http.post('./php/Login.php')
+            
+                .then(
+                    function(response){
+                        console.log("Logged out successfully.");
+                        window.location.href = './Login.html';
+                    }
+                )
+                .catch(
+                    function(response){
+                        console.log("Logout failed.");
+                    }
+                );
+        }   // Logout()
 
 }   // stageCtrlr()
 
