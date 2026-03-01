@@ -210,10 +210,18 @@ a.arrow{
 
 
 /*** Styling for scrollable tables ***/
+body {
+
+    height: 100%;
+    width:  100%;
+    margin:  0;
+    padding: 0;
+}
 
 .scrollable_table {
     /* This creates a fixed height container that will scroll */
-    max-height: 710px;
+    max-height: 80%;
+/*    max-height: 710px; */   
     overflow-y: auto;
 }
 

@@ -1,4 +1,5 @@
-<table align='center' ng-controller='VendorViewController'>
+<table align='center' ng-controller='VendorViewController' class="tblHeader">
+<thead>
 <tr>
     <td align='center' colspan='4'>
         <br/>
@@ -24,6 +25,7 @@
         Shop
     </td>
 </tr>
+</thead>
 <tr ng-repeat='eachVendor in vendorList | filter : { location_ID : locationID } | filter: searchText | orderBy: sortFld' ng-class='ToggleColor($index, "white", "orange");'>
     <td>
         {{ eachVendor.name }}
