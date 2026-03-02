@@ -29,7 +29,7 @@ switch($method){
         deleteCookie("locationID");
         break;
 
-    default:                // login is always GET
+    default:     // login is always GET
         Login();
         break;
 }   // switch
@@ -50,8 +50,6 @@ function Login(){
                 WHERE location_code = '$username' 
                     AND pass_code = '$password';
             strSQL;
-
- //   echo $sql;
 
     try{
 

@@ -7,7 +7,7 @@
    $servername = "localhost";
    $username = "root";
    $password = "Al@d5150";
-   $dbname = "CarStar";
+   $dbname = "PartsApp_DB";
 
         // Create connection
    $conn = new mysqli($servername, $username, $password, $dbname);
