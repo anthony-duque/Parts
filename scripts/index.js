@@ -12,14 +12,16 @@ var TabsCtrlr = function($scope, $http, $cookies, utility){
         window.location.href = './Login.html';
     }
 
-    const DEFAULT_VIEW = 'Production.html';
+    const DEFAULT_VIEW = 'Stage.html';
     
     $scope.tabView = DEFAULT_VIEW;   // initial tab view
 
     $scope.dateToday = new Date().toLocaleDateString();
 
     $scope.Tabs =
-        {   'Production'    : "active",
+        {   
+            'Stage'         : "active",
+            'Production'    : "inactive",
             'Deliveries'    : "inactive",
             'PartsSearch'   : "inactive",
             'Materials'     : "inactive",
@@ -41,6 +43,10 @@ var TabsCtrlr = function($scope, $http, $cookies, utility){
         var tabView;
 
         switch(tabName){
+
+            case 'Stage':
+                tabView = 'Stage.html';
+                break;
 
             case 'Production':
                 tabView = 'Production.html';

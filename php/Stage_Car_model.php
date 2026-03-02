@@ -18,7 +18,7 @@ class Car{
     public $parts_returned;
     public $parts_percent;
     public $scheduled_out;
-    public $locationID;
+    public $locID;
     public $insurance;
     public $stageID;
 
@@ -30,7 +30,7 @@ class Car{
                     SELECT Part_Description, Vendor_Name, Received_Qty
                     FROM PartsStatusExtract
                     WHERE Part_Type = 'Sublet'
-                    AND RO_Num = $this->ro_num AND Loc_ID = $this->locationID
+                    AND RO_Num = $this->ro_num AND Loc_ID = $this->locID
                     ORDER BY Received_Qty
                 strSQL;
 
@@ -64,7 +64,7 @@ class Car{
                         AND Part_Number NOT LIKE 'Aftermarket%'
                         AND Part_Type NOT IN ('FIX ME','Sublet')
                         AND RO_Num = $this->ro_num
-                        AND Loc_ID = $this->locationID
+                        AND Loc_ID = $this->locID
                     ORDER BY Ordered_Qty ASC
                 strSQL;
 
@@ -101,7 +101,7 @@ class Car{
         $this->parts_percent    = 0;
         $this->scheduled_out    = GetDisplayDate($rec["Scheduled_Out"]);
         $this->scheduled_out    = substr($this->scheduled_out, 0, 5);
-        $this->locationID       = $rec["Loc_ID"];
+        $this->locID            = $rec["Loc_ID"];
         $this->insurance        = $rec["Insurance"];
         $this->stageID          = $rec["stage_ID"];
         $this->parts            = $this->Get_Parts_List($dbConn);

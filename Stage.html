@@ -1,24 +1,7 @@
-<html ng-app="StageApp">
-<head>
-    <title>Production Stage</title>
- 
-    <script src='./scripts/angularjs.min.js'></script>
-    <script src='./scripts/bootstrap.js'></script>
-    <script src='./scripts/angular-cookies.js'></script>
- 
-    <script src='./scripts/Stage.js'></script>
-    <script src='./scripts/Stage_Car.js'></script>
-    <script src='./scripts/Priority_Car.js'></script>
-    <script src='./scripts/Filters.js'></script>
-    <script src='./scripts/UtilityFunctions.js'></script>
-
-    <link rel='stylesheet' href="./styles/Parts.css" />
-    <link rel='stylesheet' href="./styles/bootstrap.css" />
-</head>
-<body ng-controller='StageCtrlr' style='font-size: x-small'>
+<div ng-controller='StageCtrlr' style='font-size: x-small'>
     <br/>
     <table align='center' width='100%' border=0 class="bgLiteGrey">
-    <tr ng-show='locID > 0'>
+    <tr ng-show='locationID > 0'>
         <td align='left'>
             <input type='button' value='Reset Filters' ng-click='ResetFilters();' class="btn btn-primary"/>
         </td>
@@ -39,37 +22,27 @@
         <td colspan="4"><br/></td>
     </tr>
     <tr>
-        <td align='center' ng-show='locID > 0' style='color : blue;'>
+        <td align='center' ng-show='locationID > 0' style='color : blue;'>
             <b>Technician:</b>
             <select ng-model='tech' class="form-select">
                 <option value=''>All Techs</option>
-                <option ng-repeat='eachTech in techList | filter: { locationID: locID }' value='{{ eachTech.name }}'>
+                <option ng-repeat='eachTech in techList | filter: { locID: locationID }' value='{{ eachTech.name }}'>
                     {{ eachTech.name }}
                 </option>
             </select>
         </td>
-        <td align='center' ng-show='locID > 0' style='color : red;'>
+        <td align='center' ng-show='locationID > 0' style='color : red;'>
             <b>Estimator:</b>
             <select ng-model='estim' class="form-select">
                 <option value=''>All Estimators</option>
-                <option ng-repeat='estimator in estimatorList | filter: { locationID: locID }' value='{{ estimator.name }}'>
+                <option ng-repeat='estimator in estimatorList | filter: { locID: locationID }' value='{{ estimator.name }}'>
                     {{ estimator.name }}
                 </option>
             </select>
         </td>
-        <td align='center' ng-show='locID > 0'>
+        <td align='center' ng-show='locationID > 0'>
             <b>Search:</b>&nbsp;<input type='text' ng-model='searchText'/>&nbsp;
             <input type='button' value='Clear' ng-click='searchText = ""' class="btn btn-success">
-        </td>
-        <td align='right'>
-            <div ng-hide='locID > 0' style='color : red;'>
-                <blink><b>Select a shop</b></blink>
-            </div>
-            Shop:
-            <select ng-model='locID' ng-change='SwitchShops(locID);' class="form-select">
-                <option value=1 selected>CarStar City Auto</option>
-                <option value=2>CarStar Simi Valley</option>
-            </select>
         </td>
     </tr>
     <tr>
@@ -85,7 +58,7 @@
             <b>{{ tech }}</b>
             <br/>
         </td>
-        <td ng-repeat='eachCar in priorityCars | filter : { locationID : locID, technician : tech }'
+        <td ng-repeat='eachCar in priorityCars | filter : { locID : locationID, technician : tech }'
             ng-class='eachCar.borderColor'
             ng-click='ChangeBorder(eachCar);'
             width='150'>
@@ -115,7 +88,7 @@
                     <table width='100%'>
                     <tr ng-init='lastCarIndex = production_stage[stage.order_no].cars.length - 1'
                         ng-repeat='eachCar in production_stage[stage.order_no].cars
-                                    | filter: { locationID: locID }
+                                    | filter: { locID: locationID }
                                     | filter: { technician: tech}
                                     | filter: { estimator: estim }
                                     | filter : searchText
@@ -133,5 +106,4 @@
         </table>
     </div>
     <br/>
-</body>
-</html>
+</div>

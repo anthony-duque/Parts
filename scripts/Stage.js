@@ -1,13 +1,8 @@
-var app = angular.module("StageApp", ['ngCookies']);
-
 var stageCtrlr = function($scope, $http, $window, $cookies, utility){
 
         // alert($cookies.get('locationID'));
-    if ($cookies.get('locationID') > 0){
-        $scope.locationID = $cookies.get('locationID');
-    } else {
-        window.location.href = './Login.html';
-    }
+    $scope.locID = $scope.locationID;
+    GetStageHeadings($scope.locID);
 
     $scope.filterOn         = false;
     $scope.BackgroundMode   = 'Parts Status';
@@ -17,12 +12,6 @@ var stageCtrlr = function($scope, $http, $window, $cookies, utility){
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const locID = urlParams.get('locationID');
-
-    if (locID > ''){    // Get the cars automatically
-                        //  if the location is set in querystring
-        $scope.locID = locID;
-        GetStageHeadings(locID);
-    }   // if (locID > '')
 
     GetUploadTimeStamp();
 
@@ -90,7 +79,7 @@ var stageCtrlr = function($scope, $http, $window, $cookies, utility){
     function GetStageHeadings(loc_ID){
 
         if (loc_ID > 0){
-            $http.get('./php/Stage_Headings.php?locationID=' + $scope.locID)  // get all locations by default
+            $http.get('./php/Stage_Headings.php?locationID=' + loc_ID)  // get all locations by default
                   .then(
                         function(response){
                             if (response.data){

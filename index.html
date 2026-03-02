@@ -2,9 +2,9 @@
 <head>
 
     <title>Parts Department</title>
-
-    <!-- script src='./scripts/angularjs.js'></script-->
-    <script src='./scripts/angularjs.min.js'></script>
+   
+    <script src='./scripts/angularjs.js'></script>
+    <!-- script src='./scripts/angularjs.min.js'></script -->
     <script src='./scripts/bootstrap.bundle.min.js.js'></script>
     <script src='./scripts/angular-cookies.js'></script>
  
@@ -13,33 +13,36 @@
     <script src='./scripts/Filters.js'></script>
     <script src='./scripts/UtilityFunctions.js'></script>
 
-    <!-- Production Screen Controllers -->
+    <!-- Stage Tab Controller-->
+    <script src='./scripts/Stage.js'></script>
+    <script src='./scripts/Stage_Car.js'></script>
+ 
+    <!-- Production Tab Controllers -->
     <script src='./scripts/Production.js'></script>
     <script src='./scripts/Estimator_View.js'></script>
     <script src='./scripts/Technician_View.js'></script>
 
+    <!-- Deliveries Tab Controllers -->
     <script src='./scripts/Deliveries.js'></script>
     <script src='./scripts/DeliveriesByCar.js'></script>
     <script src='./scripts/DeliveriesByVendor.js'></script>
 
-    <!-- Parts Search Screen Controller-->
+    <!-- Parts Search Tab Controller-->
     <script src='./scripts/Parts_Search.js'></script>
 
-    <!-- Materials Ordering Page Controller-->
+    <!-- Materials Ordering Tab Controller-->
     <script src='./scripts/Order_Materials.js'></script>
 
     <!-- Unordered Parts Screen Controller-->
     <!-- script src='./scripts/Unordered_Parts.js'></script -->
 
+    <!-- Follow-Up Tab Controller-->
     <script src="./scripts/Follow_Up.js"></script>
 
-    <!-- REturn Forms Screen Controller-->
+    <!-- Return Forms Tab Controller-->
     <script src='./scripts/Return_Forms.js'></script>
 
-    <!-- Paint List Screen Controller-->
-    <script src='./scripts/Paint_List.js'></script>
-
-    <!-- Vendors List Screen Controller-->
+    <!-- Vendors List Tab Controller-->
     <script src='./scripts/Vendors.js'></script>
 
     <!-- Universal Style Sheet -->
@@ -66,6 +69,9 @@
             </td>
         </tr>
         <tr role='button' class="heading">
+            <td ng-class='Tabs.Stage' ng-click='PickTab("Stage");' align="center">
+                Stage
+            </td>
             <td ng-class='Tabs.Production' ng-click='PickTab("Production");' align="center">
                 Production
             </td>
@@ -83,9 +89,6 @@
             </td>
             <td ng-class='Tabs.ReturnForms' ng-click='PickTab("ReturnForms");' align="center">
                 Return Forms
-            </td>
-            <td ng-class='Tabs.PaintList' ng-click='PickTab("PaintList");' align="center">
-                Paint List
             </td>
             <td ng-class='Tabs.Vendors' ng-click='PickTab("Vendors");' align="center">
                 Vendors
