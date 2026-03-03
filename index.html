@@ -51,27 +51,23 @@
 
 </head>
 <body ng-controller='TabsController' style="background-color: lightgrey;">
-    <table border='2' width='100%' bordercolor="green">
+    <table width='100%' class="whiteBorders">
         <tr>
             <td align='left'>
                 <b>Today's Date:</b> 
-                <u>{{ dateToday }}</u>
+                &nbsp;<u>{{ dateToday }}</u>
             </td>
-            <td align='right'>
-                <h4 class="red">Shop:</h4>
-            </td>
-            <td align='left'>
-                <br/>
+            <td align='center'>
+                <b>Shop:</b>
+                &nbsp;
                 <select ng-model='locationID' class="form-select">
                     <option ng-repeat='loc in locations' value='{{ loc.id }}'>{{ loc.location }}</option>
                 </select>
                 <br/>
             </td>
-            <td align='right'>
+            <td align='center'>
                 <b>Last Update:</b>
-            </td>
-            <td>
-                 {{ last_update }}
+                &nbsp;{{ last_update }}
             </td>
             <td align='right'>
                 <button class="btn btn-danger" ng-click='Logout();'>
@@ -83,28 +79,28 @@
     <table align='center' width='100%' border='1' class="tblHeader">
     <thead>
         <tr role='button' class="heading">
-            <td ng-class='Tabs.Stage' ng-click='PickTab("Stage");' align="center" width="12.5%" class="whiteBorders">
+            <td ng-class='Tabs.Stage' ng-click='PickTab("Stage");' align="center" width="{{ tabWidth }}" class="whiteBorders">
                 Stage
             </td>
-            <td ng-class='Tabs.Production' ng-click='PickTab("Production");' align="center" width="12.5%" class="whiteBorders">
+            <td ng-class='Tabs.Production' ng-click='PickTab("Production");' align="center" width="{{ tabWidth }}" class="whiteBorders">
                 Production
             </td>
-            <td ng-class='Tabs.Deliveries' ng-click='PickTab("Deliveries");' align="center" width="12.5%" class="whiteBorders">
+            <td ng-class='Tabs.Deliveries' ng-click='PickTab("Deliveries");' align="center" width="{{ tabWidth }}" class="whiteBorders">
                 Deliveries
             </td>
-            <td ng-class='Tabs.PartsSearch' ng-click='PickTab("PartsSearch");' align="center" width="12.5%" class="whiteBorders">
+            <td ng-class='Tabs.PartsSearch' ng-click='PickTab("PartsSearch");' align="center" width="{{ tabWidth }}" class="whiteBorders">
                 Parts Search
             </td>
-            <td ng-class='Tabs.Materials' ng-click='PickTab("Materials");' align="center" width="12.5%" class="whiteBorders">
+            <td ng-class='Tabs.Materials' ng-click='PickTab("Materials");' align="center" width="{{ tabWidth }}" class="whiteBorders">
                 Materials
             </td>
-            <td ng-class='Tabs.FollowUp' ng-click='PickTab("FollowUp");' align="center" width="12.5%" class="whiteBorders">
+            <td ng-class='Tabs.FollowUp' ng-click='PickTab("FollowUp");' align="center" width="{{ tabWidth }}" class="whiteBorders">
                 Follow-Up
             </td>
-            <td ng-class='Tabs.ReturnForms' ng-click='PickTab("ReturnForms");' align="center" width="12.5%" class="whiteBorders">
+            <td ng-class='Tabs.ReturnForms' ng-click='PickTab("ReturnForms");' align="center" width="{{ tabWidth }}" class="whiteBorders">
                 Return Forms
             </td>
-            <td ng-class='Tabs.Vendors' ng-click='PickTab("Vendors");' align="center" width="12.5%" class="whiteBorders">
+            <td ng-class='Tabs.Vendors' ng-click='PickTab("Vendors");' align="center" width="{{ tabWidth }}" class="whiteBorders">
                 Vendors
             </td>
         </tr>

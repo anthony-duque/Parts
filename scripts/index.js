@@ -31,6 +31,7 @@ var TabsCtrlr = function($scope, $http, $cookies, utility){
             'Vendors'       : "inactive"
         };
 
+    $scope.tabWidth = 100 / Object.keys($scope.Tabs).length + '%';
 
     $scope.PickTab = function(tabName){
 
