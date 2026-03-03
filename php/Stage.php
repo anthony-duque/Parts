@@ -10,14 +10,17 @@ $method = $_SERVER['REQUEST_METHOD'];
 
 switch($method){
 
-   case 'POST':;
+   case 'POST':
+    /*
       $json = file_get_contents('php://input');
       $data = json_decode($json);
       ProcessPOST($data);
+    */
       break;
 
    case "PUT":    // Could read from input and query string
       echo 'PUT';
+    /*
       $putData = fopen("php://input", "r");
       $rawJson = "";
 
@@ -30,9 +33,10 @@ switch($method){
       //var_dump($jsonData);
 
       ProcessPUT($jsonData);
+      */
       break;
 
-   case "GET":  // get cars on the Paint List
+   case "GET":  // get cars that are in production for a given location and stage
         $stage_count = $_GET["stages_count"];
         $loc_id = $_GET["locID"];
         Process_GET($loc_id, $stage_count);
