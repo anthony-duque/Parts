@@ -1,45 +1,47 @@
-<table align='center' ng-controller='VendorViewController' class="tblHeader">
-<thead>
-<tr>
-    <td align='center' colspan='4'>
-        <br/>
-        <b>Search:</b>
-        <input type='text' ng-model='searchText'>
-        &nbsp;<input type='button' value='Clear' ng-click='searchText = ""' class="btn btn-warning">
-        <br/>
-        <br/>
-    </td>
-
-</tr>
-<tr class='platinum'>
-    <td ng-click='SortVendors("name");' class="heading">
-        Vendor
-    </td>
-    <td ng-click='SortVendors("phone_number");' class="heading">
-        Phone
-    </td>
-    <td ng-click='SortVendors("email");' class="heading">
-        Email
-    </td>
-    <td ng-click='SortVendors("location");' class="heading">
-        Shop
-    </td>
-</tr>
-</thead>
-<tr ng-repeat='eachVendor in vendorList | filter : { location_ID : locationID } | filter: searchText | orderBy: sortFld' ng-class='ToggleColor($index, "white", "orange");'>
-    <td>
-        {{ eachVendor.name }}
-    </td>
-    <td align='center'>
-        {{ eachVendor.phone_number }}
-    </td>
-    <td>
-        <a href= "mailto:{{ eachVendor.email }}">
-            {{ eachVendor.email }}
-        </a>
-    </td>
-    <td align='left'>
-        {{ eachVendor.location }}
-    </td>
-</tr>
-</table>
+<div class="scrollable-table" ng-controller='VendorViewController' style='height: 100%;'>
+    <br/>
+    <table align='center' class="tblHeader" height='100%'>
+    <thead>
+    <tr>
+        <td align='center' colspan='4'>
+            <br/>
+            <b>Search:</b>
+            <input type='text' ng-model='searchText'>
+            &nbsp;<input type='button' value='Clear' ng-click='searchText = ""' class="btn btn-warning">
+            <br/>
+            <br/>
+        </td>
+    </tr>
+    <tr class='platinum'>
+        <td ng-click='SortVendors("name");' class="heading">
+            Vendor
+        </td>
+        <td ng-click='SortVendors("phone_number");' class="heading">
+            Phone
+        </td>
+        <td ng-click='SortVendors("email");' class="heading">
+            Email
+        </td>
+        <td ng-click='SortVendors("location");' class="heading">
+            Shop
+        </td>
+    </tr>
+    </thead>
+    <tr ng-repeat='eachVendor in vendorList | filter : { location_ID : locationID } | filter: searchText | orderBy: sortFld' ng-class='ToggleColor($index, "white", "orange");'>
+        <td>
+            {{ eachVendor.name }}
+        </td>
+        <td align='center'>
+            {{ eachVendor.phone_number }}
+        </td>
+        <td>
+            <a href= "mailto:{{ eachVendor.email }}">
+                {{ eachVendor.email }}
+            </a>
+        </td>
+        <td align='left'>
+            {{ eachVendor.location }}
+        </td>
+    </tr>
+    </table>
+</div>

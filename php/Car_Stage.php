@@ -90,7 +90,7 @@ function ProcessPUT($carObj)
             UPDATE Car_Stage
             SET stage_ID = $carObj->stageID
             WHERE ro_Num = $carObj->ro_num
-                AND loc_ID = $carObj->locationID
+                AND loc_ID = $carObj->locID
         strSQL;
 
     try{
