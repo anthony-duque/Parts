@@ -51,24 +51,37 @@
 
 </head>
 <body ng-controller='TabsController' style="background-color: lightgrey;">
-    <table border='1' width='100%'>
+    <table border='2' width='100%' bordercolor="green">
         <tr>
-            <td colspan="3" align='left'>
-                <b>Today's Date:</b> <u>{{ dateToday }}</u>
+            <td align='left'>
+                <b>Today's Date:</b> 
+                <u>{{ dateToday }}</u>
             </td>
-            <td align='center' colspan="2">
+            <td align='right'>
                 <h4 class="red">Shop:</h4>
+            </td>
+            <td align='left'>
+                <br/>
                 <select ng-model='locationID' class="form-select">
                     <option ng-repeat='loc in locations' value='{{ loc.id }}'>{{ loc.location }}</option>
                 </select>
                 <br/>
             </td>
-            <td colspan='3' align='right'>
-                <b>Data last updated:</b> {{ last_update }}
-                <br>
-                <button class="btn btn-danger" ng-click='Logout();'>Logout</button>
+            <td align='right'>
+                <b>Last Update:</b>
+            </td>
+            <td>
+                 {{ last_update }}
+            </td>
+            <td align='right'>
+                <button class="btn btn-danger" ng-click='Logout();'>
+                    Logout
+                </button>
             </td>
         </tr>
+    </table>
+    <table align='center' width='100%' border='1' class="tblHeader">
+    <thead>
         <tr role='button' class="heading">
             <td ng-class='Tabs.Stage' ng-click='PickTab("Stage");' align="center" width="12.5%" class="whiteBorders">
                 Stage
@@ -95,6 +108,7 @@
                 Vendors
             </td>
         </tr>
+    </thead>
     </table>
     <div ng-include='tabView'></div>
 </body>
