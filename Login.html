@@ -35,7 +35,6 @@
 </head>
 
 <body ng-controller="LoginAppController" style="background-color: black; color: white;">
-    
 
     <table align="center" border="0" style="vertical-align: middle; height: 25%;">
     <tr>
@@ -53,6 +52,11 @@
         </td>
     </tr>
     <tr>
+        <td colspan="2">
+            <br />
+        </td>
+    </tr>
+    <tr>
         <td align="right">
             <b>Password</b>:&nbsp;
         </td>
@@ -62,13 +66,23 @@
         </td>
     </tr>
     <tr>
+        <td colspan="2">
+            <br />
+        </td>
+    </tr>
+    <tr>
         <td align="center" colspan="2">
             <input type="button" value="Login" ng-click="login(username_email, password);" class="btn btn-secondary"/>
         </td>
     </tr>
-    <tr ng-show="loginCorrect == 'false'">
+    <tr>
+        <td colspan="2">
+            <br />
+        </td>
+    </tr>
+    <tr ng-show="loginError > ''">
         <td align="center" colspan="2" class="red tilt-shake">
-            Wrong username or password
+            {{ loginError }}
         </td>
     </tr>
     </table>

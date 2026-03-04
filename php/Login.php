@@ -4,7 +4,6 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-
 function deleteCookie($name) {
 
     unset($_COOKIE[$name]);
@@ -36,6 +35,53 @@ switch($method){
 
 ////////////////////////////////////
 
+
+function storeIDsinCookie($companyCode, $dbConn){
+
+    $sql = <<<strSQL
+                SELECT
+                    Location_Code
+                From Company_Shop
+                WHERE Company_Code = '$companyCode';
+            strSQL;
+
+    try{
+
+        $s = mysqli_query($dbConn, $sql);
+
+        if (isset($s)){
+
+                // Account found, store ID in cookie
+            $locIDs = array();
+
+            while($r = mysqli_fetch_assoc($s)){
+                $locIDs[] = $r["Location_Code"];
+            }
+
+            setcookie("locationID", implode(',', $locIDs), [
+                'expires' => time() + (60 * 60 * 8),  // = 8 Hours
+                'path' => '/',
+                'secure' => true    // only send cookie over secure connections
+//                'httponly' => true,
+//                'samesite' => 'Strict'
+            ]);
+
+        } else {
+
+            echo "No shops associated with $companyCode.";
+
+        }
+    } catch(Exception $e){
+
+        echo "Login failed." . $e->getMessage();
+
+    } finally {
+        $dbConn = null;
+    }   // try-catch{}
+
+}   // storeIDsinCookie()
+
+
 function Login(){
 
     require('db_open.php');
@@ -45,10 +91,10 @@ function Login(){
 
     $sql = <<<strSQL
                 SELECT
-                    id, active_end_date
-                FROM Location_IDs
-                WHERE location_code = '$username' 
-                    AND pass_code = '$password';
+                    Account_End_Date
+                FROM Company
+                WHERE Company_Code = '$username' 
+                    AND Pass_Code = '$password';
             strSQL;
 
     try{
@@ -56,36 +102,34 @@ function Login(){
         $s = mysqli_query($conn, $sql);
         $r = mysqli_fetch_assoc($s);
 
-        $loginSuccessful = false;
+        if (!isset($r)){
 
-        if(isset($r)){
-
-            if (is_null($r["active_end_date"]) || ($r["active_end_date"] >= date("Y-m-d")) ){ 
-
-                    // active_end_date is either NULL (no end date) or in the future
-                $loginSuccessful = true;
-
-                setcookie("locationID", $r["id"], [
-                    'expires' => time() + (60 * 60 * 8),  // = 8 Hours
-                    'path' => '/',
-                    'secure' => true    // only send cookie over secure connections
-                    //                'httponly' => true, 
-                    //                'samesite' => 'Strict'
-                ]); 
-
-            } else {
-                
-                deleteCookie("locationID");
-
-            }   // if (is_null(...))
+            echo "Incorrect username or password.";
 
         } else {
+                // Account found, check if active
 
-            deleteCookie("locationID");
+            if(isset($r)){
 
-        }   // if(isset($r))
+                    // Login failed.  Account expired.
+                if ($r["Account_End_Date"] < date("Y-m-d")){ 
 
-        echo json_encode($loginSuccessful);
+                    echo "Account expired.";
+
+                } else {    // Login successful, store ID in cookie
+
+                    storeIDsinCookie($username, $conn);
+                    echo "true";
+                
+                }
+            } else{ // Login failed.  Wrong username or password.
+
+                echo "Account not found.";
+
+            }  // if(isset($r))
+
+//            echo json_encode($loginSuccessful);
+        }
 
     } catch(Exception $e){
 
@@ -98,4 +142,5 @@ function Login(){
     }   // try-catch{}
 
 }
+
 ?>
