@@ -1,6 +1,6 @@
 <div ng-controller='StageCtrlr' style='font-size: x-small'>
     <br/>
-    <table align='center' width='100%' border=0 class="bgLiteGrey">
+    <table align='center' width='90%' border=0 class="bgLiteGrey">
     <tr ng-show='locationID > 0'>
         <td align='left'>
             <input type='button' value='Reset Filters' ng-click='ResetFilters();' class="btn btn-primary"/>
@@ -12,19 +12,16 @@
             <input type='button' value='Switch Colors' ng-click='ChooseBGMode(BackgroundMode);' class="btn btn-danger">
             &nbsp;by:&nbsp;{{ BackgroundMode }}
         </td>
-        <td align='right'>
-            Last Update: {{ lastUpdate }}
-        </td>
     </tr>
     <tr>
-        <td colspan="4"><br/></td>
+        <td colspan="3"><br/></td>
     </tr>
     <tr>
         <td align='center' ng-show='locationID > 0' style='color : blue;'>
             <b>Technician:</b>
             <select ng-model='tech' class="form-select">
                 <option value=''>All Techs</option>
-                <option ng-repeat='eachTech in techList | filter: { locID: locationID }' value='{{ eachTech.name }}'>
+                <option ng-repeat='eachTech in techList' value='{{ eachTech.name }}'>
                     {{ eachTech.name }}
                 </option>
             </select>
@@ -33,7 +30,7 @@
             <b>Estimator:</b>
             <select ng-model='estim' class="form-select">
                 <option value=''>All Estimators</option>
-                <option ng-repeat='estimator in estimatorList | filter: { locID: locationID }' value='{{ estimator.name }}'>
+                <option ng-repeat='estimator in estimatorList' value='{{ estimator.name }}'>
                     {{ estimator.name }}
                 </option>
             </select>
@@ -44,7 +41,7 @@
         </td>
     </tr>
     <tr>
-        <td colspan="4"><br/></td>
+        <td colspan="3"><br/></td>
     </tr>
     </table>
 

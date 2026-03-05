@@ -26,6 +26,8 @@ var stageCtrlr = function($scope, $http, $window, $cookies, utility){
 
             if (newLocationID !== prevLocationID) {
                 Switch_To_Shop(newLocationID);
+                $scope.estim = "";
+                $scope.tech = "";
             }
     }); // $scope.$watch()
 
@@ -447,9 +449,9 @@ var stageCtrlr = function($scope, $http, $window, $cookies, utility){
                     }
                 });
 
-                if (nameFound == false){    // if estimator is not yer in the list
+                if (nameFound == false){    // if the technician is not in the list
                     if (car.technician.length > 0){
-                        technician = new Technician(car.technician, car.locationID);
+                        technician = new Technician(car.technician, car.locID);
                         $scope.techList.push(technician);       // add him
                     }
                 }
@@ -485,7 +487,7 @@ var stageCtrlr = function($scope, $http, $window, $cookies, utility){
 
                 if (nameFound == false){    // if estimator is not yer in the list
                     if (car.estimator.length > 0){
-                        estimator = new Estimator(car.estimator, car.locationID);
+                        estimator = new Estimator(car.estimator, car.locID);
                         $scope.estimatorList.push(estimator);       // add him
                     }
                 }
