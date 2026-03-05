@@ -1,8 +1,8 @@
 var stageCtrlr = function($scope, $http, $window, $cookies, utility){
-
+    
         // alert($cookies.get('locationID'));
     $scope.locID = $scope.locationID;
-    GetStageHeadings($scope.locID);
+    Switch_To_Shop($scope.locID);
 
     $scope.filterOn         = false;
     $scope.BackgroundMode   = 'Parts Status';
@@ -18,6 +18,17 @@ var stageCtrlr = function($scope, $http, $window, $cookies, utility){
 //    alert($cookies.get('locationID'));
 
 ////////////////////////////////////
+
+    $scope.$watch('locationID', 
+
+            // Change cars accordingly when shop is switched 
+        function(newLocationID, prevLocationID){
+
+            if (newLocationID !== prevLocationID) {
+                Switch_To_Shop(newLocationID);
+            }
+    }); // $scope.$watch()
+
 
     $scope.RemoveFromQueue = function(car){
 
@@ -75,8 +86,8 @@ var stageCtrlr = function($scope, $http, $window, $cookies, utility){
              );
     }    // GetUploadTimeStamp()
 
-
-    function GetStageHeadings(loc_ID){
+        // Fetches the stage headings and cars for the selected shop
+    function Switch_To_Shop(loc_ID){
 
         if (loc_ID > 0){
             $http.get('./php/Stage_Headings.php?locationID=' + loc_ID)  // get all locations by default
@@ -144,8 +155,6 @@ var stageCtrlr = function($scope, $http, $window, $cookies, utility){
                                     }
                                 }   // for()
                             });
-
-//                            GetCars($scope.stages.length, loc_ID);
                         }
                     }
               )         // then()
@@ -186,11 +195,6 @@ var stageCtrlr = function($scope, $http, $window, $cookies, utility){
                     }
              );
     }    // function GetCars()
-
-
-    $scope.SwitchShops = function(locationID){
-        GetStageHeadings(locationID);
-    }
 
 
     $scope.DoubleClicked = function(carViewPage){
