@@ -6,11 +6,16 @@ var TabsCtrlr = function($scope, $http, $cookies, utility){
     $scope.locationID = '';
 
         // alert($cookies.get('locationID'));
-    if ($cookies.get('locationID') > 0){
-        $scope.locationID = $cookies.get('locationID');
+    if ($cookies.get('locationID') > ''){
+
+        var loc_IDs = $cookies.get('locationID').split(',');  // split comma-separated location IDs into array
+        $scope.locationID = loc_IDs[0];                       // use first location ID as default (if multiple)
+
     } else {
+
         window.location.href = './Login.html';
-    }
+    
+    }   // 
 
     const DEFAULT_VIEW = 'Stage.html';
     
@@ -26,7 +31,6 @@ var TabsCtrlr = function($scope, $http, $cookies, utility){
             'PartsSearch'   : "inactive",
             'Materials'     : "inactive",
             'ReturnForms'   : "inactive",
-            'PaintList'     : "inactive",
             'FollowUp'      : "inactive",
             'Vendors'       : "inactive"
         };
@@ -63,10 +67,6 @@ var TabsCtrlr = function($scope, $http, $cookies, utility){
 
             case 'Materials':
                 tabView = 'Order_Materials.html';
-                break;
-
-            case 'PaintList':
-                tabView = 'Paint_List.html';
                 break;
 
             case 'FollowUp':

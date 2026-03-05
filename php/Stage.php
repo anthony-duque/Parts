@@ -19,7 +19,6 @@ switch($method){
       break;
 
    case "PUT":    // Could read from input and query string
-      echo 'PUT';
     /*
       $putData = fopen("php://input", "r");
       $rawJson = "";

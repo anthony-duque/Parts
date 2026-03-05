@@ -40,9 +40,10 @@ function storeIDsinCookie($companyCode, $dbConn){
 
     $sql = <<<strSQL
                 SELECT
-                    Location_Code
-                From Company_Shop
-                WHERE Company_Code = '$companyCode';
+                    s.id
+                From Company_Shop cs INNER JOIN Location_IDs s
+                    ON cs.Location_Code = s.location_code
+                WHERE cs.Company_Code = '$companyCode';
             strSQL;
 
     try{
@@ -55,7 +56,7 @@ function storeIDsinCookie($companyCode, $dbConn){
             $locIDs = array();
 
             while($r = mysqli_fetch_assoc($s)){
-                $locIDs[] = $r["Location_Code"];
+                $locIDs[] = $r["id"];
             }
 
             setcookie("locationID", implode(',', $locIDs), [
