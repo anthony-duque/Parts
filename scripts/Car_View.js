@@ -16,6 +16,7 @@ var carViewCtrlr = function($scope, $http, utility){
     }     // GetAllPartsForRO()
 
     GetAllPartsForRO($scope.roNum, $scope.locationID);
+    GetUploadTimeStamp();
 
 /////////////////////////////////////////////////////////////
 
@@ -97,10 +98,33 @@ var carViewCtrlr = function($scope, $http, utility){
         }
     }
 
+    
     function handleError(response)
     {
         console.log("Car parts records not fetched.");
     }
+
+
+    function GetUploadTimeStamp(timeObj){
+
+        $http.get('./php/Get_Upload_Time.php')  // get all locations by default
+              .then(
+                    function(response){
+                        if (response.data){
+                            console.log("Last Upload Time fetched successfully!");
+                            console.log(response.data);
+
+                            const last_update = new Date (response.data);
+                            $scope.last_update = last_update.toLocaleString();
+                        }
+                    }
+              )         // then()
+              .catch(
+                    function(response){
+                        console.log("Last Upload Time not fetched.");
+                    }
+             );
+    }    // GetUploadTimeStamp()
 
 }
 

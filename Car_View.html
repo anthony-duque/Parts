@@ -68,7 +68,15 @@
         </tr>
     </table>
 
-    <input type='button' value="Go Back" ng-click='GoBackToMainPage();' class="btn btn-danger">
+    <table width='100%' align='center'>
+    <tr>
+        <td align='left'>
+            <input type='button' value="Go Back" ng-click='GoBackToMainPage();' class="btn btn-danger">
+        </td>
+        <td align='right'>
+            Last Update:&nbsp;{{ last_update }}
+        </td>
+    </table>
 
     <table width='30%' border="1" align='center' class="table-hover">
     <thead>
@@ -124,9 +132,10 @@
     <table width='100%' align='center' id='carParts' class="table-hover tblHeader">
         <thead>
             <tr>
-                <td align='right' colspan='5'>
-                    Search: <input type='text' ng-model='searchText' />
-                    &nbsp;<input type='button' value='Clear' ng-click='searchText = ""' class="btn btn-warning">
+                <td align='right' colspan='5' style="color : white;">
+                    <b>Search:</b>
+                    <input type='text' ng-model='searchText' />&nbsp;
+                    <input type='button' value='Clear' ng-click='searchText = ""' class="btn btn-warning">
                 </td>
                  <td colspan="7">
                 </td>
