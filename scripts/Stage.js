@@ -1,4 +1,4 @@
-var stageCtrlr = function($scope, $http, $window, $cookies, utility){
+ var stageCtrlr = function($scope, $http, $window, $cookies, utility){
     
         // alert($cookies.get('locationID'));
     $scope.locID = $scope.locationID;
@@ -8,12 +8,6 @@ var stageCtrlr = function($scope, $http, $window, $cookies, utility){
     $scope.BackgroundMode   = 'Parts Status';
 
     $scope.priorityCars = [];
-
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const locID = urlParams.get('locationID');
-
-    GetUploadTimeStamp();
 
 //    alert($cookies.get('locationID'));
 
@@ -65,28 +59,6 @@ var stageCtrlr = function($scope, $http, $window, $cookies, utility){
         }   // if (carIndex...
     }   // RemoveFromQueue()
 
-
-    function GetUploadTimeStamp(){
-
-        $http.get('./php/Get_Upload_Time.php')  // get all locations by default
-              .then(
-                    function(response){
-                        if (response.data){
-                            console.log("Last Upload Time fetched successfully!");
-                            console.log(response.data);
-
-                            const last_update = new Date (response.data);
-                            console.log("converted time: " + last_update);
-                            $scope.lastUpdate = last_update.toLocaleString();
-                        }
-                    }
-              )         // then()
-              .catch(
-                    function(response){
-                        console.log("Last Upload Time not fetched.");
-                    }
-             );
-    }    // GetUploadTimeStamp()
 
         // Fetches the stage headings and cars for the selected shop
     function Switch_To_Shop(loc_ID){
@@ -178,6 +150,7 @@ var stageCtrlr = function($scope, $http, $window, $cookies, utility){
                             console.log(response.data);
 
                             $scope.production_stage = response.data.stageCars;
+                            $scope.lastUpdate = response.data.last_upload_time.toLocaleString();
 
                             $scope.colWidth         = (1 / $scope.production_stage.length) * 100;
 

@@ -93,9 +93,11 @@ function Process_GET($locID, $stageCount){
     class ProdStage{
 
         public $stageCars = [];
+        public $last_upload_time;
 
         function __construct($sc){
             $this->stageCars = $sc;
+            $this->last_upload_time = Get_Upload_Time();
         }
     }   // prodStage{}
 

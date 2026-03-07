@@ -1,11 +1,9 @@
-
 var app = angular.module("TabsApp", ['ngCookies']);
 
 var TabsCtrlr = function($scope, $http, $cookies, utility){
 
     $scope.locationID = '';
 
-        // alert($cookies.get('locationID'));
     if ($cookies.get('locationID') > ''){
 
         var loc_IDs = $cookies.get('locationID').split(',');  // split comma-separated location IDs into array
@@ -15,7 +13,7 @@ var TabsCtrlr = function($scope, $http, $cookies, utility){
 
         window.location.href = './Login.html';
     
-    }   // 
+    }   // if()
 
     const DEFAULT_VIEW = 'Stage.html';
     
@@ -90,37 +88,20 @@ var TabsCtrlr = function($scope, $http, $cookies, utility){
     }   // PickTab()
 
     Get_Shop_Locations();
-    GetUploadTimeStamp();
 
+    // To default to a specific shop via the query string, use: index.html?locationID=1 (or 2, 3, etc.)
+ /*
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const locID = urlParams.get('locationID');
+*/
     /////////////////////////////////////////////
 
     function Get_Shop_Locations(){
         $http.get('./php/index.php')
             .then(handleSuccess)
             .catch(handleError);
-    }
-
-
-    function GetUploadTimeStamp(timeObj){
-
-        $http.get('./php/Get_Upload_Time.php')  // get all locations by default
-              .then(
-                    function(response){
-                        if (response.data){
-                            console.log("Last Upload Time fetched successfully!");
-                            console.log(response.data);
-
-                            const last_update = new Date (response.data);
-                            $scope.last_update = last_update.toLocaleString();
-                        }
-                    }
-              )         // then()
-              .catch(
-                    function(response){
-                        console.log("Last Upload Time not fetched.");
-                    }
-             );
-    }    // GetUploadTimeStamp()
+    }   // Get_Shop_Locations()
 
 
     function handleSuccess(response)
@@ -128,11 +109,11 @@ var TabsCtrlr = function($scope, $http, $cookies, utility){
         if (response.data){
             console.log(response.data);
 
-                // Last Update Date
             $scope.locations = response.data.locations;
-
+            $scope.last_update = response.data.last_upload_time.toLocaleString();
         }
-    }
+    }   // handleSuccess()
+
 
     function handleError(response)
     {

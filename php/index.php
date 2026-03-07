@@ -4,6 +4,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+require 'Utility_Scripts.php';
 
 header('Access-Allow-Control-Origin: *');
 $method = $_SERVER['REQUEST_METHOD'];
@@ -58,11 +59,12 @@ function GetShopLocations($dbConn){
 
 class Page_Info{
 
-    public $last_update;
     public $locations = [];
+    public $last_upload_time;
 
-    function __construct($l_update, $db_conn){
+    function __construct($db_conn){
         $this->locations = GetShopLocations($db_conn);
+        $this->last_upload_time = Get_Upload_Time();
     }   // function()
 
 }   // class{}
@@ -72,9 +74,7 @@ function ProcessGET(){
 
     require('db_open.php');
 
-    $last_upload_date = '';
-
-    $page_info = new Page_Info($last_upload_date, $conn);
+    $page_info = new Page_Info($conn);
     $conn = null;
 
     return $page_info;
