@@ -1,6 +1,6 @@
 <div ng-controller='StageCtrlr' style='font-size: x-small'>
     <br/>
-    <table align='center' width='90%' border=0 class="bgLiteGrey">
+    <table align='center' width='95%' border=0 class="bgLiteGrey">
     <tr ng-show='locationID > 0'>
         <td align='left'>
             <input type='button' value='Reset Filters' ng-click='ResetFilters();' class="btn btn-primary"/>
@@ -18,7 +18,7 @@
     </tr>
     <tr>
         <td align='center' ng-show='locationID > 0' style='color : blue;'>
-            <b>Technician:</b>
+            <b>Filter by Technician:</b>
             <select ng-model='tech' class="form-select">
                 <option value=''>All Techs</option>
                 <option ng-repeat='eachTech in techList' value='{{ eachTech.name }}'>
@@ -27,7 +27,7 @@
             </select>
         </td>
         <td align='center' ng-show='locationID > 0' style='color : red;'>
-            <b>Estimator:</b>
+            <b>Filter by Estimator:</b>
             <select ng-model='estim' class="form-select">
                 <option value=''>All Estimators</option>
                 <option ng-repeat='estimator in estimatorList' value='{{ estimator.name }}'>
