@@ -3,16 +3,20 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+flush();
 
 require('Utility_Scripts.php');
 require('Upload_Daily_Out.php');
 require('Upload_Parts_Status.php');
 require('Create_Labels_CSV.php');
 
-
 const TARGET_DIR    = "../extract_files/";  // destination folder on the server
 const D_OUT_FNAME   = "Daily_Out.csv";      // Daily Out destination file name
 const P_STAT_FNAME  = "Parts_Status.csv";   // Parts Status destination file name
+
+
+$locationID = $_COOKIE["locationID"];       // set the location cookie for use in the utility scripts
+// echo "Location ID: " . $locationID . "<br/><br/>";
 
     // Process the Daily Out extract first
 try{
@@ -46,9 +50,9 @@ try{
 
 require('db_open.php');
 
-$tsql = "UPDATE Adhoc_Table " .
-         "SET value = '" . $_POST['uploadDateTime'] . "' " .
-         "WHERE name = 'LAST_UPLOAD'";
+$tsql = "UPDATE Location_IDs " .
+         "SET last_data_upload = '" . $_POST['uploadDateTime'] . "' " .
+         "WHERE id IN ($locationID)";
 
 if ($conn->query($tsql) === TRUE) {
 

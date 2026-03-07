@@ -3,10 +3,11 @@
     <title>Extracts Upload</title>
     <script src='./scripts/angularjs.min.js'></script>
     <script src='./scripts/Extracts_Upload.js'></script>
-</head>
+    <script src='./scripts/angular-cookies.js'></script>
+ </head>
 <body ng-controller='csvUploadController'>
     <form action="./php/Upload_Extracts.php" method='POST' enctype='multipart/form-data'>
-        <input type='hidden' name='uploadDateTime' value='{{ currDateTime }}'>
+        <input type='hidden' name='uploadDateTime' value='{{ currDateTime | date:"short" }}'>
         <table align='center'>
             <caption>
                 <b>Upload Extract Files</b>

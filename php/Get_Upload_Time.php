@@ -2,15 +2,21 @@
 
 require('db_open.php');
 
+$loc_IDs = $_COOKIE["locationID"];       // set the location cookie for use in the utility scripts
 $last_upload_date = '';
 
-$sql = "SELECT value FROM Adhoc_Table WHERE name = 'LAST_UPLOAD'";
+$sql = <<<strSQL
+    SELECT last_data_upload
+    FROM Location_IDs li
+    WHERE id IN ($loc_IDs)
+    LIMIT 1;
+strSQL;
 
 try{
 
     $s = mysqli_query($conn, $sql);
     $r = mysqli_fetch_assoc($s);
-    $last_upload_date = $r["value"];
+    $last_upload_date = $r["last_data_upload"];
 
 } catch (Exception $e){
 
