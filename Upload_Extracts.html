@@ -4,31 +4,59 @@
     <script src='./scripts/angularjs.min.js'></script>
     <script src='./scripts/Extracts_Upload.js'></script>
     <script src='./scripts/angular-cookies.js'></script>
+    <link rel="stylesheet" href="styles/bootstrap.min.css" />
+
  </head>
 <body ng-controller='csvUploadController'>
     <form action="./php/Upload_Extracts.php" method='POST' enctype='multipart/form-data'>
         <input type='hidden' name='uploadDateTime' value='{{ currDateTime | date:"short" }}'>
-        <table align='center'>
-            <caption>
-                <b>Upload Extract Files</b>
-            </caption>
+        <table align='center' width="25%">
+        <thead>
             <tr>
-                <th>Daily Out CSV file:</th>
-                <td>
+                <td align="center" colspan="2">
+                    <br/><br/>
+                    <b><u style="font-size: x-large;">
+                        Upload Extract Files
+                    </u></b>
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="font-size: large;" align="center">
+                    <br/>
+                    <b>
+                    Daily Out CSV file:
+                    </b>
+                    <br/>
+                </td>
+                <td style="font-size: large;">
+                    <br/>
                     <input type='file' name="DailyOutCSV" required />
+                    <br/>
                 </td>
             </tr>
             <tr>
-                <th>Parts Status CSV file:</th>
+                <td style="font-size: large;"  align="center">
+                    <br/>
+                    <b>
+                    Parts Status CSV file:
+                    </b>
+                    <br/>
+                </td>
                 <td>
+                    <br/>
                     <input type='file' name="PartsStatusCSV" required />
+                    <br/>
                 </td>
             </tr>
             <tr>
                 <td align='center' colspan='2'>
-                    <input type='submit' value='Upload Files' />
+                    <br/>
+                    <input type='submit' value='Upload Files' class="btn btn-success "/>
                 </td>
             </tr>
+        </tbody>
         </table>
     </form>
 </body>
