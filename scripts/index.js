@@ -15,7 +15,7 @@ var TabsCtrlr = function($scope, $http, $cookies, utility){
     
     }   // if()
 
-    const DEFAULT_VIEW = 'Stage.html';
+    const DEFAULT_VIEW = './html/Stage.html';
     
     $scope.tabView = DEFAULT_VIEW;   // initial tab view
 
