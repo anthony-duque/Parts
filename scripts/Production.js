@@ -7,7 +7,7 @@ var prodController = function($scope, $http, utility){
     $scope.dueMode      = "What's not Due";
 
     // default View is Technician View
-    $scope.productionView = 'Technician_View.html';
+    $scope.productionView = './html/Technician_View.html';
 
     Get_Technician_List();
     Get_Estimator_List();
