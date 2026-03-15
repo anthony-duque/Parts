@@ -5,7 +5,7 @@ var uploadVendorsCtrlr = function($scope, $http){
     Get_Shop_Locations();
 
     function Get_Shop_Locations(){
-        $http.get('./php/index.php')
+        $http.get('../../php/index.php')
             .then(handleSuccess)
             .catch(handleError);
     }   // Get_Shop_Locations()
