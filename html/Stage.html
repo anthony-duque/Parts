@@ -48,7 +48,7 @@
     <table id=id="tblPriority" border='1' ng-show='tech > ""'>
     <tr>
         <td align='center' ng-click='PlaceInQueue(carPicked);'>
-            <img ng-src='../images/{{ tech.toUpperCase() }}.jpg' style="max-width: 100px; max-height: 100px"  alt="{{ eachCar.Technician }}">
+            <img ng-src='./images/{{ tech.toUpperCase() }}.jpg' style="max-width: 100px; max-height: 100px"  alt="{{ eachCar.Technician }}">
             <br/>
             <b>{{ tech }}</b>
             <br/>
@@ -57,7 +57,7 @@
             ng-class='eachCar.borderColor'
             ng-click='ChangeBorder(eachCar);'
             width='150'>
-            <div ng-include='"Priority_Car.html"' ng-class='Set_BG_Class(BackgroundMode, eachCar);'></div>
+            <div ng-include='"./html/Priority_Car.html"' ng-class='Set_BG_Class(BackgroundMode, eachCar);'></div>
         </td>
     </tr>
     </table>
