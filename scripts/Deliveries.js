@@ -2,7 +2,7 @@
 var DeliveriesCtrlr = function($scope, $http, utility){
 
     $scope.carsInOut = "all";
-    $scope.viewBy = "DeliveriesByCar.html";
+    $scope.viewBy = "./html/DeliveriesByCar.html";
     $scope.numDays = 365;
 
     $scope.Get_All_Parts = function(numOfDays){
@@ -11,11 +11,11 @@ var DeliveriesCtrlr = function($scope, $http, utility){
 
         switch($scope.viewBy){
 
-            case "DeliveriesByCar.html":
+            case "./html/DeliveriesByCar.html":
                 $scope.Get_All_Cars($scope.numDays);
                 break;
 
-            case "DeliveriesByVendor.html":
+            case "./html/DeliveriesByVendor.html":
                 $scope.Get_All_Vendors($scope.numDays);
                 break;
 

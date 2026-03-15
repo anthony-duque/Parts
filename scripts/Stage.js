@@ -1,4 +1,4 @@
-var stageCtrlr = function($scope, $http, $cookies, utility){
+var stageCtrlr = function($scope, $http, $cookies, $window, utility){
     
         // alert($cookies.get('locationID'));
     $scope.locID = $scope.locationID;
