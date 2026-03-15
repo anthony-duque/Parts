@@ -36,7 +36,7 @@ var matAdminCtlr = function($scope, $http, utility){
 
             $scope.duplicatePart = '';
             console.log($scope.newMaterial);
-            $http.post('./php/Materials.php', JSON.stringify($scope.newMaterial))
+            $http.post('../../php/Materials.php', JSON.stringify($scope.newMaterial))
                     .then(
                         function(response) {
                             if (response.data){
@@ -57,7 +57,7 @@ var matAdminCtlr = function($scope, $http, utility){
 
 
     function GetMaterialTypeList(){
-        $http.get('./php/Material_Types.php')
+        $http.get('../../php/Material_Types.php')
               .then(
                     function(response){
                         if (response.data){
@@ -80,7 +80,7 @@ var matAdminCtlr = function($scope, $http, utility){
 
     function GetMaterialsList()
     {
-        $http.get('./php/Materials.php')
+        $http.get('../../php/Materials.php')
               .then(
                     function(response){
                         if (response.data){
