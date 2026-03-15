@@ -1,4 +1,4 @@
- var stageCtrlr = function($scope, $http, $window, $cookies, utility){
+ var stageCtrlr = function($scope, $http, $cookies, utility){
     
         // alert($cookies.get('locationID'));
     $scope.locID = $scope.locationID;
@@ -170,11 +170,6 @@
                     }
              );
     }    // function GetCars()
-
-
-    $scope.DoubleClicked = function(carViewPage){
-        $window.open(carViewPage, "CarStatus");
-    }
 
 
     $scope.ChangeBorder = function(selectedCar){

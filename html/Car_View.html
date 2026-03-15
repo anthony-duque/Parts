@@ -2,14 +2,14 @@
 <head>
     <title>Car Parts Status</title>
 
-    <script src="./scripts/angularjs.min.js"></script>
-    <script src="./scripts/bootstrap.js"></script>
+    <script src="../scripts/angularjs.min.js"></script>
+    <script src="../scripts/bootstrap.js"></script>
  
-    <script src="./scripts/Car_View.js"></script>
-    <script src='./scripts/UtilityFunctions.js'></script>
+    <script src="../scripts/Car_View.js"></script>
+    <script src='../scripts/UtilityFunctions.js'></script>
   
-    <link rel='stylesheet' href="./styles/bootstrap.css" />
-    <link rel='stylesheet' href="./styles/Parts.css" />
+    <link rel='stylesheet' href="../styles/bootstrap.css" />
+    <link rel='stylesheet' href="../styles/Parts.css" />
 </head>
 
 <body ng-controller="carViewController" style="background-color: lightgrey;">
@@ -17,7 +17,7 @@
     <table width='100%' align='center' border='1' bordercolor='white' class='heading'>
         <tr>
             <td rowspan="2" align="left" width='5%'>
-                <img ng-src='./images/{{ car.location }}.png' style="max-width: 75px; max-height: 75px">
+                <img ng-src='../images/{{ car.location }}.png' style="max-width: 75px; max-height: 75px">
             </td>
             <td width='10%' align="left">
                 {{ car.ro_num }}

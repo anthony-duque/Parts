@@ -10,7 +10,7 @@ var carViewCtrlr = function($scope, $http, utility){
 
     function GetAllPartsForRO(ROnum, locationID)
     {
-        $http.get('./php/Car_View.php?roNum=' + ROnum + '&locationID=' + locationID)
+        $http.get('../php/Car_View.php?roNum=' + ROnum + '&locationID=' + locationID)
               .then(handleSuccess)
               .catch(handleError);   // .then()
     }     // GetAllPartsForRO()
@@ -107,7 +107,7 @@ var carViewCtrlr = function($scope, $http, utility){
 
     function GetUploadTimeStamp(timeObj){
 
-        $http.get('./php/Get_Upload_Time.php')  // get all locations by default
+        $http.get('../php/Get_Upload_Time.php')  // get all locations by default
               .then(
                     function(response){
                         if (response.data){
