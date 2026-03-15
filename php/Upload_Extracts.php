@@ -72,4 +72,4 @@ $conn = null;
 
 ?>
 <br/><br/>
-<input type='button' value="Back to Admin Menu" onclick='window.location.href="../Admin.html";'>
+<input type='button' value="Back to Admin Menu" onclick='window.location.href="../html/admin/Admin.html";'>
