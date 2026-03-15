@@ -11,7 +11,7 @@ var TabsCtrlr = function($scope, $http, $cookies, utility){
 
     } else {
 
-        window.location.href = './Login.html';
+        window.location.href = './html/Login.html';
     
     }   // if()
 
@@ -43,40 +43,40 @@ var TabsCtrlr = function($scope, $http, $cookies, utility){
 
         $scope.Tabs[tabName] = 'active';
 
-        var tabView;
+        var tabView = './html/';
 
         switch(tabName){
 
             case 'Stage':
-                tabView = 'Stage.html';
+                tabView += 'Stage.html';
                 break;
 
             case 'Production':
-                tabView = 'Production.html';
+                tabView += 'Production.html';
                 break;
 
             case 'Deliveries':
-                tabView = 'Deliveries.html';
+                tabView += 'Deliveries.html';
                 break;
 
             case 'PartsSearch':
-                tabView = 'Parts_Search.html';
+                tabView += 'Parts_Search.html';
                 break;
 
             case 'Materials':
-                tabView = 'Order_Materials.html';
+                tabView += 'Order_Materials.html';
                 break;
 
             case 'FollowUp':
-                tabView = 'Follow_Up.html';
+                tabView += 'Follow_Up.html';
                 break;
 
             case 'ReturnForms':
-                tabView = 'Return_Forms.html';
+                tabView += 'Return_Forms.html';
                 break;
 
             case 'Vendors':
-                tabView = 'Vendors.html';
+                tabView += 'Vendors.html';
                 break;
 
             default:
@@ -133,7 +133,7 @@ var TabsCtrlr = function($scope, $http, $cookies, utility){
             .then(
                 function(response){
                     console.log("Logged out successfully.");
-                    window.location.href = './Login.html';
+                    window.location.href = './html/Login.html';
                 }
             )
             .catch(
