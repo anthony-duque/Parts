@@ -23,7 +23,7 @@ function Upload_Parts_Status_CSV($parts_status_extract_file){
     	exit;
     }
 
-    require('db_open.php');
+    require('../db_open.php');
 
     	//  Delete all records from the Parts Status table.
     $tsql = "DELETE FROM PartsStatusExtract";

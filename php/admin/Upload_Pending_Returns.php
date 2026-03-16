@@ -15,7 +15,7 @@ const PICKUP_DATE   = 5;
 const TARGET_DIR    = "../extract_files/";  // destination folder on the server
 const D_OUT_FNAME   = "Pending_Returns.csv";      // Daily Out destination file name
 
-const FORMS_DIR    = "../images/return_forms/";  // destination folder on the server
+const FORMS_DIR    = "../../images/return_forms/";  // destination folder on the server
 
 $pendingReturns = [];
 

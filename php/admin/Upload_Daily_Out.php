@@ -22,7 +22,7 @@ function Upload_Daily_Out_CSV($daily_out_extract_file){
 		exit;
 	}
 
-    require('db_open.php');
+    require('../db_open.php');
 
 		// Delete all records in Repairs table
 	$tsql = "DELETE FROM Repairs";

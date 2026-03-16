@@ -2,7 +2,7 @@
 
 function Create_Labels_File(){
 
-    define ("LABELS_CSV_FILE", "../extract_files/Labels.csv");
+    define ("LABELS_CSV_FILE", "../../extract_files/Labels.csv");
 
     //require('Utility_Scripts.php');
 
@@ -22,7 +22,7 @@ function Create_Labels_File(){
                 FROM Repairs
             strSQL;
 
-    require('db_open.php');
+    require('../db_open.php');
 
     $s = mysqli_query($conn, $tsql);
 
