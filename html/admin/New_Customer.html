@@ -1,0 +1,74 @@
+<html ng-app="NewCustomerApp">
+<head>
+    <title>Enter New Customer</title>
+    <script src="../../scripts/angularjs.js"></script>
+    <script src="../../scripts/admin/New_Customer.js"></script>
+</head>
+<body ng-controller="NewCustomerController">
+
+    <table align="center">
+    <thead>
+        <tr>
+            <th colspan="2">
+                <u>
+                <h2>New Customer</h2>
+                </u>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th align="right">
+                Company Name:
+            </th>
+            <td align="left">
+                <input type="text" ng-model="newCust.companyName" maxlength="50">
+            </td>
+        </tr>
+        <tr>
+            <th align="right">
+                Address:
+            </th>
+            <td align="left">
+                <input type="text" ng-model="newCust.companyAddress" maxlength="100">
+            </td>
+        </tr>
+        <tr>
+            <th align="right">
+                Company Code:
+            </th>
+            <td align="left">
+                <input type="text" ng-model="newCust.companyCode" maxlength="30">
+            </td>
+        </tr>
+        <tr>
+            <th align="right">
+                Password:
+            </th>
+            <td align="left">
+                <input type="text" ng-model="newCust.passCode" maxlength="30">
+            </td>
+        </tr>
+        <tr>
+            <th align="right">
+                Re-enter Password:
+            </th>
+            <td align="left">
+                <input type="text" ng-model="newCust.passCode_2" maxlength="30">
+            </td>
+        </tr>
+        <tr>
+            <td align="center" colspan="2">
+                <br/>
+                <input type="button" ng-click="submitNewCustomer(newCust);" value="Submit">
+            </td>
+        </tr>
+        <tr ng-show="return_Message > ''">
+            <th colspan="2" align="center" style="color: red;">
+                {{ return_Message }}
+            </th>
+        </tr>
+    </tbody>
+    </table>
+</body>
+</html>
