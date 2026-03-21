@@ -53,7 +53,7 @@
 
         $sql = <<<strSQL
                     SELECT Code, Description
-                    FROM Material_Types
+                    FROM material_types
                     ORDER BY Code
                 strSQL;
 

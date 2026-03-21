@@ -60,7 +60,7 @@ CREATE TABLE `Location_IDs` (
 ) COMMENT='Location ID for each shop.';
 
 
-CREATE TABLE `Material_Types` (
+CREATE TABLE `material_types` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `Code` varchar(10) NOT NULL,
   `Description` varchar(100) DEFAULT NULL,
