@@ -69,7 +69,7 @@ CREATE TABLE `material_types` (
 ) COMMENT='Material Types Lookup Table';
 
 
-CREATE TABLE `Materials` (
+CREATE TABLE `materials` (
   `id` tinyint unsigned NOT NULL AUTO_INCREMENT,
   `Part_Number` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `Description` varchar(30) DEFAULT NULL,

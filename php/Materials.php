@@ -63,7 +63,7 @@
 
         $sql = <<<strSQL
                     SELECT Part_Number, Brand, Description, Unit, Type, Reorder_Quantity
-                    FROM Materials
+                    FROM materials
                     ORDER BY Type, Description
                 strSQL;
 
@@ -97,7 +97,7 @@
         require('db_open.php');
 
         $tsql = <<<strSQL
-                INSERT INTO Materials
+                INSERT INTO materials
                     (Part_Number,
                     Brand,
                     Description,
