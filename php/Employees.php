@@ -50,7 +50,7 @@ function Process_GET($roleCodes){
     $deptCodes = "'" . $deptCodes . "'";
     $tsql = <<<strSQL
                 SELECT firstName, locID
-                FROM Employee_Table
+                FROM employees
                 WHERE deptCode IN ($deptCodes);
             strSQL;
 //    echo $tsql;

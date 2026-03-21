@@ -84,7 +84,7 @@ function Get_Email_Address($deptCode, $loc_ID, $name = ''){
 
 	$sqlQuery = <<<strSQL
 		SELECT email
-		FROM Employee_Table
+		FROM employees
 		$whereClause;
 	strSQL;
 
