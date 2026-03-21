@@ -71,7 +71,7 @@
 
     class Estimator_Repairs{
 
-        public $estimator;
+        public $name;
         public $location_ID;
         public $cars = [];
 
