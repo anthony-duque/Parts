@@ -171,7 +171,7 @@ CREATE TABLE `Scheduled_In_VIN` (
 ) COMMENT='Scheduled In, VIN, RO Hours, Assigned Hours, Estimate Amount, Total Loss';
 
 
-CREATE TABLE `Stage_Headings` (
+CREATE TABLE `stage_headings` (
   `id` smallint unsigned NOT NULL AUTO_INCREMENT,
   `Description` varchar(50) NOT NULL,
   `Order_no` tinyint NOT NULL,

@@ -63,7 +63,7 @@ function Process_GET($locID){
 
     $sqlQuery = <<<strSQL
                 SELECT Description, Order_no
-                FROM Stage_Headings
+                FROM stage_headings
                 WHERE Loc_ID = $locID
                 ORDER BY Order_no
             strSQL;

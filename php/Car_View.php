@@ -181,7 +181,7 @@ require('Utility_Scripts.php');
                     FROM 
                         Repairs r LEFT JOIN Scheduled_In_VIN siv ON r.RONum = siv.RO_Num
                         LEFT JOIN Car_Stage cs ON r.RONum = cs.RO_Num AND r.Loc_ID = cs.Loc_ID
-                        LEFT JOIN Stage_Headings s ON cs.stage_ID = s.Order_No AND s.Loc_ID = cs.Loc_ID
+                        LEFT JOIN stage_headings s ON cs.stage_ID = s.Order_No AND s.Loc_ID = cs.Loc_ID
                     WHERE RONum = $roNum AND r.Loc_ID = $locID
                 strSQL;
 
