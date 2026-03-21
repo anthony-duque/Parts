@@ -202,7 +202,7 @@ CREATE TABLE `Tech_Car_Priority` (
 ) COMMENT='Tracks the priority of cars assigned to each technician.';
 
 
-CREATE TABLE `Vendors` (
+CREATE TABLE `vendors` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   `oem` tinyint(1) DEFAULT NULL,

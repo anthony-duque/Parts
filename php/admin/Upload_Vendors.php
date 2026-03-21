@@ -54,7 +54,7 @@ function Upload_Vendors_Extract($csv_file){
     }   // for($i...)
 
     $tsql = <<<strSQL
-                INSERT INTO Vendors
+                INSERT INTO vendors
                     (shop_location, name, aftermarket,
                     oem, opt_oem, phone_number, address,
                     city, state, zipcode, preferred,
@@ -114,7 +114,7 @@ function Upload_Vendors_Extract($csv_file){
     require('db_open.php');
 
         //  Delete all records from the Scheduled_In_VIN table.
-    $sql = "DELETE FROM Vendors";
+    $sql = "DELETE FROM vendors";
 
     if ($conn->query($sql) === TRUE) {
         echo "<br/><br/>Vendors table cleared.<br/>";
@@ -130,7 +130,7 @@ function Upload_Vendors_Extract($csv_file){
       echo $row . " vendors successfully uploaded!";
 
       $tsql = <<<strSQL
-                UPDATE Vendors v INNER JOIN Location_IDs locID
+                UPDATE vendors v INNER JOIN Location_IDs locID
   	            SET v.location_ID = locID.id
   	            WHERE v.shop_location = locID.Location;
 strSQL;

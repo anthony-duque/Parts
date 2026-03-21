@@ -63,7 +63,7 @@
                     name, oem, phone_number,
                     address, city, state, zipcode,
                     email, location_ID, shop_location
-                FROM Vendors
+                FROM vendors
                 ORDER BY name
             strSQL;
 
