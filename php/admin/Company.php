@@ -9,7 +9,7 @@ $tsql = <<<strSQL
             SELECT Company_Code, Address, Name, Pass_Code,
                 Phone, Account_Start_Date, Account_End_Date,
                 Contact_Person, Email
-            FROM Company
+            FROM companies
         strSQL;
 
 require('../db_open.php');

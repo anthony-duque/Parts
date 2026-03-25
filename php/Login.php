@@ -93,7 +93,7 @@ function Login(){
     $sql = <<<strSQL
                 SELECT
                     Account_End_Date
-                FROM Company
+                FROM companies
                 WHERE Company_Code = '$username' 
                     AND Pass_Code = '$password';
             strSQL;
