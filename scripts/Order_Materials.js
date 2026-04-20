@@ -1,10 +1,6 @@
 
 var OrderMaterialsCtlr = function($scope, $http, utility){
 
-    // $scope.techList = [
-    //     "" ,"Serjio", "Jose", "Van", "Nacho", "Gerry", "Omar", "Nick", "Jesus", "Frank (Paint)", "Frank (Tech)", "Eric"
-    // ];
-
     $scope.materialsList    = [];   // material list from the database
     $scope.newMatList       = [];   // materials that are not in the database
     $scope.ordersList       = [];   // list of ordered materials

@@ -2,13 +2,17 @@
 <!doctype html>
 <html ng-app="myApp">
   <head >
-    <script data-require="angular.js@1.6.2" data-semver="1.6.2" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular-route.js"></script>
-
-    <link rel="stylesheet" href="./styles/bootstrap.css" />
-    <script src="scripts/bootstrap.bundle.min.js.js"></script>
  
-    <script src="scripts/Route.js"></script>
+    <script src='./scripts/angularjs.js'></script>
+    <!--script src='./scripts/angularjs.min.js'></script-->
+
+    <!--script data-require="angular.js@1.6.2" data-semver="1.6.2" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.js"></script-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular-route.js"></script>
+    <!--script src='./scripts/angular-cookies.js'></script-->
+    <script src="https://cdn.jsdelivr.net/npm/angular-cookies@1.8.3/angular-cookies.min.js"></script>
+
+ 
+    <script src="./scripts/Route.js"></script>
 
     <script src='./scripts/Filters.js'></script>
     <script src='./scripts/UtilityFunctions.js'></script>
@@ -24,12 +28,18 @@
     <script src='./scripts/DeliveriesByCar.js'></script>
     <script src='./scripts/DeliveriesByVendor.js'></script>
 
- 
     <script src="scripts/Stage.js"></script>
+    <script src='./scripts/Stage_Car.js'></script>
+    <script src='./scripts/Priority_Car.js'></script>
+     
     <script src="scripts/Parts_Search.js"></script>
     <script src="scripts/Return_Forms.js"></script>
     <script src="scripts/Follow_Up.js"></script>
     <script src="scripts/Vendors.js"></script>
+
+    <link rel="stylesheet" href="./styles/bootstrap.css" />
+    <script src="scripts/bootstrap.bundle.min.js.js"></script>
+    <link rel="stylesheet" href="./styles/Parts.css">
 
   </head>
   <body >

@@ -26,7 +26,7 @@
                 })
 
                 .when('/materials', {
-                        templateUrl: './html/Materials.html'
+                        templateUrl: './html/Order_Materials.html'
                 })
 
                 .when('/return-forms', {
