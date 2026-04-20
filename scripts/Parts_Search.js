@@ -1,4 +1,4 @@
-var PartsSearchCtrlr = function($scope, $http, utility){
+var partsSearchController = function($scope, $http, utility){
 
     $scope.sortFld = '+ro_num';
 
@@ -58,4 +58,4 @@ app.filter('PartsByStatus', function(utility){
     }   // function(parts, status)
 });
 
-app.controller("PartsSearchController", PartsSearchCtrlr);
+app.controller("PartsSearchController", partsSearchController);
