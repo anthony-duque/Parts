@@ -1,8 +1,8 @@
 var stageCtrlr = function($scope, $http, $window, utility){
     
-        // alert($cookies.get('locationID'));
-    // $scope.locID = $scope.locationID;
-     $scope.locID = $scope.locationID = 1;  // test
+    $scope.locID = $scope.$parent.locationID;  // needed because routing destroys the parent scope's variables
+                                                    // so we need to save the location ID in this controller's scope 
+                                                    // before routing
     Switch_To_Shop($scope.locID);
 
     $scope.filterOn         = false;

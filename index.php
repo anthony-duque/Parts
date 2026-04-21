@@ -51,7 +51,7 @@
         <tr>
             <td align='left'>
                 <b>Today's Date:</b> 
-                &nbsp;<u>{{ dateToday }}</u>
+                &nbsp;<u>{{ todaysDate }}</u>
             </td>
             <td align='center'>
                 <b>Shop:</b>
@@ -59,7 +59,6 @@
                 <select ng-model='locationID' class="form-select">
                     <option ng-repeat='loc in locations' value='{{ loc.id }}'>{{ loc.location }}</option>
                 </select>
-                <br/>
             </td>
             <td align='right'>
                 <b>Last Update:</b>

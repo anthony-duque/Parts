@@ -2,6 +2,7 @@ var app = angular.module("PartsApp", ['ngCookies', 'ngRoute']);
 
 var mainController = function($scope, $http, $cookies, utility){
 
+    $scope.todaysDate = new Date().toLocaleDateString();
     $scope.locationID = '';
 
     if ($cookies.get('locationID') > ''){
