@@ -1,17 +1,20 @@
 
 <!doctype html>
-<html ng-app="myApp">
+<html ng-app="PartsApp">
   <head >
- 
+
+    <title>The Parts App</title>
+
     <script src='./scripts/angularjs.js'></script>
     <!--script src='./scripts/angularjs.min.js'></script-->
 
-    <!--script data-require="angular.js@1.6.2" data-semver="1.6.2" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.js"></script-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular-route.js"></script>
     <!--script src='./scripts/angular-cookies.js'></script-->
-    <script src="https://cdn.jsdelivr.net/npm/angular-cookies@1.8.3/angular-cookies.min.js"></script>
 
- 
+    <script src="https://cdn.jsdelivr.net/npm/angular-cookies@1.8.3/angular-cookies.min.js"></script>
+    <!--script data-require="angular.js@1.6.2" data-semver="1.6.2" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.js"></script-->
+
+    <script src='./scripts/index.js'></script>
     <script src="./scripts/Route.js"></script>
 
     <script src='./scripts/Filters.js'></script>
@@ -28,7 +31,7 @@
     <script src='./scripts/DeliveriesByCar.js'></script>
     <script src='./scripts/DeliveriesByVendor.js'></script>
 
-    <script src="scripts/Stage.js"></script>
+    <script src="./scripts/Stage.js"></script>
     <script src='./scripts/Stage_Car.js'></script>
     <script src='./scripts/Priority_Car.js'></script>
      
@@ -37,12 +40,38 @@
     <script src="scripts/Follow_Up.js"></script>
     <script src="scripts/Vendors.js"></script>
 
-    <link rel="stylesheet" href="./styles/bootstrap.css" />
+    <link rel="stylesheet" href="./styles/bootstrap.min.css" />
     <script src="scripts/bootstrap.bundle.min.js.js"></script>
     <link rel="stylesheet" href="./styles/Parts.css">
 
   </head>
-  <body >
+
+  <body ng-controller="MainController" style="background-color: lightgrey;">
+    <table width='100%'>
+        <tr>
+            <td align='left'>
+                <b>Today's Date:</b> 
+                &nbsp;<u>{{ dateToday }}</u>
+            </td>
+            <td align='center'>
+                <b>Shop:</b>
+                &nbsp;
+                <select ng-model='locationID' class="form-select">
+                    <option ng-repeat='loc in locations' value='{{ loc.id }}'>{{ loc.location }}</option>
+                </select>
+                <br/>
+            </td>
+            <td align='right'>
+                <b>Last Update:</b>
+                &nbsp;{{ last_update }}
+            </td>
+            <td align='right'>
+                <button class="btn btn-danger" ng-click='Logout();'>
+                    Logout
+                </button>
+            </td>
+        </tr>
+    </table>
 
    <nav class="navbar navbar-expand-lg navbar-light bg-primary bg-gradient">
 
@@ -94,8 +123,9 @@
 
     </nav>
 
-<div class="content"  >  
-  <ng-view>   </ng-view>
-</div>
+    <div class="content"  >  
+    <ng-view>   </ng-view>
+    </div>
 
-<!-- div class="footer">footer</div -->
+</body>
+</html>

@@ -14,7 +14,8 @@ function loginController($scope, $http) {
 
                 if ($scope.loginResult == 'true'){
 
-                    window.location.href = '../index.html';
+//                    window.location.href = '../index.html';
+                    window.location.href = '../index.php';
 
                 } else {
                     $scope.loginError = $scope.loginResult;

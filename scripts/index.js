@@ -1,6 +1,6 @@
-var app = angular.module("TabsApp", ['ngCookies']);
+var app = angular.module("PartsApp", ['ngCookies', 'ngRoute']);
 
-var TabsCtrlr = function($scope, $http, $cookies, utility){
+var mainController = function($scope, $http, $cookies, utility){
 
     $scope.locationID = '';
 
@@ -14,78 +14,6 @@ var TabsCtrlr = function($scope, $http, $cookies, utility){
         window.location.href = './html/Login.html';
     
     }   // if()
-
-    const DEFAULT_VIEW = './html/Stage.html';
-    
-    $scope.tabView = DEFAULT_VIEW;   // initial tab view
-
-    $scope.dateToday = new Date().toLocaleDateString();
-
-    $scope.Tabs =
-        {   
-            'Stage'         : "active",
-            'Production'    : "inactive",
-            'Deliveries'    : "inactive",
-            'PartsSearch'   : "inactive",
-            'Materials'     : "inactive",
-            'ReturnForms'   : "inactive",
-            'FollowUp'      : "inactive",
-            'Vendors'       : "inactive"
-        };
-
-    $scope.tabWidth = 100 / Object.keys($scope.Tabs).length + '%';
-
-    $scope.PickTab = function(tabName){
-
-        for (var key in $scope.Tabs){
-            $scope.Tabs[key] = 'inactive';
-        }
-
-        $scope.Tabs[tabName] = 'active';
-
-        var tabView = './html/';
-
-        switch(tabName){
-
-            case 'Stage':
-                tabView += 'Stage.html';
-                break;
-
-            case 'Production':
-                tabView += 'Production.html';
-                break;
-
-            case 'Deliveries':
-                tabView += 'Deliveries.html';
-                break;
-
-            case 'PartsSearch':
-                tabView += 'Parts_Search.html';
-                break;
-
-            case 'Materials':
-                tabView += 'Order_Materials.html';
-                break;
-
-            case 'FollowUp':
-                tabView += 'Follow_Up.html';
-                break;
-
-            case 'ReturnForms':
-                tabView += 'Return_Forms.html';
-                break;
-
-            case 'Vendors':
-                tabView += 'Vendors.html';
-                break;
-
-            default:
-                tabView = 'index.html';
-                break;
-        }
-
-        $scope.tabView = tabView;
-    }   // PickTab()
 
     Get_Shop_Locations();
 
@@ -145,4 +73,4 @@ var TabsCtrlr = function($scope, $http, $cookies, utility){
 
 }
 
-app.controller("TabsController", TabsCtrlr);
+app.controller("MainController", mainController);
