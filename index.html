@@ -1,63 +1,57 @@
-<html ng-app='PartsApp'>
-<head>
 
-    <title>Parts Department</title>
-   
+<!doctype html>
+<html ng-app="PartsApp">
+  <head >
+
+    <title>The Parts App</title>
+
     <script src='./scripts/angularjs.js'></script>
- 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular-route.js"></script>
+    <!--script src='./scripts/angularjs.min.js'></script-->
 
-    <!-- script src='./scripts/angularjs.min.js'></script -->
-    <script src='./scripts/bootstrap.bundle.min.js.js'></script>
-    <script src='./scripts/angular-cookies.js'></script>
- 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular-route.js"></script>
+    <!--script src='./scripts/angular-cookies.js'></script-->
+
+    <script src="https://cdn.jsdelivr.net/npm/angular-cookies@1.8.3/angular-cookies.min.js"></script>
+    <!--script data-require="angular.js@1.6.2" data-semver="1.6.2" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.js"></script-->
+
     <script src='./scripts/index.js'></script>
+    <script src="./scripts/Route.js"></script>
 
     <script src='./scripts/Filters.js'></script>
     <script src='./scripts/UtilityFunctions.js'></script>
 
-    <!-- Stage Tab Controller-->
-    <script src='./scripts/Stage.js'></script>
-    <script src='./scripts/Stage_Car.js'></script>
-    <script src='./scripts/Priority_Car.js'></script>
- 
-    <!-- Production Tab Controllers -->
-    <script src='./scripts/Production.js'></script>
+    <script src="scripts/Order_Materials.js"></script>
+
+    <script src="scripts/Production.js"></script>
     <script src='./scripts/Estimator_View.js'></script>
     <script src='./scripts/Technician_View.js'></script>
-
-    <!-- Deliveries Tab Controllers -->
+    
+     <!-- Deliveries Tab Controllers -->
     <script src='./scripts/Deliveries.js'></script>
     <script src='./scripts/DeliveriesByCar.js'></script>
     <script src='./scripts/DeliveriesByVendor.js'></script>
 
-    <!-- Parts Search Tab Controller-->
-    <script src='./scripts/Parts_Search.js'></script>
+    <script src="./scripts/Stage.js"></script>
+    <script src='./scripts/Stage_Car.js'></script>
+    <script src='./scripts/Priority_Car.js'></script>
+     
+    <script src="scripts/Parts_Search.js"></script>
+    <script src="scripts/Return_Forms.js"></script>
+    <script src="scripts/Follow_Up.js"></script>
+    <script src="scripts/Vendors.js"></script>
 
-    <!-- Materials Ordering Tab Controller-->
-    <script src='./scripts/Order_Materials.js'></script>
-
-    <!-- Follow-Up Tab Controller-->
-    <script src="./scripts/Follow_Up.js"></script>
-
-    <!-- Return Forms Tab Controller-->
-    <script src='./scripts/Return_Forms.js'></script>
-
-    <!-- Vendors List Tab Controller-->
-    <script src='./scripts/Vendors.js'></script>
-
-    <!-- Universal Style Sheet -->
+    <link rel="stylesheet" href="./styles/bootstrap.min.css" />
+    <script src="scripts/bootstrap.bundle.min.js.js"></script>
     <link rel="stylesheet" href="./styles/Parts.css">
-    <link rel="stylesheet" href="./styles/bootstrap.css">
-    <!-- link rel="stylesheet" href="./styles/bootstrap.min.css" -->
 
-</head>
-<body ng-controller='TabsController' style="background-color: lightgrey;">
+  </head>
+
+  <body ng-controller="MainController" style="background-color: lightgrey;">
     <table width='100%'>
         <tr>
             <td align='left'>
                 <b>Today's Date:</b> 
-                &nbsp;<u>{{ dateToday }}</u>
+                &nbsp;<u>{{ todaysDate }}</u>
             </td>
             <td align='center'>
                 <b>Shop:</b>
@@ -78,36 +72,60 @@
             </td>
         </tr>
     </table>
-    <table align='center' width='100%' border='1' class="tblHeader">
-    <thead>
-        <tr role='button' class="heading">
-            <td ng-class='Tabs.Stage' ng-click='PickTab("Stage");' align="center" width="{{ tabWidth }}" class="whiteBorders">
-                Stage
-            </td>
-            <td ng-class='Tabs.Production' ng-click='PickTab("Production");' align="center" width="{{ tabWidth }}" class="whiteBorders">
-                Production
-            </td>
-            <td ng-class='Tabs.Deliveries' ng-click='PickTab("Deliveries");' align="center" width="{{ tabWidth }}" class="whiteBorders">
-                Deliveries
-            </td>
-            <td ng-class='Tabs.PartsSearch' ng-click='PickTab("PartsSearch");' align="center" width="{{ tabWidth }}" class="whiteBorders">
-                Parts Search
-            </td>
-            <td ng-class='Tabs.Materials' ng-click='PickTab("Materials");' align="center" width="{{ tabWidth }}" class="whiteBorders">
-                Materials
-            </td>
-            <td ng-class='Tabs.FollowUp' ng-click='PickTab("FollowUp");' align="center" width="{{ tabWidth }}" class="whiteBorders">
-                Follow-Up
-            </td>
-            <td ng-class='Tabs.ReturnForms' ng-click='PickTab("ReturnForms");' align="center" width="{{ tabWidth }}" class="whiteBorders">
-                Return Forms
-            </td>
-            <td ng-class='Tabs.Vendors' ng-click='PickTab("Vendors");' align="center" width="{{ tabWidth }}" class="whiteBorders">
-                Vendors
-            </td>
-        </tr>
-    </thead>
-    </table>
-    <div ng-include='tabView' style="height: 100%;"></div>
+
+   <nav class="navbar navbar-expand-lg navbar-light bg-primary bg-gradient">
+
+        <button onclick="location.href='#/stage';" class="btn btn-light">
+            Stage
+        </button>
+
+        &nbsp;
+        
+        <button onclick="location.href='#/production';" class="btn btn-secondary">
+            Production
+        </button>
+
+        &nbsp;
+        
+        <button onclick="location.href='#/deliveries';" class="btn btn-success">
+            Deliveries
+        </button>
+
+        &nbsp;
+        
+        <button onclick="location.href='#/parts-search';" class="btn btn-danger">
+            Part Search
+        </button>
+
+        &nbsp;
+        
+        <button onclick="location.href='#/materials';" class="btn btn-warning">
+            Materials
+        </button>
+
+        &nbsp;
+        
+        <button onclick="location.href='#/follow-up';" class="btn btn-info">
+            Follow-up
+        </button>
+
+        &nbsp;
+        
+        <button onclick="location.href='#/return-forms';" class="btn btn-light">
+            Return Forms
+        </button>
+
+        &nbsp;
+        
+        <button onclick="location.href='#/vendors';" class="btn btn-dark">
+            Vendors
+        </button>
+
+    </nav>
+
+    <div class="content"  >  
+    <ng-view>   </ng-view>
+    </div>
+
 </body>
 </html>
