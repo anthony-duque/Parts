@@ -19,7 +19,7 @@ function Create_Labels_File(){
                     Vehicle, LCASE(Vehicle_Color) AS Vehicle_Color,
                     SUBSTRING_INDEX(Technician, ' ', 1) AS Technician,
                     DATE_FORMAT(Vehicle_In, "%M %d %Y") AS Vehicle_In
-                FROM Repairs
+                FROM repairs
             strSQL;
 
     require('../db_open.php');

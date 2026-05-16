@@ -93,7 +93,7 @@
                     Vehicle, LCASE(Vehicle_Color) AS Vehicle_Color,
                     Technician, Vehicle_In, CurrentPhase, Scheduled_Out,
                     Location, Loc_ID, Insurance
-                    FROM Repairs
+                    FROM repairs
                     WHERE Estimator > '' AND RONum <> 1004
                     ORDER BY Estimator, PartsReceived DESC
                 strSQL;

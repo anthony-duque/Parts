@@ -5,13 +5,13 @@ BEGIN
 	INSERT INTO Location_IDs
 	(Location)
 	SELECT DISTINCT r.Location
-	FROM Repairs r LEFT JOIN Location_IDs li
+	FROM repairs r LEFT JOIN Location_IDs li
 		ON r.Location = li.Location
 	WHERE li.id IS NULL;
 
 
 		/* Associate each repair with a shop */
-	UPDATE Repairs r INNER JOIN Location_IDs li
+	UPDATE repairs r INNER JOIN Location_IDs li
 	SET r.Loc_ID = li.id
 	WHERE r.Location = li.Location;
 
@@ -47,7 +47,7 @@ BEGIN
 	DELETE FROM Car_Stage
 	WHERE id IN
 		(SELECT * FROM (SELECT ps.id
-						FROM Car_Stage ps LEFT JOIN Repairs r
+						FROM Car_Stage ps LEFT JOIN repairs r
 							ON ps.ro_Num = r.RONum AND ps.loc_ID = r.Loc_ID
 						WHERE r.id IS NULL) AS p
 		);
@@ -65,7 +65,7 @@ BEGIN
 			ELSE
 				0
 		END AS stageID
-	FROM Repairs r LEFT JOIN Car_Stage ps
+	FROM repairs r LEFT JOIN Car_Stage ps
 		ON r.RONum = ps.ro_Num AND r.Loc_ID = ps.loc_ID
 	WHERE ps.id IS NULL
 			AND r.CurrentPhase <> '[Completed]'

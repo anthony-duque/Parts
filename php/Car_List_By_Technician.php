@@ -53,7 +53,7 @@ function Get_All_Cars_By_Tech(){
                 SELECT SUBSTRING_INDEX(Technician, ' ', 1) AS Technician,
                     RONum, SUBSTRING_INDEX(Owner, ',', 1) AS Owner,
                     Vehicle, Estimator, Vehicle_Color
-                FROM Repairs
+                FROM repairs
                 WHERE Technician > ''
                 ORDER BY Technician, Vehicle
             strSQL;

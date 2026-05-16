@@ -35,7 +35,7 @@
         $records = null;
 
             $sql = "SELECT RONum, Owner, Technician, Estimator " .
-                    "FROM Repairs";
+                    "FROM repairs";
 
             try{
 

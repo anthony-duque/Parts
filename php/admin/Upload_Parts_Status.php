@@ -27,6 +27,8 @@ function Upload_Parts_Status_CSV($parts_status_extract_file){
 
     	//  Delete all records from the Parts Status table.
     $tsql = "DELETE FROM PartsStatusExtract";
+    	// WHERE locID = " . $_SESSION['locID'];
+
 
     //echo $tsql;
 

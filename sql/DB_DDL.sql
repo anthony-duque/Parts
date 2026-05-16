@@ -180,17 +180,6 @@ CREATE TABLE `stage_headings` (
 ) COMMENT='Production Stage Headings for each location.';
 
 
-CREATE TABLE `Sublet_Status` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `RO_Num` mediumint unsigned NOT NULL,
-  `Loc_ID` tinyint unsigned NOT NULL,
-  `Procedure` varchar(50) NOT NULL,
-  `Vendor` varchar(50) DEFAULT NULL,
-  `Status` tinyint(1) NOT NULL COMMENT 'Is the procedure done or not. Done = TRUE, Not Done = FALSE',
-  PRIMARY KEY (`id`)
-) COMMENT='Tracks the status of sublet procedures for each vehicle.';
-
-
 CREATE TABLE `Tech_Car_Priority` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `Technician` char(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,

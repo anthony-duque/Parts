@@ -55,7 +55,7 @@
                     r.Vehicle_In AS Vehicle_In, r.CurrentPhase AS CurrentPhase,
                     r.Loc_ID
 
-                FROM PartsStatusExtract pse INNER JOIN Repairs r
+                FROM PartsStatusExtract pse INNER JOIN repairs r
 
                 WHERE Vendor_Name = '$this->name'
                     AND pse.RO_Num = r.RONum
@@ -176,7 +176,7 @@
 
         $sql = <<<strSQL
                     SELECT DISTINCT pse.Vendor_Name, pse.Loc_ID 
-                    FROM PartsStatusExtract pse INNER JOIN Repairs r
+                    FROM PartsStatusExtract pse INNER JOIN repairs r
                         ON pse.RO_Num = r.RONum
                     WHERE Vendor_Name NOT IN (%s)
                          AND $sqlDateClause

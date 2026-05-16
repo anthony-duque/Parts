@@ -25,7 +25,8 @@ function Upload_Daily_Out_CSV($daily_out_extract_file){
     require('../db_open.php');
 
 		// Delete all records in Repairs table
-	$tsql = "DELETE FROM Repairs";
+	$tsql = "DELETE FROM repairs";
+	// WHERE locID = " . $_SESSION['locID'];
 
 	if ($conn->query($tsql) === TRUE) {
 		echo "<br/><br/>Repairs Table cleared.<br/>";
@@ -35,7 +36,7 @@ function Upload_Daily_Out_CSV($daily_out_extract_file){
 	}
 
 	$tsql = <<<strSQL
-			INSERT INTO Repairs
+			INSERT INTO repairs
          		(RONum, Owner, Vehicle, Vehicle_Color, License_Plate,
                 PartsReceived, Vehicle_In, CurrentPhase, Scheduled_Out,
                 Technician, Estimator, Location, Insurance)

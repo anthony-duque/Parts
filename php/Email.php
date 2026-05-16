@@ -27,7 +27,7 @@ function Get_RO_Name_By_Role($role, $locID, $roNum = 0){
     require('db_open.php');
     $name = '';
 
-    $sql = "SELECT " . strtolower($role) . " FROM Repairs " .
+    $sql = "SELECT " . strtolower($role) . " FROM repairs " .
             "WHERE RONum = " . $roNum . " AND Loc_ID = " . $locID;
     // echo $sql;
     try{
