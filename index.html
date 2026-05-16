@@ -72,28 +72,27 @@
             </td>
         </tr>
     </table>
-
    <nav class="navbar navbar-expand-lg navbar-light bg-primary bg-gradient">
 
-        <button onclick="location.href='#/stage';" class="btn btn-light">
+        <button onclick="location.href='#/stage';" class="btn btn-light {{ location.pathname == '/stage' ? 'active' : '' }}">
             Stage
         </button>
 
         &nbsp;
         
-        <button onclick="location.href='#/production';" class="btn btn-secondary">
+        <button onclick="location.href='#/production';" class="btn btn-secondary {{ location.pathname == '/production' ? 'active' : '' }}">
             Production
         </button>
 
         &nbsp;
         
-        <button onclick="location.href='#/deliveries';" class="btn btn-success">
+        <button onclick="location.href='#/deliveries';" class="btn btn-success {{ location.pathname == '/deliveries' ? 'active' : '' }}">
             Deliveries
         </button>
 
         &nbsp;
         
-        <button onclick="location.href='#/parts-search';" class="btn btn-danger">
+        <button onclick="location.href='#/parts-search';" class="btn btn-danger {{ location.pathname == '/parts-search' ? 'disabled' : '' }}">
             Part Search
         </button>
 
@@ -123,9 +122,9 @@
 
     </nav>
 
-    <div class="content"  >  
-    <ng-view>   </ng-view>
-    </div>
+    <ng-view>
+        <!-- This is where the content of each tab will show depending on which tab is clicked -->
+    </ng-view> 
 
 </body>
 </html>
