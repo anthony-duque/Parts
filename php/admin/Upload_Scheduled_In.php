@@ -4,7 +4,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-require('Utility_Scripts.php');
+require('../Utility_Scripts.php');
 
 const LOCATION          = 0;
 const SCHEDULED_IN      = 1;
@@ -15,7 +15,7 @@ const ASSIGNED_HOURS    = 5;
 const ESTIMATE_AMT      = 6;
 const TOTAL_LOSS        = 7;
 
-const TARGET_DIR    = "../extract_files/";      // destination folder on the server
+const TARGET_DIR    = "../../extract_files/";      // destination folder on the server
 const D_OUT_FNAME   = "Scheduled_In_VIN.csv";   // Scheduled In VIN file name
 const HEADER_ROWS   = 8;    // skip 8 rows before the records
 try{
@@ -73,7 +73,7 @@ function Upload_Sched_In_CSV($sched_In_File){
         exit;
     }   // if (($handle...))
 
-    require('db_open.php');
+    require('../db_open.php');
 
         //  Delete all records from the Scheduled_In_VIN table.
     $tsql = "DELETE FROM Scheduled_In_VIN";
