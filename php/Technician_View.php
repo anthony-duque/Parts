@@ -128,7 +128,7 @@
                         Vehicle, Estimator, Scheduled_Out,
                         LOWER(Vehicle_Color) as Vehicle_Color,
                         Location, Loc_ID, Insurance
-                    FROM Repairs
+                    FROM repairs
                     WHERE Technician > '' $loc_condition
                     ORDER BY Technician, PartsReceived DESC
                 strSQL;

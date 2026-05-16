@@ -17,7 +17,7 @@ require('db_open.php');
             SELECT DISTINCT
                 SUBSTRING_INDEX(Technician, ' ', 1) AS Technician,
                 Loc_ID
-            FROM Repairs
+            FROM repairs
             WHERE Technician > '' AND RONum <> 1004
             ORDER BY Technician ASC
         strSQL;

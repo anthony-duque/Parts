@@ -17,7 +17,7 @@ require('db_open.php');
             SELECT DISTINCT
                 SUBSTRING_INDEX(Estimator, ' ', 1) AS Estimator,
                 Loc_ID
-            FROM Repairs
+            FROM repairs
             WHERE Estimator > '' AND RONum <> 1004
             ORDER BY Estimator ASC
         strSQL;
