@@ -4,7 +4,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-require('Utility_Scripts.php');
+require('../Utility_Scripts.php');
 
 const LOCATION          = 0;
 const SCHEDULED_IN      = 1;
@@ -15,9 +15,10 @@ const ASSIGNED_HOURS    = 5;
 const ESTIMATE_AMT      = 6;
 const TOTAL_LOSS        = 7;
 
-const TARGET_DIR    = "../extract_files/";      // destination folder on the server
+const TARGET_DIR    = "../../extract_files/";      // destination folder on the server
 const D_OUT_FNAME   = "Scheduled_In_VIN.csv";   // Scheduled In VIN file name
 const HEADER_ROWS   = 8;    // skip 8 rows before the records
+
 try{
 
     $extractFile = TARGET_DIR . D_OUT_FNAME;
@@ -28,12 +29,12 @@ try{
 
         Upload_Sched_In_CSV($extractFile);
         echo "<br/> Scheduled In VIN's uploaded successfully!";
-
     }
 
 } catch(Exception $e){
 
     echo "There was an error uploading extract file ". basename($_FILES["ScheduledInVIN"]["name"]);
+    echo "<br/>" . $e->getMessage();
     //header("Location: ./Admin.html");
 }
 
@@ -41,7 +42,7 @@ try{
 function Update_Location_IDs($dbConn){
 
     $tsql = <<<strSQL
-        UPDATE Scheduled_In_VIN siv INNER JOIN Location_IDs locID
+        UPDATE scheduled_in_vin siv INNER JOIN Location_IDs locID
     	SET siv.Loc_ID = locID.id
     	WHERE UPPER(siv.Location) = UPPER(locID.Location);
     strSQL;
@@ -73,10 +74,10 @@ function Upload_Sched_In_CSV($sched_In_File){
         exit;
     }   // if (($handle...))
 
-    require('db_open.php');
+    require('../db_open.php');
 
-        //  Delete all records from the Scheduled_In_VIN table.
-    $tsql = "DELETE FROM Scheduled_In_VIN";
+        //  Delete all records from the scheduled_in_vin table.
+    $tsql = "DELETE FROM scheduled_in_vin";
 
     if ($conn->query($tsql) === TRUE) {
         echo "<br/><br/>Scheduled In Table cleared.<br/>";
@@ -119,7 +120,7 @@ function Upload_Sched_In_CSV($sched_In_File){
     $insert_sql = rtrim($insert_sql, ",");  // remove the extra comma at the end
 
     $tsql = <<<strSQL
-        INSERT INTO Scheduled_In_VIN
+        INSERT INTO scheduled_in_vin
                 (Location, Scheduled_In, RO_Num, VIN, RO_Hours,
                 Assigned_Hours, Estimate_Amt, Total_Loss)
                 VALUES $insert_sql

@@ -84,7 +84,7 @@ require('db_open.php');
                 v.phone_number, v.email, siv.VIN, pse.Expected_Delivery, pse.Line
             FROM repairs r INNER JOIN PartsStatusExtract pse
                		ON r.RONum = pse.RO_Num AND r.Loc_ID = pse.Loc_ID
-                LEFT JOIN Scheduled_In_VIN siv
+                LEFT JOIN scheduled_in_vin siv
                     ON r.RONum = siv.RO_Num AND r.Loc_ID = siv.Loc_ID
                INNER JOIN Location_IDs li
                		ON r.Loc_ID = li.id

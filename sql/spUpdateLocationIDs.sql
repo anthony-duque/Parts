@@ -73,8 +73,8 @@ BEGIN
 	ORDER BY r.RONum;
 
 
-		/* Associate each car with a shop in Scheduled_In_VIN table */
-	UPDATE Scheduled_In_VIN siv INNER JOIN Location_IDs li
+		/* Associate each car with a shop in scheduled_in_vin table */
+	UPDATE scheduled_in_vin siv INNER JOIN Location_IDs li
 	SET siv.Loc_ID = li.id
 	WHERE UPPER(siv.Location) = UPPER(li.Location);
 

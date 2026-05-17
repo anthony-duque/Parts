@@ -156,7 +156,7 @@ CREATE TABLE `Repairs` (
 ) COMMENT='List of active vehicles (pre-ordered and cars in shop).';
 
 
-CREATE TABLE `Scheduled_In_VIN` (
+CREATE TABLE `scheduled_in_vin` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `Scheduled_In` date DEFAULT NULL COMMENT 'Scheduled In Date',
   `RO_Num` mediumint unsigned NOT NULL COMMENT 'Repair Order Number',
