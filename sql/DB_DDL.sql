@@ -2,7 +2,7 @@ CREATE DATABASE PartsApp_DB;
 USE PartsApp_DB;
 
 
-CREATE TABLE `Adhoc_Table` (
+CREATE TABLE `adhoc_table` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `value` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
