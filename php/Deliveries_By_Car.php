@@ -47,7 +47,7 @@
 
             $sql = <<<strSQL
                         SELECT Part_Number, Part_Description, Received_Qty, Invoice_Date
-                        FROM PartsStatusExtract
+                        FROM parts_status
                         WHERE RO_Num = $ro AND Loc_ID = $loc_ID
                             AND Vendor_Name = '$this->name'
                             AND $sqlDtClause
@@ -103,7 +103,7 @@
 
             $sql = <<<strSQL
                         SELECT DISTINCT Vendor_Name
-                        FROM PartsStatusExtract
+                        FROM parts_status
                         WHERE RO_Num = $this->ro_num
                             AND $sqlDtClause
                             AND Vendor_Name NOT IN ('**IN-HOUSE', 'ASTECH', 'AIRTIGHT AUTO GLASS', 'BIG BRAND','Jim''s Tire Center', 'PRO TECH DIAGNOSTICS')
@@ -156,7 +156,7 @@
                     SELECT DISTINCT p.RO_Num AS RO_Num, SUBSTRING_INDEX(r.Owner, ',', 1) AS Owner,
                         r.Vehicle, r.Technician, r.Estimator, r.Vehicle_In, r.CurrentPhase,
                         r.Loc_ID
-                    FROM PartsStatusExtract p INNER JOIN Repairs r
+                    FROM parts_status p INNER JOIN repairs r
                             ON p.RO_Num = r.RONum AND p.Loc_ID = r.Loc_ID
                     WHERE Vendor_Name NOT IN ('**IN-HOUSE', 'ASTECH', 'AIRTIGHT AUTO GLASS', 'BIG BRAND','Jim''s Tire Center', 'PRO TECH DIAGNOSTICS')
                         AND $sqlDtClause

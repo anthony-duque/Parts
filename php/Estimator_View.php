@@ -93,7 +93,7 @@
                     Vehicle, LCASE(Vehicle_Color) AS Vehicle_Color,
                     Technician, Vehicle_In, CurrentPhase, Scheduled_Out,
                     Location, Loc_ID, Insurance
-                    FROM Repairs
+                    FROM repairs
                     WHERE Estimator > '' AND RONum <> 1004
                     ORDER BY Estimator, PartsReceived DESC
                 strSQL;
@@ -139,7 +139,7 @@
 
         $sql =  <<<strSQL
                     SELECT RO_Qty, Ordered_Qty, Received_Qty, Returned_Qty, Part_Status
-                    FROM PartsStatusExtract
+                    FROM parts_status
                     WHERE Part_Number NOT IN ('Sublet', 'Remanufactured')
                         AND (Line > 0)
                         AND (Part_Number > '' OR Vendor_Name > '')

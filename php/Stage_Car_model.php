@@ -28,7 +28,7 @@ class Car{
 
         $sql =  <<<strSQL
                     SELECT Part_Description, Vendor_Name, Received_Qty
-                    FROM PartsStatusExtract
+                    FROM parts_status
                     WHERE Part_Type = 'Sublet'
                     AND RO_Num = $this->ro_num AND Loc_ID = $this->locID
                     ORDER BY Received_Qty
@@ -56,7 +56,7 @@ class Car{
 
         $sql =  <<<strSQL
                     SELECT RO_Qty, Ordered_Qty, Received_Qty, Returned_Qty, Part_Status
-                    FROM PartsStatusExtract
+                    FROM parts_status
                     WHERE Part_Number NOT IN ('Sublet', 'Remanufactured')
                         AND (Line > 0)
                         AND (Part_Number > '' OR Vendor_Name > '')

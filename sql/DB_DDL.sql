@@ -2,7 +2,7 @@ CREATE DATABASE PartsApp_DB;
 USE PartsApp_DB;
 
 
-CREATE TABLE `Adhoc_Table` (
+CREATE TABLE `adhoc_table` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `value` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
@@ -11,7 +11,7 @@ CREATE TABLE `Adhoc_Table` (
 ) COMMENT='A special table that will hold values that does not belong to any of the other tables.';
 
 
-CREATE TABLE `Car_Stage` (
+CREATE TABLE `car_stage` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `ro_Num` int unsigned NOT NULL,
   `loc_ID` smallint unsigned NOT NULL,
@@ -52,7 +52,7 @@ CREATE TABLE `Location_Table` (
 ) COMMENT='Location Lookup Table';
 
 
-CREATE TABLE `Location_IDs` (
+CREATE TABLE `location_ids` (
   `id` tinyint unsigned NOT NULL AUTO_INCREMENT,
   `loc_code` varchar(15) NULL,
   `Location` varchar(50) DEFAULT NULL,
@@ -84,7 +84,7 @@ CREATE TABLE `materials` (
 ) COMMENT='List of materials that technicians can order.';
 
 
-CREATE TABLE `PartsStatusExtract` (
+CREATE TABLE `parts_status` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `Part_Number` varchar(30) DEFAULT NULL,
   `Part_Description` varchar(75) DEFAULT NULL,
@@ -107,7 +107,7 @@ CREATE TABLE `PartsStatusExtract` (
 ) COMMENT='Dump table for extract file Parts_Status.csv.';
 
 
-CREATE TABLE `Parts_Returns` (
+CREATE TABLE `parts_returns` (
   `id` mediumint unsigned NOT NULL AUTO_INCREMENT,
   `RO_Num` mediumint unsigned NOT NULL,
   `Return_Date` date NOT NULL,
@@ -123,7 +123,7 @@ CREATE TABLE `Parts_Returns` (
 ) COMMENT='Tracks parts that have been returned to vendors.';
 
 
-CREATE TABLE `Pending_Returns` (
+CREATE TABLE `pending_returns` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `RO` smallint unsigned NOT NULL,
   `Owner` varchar(50) DEFAULT NULL,
@@ -156,7 +156,7 @@ CREATE TABLE `Repairs` (
 ) COMMENT='List of active vehicles (pre-ordered and cars in shop).';
 
 
-CREATE TABLE `Scheduled_In_VIN` (
+CREATE TABLE `scheduled_in_vin` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `Scheduled_In` date DEFAULT NULL COMMENT 'Scheduled In Date',
   `RO_Num` mediumint unsigned NOT NULL COMMENT 'Repair Order Number',
@@ -178,17 +178,6 @@ CREATE TABLE `stage_headings` (
   `Loc_ID` tinyint unsigned NOT NULL COMMENT 'Location ID',
   PRIMARY KEY (`id`)
 ) COMMENT='Production Stage Headings for each location.';
-
-
-CREATE TABLE `Sublet_Status` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `RO_Num` mediumint unsigned NOT NULL,
-  `Loc_ID` tinyint unsigned NOT NULL,
-  `Procedure` varchar(50) NOT NULL,
-  `Vendor` varchar(50) DEFAULT NULL,
-  `Status` tinyint(1) NOT NULL COMMENT 'Is the procedure done or not. Done = TRUE, Not Done = FALSE',
-  PRIMARY KEY (`id`)
-) COMMENT='Tracks the status of sublet procedures for each vehicle.';
 
 
 CREATE TABLE `Tech_Car_Priority` (

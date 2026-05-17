@@ -106,7 +106,7 @@ require('Utility_Scripts.php');
                         Vendor_Name, RO_Qty, Ordered_Qty, Received_Qty,
                         Returned_Qty, Expected_Delivery, Invoice_Date,
                         Part_Status
-                FROM PartsStatusExtract
+                FROM parts_status
                 WHERE Part_Number NOT IN ('Sublet', 'Remanufactured')
                     AND Line > 0
                     AND (Part_Number > '' OR Vendor_Name > '')
@@ -146,7 +146,7 @@ require('Utility_Scripts.php');
         $sql =  <<<strSQL
                     SELECT Part_Description, Vendor_Name,
                         Received_Qty
-                    FROM PartsStatusExtract
+                    FROM parts_status
                     WHERE Part_Type = 'Sublet'
                         AND RO_Num = $ro_num
                         AND Loc_ID = $loc_id
@@ -179,8 +179,8 @@ require('Utility_Scripts.php');
                         r.Vehicle_Color, r.License_Plate, r.Vehicle_In, r.Scheduled_Out,
                         r.Location, r.Loc_ID, r.Insurance, siv.VIN, s.Description AS Stage
                     FROM 
-                        Repairs r LEFT JOIN Scheduled_In_VIN siv ON r.RONum = siv.RO_Num
-                        LEFT JOIN Car_Stage cs ON r.RONum = cs.RO_Num AND r.Loc_ID = cs.Loc_ID
+                        repairs r LEFT JOIN scheduled_in_vin siv ON r.RONum = siv.RO_Num
+                        LEFT JOIN car_stage cs ON r.RONum = cs.RO_Num AND r.Loc_ID = cs.Loc_ID
                         LEFT JOIN stage_headings s ON cs.stage_ID = s.Order_No AND s.Loc_ID = cs.Loc_ID
                     WHERE RONum = $roNum AND r.Loc_ID = $locID
                 strSQL;

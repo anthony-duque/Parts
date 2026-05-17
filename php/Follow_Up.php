@@ -82,11 +82,11 @@ require('db_open.php');
             	pse.Part_Number, pse.Part_Description, pse.Part_Type,
                 pse.RO_Qty,	pse.Ordered_Qty, pse.Order_Date, pse.Part_Status,
                 v.phone_number, v.email, siv.VIN, pse.Expected_Delivery, pse.Line
-            FROM Repairs r INNER JOIN PartsStatusExtract pse
+            FROM repairs r INNER JOIN parts_status pse
                		ON r.RONum = pse.RO_Num AND r.Loc_ID = pse.Loc_ID
-                LEFT JOIN Scheduled_In_VIN siv
+                LEFT JOIN scheduled_in_vin siv
                     ON r.RONum = siv.RO_Num AND r.Loc_ID = siv.Loc_ID
-               INNER JOIN Location_IDs li
+               INNER JOIN location_ids li
                		ON r.Loc_ID = li.id
                LEFT JOIN vendors v
                		ON pse.Vendor_Name = v.name AND r.Loc_ID = v.location_ID

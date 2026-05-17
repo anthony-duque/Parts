@@ -43,7 +43,7 @@ class Car{
 
                 SELECT Part_Description, Part_Number, Part_Type,
                     RO_Qty, Part_Status
-                FROM PartsStatusExtract
+                FROM parts_status
                 WHERE TRIM(Vendor_Name) NOT LIKE '*%IN%HOUSE%'
                     AND Part_Type NOT IN ('Sublet', 'FIX ME')
                     AND Loc_ID = $loc_id AND RO_Num = $this->ro_num
@@ -89,7 +89,7 @@ class Estimator{
 
         $sql = <<<strSQL
                 SELECT DISTINCT RO_Num, Vehicle, Owner
-                FROM Repairs r INNER JOIN PartsStatusExtract pse
+                FROM repairs r INNER JOIN parts_status pse
                     ON r.Loc_ID = pse.Loc_ID AND r.RONum = pse.RO_Num
                 WHERE r.RONum <> 1004
                     AND TRIM(pse.Vendor_Name) NOT LIKE '*%IN%HOUSE%'
@@ -141,7 +141,7 @@ class Vendor{
 
         $sql = <<<strSQL
             SELECT DISTINCT Estimator
-            FROM Repairs r INNER JOIN PartsStatusExtract pse
+            FROM repairs r INNER JOIN parts_status pse
                 ON r.Loc_ID = pse.Loc_ID AND r.RONum = pse.RO_Num
             WHERE r.RONum <> 1004
                 AND TRIM(pse.Vendor_Name) NOT LIKE '*%IN%HOUSE%'
@@ -187,7 +187,7 @@ function Get_Parts_By_Vendor_Estimator(){
 
     $sql = <<<strSQL
                 SELECT DISTINCT pse.Vendor_Name, r.Loc_ID
-                FROM Repairs r INNER JOIN PartsStatusExtract pse
+                FROM repairs r INNER JOIN parts_status pse
             	   ON r.RONum = pse.RO_Num AND r.Loc_ID = pse.Loc_ID
                 WHERE
                     TRIM(r.Estimator) > '' AND

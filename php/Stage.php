@@ -56,15 +56,21 @@ class Production_Stage {
 
         $strSQL = <<<sqlStmt
            SELECT
-                r.RONum, r.Loc_ID, ps.stage_ID,
+                r.RONum, r.Loc_ID, cs.stage_ID,
                 SUBSTRING_INDEX(r.Estimator, ' ', 1) AS Estimator,
                 SUBSTRING_INDEX(r.Owner, ',', 1) AS Owner,
                 r.Vehicle, LCASE(r.Vehicle_Color) AS Vehicle_Color,
                 SUBSTRING_INDEX(r.Technician, ' ', 1) AS Technician,
                 r.Vehicle_In, r.CurrentPhase, r.Scheduled_Out, Insurance
+<<<<<<< HEAD
             FROM repairs r INNER JOIN Car_Stage ps
                     ON r.RONum = ps.ro_Num AND r.Loc_ID = ps.loc_ID
             WHERE r.Loc_ID = $locID AND ps.stage_ID = $stage_ID
+=======
+            FROM repairs r INNER JOIN car_stage cs
+                    ON r.RONum = cs.ro_Num AND r.Loc_ID = cs.loc_ID
+            WHERE r.Loc_ID = $locID AND cs.stage_ID = $stage_ID
+>>>>>>> db_name_changes
 sqlStmt;
 
         require('db_open.php');

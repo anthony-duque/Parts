@@ -2,28 +2,28 @@ CREATE PROCEDURE spUpdateLocationIDs()
 BEGIN
 
 		/* Insert new shops in the Location (Shop) Lookup Table */
-	INSERT INTO Location_IDs
+	INSERT INTO location_ids
 	(Location)
 	SELECT DISTINCT r.Location
-	FROM Repairs r LEFT JOIN Location_IDs li
+	FROM repairs r LEFT JOIN location_ids li
 		ON r.Location = li.Location
 	WHERE li.id IS NULL;
 
 
 		/* Associate each repair with a shop */
-	UPDATE Repairs r INNER JOIN Location_IDs li
+	UPDATE repairs r INNER JOIN location_ids li
 	SET r.Loc_ID = li.id
 	WHERE r.Location = li.Location;
 
 
 		/* Associate each part with a shop */
-	UPDATE PartsStatusExtract pse INNER JOIN Location_IDs li
+	UPDATE parts_status pse INNER JOIN location_ids li
 	SET pse.Loc_ID = li.id
 	WHERE pse.Location = li.Location;
 
 
 		/* Decipher the status for each part */
-	UPDATE PartsStatusExtract
+	UPDATE parts_status
 	SET Part_Status =
 			CASE
 
@@ -44,17 +44,17 @@ BEGIN
 
 
 		/* Remove any car that are no longer in Production */
-	DELETE FROM Car_Stage
+	DELETE FROM car_stage
 	WHERE id IN
-		(SELECT * FROM (SELECT ps.id
-						FROM Car_Stage ps LEFT JOIN Repairs r
-							ON ps.ro_Num = r.RONum AND ps.loc_ID = r.Loc_ID
+		(SELECT * FROM (SELECT cs.id
+						FROM car_stage cs LEFT JOIN repairs r
+							ON cs.ro_Num = r.RONum AND cs.loc_ID = r.Loc_ID
 						WHERE r.id IS NULL) AS p
 		);
 
 
 		/* Insert new cars in the Production Stage table */
-	INSERT INTO Car_Stage
+	INSERT INTO car_stage
 		(ro_Num, loc_ID, stage_ID)
 	SELECT r.RONum, r.Loc_ID,
 		CASE
@@ -65,16 +65,16 @@ BEGIN
 			ELSE
 				0
 		END AS stageID
-	FROM Repairs r LEFT JOIN Car_Stage ps
-		ON r.RONum = ps.ro_Num AND r.Loc_ID = ps.loc_ID
-	WHERE ps.id IS NULL
+	FROM repairs r LEFT JOIN car_stage cs
+		ON r.RONum = cs.ro_Num AND r.Loc_ID = cs.loc_ID
+	WHERE cs.id IS NULL
 			AND r.CurrentPhase <> '[Completed]'
 			AND Vehicle_In < DATE_ADD(CURDATE(), INTERVAL 1 DAY)
 	ORDER BY r.RONum;
 
 
-		/* Associate each car with a shop in Scheduled_In_VIN table */
-	UPDATE Scheduled_In_VIN siv INNER JOIN Location_IDs li
+		/* Associate each car with a shop in scheduled_in_vin table */
+	UPDATE scheduled_in_vin siv INNER JOIN location_ids li
 	SET siv.Loc_ID = li.id
 	WHERE UPPER(siv.Location) = UPPER(li.Location);
 

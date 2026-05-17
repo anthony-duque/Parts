@@ -61,20 +61,20 @@ WHERE INSTR(name, ' - ') > 0;
 RENAME TABLE CarStar.Vehicles TO CarStar.Repairs;
 
 
-ALTER TABLE Repairs CHANGE Customer Owner varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL;
-ALTER TABLE Repairs MODIFY COLUMN Owner varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL;
-ALTER TABLE Repairs MODIFY COLUMN Vehicle varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL;
-ALTER TABLE Repairs ADD Estimator varchar(30) NOT NULL;
-ALTER TABLE Repairs ADD Vehicle_In DATETIME NULL;
-ALTER TABLE Repairs ADD RO_Status varchar(15) NULL;
-ALTER TABLE Repairs MODIFY COLUMN RONum int NOT NULL;
-ALTER TABLE Repairs ADD Technician varchar(30) NULL;
-ALTER TABLE Repairs ADD CurrentPhase varchar(20) NOT NULL;
-ALTER TABLE Repairs ADD PartsReceived FLOAT NULL;
-ALTER TABLE Repairs ADD Estimator varchar(30) NULL;
+ALTER TABLE repairs  CHANGE Customer Owner varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL;
+ALTER TABLE repairs  MODIFY COLUMN Owner varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL;
+ALTER TABLE repairs  MODIFY COLUMN Vehicle varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL;
+ALTER TABLE repairs  ADD Estimator varchar(30) NOT NULL;
+ALTER TABLE repairs  ADD Vehicle_In DATETIME NULL;
+ALTER TABLE repairs  ADD RO_Status varchar(15) NULL;
+ALTER TABLE repairs  MODIFY COLUMN RONum int NOT NULL;
+ALTER TABLE repairs  ADD Technician varchar(30) NULL;
+ALTER TABLE repairs  ADD CurrentPhase varchar(20) NOT NULL;
+ALTER TABLE repairs  ADD PartsReceived FLOAT NULL;
+ALTER TABLE repairs  ADD Estimator varchar(30) NULL;
 
 
-CREATE TABLE CarStar.PartsStatusExtract (
+CREATE TABLE CarStar.parts_status (
 	id INT UNSIGNED auto_increment NOT NULL,
 	RO_Info varchar(100) NOT NULL,
 	Part_Number varchar(30) NULL,
@@ -97,7 +97,7 @@ COMMENT='Dump table for extract file Parts_Status.csv.';
 
 
 
-UPDATE PartsStatusExtract 
+UPDATE parts_status 
 SET RO_Num = CONVERT(SUBSTRING_INDEX(RO_Info, " (", 1), UNSIGNED)
 
 

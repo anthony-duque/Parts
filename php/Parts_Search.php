@@ -62,7 +62,7 @@ require('Utility_Scripts.php');
                       Expected_Delivery, Order_Date, Invoice_Date, pse.Loc_ID,
                       Vehicle_In, CurrentPhase, SUBSTRING_INDEX(r.Owner, ',', 1) AS Owner
 
-                FROM PartsStatusExtract pse INNER JOIN Repairs r
+                FROM parts_status pse INNER JOIN repairs r
                     ON pse.RO_Num = r.roNum AND pse.Loc_ID = r.Loc_ID
                 WHERE (Line > 0) AND (Part_Number > '' OR Vendor_Name > '')
                     AND Vendor_Name NOT IN ('**in-house', 'Airtight Auto Glass', '*in House Stock',

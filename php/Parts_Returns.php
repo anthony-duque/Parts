@@ -45,7 +45,7 @@ require('Utility_Scripts.php');
                     SELECT RO_Num, Return_Date, Vendor_Pickup_Date,
                         Part_Number, Part_Description, Part_Type,
                         Amount, Invoice_Number, Reason, Vendor_Name
-                    FROM Parts_Returns
+                    FROM parts_returns
                     ORDER BY RO_Num, Vendor_Name, Part_Number ASC;
                 strSQL;
 
