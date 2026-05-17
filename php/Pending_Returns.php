@@ -38,7 +38,7 @@ require('Utility_Scripts.php');
         $sql =  <<<strSQL
                     SELECT RO, SUBSTRING_INDEX(Owner, ',', 1) AS Owner,
                         Pickup_Date, Vehicle, Vendor, Return_Number
-                    FROM Pending_Returns
+                    FROM pending_returns
                     ORDER BY Vendor, RO;
                 strSQL;
 

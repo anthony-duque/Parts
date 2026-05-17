@@ -123,7 +123,7 @@ CREATE TABLE `Parts_Returns` (
 ) COMMENT='Tracks parts that have been returned to vendors.';
 
 
-CREATE TABLE `Pending_Returns` (
+CREATE TABLE `pending_returns` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `RO` smallint unsigned NOT NULL,
   `Owner` varchar(50) DEFAULT NULL,

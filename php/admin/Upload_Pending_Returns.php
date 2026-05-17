@@ -12,7 +12,7 @@ const VENDOR	    = 3;
 const RETURN_NUMBER	= 4;
 const PICKUP_DATE   = 5;
 
-const TARGET_DIR    = "../extract_files/";  // destination folder on the server
+const TARGET_DIR    = "../../extract_files/";  // destination folder on the server
 const D_OUT_FNAME   = "Pending_Returns.csv";      // Daily Out destination file name
 
 const FORMS_DIR    = "../../images/return_forms/";  // destination folder on the server
@@ -72,10 +72,9 @@ function Upload_Returns_CSV($returns_extract_file){
     	exit;
     }
 
-    require('db_open.php');
+    require('../db_open.php');
 
-    	//  Delete all records from the Parts Status table.
-    $tsql = "DELETE FROM Pending_Returns";
+    $tsql = "DELETE FROM pending_returns";
 
     //echo $tsql;
 
@@ -126,7 +125,7 @@ function Upload_Returns_CSV($returns_extract_file){
 //    echo $insert_sql;
 
     $tsql = <<<strSQL
-		INSERT INTO Pending_Returns
+		INSERT INTO pending_returns
 			(RO, Pickup_Date, Owner, Vendor, Return_Number, Vehicle)
 		VALUES
 strSQL;
@@ -142,7 +141,7 @@ strSQL;
 
     	// to take out the dash and numbers after the actual vendor name
 
-    $sql = 'UPDATE Pending_Returns ' .
+    $sql = 'UPDATE pending_returns ' .
     		'SET Vendor = SUBSTRING_INDEX(Vendor, " - ", 1)';
 
     if ($conn->query($sql) === TRUE) {
