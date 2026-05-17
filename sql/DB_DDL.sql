@@ -84,7 +84,7 @@ CREATE TABLE `materials` (
 ) COMMENT='List of materials that technicians can order.';
 
 
-CREATE TABLE `PartsStatusExtract` (
+CREATE TABLE `parts_status` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `Part_Number` varchar(30) DEFAULT NULL,
   `Part_Description` varchar(75) DEFAULT NULL,

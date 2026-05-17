@@ -86,7 +86,7 @@
         $sql =  <<<strSQL
                     SELECT RO_Qty, Ordered_Qty, Received_Qty,
                         Returned_Qty, Location, Loc_ID, Part_Status
-                    FROM PartsStatusExtract
+                    FROM parts_status
                     WHERE Part_Number NOT IN ('Sublet', 'Remanufactured')
                         AND (Line > 0)
                         AND (Part_Number > '' OR Vendor_Name > '')

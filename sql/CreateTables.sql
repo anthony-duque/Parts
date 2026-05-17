@@ -74,7 +74,7 @@ ALTER TABLE repairs  ADD PartsReceived FLOAT NULL;
 ALTER TABLE repairs  ADD Estimator varchar(30) NULL;
 
 
-CREATE TABLE CarStar.PartsStatusExtract (
+CREATE TABLE CarStar.parts_status (
 	id INT UNSIGNED auto_increment NOT NULL,
 	RO_Info varchar(100) NOT NULL,
 	Part_Number varchar(30) NULL,
@@ -97,7 +97,7 @@ COMMENT='Dump table for extract file Parts_Status.csv.';
 
 
 
-UPDATE PartsStatusExtract 
+UPDATE parts_status 
 SET RO_Num = CONVERT(SUBSTRING_INDEX(RO_Info, " (", 1), UNSIGNED)
 
 

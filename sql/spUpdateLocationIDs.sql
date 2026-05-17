@@ -17,13 +17,13 @@ BEGIN
 
 
 		/* Associate each part with a shop */
-	UPDATE PartsStatusExtract pse INNER JOIN Location_IDs li
+	UPDATE parts_status pse INNER JOIN Location_IDs li
 	SET pse.Loc_ID = li.id
 	WHERE pse.Location = li.Location;
 
 
 		/* Decipher the status for each part */
-	UPDATE PartsStatusExtract
+	UPDATE parts_status
 	SET Part_Status =
 			CASE
 

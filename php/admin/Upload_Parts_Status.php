@@ -26,8 +26,8 @@ function Upload_Parts_Status_CSV($parts_status_extract_file){
     require('../db_open.php');
 
     	//  Delete all records from the Parts Status table.
-    $tsql = "DELETE FROM PartsStatusExtract";
-    	// WHERE locID = " . $_SESSION['locID'];
+    $tsql = "DELETE FROM parts_status";
+    	// WHERE locID IN " . $_SESSION['locID'];
 
 
     //echo $tsql;
@@ -41,7 +41,7 @@ function Upload_Parts_Status_CSV($parts_status_extract_file){
 
 
     $tsql = <<<strSQL
-    		INSERT INTO PartsStatusExtract
+    		INSERT INTO parts_status
     			(RO_Num, Line, Part_Number, Part_Description,
                 Part_Type, Vendor_Name, RO_Qty, Ordered_Qty,
                 Order_Date, Expected_Delivery, Received_Qty,
@@ -113,7 +113,7 @@ strSQL;
         }
 
     	// to take out the dash and numbers after the actual vendor name
-    $sql = 'UPDATE PartsStatusExtract ' .
+    $sql = 'UPDATE parts_status ' .
     		'SET Vendor_Name = SUBSTRING_INDEX(Vendor_Name, " - ", 1)';
 
     if ($conn->query($sql) === TRUE) {

@@ -68,7 +68,7 @@ function Process_GET($roNum, $locID){
 
     $sqlQuery = <<<strSQL
             SELECT Part_Description, Vendor_Name, Received_Qty
-            FROM PartsStatusExtract
+            FROM parts_status
             WHERE Part_Type = 'Sublet' AND RO_Num = $roNum AND Loc_ID = $locID
             ORDER BY Received_Qty
         strSQL;
