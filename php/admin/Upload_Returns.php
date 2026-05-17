@@ -3,7 +3,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-require('Utility_Scripts.php');
+require('../Utility_Scripts.php');
 
 const RO_NUMBER			    = 0;
 const RETURN_DATE           = 1;
@@ -16,7 +16,7 @@ const INVOICE_NUMBER 		= 7;
 const RETURN_REASON         = 8;
 const VENDOR_NAME           = 9;
 
-const TARGET_DIR    = "../extract_files/";  // destination folder on the server
+const TARGET_DIR    = "../../extract_files/";  // destination folder on the server
 const D_OUT_FNAME   = "Pending_Returns.csv";      // Daily Out destination file name
 
 try{
@@ -42,10 +42,10 @@ function Upload_Returns_CSV($returns_extract_file){
     	exit;
     }
 
-    require('db_open.php');
+    require('../db_open.php');
 
     	//  Delete all records from the Parts Status table.
-    $tsql = "DELETE FROM Parts_Returns";
+    $tsql = "DELETE FROM parts_returns";
 
     //echo $tsql;
 
@@ -102,7 +102,7 @@ function Upload_Returns_CSV($returns_extract_file){
         $insert_sql = rtrim($insert_sql, ",");
 
         $tsql = <<<strSQL
-            		INSERT INTO Parts_Returns
+            		INSERT INTO parts_returns
             			(RO_Num, Return_Date, Vendor_Pickup_Date,
                         Part_Number, Part_Description, Part_Type,
                         Amount, Invoice_Number, Reason, Vendor_Name)
@@ -120,7 +120,7 @@ function Upload_Returns_CSV($returns_extract_file){
 
     	// to take out the dash and numbers after the actual vendor name
 
-    $sql = 'UPDATE Parts_Returns ' .
+    $sql = 'UPDATE parts_returns ' .
     		'SET Vendor_Name = SUBSTRING_INDEX(Vendor_Name, " - ", 1)';
 
     if ($conn->query($sql) === TRUE) {

@@ -107,7 +107,7 @@ CREATE TABLE `PartsStatusExtract` (
 ) COMMENT='Dump table for extract file Parts_Status.csv.';
 
 
-CREATE TABLE `Parts_Returns` (
+CREATE TABLE `parts_returns` (
   `id` mediumint unsigned NOT NULL AUTO_INCREMENT,
   `RO_Num` mediumint unsigned NOT NULL,
   `Return_Date` date NOT NULL,
