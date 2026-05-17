@@ -44,17 +44,17 @@ BEGIN
 
 
 		/* Remove any car that are no longer in Production */
-	DELETE FROM Car_Stage
+	DELETE FROM car_stage
 	WHERE id IN
-		(SELECT * FROM (SELECT ps.id
-						FROM Car_Stage ps LEFT JOIN repairs r
-							ON ps.ro_Num = r.RONum AND ps.loc_ID = r.Loc_ID
+		(SELECT * FROM (SELECT cs.id
+						FROM car_stage cs LEFT JOIN repairs r
+							ON cs.ro_Num = r.RONum AND cs.loc_ID = r.Loc_ID
 						WHERE r.id IS NULL) AS p
 		);
 
 
 		/* Insert new cars in the Production Stage table */
-	INSERT INTO Car_Stage
+	INSERT INTO car_stage
 		(ro_Num, loc_ID, stage_ID)
 	SELECT r.RONum, r.Loc_ID,
 		CASE
@@ -65,9 +65,9 @@ BEGIN
 			ELSE
 				0
 		END AS stageID
-	FROM repairs r LEFT JOIN Car_Stage ps
-		ON r.RONum = ps.ro_Num AND r.Loc_ID = ps.loc_ID
-	WHERE ps.id IS NULL
+	FROM repairs r LEFT JOIN car_stage cs
+		ON r.RONum = cs.ro_Num AND r.Loc_ID = cs.loc_ID
+	WHERE cs.id IS NULL
 			AND r.CurrentPhase <> '[Completed]'
 			AND Vehicle_In < DATE_ADD(CURDATE(), INTERVAL 1 DAY)
 	ORDER BY r.RONum;

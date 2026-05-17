@@ -62,9 +62,9 @@ class Production_Stage {
                 r.Vehicle, LCASE(r.Vehicle_Color) AS Vehicle_Color,
                 SUBSTRING_INDEX(r.Technician, ' ', 1) AS Technician,
                 r.Vehicle_In, r.CurrentPhase, r.Scheduled_Out, Insurance
-            FROM repairs r INNER JOIN Car_Stage ps
-                    ON r.RONum = ps.ro_Num AND r.Loc_ID = ps.loc_ID
-            WHERE r.Loc_ID = $locID AND ps.stage_ID = $stage_ID
+            FROM repairs r INNER JOIN car_stage cs
+                    ON r.RONum = cs.ro_Num AND r.Loc_ID = cs.loc_ID
+            WHERE r.Loc_ID = $locID AND cs.stage_ID = $stage_ID
 sqlStmt;
 
         require('db_open.php');

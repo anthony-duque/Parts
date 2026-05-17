@@ -11,7 +11,7 @@ CREATE TABLE `Adhoc_Table` (
 ) COMMENT='A special table that will hold values that does not belong to any of the other tables.';
 
 
-CREATE TABLE `Car_Stage` (
+CREATE TABLE `car_stage` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `ro_Num` int unsigned NOT NULL,
   `loc_ID` smallint unsigned NOT NULL,
