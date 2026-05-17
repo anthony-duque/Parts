@@ -56,7 +56,7 @@ class Production_Stage {
 
         $strSQL = <<<sqlStmt
            SELECT
-                r.RONum, r.Loc_ID, ps.stage_ID,
+                r.RONum, r.Loc_ID, cs.stage_ID,
                 SUBSTRING_INDEX(r.Estimator, ' ', 1) AS Estimator,
                 SUBSTRING_INDEX(r.Owner, ',', 1) AS Owner,
                 r.Vehicle, LCASE(r.Vehicle_Color) AS Vehicle_Color,
