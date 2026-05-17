@@ -7,7 +7,7 @@ $last_upload_date = '';
 
 $sql = <<<strSQL
     SELECT last_data_upload
-    FROM Location_IDs li
+    FROM location_ids li
     WHERE id IN ($loc_IDs)
     LIMIT 1;
 strSQL;

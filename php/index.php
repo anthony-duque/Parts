@@ -38,7 +38,7 @@ function GetShopLocations($dbConn){
 
     try{
 
-        $sql = "SELECT id, Location FROM Location_IDs";
+        $sql = "SELECT id, Location FROM location_ids";
         $s = mysqli_query($dbConn, $sql);
 
         while($r = mysqli_fetch_assoc($s)){

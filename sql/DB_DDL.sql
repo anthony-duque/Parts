@@ -52,7 +52,7 @@ CREATE TABLE `Location_Table` (
 ) COMMENT='Location Lookup Table';
 
 
-CREATE TABLE `Location_IDs` (
+CREATE TABLE `location_ids` (
   `id` tinyint unsigned NOT NULL AUTO_INCREMENT,
   `loc_code` varchar(15) NULL,
   `Location` varchar(50) DEFAULT NULL,

@@ -86,7 +86,7 @@ require('db_open.php');
                		ON r.RONum = pse.RO_Num AND r.Loc_ID = pse.Loc_ID
                 LEFT JOIN scheduled_in_vin siv
                     ON r.RONum = siv.RO_Num AND r.Loc_ID = siv.Loc_ID
-               INNER JOIN Location_IDs li
+               INNER JOIN location_ids li
                		ON r.Loc_ID = li.id
                LEFT JOIN vendors v
                		ON pse.Vendor_Name = v.name AND r.Loc_ID = v.location_ID
