@@ -42,8 +42,8 @@ function storeIDsinCookie($companyCode, $dbConn){
                 SELECT
                     s.id
                 From company_shop cs INNER JOIN location_ids s
-                    ON cs.Location_Code = s.location_code
-                WHERE cs.Company_Code = '$companyCode';
+                    ON cs.location_Code = s.location_code
+                WHERE cs.company_code = '$companyCode';
             strSQL;
 
     try{
