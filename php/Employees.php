@@ -49,9 +49,9 @@ function Process_GET($roleCodes){
     $deptCodes = implode("','", $roleCodes);
     $deptCodes = "'" . $deptCodes . "'";
     $tsql = <<<strSQL
-                SELECT firstName, locID
+                SELECT first_name, loc_id
                 FROM employees
-                WHERE deptCode IN ($deptCodes);
+                WHERE dept_code IN ($deptCodes);
             strSQL;
 //    echo $tsql;
 
