@@ -88,9 +88,9 @@ function ProcessPUT($carObj)
 
     $tsql = <<<strSQL
             UPDATE car_stage
-            SET stage_ID = $carObj->stageID
-            WHERE ro_Num = $carObj->ro_num
-                AND loc_ID = $carObj->locID
+            SET stage_id = $carObj->stageID
+            WHERE ro_num = $carObj->ro_num
+                AND loc_id = $carObj->locID
         strSQL;
 
     try{

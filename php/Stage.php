@@ -63,8 +63,8 @@ class Production_Stage {
                 SUBSTRING_INDEX(r.Technician, ' ', 1) AS Technician,
                 r.Vehicle_In, r.CurrentPhase, r.Scheduled_Out, Insurance
             FROM repairs r INNER JOIN car_stage cs
-                    ON r.RONum = cs.ro_Num AND r.Loc_ID = cs.loc_ID
-            WHERE r.Loc_ID = $locID AND cs.stage_ID = $stage_ID
+                    ON r.RONum = cs.ro_num AND r.Loc_ID = cs.loc_id
+            WHERE r.Loc_ID = $locID AND cs.stage_id = $stage_ID
 sqlStmt;
 
         require('db_open.php');
