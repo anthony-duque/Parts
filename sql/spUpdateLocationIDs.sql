@@ -48,14 +48,14 @@ BEGIN
 	WHERE id IN
 		(SELECT * FROM (SELECT cs.id
 						FROM car_stage cs LEFT JOIN repairs r
-							ON cs.ro_Num = r.RONum AND cs.loc_ID = r.Loc_ID
+							ON cs.ro_num = r.RONum AND cs.loc_id = r.Loc_ID
 						WHERE r.id IS NULL) AS p
 		);
 
 
 		/* Insert new cars in the Production Stage table */
 	INSERT INTO car_stage
-		(ro_Num, loc_ID, stage_ID)
+		(ro_num, loc_id, stage_id)
 	SELECT r.RONum, r.Loc_ID,
 		CASE
 			WHEN UPPER(r.CurrentPhase) = '[SCHEDULED]'
@@ -66,7 +66,7 @@ BEGIN
 				0
 		END AS stageID
 	FROM repairs r LEFT JOIN car_stage cs
-		ON r.RONum = cs.ro_Num AND r.Loc_ID = cs.loc_ID
+		ON r.RONum = cs.ro_num AND r.Loc_ID = cs.loc_id
 	WHERE cs.id IS NULL
 			AND r.CurrentPhase <> '[Completed]'
 			AND Vehicle_In < DATE_ADD(CURDATE(), INTERVAL 1 DAY)

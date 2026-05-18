@@ -1,11 +1,11 @@
-CREATE DATABASE PartsApp_DB;
-USE PartsApp_DB;
+-- CREATE DATABASE PartsApp_DB;
+-- USE PartsApp_DB;
 
 
 CREATE TABLE `adhoc_table` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `value` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `name` varchar(15) NOT NULL,
+  `value` varchar(100) DEFAULT NULL,
   `description` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) COMMENT='A special table that will hold values that does not belong to any of the other tables.';
@@ -13,14 +13,40 @@ CREATE TABLE `adhoc_table` (
 
 CREATE TABLE `car_stage` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `ro_Num` int unsigned NOT NULL,
-  `loc_ID` smallint unsigned NOT NULL,
-  `stage_ID` tinyint DEFAULT NULL,
+  `ro_num` int unsigned NOT NULL,
+  `loc_id` smallint unsigned NOT NULL,
+  `stage_id` tinyint DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) COMMENT='Tracks the production stage of cars.';
 
 
-CREATE TABLE `Department_Table` (
+-- PartsApp_DB.companies definition
+
+CREATE TABLE `companies` (
+  `id` smallint unsigned NOT NULL AUTO_INCREMENT,
+  `Company_Code` varchar(30) NOT NULL COMMENT 'Company Code',
+  `Address` varchar(100) DEFAULT NULL COMMENT 'Company Address',
+  `Name` varchar(50) NOT NULL COMMENT 'Company Name',
+  `Pass_Code` varchar(15) DEFAULT NULL,
+  `Phone` varchar(20) DEFAULT NULL COMMENT 'Company Phone Number',
+  `Account_Start_Date` date DEFAULT NULL COMMENT 'Active Start Date',
+  `Account_End_Date` date DEFAULT NULL COMMENT 'Account End Date',
+  `Contact_Person` varchar(30) DEFAULT NULL COMMENT 'Contact Person in the company',
+  `Email` varchar(60) DEFAULT NULL COMMENT 'Company Email',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `Company_UNIQUE` (`Company_Code`)
+);
+
+
+CREATE TABLE `company_shop` (
+  `id` smallint unsigned NOT NULL AUTO_INCREMENT,
+  `Company_Code` varchar(25) NOT NULL COMMENT 'Company Code',
+  `Location_Code` varchar(25) DEFAULT NULL COMMENT 'Location Code',
+  PRIMARY KEY (`id`)
+) COMMENT='A table that links which shops belong to which companies.';
+
+
+CREATE TABLE `departments` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `dept_code` varchar(15) NOT NULL,
   `description` varchar(30) DEFAULT NULL,
