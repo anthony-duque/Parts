@@ -92,7 +92,7 @@ function Login(){
 
     $sql = <<<strSQL
                 SELECT
-                    Account_End_Date
+                    active_end_date
                 FROM companies
                 WHERE company_code = '$username' 
                     AND pass_code = '$password';
@@ -113,7 +113,7 @@ function Login(){
             if(isset($r)){
 
                     // Login failed.  Account expired.
-                if ($r["Account_End_Date"] < date("Y-m-d")){ 
+                if ($r["active_end_date"] < date("Y-m-d")){ 
 
                     echo "Account expired.";
 
