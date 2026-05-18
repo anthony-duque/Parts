@@ -94,8 +94,8 @@ function Login(){
                 SELECT
                     Account_End_Date
                 FROM companies
-                WHERE Company_Code = '$username' 
-                    AND Pass_Code = '$password';
+                WHERE company_code = '$username' 
+                    AND pass_code = '$password';
             strSQL;
 
     try{

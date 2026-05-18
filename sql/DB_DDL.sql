@@ -24,24 +24,24 @@ CREATE TABLE `car_stage` (
 
 CREATE TABLE `companies` (
   `id` smallint unsigned NOT NULL AUTO_INCREMENT,
-  `Company_Code` varchar(30) NOT NULL COMMENT 'Company Code',
-  `Address` varchar(100) DEFAULT NULL COMMENT 'Company Address',
-  `Name` varchar(50) NOT NULL COMMENT 'Company Name',
-  `Pass_Code` varchar(15) DEFAULT NULL,
-  `Phone` varchar(20) DEFAULT NULL COMMENT 'Company Phone Number',
-  `Account_Start_Date` date DEFAULT NULL COMMENT 'Active Start Date',
-  `Account_End_Date` date DEFAULT NULL COMMENT 'Account End Date',
-  `Contact_Person` varchar(30) DEFAULT NULL COMMENT 'Contact Person in the company',
-  `Email` varchar(60) DEFAULT NULL COMMENT 'Company Email',
+  `company_code` varchar(30) NOT NULL COMMENT 'Company Code',
+  `address` varchar(100) DEFAULT NULL COMMENT 'Company Address',
+  `name` varchar(50) NOT NULL COMMENT 'Company Name',
+  `pass_code` varchar(15) DEFAULT NULL,
+  `phone` varchar(20) DEFAULT NULL COMMENT 'Company Phone Number',
+  `account_start_date` date DEFAULT NULL COMMENT 'Active Start Date',
+  `account_end_date` date DEFAULT NULL COMMENT 'Account End Date',
+  `contact_person` varchar(30) DEFAULT NULL COMMENT 'Contact Person in the company',
+  `email` varchar(60) DEFAULT NULL COMMENT 'Company Email',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `Company_UNIQUE` (`Company_Code`)
+  UNIQUE KEY `Company_UNIQUE` (`company_code`)
 );
 
 
 CREATE TABLE `company_shop` (
   `id` smallint unsigned NOT NULL AUTO_INCREMENT,
-  `Company_Code` varchar(25) NOT NULL COMMENT 'Company Code',
-  `Location_Code` varchar(25) DEFAULT NULL COMMENT 'Location Code',
+  `company_code` varchar(25) NOT NULL,
+  `location_code` varchar(25) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) COMMENT='A table that links which shops belong to which companies.';
 
