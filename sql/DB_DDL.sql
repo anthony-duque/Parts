@@ -81,7 +81,7 @@ CREATE TABLE `Location_Table` (
 CREATE TABLE `location_ids` (
   `id` tinyint unsigned NOT NULL AUTO_INCREMENT,
   `loc_code` varchar(15) NULL,
-  `Location` varchar(50) DEFAULT NULL,
+  `location` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) COMMENT='Location ID for each shop.';
 

@@ -6,20 +6,20 @@ BEGIN
 	(Location)
 	SELECT DISTINCT r.Location
 	FROM repairs r LEFT JOIN location_ids li
-		ON r.Location = li.Location
+		ON r.Location = li.location
 	WHERE li.id IS NULL;
 
 
 		/* Associate each repair with a shop */
 	UPDATE repairs r INNER JOIN location_ids li
 	SET r.Loc_ID = li.id
-	WHERE r.Location = li.Location;
+	WHERE r.Location = li.location;
 
 
 		/* Associate each part with a shop */
 	UPDATE parts_status pse INNER JOIN location_ids li
 	SET pse.Loc_ID = li.id
-	WHERE pse.Location = li.Location;
+	WHERE pse.Location = li.location;
 
 
 		/* Decipher the status for each part */
@@ -76,6 +76,6 @@ BEGIN
 		/* Associate each car with a shop in scheduled_in_vin table */
 	UPDATE scheduled_in_vin siv INNER JOIN location_ids li
 	SET siv.Loc_ID = li.id
-	WHERE UPPER(siv.Location) = UPPER(li.Location);
+	WHERE UPPER(siv.Location) = UPPER(li.location);
 
 END
