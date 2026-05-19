@@ -46,12 +46,12 @@
         public $ordered_qty;    // not pulled from DB. Value is set in UI.
 
         function __construct($rec){
-            $this->part_number  = $rec["Part_Number"];
-            $this->brand        = $rec["Brand"];
-            $this->description  = $rec["Description"];
-            $this->unit         = $rec["Unit"];
-            $this->type         = $rec["Type"];
-            $this->reorder_qty  = $rec["Reorder_Quantity"];
+            $this->part_number  = $rec["part_number"];
+            $this->brand        = $rec["brand"];
+            $this->description  = $rec["description"];
+            $this->unit         = $rec["unit"];
+            $this->type         = $rec["type"];
+            $this->reorder_qty  = $rec["reorder_quantity"];
             $this->ordered_qty  = 0;
         }
     }   // material{}
@@ -62,9 +62,9 @@
         require('db_open.php');
 
         $sql = <<<strSQL
-                    SELECT Part_Number, Brand, Description, Unit, Type, Reorder_Quantity
+                    SELECT part_number, brand, description, unit, type, reorder_quantity
                     FROM materials
-                    ORDER BY Type, Description
+                    ORDER BY type, description
                 strSQL;
 
         $matList = [];
@@ -98,12 +98,12 @@
 
         $tsql = <<<strSQL
                 INSERT INTO materials
-                    (Part_Number,
-                    Brand,
-                    Description,
-                    Unit,
-                    Type,
-                    Reorder_Quantity)
+                    (part_number,
+                    brand,
+                    description,
+                    unit,
+                    type,
+                    reorder_quantity)
                 VALUES
                     ('$newMaterial->part_number',
                     '$newMaterial->brand',

@@ -57,12 +57,12 @@ CREATE TABLE `departments` (
 
 CREATE TABLE `Employee_Table` (
   `id` tinyint unsigned NOT NULL AUTO_INCREMENT,
-  `userName` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `userName` varchar(15) NOT NULL,
   `firstName` varchar(15) DEFAULT NULL,
   `lastName` varchar(20) DEFAULT NULL,
   `cellNumber` bigint DEFAULT NULL,
   `cellService` varchar(20) DEFAULT NULL,
-  `deptCode` char(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `deptCode` char(12)  DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
   `notify` tinyint(1) DEFAULT '1',
   `notif_preference` varchar(10) DEFAULT NULL,
@@ -98,16 +98,16 @@ CREATE TABLE `material_types` (
 
 CREATE TABLE `materials` (
   `id` tinyint unsigned NOT NULL AUTO_INCREMENT,
-  `Part_Number` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `Description` varchar(30) DEFAULT NULL,
-  `Unit` varchar(10) DEFAULT NULL,
-  `Type` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `Reorder_Quantity` tinyint DEFAULT NULL,
-  `Brand` varchar(30) DEFAULT NULL,
+  `part_number` varchar(15) NOT NULL,
+  `description` varchar(30) DEFAULT NULL,
+  `unit` varchar(10) DEFAULT NULL,
+  `type` varchar(10) DEFAULT NULL,
+  `reorder_quantity` tinyint DEFAULT NULL,
+  `brand` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `Code` (`Part_Number`),
-  KEY `Type` (`Type`),
-  CONSTRAINT `Materials_ibfk_1` FOREIGN KEY (`Type`) REFERENCES `material_types` (`code`)
+  UNIQUE KEY `code` (`part_number`),
+  KEY `type` (`type`),
+  CONSTRAINT `materials_type_FK` FOREIGN KEY (`type`) REFERENCES `material_types` (`code`)
 ) COMMENT='List of materials that technicians can order.';
 
 
@@ -115,10 +115,10 @@ CREATE TABLE `parts_status` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `Part_Number` varchar(30) DEFAULT NULL,
   `Part_Description` varchar(75) DEFAULT NULL,
-  `Part_Type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `Part_Type` varchar(50) DEFAULT NULL,
   `RO_Qty` smallint DEFAULT NULL,
   `Vendor_Name` varchar(75) DEFAULT NULL,
-  `PO_Number` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `PO_Number` varchar(25) DEFAULT NULL,
   `Ordered_Qty` smallint DEFAULT NULL,
   `Expected_Delivery` date DEFAULT NULL,
   `Received_Qty` smallint DEFAULT NULL,
@@ -165,11 +165,11 @@ CREATE TABLE `pending_returns` (
 CREATE TABLE `Repairs` (
   `id` int NOT NULL AUTO_INCREMENT,
   `RONum` mediumint unsigned NOT NULL,
-  `Owner` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `Vehicle` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `Owner` varchar(50) NOT NULL,
+  `Vehicle` varchar(100) NOT NULL,
   `Vehicle_In` datetime DEFAULT NULL,
   `Technician` varchar(30) DEFAULT NULL,
-  `CurrentPhase` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `CurrentPhase` varchar(50) NOT NULL,
   `PartsReceived` float DEFAULT NULL,
   `Estimator` varchar(30) DEFAULT NULL,
   `Vehicle_Color` varchar(30) DEFAULT NULL,
@@ -209,7 +209,7 @@ CREATE TABLE `stage_headings` (
 
 CREATE TABLE `Tech_Car_Priority` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `Technician` char(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `Technician` char(15) NOT NULL,
   `RO_Num` int unsigned NOT NULL,
   `Priority` tinyint unsigned NOT NULL,
   `LocationID` tinyint unsigned NOT NULL,
@@ -229,7 +229,7 @@ CREATE TABLE `vendors` (
   `zipcode` varchar(10) DEFAULT NULL,
   `email` varchar(35) DEFAULT NULL,
   `location_ID` smallint unsigned NOT NULL DEFAULT '0' COMMENT 'Shop ID depending on Location table.',
-  `shop_location` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT 'Shop Location',
+  `shop_location` varchar(50) DEFAULT NULL COMMENT 'Shop Location',
   `opt_oem` tinyint(1) DEFAULT '0' COMMENT 'Does vendor sell Opt OEM parts?',
   `aftermarket` tinyint(1) DEFAULT NULL COMMENT 'Does vendor sell aftermarket parts?',
   `preferred` tinyint(1) DEFAULT '0' COMMENT 'Is this a preferred vendor?',
