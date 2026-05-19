@@ -41,8 +41,8 @@
         public $description;
 
         function __construct($rec){
-            $this->code = $rec["Code"];
-            $this->description = $rec["Description"];
+            $this->code = $rec["code"];
+            $this->description = $rec["description"];
         }
     }   // Car{}
 
@@ -52,9 +52,9 @@
         require('db_open.php');
 
         $sql = <<<strSQL
-                    SELECT Code, Description
+                    SELECT code, description
                     FROM material_types
-                    ORDER BY Code
+                    ORDER BY code
                 strSQL;
 
         $typeList = [];

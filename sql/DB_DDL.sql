@@ -89,10 +89,10 @@ CREATE TABLE `location_ids` (
 
 CREATE TABLE `material_types` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `Code` varchar(10) NOT NULL,
-  `Description` varchar(100) DEFAULT NULL,
+  `code` varchar(10) NOT NULL,
+  `description` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `Code` (`Code`)
+  UNIQUE KEY `code` (`code`)
 ) COMMENT='Material Types Lookup Table';
 
 
@@ -107,7 +107,7 @@ CREATE TABLE `materials` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `Code` (`Part_Number`),
   KEY `Type` (`Type`),
-  CONSTRAINT `Materials_ibfk_1` FOREIGN KEY (`Type`) REFERENCES `Material_Types` (`Code`)
+  CONSTRAINT `Materials_ibfk_1` FOREIGN KEY (`Type`) REFERENCES `material_types` (`code`)
 ) COMMENT='List of materials that technicians can order.';
 
 
