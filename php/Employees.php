@@ -38,8 +38,8 @@ class employee{
     public $locID;
 
     function __construct($rec){
-        $this->firstName = $rec["firstName"];
-        $this->locID = $rec["locID"];
+        $this->firstName = $rec["first_name"];
+        $this->locID = $rec["loc_id"];
     }
 }   // employee
 
