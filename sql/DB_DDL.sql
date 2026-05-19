@@ -136,16 +136,16 @@ CREATE TABLE `parts_status` (
 
 CREATE TABLE `parts_returns` (
   `id` mediumint unsigned NOT NULL AUTO_INCREMENT,
-  `RO_Num` mediumint unsigned NOT NULL,
-  `Return_Date` date NOT NULL,
-  `Vendor_Pickup_Date` date DEFAULT NULL,
-  `Part_Number` varchar(30) NOT NULL,
-  `Part_Description` varchar(100) NOT NULL,
-  `Part_Type` varchar(20) DEFAULT NULL,
-  `Amount` float DEFAULT NULL,
-  `Invoice_Number` varchar(15) NOT NULL,
-  `Reason` varchar(25) DEFAULT NULL,
-  `Vendor_Name` varchar(50) NOT NULL,
+  `ro_num` mediumint unsigned NOT NULL,
+  `return_date` date NOT NULL,
+  `vendor_pickup_date` date DEFAULT NULL,
+  `part_number` varchar(30) NOT NULL,
+  `part_description` varchar(100) NOT NULL,
+  `part_type` varchar(20) DEFAULT NULL,
+  `amount` float DEFAULT NULL,
+  `invoice_number` varchar(15) NOT NULL,
+  `reason` varchar(25) DEFAULT NULL,
+  `vendor_name` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
 ) COMMENT='Tracks parts that have been returned to vendors.';
 

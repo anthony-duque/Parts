@@ -103,9 +103,9 @@ function Upload_Returns_CSV($returns_extract_file){
 
         $tsql = <<<strSQL
             		INSERT INTO parts_returns
-            			(RO_Num, Return_Date, Vendor_Pickup_Date,
-                        Part_Number, Part_Description, Part_Type,
-                        Amount, Invoice_Number, Reason, Vendor_Name)
+            			(ro_num, return_date, vendor_pickup_date,
+                        part_number, part_description, part_type,
+                        amount, invoice_number, reason, vendor_name)
             		VALUES
     strSQL;
 
@@ -121,7 +121,7 @@ function Upload_Returns_CSV($returns_extract_file){
     	// to take out the dash and numbers after the actual vendor name
 
     $sql = 'UPDATE parts_returns ' .
-    		'SET Vendor_Name = SUBSTRING_INDEX(Vendor_Name, " - ", 1)';
+    		'SET vendor_name = SUBSTRING_INDEX(vendor_name, " - ", 1)';
 
     if ($conn->query($sql) === TRUE) {
       // echo "RO Num fields populated. <br/>";
