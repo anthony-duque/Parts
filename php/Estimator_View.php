@@ -76,8 +76,8 @@
         public $cars = [];
 
         function __construct($rec){
-            $this->name    = $rec["Estimator"];
-            $this->location_ID  = $rec["Loc_ID"];             
+            $this->name    = $rec["estimator"];
+            $this->location_ID  = $rec["loc_id"];             
         }   // Repair($rec)
 
     };  // Repair{}
@@ -105,13 +105,13 @@
 
             while($r = mysqli_fetch_assoc($s)){
 
-                if ($r["Estimator"] !== $est){
+                if ($r["estimator"] !== $est){
 
                     if ($est !== ''){
                         array_push($repairs, $repair);
                     }
 
-                    $est = $r["Estimator"];
+                    $est = $r["estimator"];
                     $repair = new Estimator_Repairs($r);
                 }
 
