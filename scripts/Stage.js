@@ -184,6 +184,7 @@ var stageCtrlr = function($scope, $http, $cookies, $window, utility){
         var carFound = false;
 
         for(let i=0; i < $scope.production_stage.length; ++i){
+            
             for(let j=0; j < $scope.production_stage[i].cars.length; ++j){
 
                 if (($scope.production_stage[i].cars[j].ro_num === selectedCar.ro_num) &&

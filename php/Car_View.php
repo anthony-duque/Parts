@@ -29,19 +29,19 @@ require('Utility_Scripts.php');
 
         function __construct($rec){
 
-            $this->ro_num           = $rec["RONum"];
-            $this->owner            = $rec["Owner"];
-            $this->vehicle          = $rec["Vehicle"];
-            $this->vehicle_color    = toProperCase($rec["Vehicle_Color"]);
-            $this->license_plate    = $rec["License_Plate"];
-            $this->vehicle_in       = GetDisplayDate($rec["Vehicle_In"]);
-            $this->scheduled_out    = GetDisplayDate($rec["Scheduled_Out"]);
-            $this->estimator        = $rec["Estimator"];
-            $this->technician       = toProperCase($rec["Technician"]);
-            $this->location         = $rec["Location"];
-            $this->insurance        = $rec["Insurance"];
-            $this->vin              = $rec["VIN"];
-            $this->stage            = $rec["Stage"];
+            $this->ro_num           = $rec["ro_num"];
+            $this->owner            = $rec["owner"];
+            $this->vehicle          = $rec["vehicle"];
+            $this->vehicle_color    = toProperCase($rec["vehicle_color"]);
+            $this->license_plate    = $rec["license_plate"];
+            $this->vehicle_in       = GetDisplayDate($rec["vehicle_in"]);
+            $this->scheduled_out    = GetDisplayDate($rec["scheduled_out"]);
+            $this->estimator        = $rec["estimator"];
+            $this->technician       = toProperCase($rec["technician"]);
+            $this->location         = $rec["location"];
+            $this->insurance        = $rec["insurance"];
+            $this->vin              = $rec["vin"];
+            $this->stage            = $rec["stage"];
 
         }   // Car()
 
@@ -102,19 +102,24 @@ require('Utility_Scripts.php');
     function GetPartsList($ro, $locID, $dbConn){
 
         $sql = <<<strSQL
-                SELECT Line, Part_Number, Part_Description, Order_Date,
-                        Vendor_Name, RO_Qty, Ordered_Qty, Received_Qty,
-                        Returned_Qty, Expected_Delivery, Invoice_Date,
-                        Part_Status
+
+                SELECT line, part_number, part_description, order_date,
+                        vendor_name, ro_qty, ordered_qty, received_qty,
+                        returned_qty, expected_delivery, invoice_date,
+                        part_status
+
                 FROM parts_status
-                WHERE Part_Number NOT IN ('Sublet', 'Remanufactured')
-                    AND Line > 0
-                    AND (Part_Number > '' OR Vendor_Name > '')
-                    AND Vendor_Name NOT LIKE '**%'
-                    AND Part_Type NOT IN ('Sublet')
-                    AND RO_Num = $ro
-                    AND Loc_ID = $locID
-                ORDER BY Ordered_Qty ASC;
+                
+                WHERE part_number NOT IN ('Sublet', 'Remanufactured')
+                    AND line > 0
+                    AND (part_Number > '' OR vendor_name > '')
+                    AND vendor_name NOT LIKE '**%'
+                    AND part_type NOT IN ('Sublet')
+                    AND ro_num = $ro
+                    AND loc_id = $locID
+                
+                ORDER BY ordered_qty ASC;
+
             strSQL;
         try{
 
@@ -144,13 +149,18 @@ require('Utility_Scripts.php');
         $sublets = [];
 
         $sql =  <<<strSQL
-                    SELECT Part_Description, Vendor_Name,
-                        Received_Qty
+
+                    SELECT part_description, vendor_name,
+                        received_qty
+        
                     FROM parts_status
-                    WHERE Part_Type = 'Sublet'
-                        AND RO_Num = $ro_num
-                        AND Loc_ID = $loc_id
-                    ORDER BY Received_Qty
+                    
+                    WHERE part_type = 'Sublet'
+                        AND ro_num = $ro_num
+                        AND loc_id = $loc_id
+                    
+                    ORDER BY received_qty
+
                 strSQL;
 
         try {
@@ -175,14 +185,15 @@ require('Utility_Scripts.php');
 
         $sql = <<<strSQL
                     SELECT 
-                        r.RONum, r.Owner, r.Vehicle, r.Estimator, r.Technician,
-                        r.Vehicle_Color, r.License_Plate, r.Vehicle_In, r.Scheduled_Out,
-                        r.Location, r.Loc_ID, r.Insurance, siv.VIN, s.Description AS Stage
+                        r.ro_num, r.owner, r.vehicle, r.estimator, r.technician,
+                        r.vehicle_color, r.license_plate, r.vehicle_in, r.scheduled_out,
+                        r.location, r.loc_id, r.insurance, siv.vin, s.description AS stage
                     FROM 
-                        repairs r LEFT JOIN scheduled_in_vin siv ON r.RONum = siv.RO_Num
-                        LEFT JOIN car_stage cs ON r.RONum = cs.ro_num AND r.Loc_ID = cs.Loc_ID
-                        LEFT JOIN stage_headings s ON cs.stage_id = s.Order_No AND s.Loc_ID = cs.Loc_ID
-                    WHERE RONum = $roNum AND r.Loc_ID = $locID
+                        repairs r LEFT JOIN scheduled_in_vin siv ON r.ro_num = siv.ro_num
+                        LEFT JOIN car_stage cs ON r.ro_num = cs.ro_num AND r.loc_id = cs.loc_id
+                        LEFT JOIN stage_headings s ON cs.stage_id = s.Order_No AND s.loc_id = cs.loc_id
+
+                    WHERE r.ro_num = $roNum AND r.loc_id = $locID
                 strSQL;
 
         try{

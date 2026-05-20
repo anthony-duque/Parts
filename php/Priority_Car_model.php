@@ -61,11 +61,11 @@ class Car{
         $sublets = [];
 
         $sql =  <<<strSQL
-                    SELECT Part_Description, Vendor_Name, Received_Qty
+                    SELECT part_description, vendor_name, received_qty
                     FROM parts_status
-                    WHERE Part_Type = 'Sublet'
-                    AND RO_Num = $this->ro_num AND Loc_ID = $this->locationID
-                    ORDER BY Received_Qty
+                    WHERE part_type = 'Sublet'
+                    AND ro_num = $this->ro_num AND loc_id = $this->locationID
+                    ORDER BY received_qty
                 strSQL;
 
         try {
@@ -89,17 +89,21 @@ class Car{
         $allParts = [];
 
         $sql =  <<<strSQL
-                    SELECT RO_Qty, Ordered_Qty, Received_Qty, Returned_Qty, Part_Status
+        
+                    SELECT ro_qty, ordered_qty, received_qty, returned_qty, part_status
+
                     FROM parts_status
-                    WHERE Part_Number NOT IN ('Sublet', 'Remanufactured')
-                        AND (Line > 0)
-                        AND (Part_Number > '' OR Vendor_Name > '')
-                        AND Vendor_Name NOT LIKE '**%'
-                        AND Part_Number NOT LIKE 'Aftermarket%'
-                        AND (Part_Type <> 'Sublet')
-                        AND RO_Num = $this->ro_num
-                        AND Loc_ID = $this->locationID
-                    ORDER BY Ordered_Qty ASC
+                    
+                    WHERE part_number NOT IN ('Sublet', 'Remanufactured')
+                        AND (line > 0)
+                        AND (part_number > '' OR vendor_name > '')
+                        AND vendor_name NOT LIKE '**%'
+                        AND part_number NOT LIKE 'Aftermarket%'
+                        AND (part_type <> 'Sublet')
+                        AND ro_num = $this->ro_num
+                        AND loc_id = $this->locationID
+                    
+                    ORDER BY ordered_qty ASC
                 strSQL;
 
         try {

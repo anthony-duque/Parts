@@ -41,13 +41,15 @@ class Car{
 
         $sql = <<<strSQL
 
-                SELECT Part_Description, Part_Number, Part_Type,
-                    RO_Qty, Part_Status
+                SELECT part_description, part_number, part_type,
+                    ro_qty, part_status
+
                 FROM parts_status
-                WHERE TRIM(Vendor_Name) NOT LIKE '*%IN%HOUSE%'
-                    AND Part_Type NOT IN ('Sublet', 'FIX ME')
-                    AND Loc_ID = $loc_id AND RO_Num = $this->ro_num
-                    AND Part_Status IN ('NOT ORDERED', 'ORDERED')
+
+                WHERE TRIM(vendor_name) NOT LIKE '*%IN%HOUSE%'
+                    AND part_type NOT IN ('Sublet', 'FIX ME')
+                    AND loc_id = $loc_id AND ro_num = $this->ro_num
+                    AND part_status IN ('NOT ORDERED', 'ORDERED')
             strSQL;
 
         try {
@@ -88,16 +90,21 @@ class Estimator{
         }
 
         $sql = <<<strSQL
-                SELECT DISTINCT RO_Num, Vehicle, Owner
+
+                SELECT DISTINCT pse.ro_num, pse.vehicle, r.Owner
+
                 FROM repairs r INNER JOIN parts_status pse
-                    ON r.Loc_ID = pse.Loc_ID AND r.RONum = pse.RO_Num
-                WHERE r.RONum <> 1004
-                    AND TRIM(pse.Vendor_Name) NOT LIKE '*%IN%HOUSE%'
-                    AND pse.Part_Type NOT IN ('Sublet', 'FIX ME')
-                    AND r.Loc_ID = $loc_id AND r.Estimator = '$this->name'
-                    AND pse.Part_Status IN ('NOT ORDERED', 'ORDERED')
-                    AND $vendorNameCheck
-                ORDER BY RO_Num
+                    ON r.Loc_ID = pse.loc_id AND r.RONum = pse.ro_num
+
+                WHERE
+                        TRIM(pse.Vendor_Name) NOT LIKE '*%IN%HOUSE%'
+                        AND pse.part_type NOT IN ('Sublet', 'FIX ME')
+                        AND r.Loc_ID = $loc_id AND r.Estimator = '$this->name'
+                        AND pse.part_status IN ('NOT ORDERED', 'ORDERED')
+                        AND $vendorNameCheck
+
+                ORDER BY pse.ro_num
+
             strSQL;
 
         try {
@@ -140,15 +147,20 @@ class Vendor{
         }
 
         $sql = <<<strSQL
+
             SELECT DISTINCT Estimator
+
             FROM repairs r INNER JOIN parts_status pse
-                ON r.Loc_ID = pse.Loc_ID AND r.RONum = pse.RO_Num
-            WHERE r.RONum <> 1004
-                AND TRIM(pse.Vendor_Name) NOT LIKE '*%IN%HOUSE%'
-                AND pse.Part_Type NOT IN ('Sublet', 'FIX ME')
+                ON r.Loc_ID = pse.loc_id AND r.RONum = pse.ro_num
+
+            WHERE
+
+                TRIM(pse.vendor_name) NOT LIKE '*%IN%HOUSE%'
+                AND pse.part_type NOT IN ('Sublet', 'FIX ME')
                 AND r.Loc_ID = $this->locID
-                AND pse.Part_Status IN ('NOT ORDERED', 'ORDERED')
+                AND pse.part_status IN ('NOT ORDERED', 'ORDERED')
                 AND $vendorNameCheck
+
            ORDER BY r.Estimator
         strSQL;
 
@@ -170,8 +182,8 @@ class Vendor{
     }   // Get_Estimators()
 
     function __construct($rec, $dbConn){
-        $this->name = $rec["Vendor_Name"];
-        $this->locID = $rec["Loc_ID"];
+        $this->name = $rec["vendor_name"];
+        $this->locID = $rec["loc_id"];
         $this->Get_Vendor_Estimators($dbConn);
     }   // __construct()
 
@@ -186,16 +198,15 @@ function Get_Parts_By_Vendor_Estimator(){
     $vendorList = [];
 
     $sql = <<<strSQL
-                SELECT DISTINCT pse.Vendor_Name, r.Loc_ID
+                SELECT DISTINCT pse.vendor_name, r.loc_id
                 FROM repairs r INNER JOIN parts_status pse
-            	   ON r.RONum = pse.RO_Num AND r.Loc_ID = pse.Loc_ID
+            	   ON r.RONum = pse.ro_num AND r.loc_id = pse.loc_id
                 WHERE
                     TRIM(r.Estimator) > '' AND
-           	        r.RONum <> 1004 AND
-           	        TRIM(pse.Vendor_Name) NOT LIKE '*%IN%HOUSE%' AND
-           	        pse.Part_Type NOT IN ('Sublet', 'FIX ME') AND
-                    pse.Part_Status IN ('NOT ORDERED', 'ORDERED')
-                ORDER BY pse.Vendor_Name
+           	        TRIM(pse.vendor_name) NOT LIKE '*%IN%HOUSE%' AND
+           	        pse.part_type NOT IN ('Sublet', 'FIX ME') AND
+                    pse.part_status IN ('NOT ORDERED', 'ORDERED')
+                ORDER BY pse.vendor_name
 strSQL;
 
     try {

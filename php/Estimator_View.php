@@ -28,23 +28,23 @@
 
         function __construct($rec){
 
-            $this->ro_num           = $rec["RONum"];
-            $this->owner            = ucwords(strtolower($rec["Owner"]));
-            $this->vehicle          = $rec["Vehicle"];
-            $this->vehicle_color    = $rec["Vehicle_Color"];
-            $this->vehicle_in       = $rec["Vehicle_In"];
-            $this->technician       = $rec["Technician"];
-            $this->current_phase    = $rec["CurrentPhase"];
+            $this->ro_num           = $rec["ro_num"];
+            $this->owner            = ucwords(strtolower($rec["owner"]));
+            $this->vehicle          = $rec["vehicle"];
+            $this->vehicle_color    = $rec["vehicle_color"];
+            $this->vehicle_in       = $rec["vehicle_in"];
+            $this->technician       = $rec["technician"];
+            $this->current_phase    = $rec["current_phase"];
             $this->parts_unordered  = 0;
             $this->parts_waiting    = 0;
             $this->parts_received   = 0;
             $this->parts_returned   = 0;
             $this->parts_percent    = 0;
-            $this->scheduled_out    = GetDisplayDate($rec["Scheduled_Out"]);
+            $this->scheduled_out    = GetDisplayDate($rec["scheduled_out"]);
             $this->scheduled_out    = substr($this->scheduled_out, 0, 5);
-            $this->location         = $rec["Location"];
-            $this->loc_ID           = $rec["Loc_ID"];
-            $this->insurance        = $rec["Insurance"];
+            $this->location         = $rec["location"];
+            $this->loc_ID           = $rec["loc_id"];
+            $this->insurance        = $rec["insurance"];
 
         }   // Car($rec)
     }   // Car{}
@@ -60,11 +60,11 @@
 
         function __construct($rec){
 
-            $this->ro_quantity       = $rec["RO_Qty"];
-            $this->ordered_quantity  = $rec["Ordered_Qty"];
-            $this->received_quantity = $rec["Received_Qty"];
-            $this->returned_quantity = $rec["Returned_Qty"];
-            $this->part_status       = $rec["Part_Status"];
+            $this->ro_quantity       = $rec["ro_qty"];
+            $this->ordered_quantity  = $rec["ordered_qty"];
+            $this->received_quantity = $rec["received_qty"];
+            $this->returned_quantity = $rec["returned_qty"];
+            $this->part_status       = $rec["part_status"];
         }   // Part()
     }   // Part{}
 
@@ -88,14 +88,14 @@
         $repairs = [];
 
         $sql = <<<strSQL
-                    SELECT SUBSTRING_INDEX(Estimator, ' ', 1) AS Estimator,
-                    RONum, SUBSTRING_INDEX(Owner, ',', 1) AS Owner,
-                    Vehicle, LCASE(Vehicle_Color) AS Vehicle_Color,
-                    Technician, Vehicle_In, CurrentPhase, Scheduled_Out,
-                    Location, Loc_ID, Insurance
+                    SELECT SUBSTRING_INDEX(Estimator, ' ', 1) AS estimator,
+                    ro_num, SUBSTRING_INDEX(owner, ',', 1) AS owner,
+                    vehicle, LCASE(vehicle_color) AS vehicle_color,
+                    technician, vehicle_in, current_phase, scheduled_out,
+                    location, loc_id, insurance
                     FROM repairs
-                    WHERE Estimator > '' AND RONum <> 1004
-                    ORDER BY Estimator, PartsReceived DESC
+                    WHERE Estimator > ''
+                    ORDER BY estimator, parts_received DESC
                 strSQL;
 
         try{
@@ -138,16 +138,21 @@
         $allParts = [];
 
         $sql =  <<<strSQL
-                    SELECT RO_Qty, Ordered_Qty, Received_Qty, Returned_Qty, Part_Status
+
+                    SELECT ro_qty, ordered_qty, received_qty, returned_qty, part_status
+        
                     FROM parts_status
-                    WHERE Part_Number NOT IN ('Sublet', 'Remanufactured')
-                        AND (Line > 0)
-                        AND (Part_Number > '' OR Vendor_Name > '')
-                        AND Vendor_Name NOT LIKE '**%'
-                        AND Part_Type NOT IN ('Sublet')
-                        AND RO_Num = $roNum
-                        AND Loc_ID = $locID
-                    ORDER BY Ordered_Qty ASC
+        
+                    WHERE part_number NOT IN ('Sublet', 'Remanufactured')
+                        AND (line > 0)
+                        AND (part_number > '' OR vendor_name > '')
+                        AND vendor_name NOT LIKE '**%'
+                        AND part_type NOT IN ('Sublet')
+                        AND ro_num = $roNum
+                        AND loc_id = $locID
+        
+                    ORDER BY ordered_qty ASC
+
                 strSQL;
 
         try {

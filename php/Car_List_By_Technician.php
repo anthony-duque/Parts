@@ -32,12 +32,12 @@ class Car{
 
     function __construct($rec){
 
-        $this->ro_num       = $rec["RONum"];
-        $this->owner        = ucwords(strtolower($rec["Owner"]));
-        $this->vehicle      = $rec["Vehicle"];
-        $this->estimator    = $rec["Estimator"];
-        $this->color        = $rec["Vehicle_Color"];
-        $this->technician   = $rec["Technician"];
+        $this->ro_num       = $rec["ro_num"];
+        $this->owner        = ucwords(strtolower($rec["owner"]));
+        $this->vehicle      = $rec["vehicle"];
+        $this->estimator    = $rec["estimator"];
+        $this->color        = $rec["vehicle_color"];
+        $this->technician   = $rec["technician"];
 
     }   // Car($rec)
 }   // Car{}
@@ -50,12 +50,12 @@ function Get_All_Cars_By_Tech(){
     $cars_by_tech = [];
 
     $sql = <<<strSQL
-                SELECT SUBSTRING_INDEX(Technician, ' ', 1) AS Technician,
-                    RONum, SUBSTRING_INDEX(Owner, ',', 1) AS Owner,
-                    Vehicle, Estimator, Vehicle_Color
+                SELECT SUBSTRING_INDEX(technician, ' ', 1) AS Technician,
+                    ro_num, SUBSTRING_INDEX(owner, ',', 1) AS Owner,
+                    vehicle, estimator, vehicle_color
                 FROM repairs
-                WHERE Technician > ''
-                ORDER BY Technician, Vehicle
+                WHERE technician > ''
+                ORDER BY technician, vehicle
             strSQL;
     try{
 

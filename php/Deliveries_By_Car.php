@@ -46,10 +46,10 @@
             $partsList = [];
 
             $sql = <<<strSQL
-                        SELECT Part_Number, Part_Description, Received_Qty, Invoice_Date
+                        SELECT part_number, part_description, received_qty, invoice_date
                         FROM parts_status
-                        WHERE RO_Num = $ro AND Loc_ID = $loc_ID
-                            AND Vendor_Name = '$this->name'
+                        WHERE ro_num = $ro AND loc_id = $loc_ID
+                            AND vendor_name = '$this->name'
                             AND $sqlDtClause
                     strSQL;
 
@@ -102,11 +102,11 @@
         function Get_Vendors_for_Car($dbConn, $sqlDtClause){
 
             $sql = <<<strSQL
-                        SELECT DISTINCT Vendor_Name
+                        SELECT DISTINCT vendor_name
                         FROM parts_status
-                        WHERE RO_Num = $this->ro_num
+                        WHERE ro_num = $this->ro_num
                             AND $sqlDtClause
-                            AND Vendor_Name NOT IN ('**IN-HOUSE', 'ASTECH', 'AIRTIGHT AUTO GLASS', 'BIG BRAND','Jim''s Tire Center', 'PRO TECH DIAGNOSTICS')
+                            AND vendor_name NOT IN ('**IN-HOUSE', 'ASTECH', 'AIRTIGHT AUTO GLASS', 'BIG BRAND','Jim''s Tire Center', 'PRO TECH DIAGNOSTICS')
                     strSQL;
 
             try{
@@ -153,15 +153,15 @@
     function Get_All_Cars($dbConn, $sqlDtClause){
 
         $sql = <<<strSQL
-                    SELECT DISTINCT p.RO_Num AS RO_Num, SUBSTRING_INDEX(r.Owner, ',', 1) AS Owner,
-                        r.Vehicle, r.Technician, r.Estimator, r.Vehicle_In, r.CurrentPhase,
-                        r.Loc_ID
+                    SELECT DISTINCT p.ro_num AS RO_Num, SUBSTRING_INDEX(r.owner, ',', 1) AS Owner,
+                        r.vehicle, r.technician, r.estimator, r.vehicle_in, r.current_phase,
+                        r.loc_id
                     FROM parts_status p INNER JOIN repairs r
-                            ON p.RO_Num = r.RONum AND p.Loc_ID = r.Loc_ID
-                    WHERE Vendor_Name NOT IN ('**IN-HOUSE', 'ASTECH', 'AIRTIGHT AUTO GLASS', 'BIG BRAND','Jim''s Tire Center', 'PRO TECH DIAGNOSTICS')
+                            ON p.ro_num = r.ro_num AND p.loc_id = r.loc_id
+                    WHERE vendor_name NOT IN ('**IN-HOUSE', 'ASTECH', 'AIRTIGHT AUTO GLASS', 'BIG BRAND','Jim''s Tire Center', 'PRO TECH DIAGNOSTICS')
                         AND $sqlDtClause
-                        AND RO_Num <> 1004
-                    ORDER BY RO_Num DESC
+                        AND ro_num <> 1004
+                    ORDER BY ro_num DESC
                 strSQL;
 
         try {
