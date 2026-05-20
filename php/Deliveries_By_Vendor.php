@@ -39,8 +39,8 @@
         public $cars = [];
 
         function __construct($rec, $dbConn){
-            $this->name = str_replace("'", "''", $rec["Vendor_Name"]);
-            $this->location_ID = $rec["Loc_ID"];
+            $this->name = str_replace("'", "''", $rec["vendor_name"]);
+            $this->location_ID = $rec["loc_id"];
         }   // Vendor()
 
         function Get_Cars_for_Vendor($dbConn, $sqlDtClause){
@@ -101,14 +101,14 @@
 
         function __construct($rec){
 
-            $this->ro_num           = $rec["RO_Num"];
-            $this->location_ID      = $rec["Loc_ID"];
-            $this->vehicle          = $rec["Vehicle"];
-            $this->owner            = ucwords(strtolower($rec["Owner"]));
-            $this->estimator        = $rec["Estimator"];
-            $this->technician       = $rec["Technician"];
-            $this->vehicle_in       = $rec["Vehicle_In"];
-            $this->current_phase    = $rec["CurrentPhase"];
+            $this->ro_num           = $rec["ro_num"];
+            $this->location_ID      = $rec["loc_id"];
+            $this->vehicle          = $rec["vehicle"];
+            $this->owner            = ucwords(strtolower($rec["owner"]));
+            $this->estimator        = $rec["estimator"];
+            $this->technician       = $rec["technician"];
+            $this->vehicle_in       = $rec["vehicle_in"];
+            $this->current_phase    = $rec["current_phase"];
 
         }
 
@@ -163,10 +163,10 @@
         public $invoice_date;
 
         function __construct($rec){
-            $this->part_number          = $rec["Part_Number"];
-            $this->part_description     = $rec["Part_Description"];
-            $this->received_quantity    = $rec["Received_Qty"];
-            $this->invoice_date         = GetDisplayDate($rec["Invoice_Date"]);
+            $this->part_number          = $rec["part_number"];
+            $this->part_description     = $rec["part_description"];
+            $this->received_quantity    = $rec["received_qty"];
+            $this->invoice_date         = GetDisplayDate($rec["invoice_date"]);
         }   // Part()
     }   // Part{}
 

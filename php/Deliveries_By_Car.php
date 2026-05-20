@@ -38,7 +38,7 @@
 
         function __construct($rec, $dbConn){
 //            $this->name = $rec["Vendor_Name"];
-            $this->name = str_replace("'", "''", $rec["Vendor_Name"]);
+            $this->name = str_replace("'", "''", $rec["vendor_name"]);
         }   // Vendor()
 
         function Get_Vendor_Parts($ro, $loc_ID, $dbConn, $sqlDtClause){
@@ -89,14 +89,14 @@
 
         function __construct($rec){
 
-            $this->ro_num           = $rec["RO_Num"];
-            $this->location_ID      = $rec["Loc_ID"];
-            $this->vehicle          = $rec["Vehicle"];
-            $this->owner            = ucwords(strtolower($rec["Owner"]));
-            $this->estimator        = $rec["Estimator"];
-            $this->technician       = $rec["Technician"];
-            $this->vehicle_in       = $rec["Vehicle_In"];
-            $this->current_phase    = $rec["CurrentPhase"];
+            $this->ro_num           = $rec["ro_num"];
+            $this->location_ID      = $rec["loc_id"];
+            $this->vehicle          = $rec["vehicle"];
+            $this->owner            = ucwords(strtolower($rec["owner"]));
+            $this->estimator        = $rec["estimator"];
+            $this->technician       = $rec["technician"];
+            $this->vehicle_in       = $rec["vehicle_in"];
+            $this->current_phase    = $rec["current_phase"];
         }
 
         function Get_Vendors_for_Car($dbConn, $sqlDtClause){
@@ -142,10 +142,10 @@
         public $invoice_date;
 
         function __construct($rec){
-            $this->part_number          = $rec["Part_Number"];
-            $this->part_description     = $rec["Part_Description"];
-            $this->received_quantity    = $rec["Received_Qty"];
-            $this->invoice_date         = GetDisplayDate($rec["Invoice_Date"]);
+            $this->part_number          = $rec["part_number"];
+            $this->part_description     = $rec["part_description"];
+            $this->received_quantity    = $rec["received_qty"];
+            $this->invoice_date         = GetDisplayDate($rec["invoice_date"]);
         }   // Part()
     }   // Part{}
 
@@ -153,15 +153,18 @@
     function Get_All_Cars($dbConn, $sqlDtClause){
 
         $sql = <<<strSQL
-                    SELECT DISTINCT p.ro_num AS RO_Num, SUBSTRING_INDEX(r.owner, ',', 1) AS Owner,
+
+                    SELECT DISTINCT p.ro_num AS ro_num, SUBSTRING_INDEX(r.owner, ',', 1) AS owner,
                         r.vehicle, r.technician, r.estimator, r.vehicle_in, r.current_phase,
                         r.loc_id
+
                     FROM parts_status p INNER JOIN repairs r
                             ON p.ro_num = r.ro_num AND p.loc_id = r.loc_id
+
                     WHERE vendor_name NOT IN ('**IN-HOUSE', 'ASTECH', 'AIRTIGHT AUTO GLASS', 'BIG BRAND','Jim''s Tire Center', 'PRO TECH DIAGNOSTICS')
                         AND $sqlDtClause
-                        AND ro_num <> 1004
-                    ORDER BY ro_num DESC
+                    
+                        ORDER BY ro_num DESC
                 strSQL;
 
         try {
