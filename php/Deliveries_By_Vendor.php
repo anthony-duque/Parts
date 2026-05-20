@@ -39,8 +39,8 @@
         public $cars = [];
 
         function __construct($rec, $dbConn){
-            $this->name = str_replace("'", "''", $rec["Vendor_Name"]);
-            $this->location_ID = $rec["Loc_ID"];
+            $this->name = str_replace("'", "''", $rec["vendor_name"]);
+            $this->location_ID = $rec["loc_id"];
         }   // Vendor()
 
         function Get_Cars_for_Vendor($dbConn, $sqlDtClause){
@@ -50,20 +50,19 @@
             $sql = <<<strSQL
 
                 SELECT DISTINCT
-                    r.RONum AS RO_Num, r.Vehicle AS Vehicle, r.Owner AS Owner,
-                    r.Estimator AS Estimator, r.Technician AS Technician,
-                    r.Vehicle_In AS Vehicle_In, r.CurrentPhase AS CurrentPhase,
-                    r.Loc_ID
+                    r.ro_num, r.vehicle, r.owner,
+                    r.estimator, r.technician,
+                    r.vehicle_in, r.current_phase,
+                    r.loc_id
 
                 FROM parts_status pse INNER JOIN repairs r
 
-                WHERE Vendor_Name = '$this->name'
-                    AND pse.RO_Num = r.RONum
-                    AND pse.Loc_ID = r.Loc_ID
+                WHERE vendor_name = '$this->name'
+                    AND pse.ro_num = r.ro_num
+                    AND pse.loc_id = r.loc_id
                     AND $sqlDtClause
-                    AND RO_Num <> 1004
 
-                ORDER BY r.RONum
+                ORDER BY r.ro_num
             strSQL;
 
             try{
@@ -102,14 +101,14 @@
 
         function __construct($rec){
 
-            $this->ro_num           = $rec["RO_Num"];
-            $this->location_ID      = $rec["Loc_ID"];
-            $this->vehicle          = $rec["Vehicle"];
-            $this->owner            = ucwords(strtolower($rec["Owner"]));
-            $this->estimator        = $rec["Estimator"];
-            $this->technician       = $rec["Technician"];
-            $this->vehicle_in       = $rec["Vehicle_In"];
-            $this->current_phase    = $rec["CurrentPhase"];
+            $this->ro_num           = $rec["ro_num"];
+            $this->location_ID      = $rec["loc_id"];
+            $this->vehicle          = $rec["vehicle"];
+            $this->owner            = ucwords(strtolower($rec["owner"]));
+            $this->estimator        = $rec["estimator"];
+            $this->technician       = $rec["technician"];
+            $this->vehicle_in       = $rec["vehicle_in"];
+            $this->current_phase    = $rec["current_phase"];
 
         }
 
@@ -118,15 +117,15 @@
             $sql = <<<strSQL
 
                 SELECT
-                    Part_Number,
-                    Part_Description,
-                    Received_Qty,
-                    Invoice_Date
+                    part_number,
+                    part_description,
+                    received_qty,
+                    invoice_date
 
                 FROM parts_status
 
-                WHERE RO_Num = $this->ro_num
-                    AND Vendor_Name = '$vendorName'
+                WHERE ro_num = $this->ro_num
+                    AND vendor_name = '$vendorName'
                     AND $sqlDtClause
 
             strSQL;
@@ -164,10 +163,10 @@
         public $invoice_date;
 
         function __construct($rec){
-            $this->part_number          = $rec["Part_Number"];
-            $this->part_description     = $rec["Part_Description"];
-            $this->received_quantity    = $rec["Received_Qty"];
-            $this->invoice_date         = GetDisplayDate($rec["Invoice_Date"]);
+            $this->part_number          = $rec["part_number"];
+            $this->part_description     = $rec["part_description"];
+            $this->received_quantity    = $rec["received_qty"];
+            $this->invoice_date         = GetDisplayDate($rec["invoice_date"]);
         }   // Part()
     }   // Part{}
 
@@ -175,13 +174,17 @@
     function Get_All_Vendors($dbConn, $sqlDateClause){
 
         $sql = <<<strSQL
-                    SELECT DISTINCT pse.Vendor_Name, pse.Loc_ID 
+
+                    SELECT DISTINCT pse.vendor_name, pse.loc_id 
+
                     FROM parts_status pse INNER JOIN repairs r
-                        ON pse.RO_Num = r.RONum
-                    WHERE Vendor_Name NOT IN (%s)
+                        ON pse.ro_num = r.ro_num
+
+                    WHERE pse.vendor_name NOT IN (%s)
                          AND $sqlDateClause
-                         AND RO_Num <> 1004
-                    ORDER BY Vendor_Name
+
+                    ORDER BY pse.vendor_name
+
                 strSQL;
         $sql = sprintf($sql, IN_HOUSE_VENDORS);
         //echo $sql;

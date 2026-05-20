@@ -38,7 +38,7 @@
 
         function __construct($rec, $dbConn){
 //            $this->name = $rec["Vendor_Name"];
-            $this->name = str_replace("'", "''", $rec["Vendor_Name"]);
+            $this->name = str_replace("'", "''", $rec["vendor_name"]);
         }   // Vendor()
 
         function Get_Vendor_Parts($ro, $loc_ID, $dbConn, $sqlDtClause){
@@ -46,10 +46,10 @@
             $partsList = [];
 
             $sql = <<<strSQL
-                        SELECT Part_Number, Part_Description, Received_Qty, Invoice_Date
+                        SELECT part_number, part_description, received_qty, invoice_date
                         FROM parts_status
-                        WHERE RO_Num = $ro AND Loc_ID = $loc_ID
-                            AND Vendor_Name = '$this->name'
+                        WHERE ro_num = $ro AND loc_id = $loc_ID
+                            AND vendor_name = '$this->name'
                             AND $sqlDtClause
                     strSQL;
 
@@ -89,24 +89,24 @@
 
         function __construct($rec){
 
-            $this->ro_num           = $rec["RO_Num"];
-            $this->location_ID      = $rec["Loc_ID"];
-            $this->vehicle          = $rec["Vehicle"];
-            $this->owner            = ucwords(strtolower($rec["Owner"]));
-            $this->estimator        = $rec["Estimator"];
-            $this->technician       = $rec["Technician"];
-            $this->vehicle_in       = $rec["Vehicle_In"];
-            $this->current_phase    = $rec["CurrentPhase"];
+            $this->ro_num           = $rec["ro_num"];
+            $this->location_ID      = $rec["loc_id"];
+            $this->vehicle          = $rec["vehicle"];
+            $this->owner            = ucwords(strtolower($rec["owner"]));
+            $this->estimator        = $rec["estimator"];
+            $this->technician       = $rec["technician"];
+            $this->vehicle_in       = $rec["vehicle_in"];
+            $this->current_phase    = $rec["current_phase"];
         }
 
         function Get_Vendors_for_Car($dbConn, $sqlDtClause){
 
             $sql = <<<strSQL
-                        SELECT DISTINCT Vendor_Name
+                        SELECT DISTINCT vendor_name
                         FROM parts_status
-                        WHERE RO_Num = $this->ro_num
+                        WHERE ro_num = $this->ro_num
                             AND $sqlDtClause
-                            AND Vendor_Name NOT IN ('**IN-HOUSE', 'ASTECH', 'AIRTIGHT AUTO GLASS', 'BIG BRAND','Jim''s Tire Center', 'PRO TECH DIAGNOSTICS')
+                            AND vendor_name NOT IN ('**IN-HOUSE', 'ASTECH', 'AIRTIGHT AUTO GLASS', 'BIG BRAND','Jim''s Tire Center', 'PRO TECH DIAGNOSTICS')
                     strSQL;
 
             try{
@@ -142,10 +142,10 @@
         public $invoice_date;
 
         function __construct($rec){
-            $this->part_number          = $rec["Part_Number"];
-            $this->part_description     = $rec["Part_Description"];
-            $this->received_quantity    = $rec["Received_Qty"];
-            $this->invoice_date         = GetDisplayDate($rec["Invoice_Date"]);
+            $this->part_number          = $rec["part_number"];
+            $this->part_description     = $rec["part_description"];
+            $this->received_quantity    = $rec["received_qty"];
+            $this->invoice_date         = GetDisplayDate($rec["invoice_date"]);
         }   // Part()
     }   // Part{}
 
@@ -153,15 +153,18 @@
     function Get_All_Cars($dbConn, $sqlDtClause){
 
         $sql = <<<strSQL
-                    SELECT DISTINCT p.RO_Num AS RO_Num, SUBSTRING_INDEX(r.Owner, ',', 1) AS Owner,
-                        r.Vehicle, r.Technician, r.Estimator, r.Vehicle_In, r.CurrentPhase,
-                        r.Loc_ID
+
+                    SELECT DISTINCT p.ro_num AS ro_num, SUBSTRING_INDEX(r.owner, ',', 1) AS owner,
+                        r.vehicle, r.technician, r.estimator, r.vehicle_in, r.current_phase,
+                        r.loc_id
+
                     FROM parts_status p INNER JOIN repairs r
-                            ON p.RO_Num = r.RONum AND p.Loc_ID = r.Loc_ID
-                    WHERE Vendor_Name NOT IN ('**IN-HOUSE', 'ASTECH', 'AIRTIGHT AUTO GLASS', 'BIG BRAND','Jim''s Tire Center', 'PRO TECH DIAGNOSTICS')
+                            ON p.ro_num = r.ro_num AND p.loc_id = r.loc_id
+
+                    WHERE vendor_name NOT IN ('**IN-HOUSE', 'ASTECH', 'AIRTIGHT AUTO GLASS', 'BIG BRAND','Jim''s Tire Center', 'PRO TECH DIAGNOSTICS')
                         AND $sqlDtClause
-                        AND RO_Num <> 1004
-                    ORDER BY RO_Num DESC
+                    
+                        ORDER BY ro_num DESC
                 strSQL;
 
         try {

@@ -27,11 +27,16 @@ class Car{
         $sublets = [];
 
         $sql =  <<<strSQL
-                    SELECT Part_Description, Vendor_Name, Received_Qty
+
+                    SELECT part_description, vendor_name, received_qty
+        
                     FROM parts_status
-                    WHERE Part_Type = 'Sublet'
-                    AND RO_Num = $this->ro_num AND Loc_ID = $this->locID
-                    ORDER BY Received_Qty
+        
+                    WHERE part_type = 'Sublet'
+                        AND ro_num = $this->ro_num AND loc_id = $this->locID
+
+                    ORDER BY received_qty
+
                 strSQL;
 
         try {
@@ -44,7 +49,7 @@ class Car{
 
         } catch(Exception $e){
             echo "Fetching Sublet List failed.";
-        }   // try-catch
+        }   // try-catchRONum
 
         return $sublets;
     }   // Get_Sublet_List()
@@ -55,17 +60,21 @@ class Car{
         $allParts = [];
 
         $sql =  <<<strSQL
-                    SELECT RO_Qty, Ordered_Qty, Received_Qty, Returned_Qty, Part_Status
+
+                    SELECT ro_qty, ordered_qty, received_qty, returned_qty, part_status
+
                     FROM parts_status
-                    WHERE Part_Number NOT IN ('Sublet', 'Remanufactured')
+
+                    WHERE part_number NOT IN ('Sublet', 'Remanufactured')
                         AND (Line > 0)
-                        AND (Part_Number > '' OR Vendor_Name > '')
-                        AND Vendor_Name NOT LIKE '**%'
-                        AND Part_Number NOT LIKE 'Aftermarket%'
-                        AND Part_Type NOT IN ('FIX ME','Sublet')
-                        AND RO_Num = $this->ro_num
-                        AND Loc_ID = $this->locID
-                    ORDER BY Ordered_Qty ASC
+                        AND (part_number > '' OR vendor_name > '')
+                        AND vendor_name NOT LIKE '**%'
+                        AND part_number NOT LIKE 'Aftermarket%'
+                        AND part_type NOT IN ('FIX ME','Sublet')
+                        AND ro_num = $this->ro_num
+                        AND loc_id = $this->locID
+
+                    ORDER BY ordered_qty ASC
                 strSQL;
 
         try {
@@ -86,24 +95,24 @@ class Car{
 
     function __construct($dbConn, $rec){
 
-        $this->ro_num           = $rec["RONum"];
-        $this->owner            = toProperCase($rec["Owner"]);
-        $this->vehicle          = toProperCase($rec["Vehicle"]);
-        $this->vehicle_color    = $rec["Vehicle_Color"];
-        $this->vehicle_in       = $rec["Vehicle_In"];
-        $this->technician       = toProperCase($rec["Technician"]);
-        $this->estimator        = toProperCase($rec["Estimator"]);
-        $this->current_phase    = $rec["CurrentPhase"];
+        $this->ro_num           = $rec["ro_num"];
+        $this->owner            = toProperCase($rec["owner"]);
+        $this->vehicle          = toProperCase($rec["vehicle"]);
+        $this->vehicle_color    = $rec["vehicle_color"];
+        $this->vehicle_in       = $rec["vehicle_in"];
+        $this->technician       = toProperCase($rec["technician"]);
+        $this->estimator        = toProperCase($rec["estimator"]);
+        $this->current_phase    = $rec["current_phase"];
         $this->parts_unordered  = 0;
         $this->parts_waiting    = 0;
         $this->parts_received   = 0;
         $this->parts_returned   = 0;
         $this->parts_percent    = 0;
-        $this->scheduled_out    = GetDisplayDate($rec["Scheduled_Out"]);
+        $this->scheduled_out    = GetDisplayDate($rec["scheduled_out"]);
         $this->scheduled_out    = substr($this->scheduled_out, 0, 5);
-        $this->locID            = $rec["Loc_ID"];
-        $this->insurance        = $rec["Insurance"];
-        $this->stageID          = $rec["stage_ID"];
+        $this->locID            = $rec["loc_id"];
+        $this->insurance        = $rec["insurance"];
+        $this->stageID          = $rec["stage_id"];
         $this->parts            = $this->Get_Parts_List($dbConn);
         $this->sublets          = $this->Get_Sublet_List($dbConn);
 
@@ -121,11 +130,11 @@ class Part{
 
     function __construct($rec){
 
-        $this->ro_quantity       = $rec["RO_Qty"];
-        $this->ordered_quantity  = $rec["Ordered_Qty"];
-        $this->received_quantity = $rec["Received_Qty"];
-        $this->returned_quantity = $rec["Returned_Qty"];
-        $this->part_status       = $rec["Part_Status"];
+        $this->ro_quantity       = $rec["ro_qty"];
+        $this->ordered_quantity  = $rec["ordered_qty"];
+        $this->received_quantity = $rec["received_qty"];
+        $this->returned_quantity = $rec["returned_qty"];
+        $this->part_status       = $rec["part_status"];
 
     }   // Part()
 }   // Part{}
@@ -138,9 +147,9 @@ class Sublet{
     public $received_quantity;
 
     function __construct($rec){
-        $this->part_description     = $rec["Part_Description"];
-        $this->vendor_name          = $rec["Vendor_Name"];
-        $this->received_quantity    = $rec["Received_Qty"];
+        $this->part_description     = $rec["part_description"];
+        $this->vendor_name          = $rec["vendor_name"];
+        $this->received_quantity    = $rec["received_qty"];
     }
 }   // Sublet{}
 

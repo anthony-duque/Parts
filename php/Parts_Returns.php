@@ -42,11 +42,11 @@ require('Utility_Scripts.php');
 
         $returns = [];
         $sql =  <<<strSQL
-                    SELECT RO_Num, Return_Date, Vendor_Pickup_Date,
-                        Part_Number, Part_Description, Part_Type,
-                        Amount, Invoice_Number, Reason, Vendor_Name
+                    SELECT ro_num, return_date, vendor_pickup_date,
+                        part_number, part_description, part_type,
+                        amount, invoice_number, reason, vendor_Name
                     FROM parts_returns
-                    ORDER BY RO_Num, Vendor_Name, Part_Number ASC;
+                    ORDER BY ro_num, vendor_name, part_number ASC;
                 strSQL;
 
         require('db_open.php');

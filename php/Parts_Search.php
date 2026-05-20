@@ -24,27 +24,27 @@ require('Utility_Scripts.php');
 
         function __construct($rec){
 
-            $this->ro_num               = $rec["RO_Num"];
-            $this->part_number          = $rec["Part_Number"];
-            $this->part_description     = $rec["Part_Description"];
-            $this->line_no              = $rec["Line"];
+            $this->ro_num               = $rec["ro_num"];
+            $this->part_number          = $rec["part_number"];
+            $this->part_description     = $rec["part_description"];
+            $this->line_no              = $rec["line"];
 
-            $this->vendor_name          = strtolower($rec["Vendor_Name"]);
+            $this->vendor_name          = strtolower($rec["vendor_name"]);
             $this->vendor_name          =  ucwords($this->vendor_name);
 
-            $this->ro_quantity          = $rec["RO_Qty"];
-            $this->ordered_quantity     = $rec["Ordered_Qty"];
-            $this->received_quantity    = $rec["Received_Qty"];
-            $this->returned_quantity    = $rec["Returned_Qty"];
-            $this->expected_delivery    = GetDisplayDate($rec["Expected_Delivery"]);
-            $this->order_date           = GetDisplayDate($rec["Order_Date"]);
-            $this->invoice_date         = GetDisplayDate($rec["Invoice_Date"]);
-            $this->part_status          = $rec["Part_Status"];
+            $this->ro_quantity          = $rec["ro_qty"];
+            $this->ordered_quantity     = $rec["ordered_qty"];
+            $this->received_quantity    = $rec["received_qty"];
+            $this->returned_quantity    = $rec["returned_qty"];
+            $this->expected_delivery    = GetDisplayDate($rec["expected_delivery"]);
+            $this->order_date           = GetDisplayDate($rec["order_date"]);
+            $this->invoice_date         = GetDisplayDate($rec["invoice_date"]);
+            $this->part_status          = $rec["part_status"];
 
-            $this->vehicle_in           = GetDisplayDate($rec["Vehicle_In"]);
-            $this->current_phase        = $rec["CurrentPhase"];
-            $this->owner                = $rec["Owner"];
-            $this->locationID           = $rec["Loc_ID"];
+            $this->vehicle_in           = GetDisplayDate($rec["vehicle_in"]);
+            $this->current_phase        = $rec["current_phase"];
+            $this->owner                = $rec["owner"];
+            $this->locationID           = $rec["loc_id"];
 
         }   // Part()
     }   // Part{}
@@ -57,18 +57,19 @@ require('Utility_Scripts.php');
         require('db_open.php');
 
         $sql = <<<strSQL
-                SELECT RO_Num, Part_Number, Part_Description, Vendor_Name, Line,
-                      RO_Qty, Ordered_Qty, Received_Qty, Returned_Qty, Part_Status,
-                      Expected_Delivery, Order_Date, Invoice_Date, pse.Loc_ID,
-                      Vehicle_In, CurrentPhase, SUBSTRING_INDEX(r.Owner, ',', 1) AS Owner
+                SELECT pse.ro_num, pse.part_number, pse.part_description, pse.vendor_name, pse.line,
+                      pse.ro_qty, pse.ordered_qty, pse.received_qty, pse.returned_qty, pse.part_status,
+                      pse.expected_delivery, pse.order_date, pse.invoice_date, pse.loc_id,
+                      r.vehicle_in, r.current_phase, SUBSTRING_INDEX(r.owner, ',', 1) AS owner
 
                 FROM parts_status pse INNER JOIN repairs r
-                    ON pse.RO_Num = r.roNum AND pse.Loc_ID = r.Loc_ID
-                WHERE (Line > 0) AND (Part_Number > '' OR Vendor_Name > '')
-                    AND Vendor_Name NOT IN ('**in-house', 'Airtight Auto Glass', '*in House Stock',
+                    ON pse.ro_num = r.ro_num AND pse.loc_id = r.loc_id
+
+                WHERE (pse.line > 0) AND (pse.part_number > '' OR pse.vendor_name > '')
+                    AND pse.vendor_name NOT IN ('**in-house', 'Airtight Auto Glass', '*in House Stock',
                     'Big Brand', 'Jim''s Tire Center', 'Pro Tech Diagnostics', 'Astech')
-                    AND Part_Number NOT IN ('Sublet')
-                    AND RO_Num <> 1004
+                    AND pse.part_number NOT IN ('Sublet')
+
                 strSQL;
 
         $parts = [];

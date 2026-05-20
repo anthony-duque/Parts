@@ -6,9 +6,9 @@ error_reporting(E_ALL);
 flush();
 
 $tsql = <<<strSQL
-            SELECT Company_Code, Address, Name, Pass_Code,
-                Phone, Account_Start_Date, Account_End_Date,
-                Contact_Person, Email
+            SELECT company_code, address, name, pass_code,
+                phone, account_start_date, account_end_date,
+                contact_person, email
             FROM companies
         strSQL;
 

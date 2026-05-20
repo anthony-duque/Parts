@@ -28,7 +28,7 @@ function Get_RO_Name_By_Role($role, $locID, $roNum = 0){
     $name = '';
 
     $sql = "SELECT " . strtolower($role) . " FROM repairs " .
-            "WHERE RONum = " . $roNum . " AND Loc_ID = " . $locID;
+            "WHERE ro_num = " . $roNum . " AND loc_id = " . $locID;
     // echo $sql;
     try{
 

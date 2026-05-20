@@ -55,16 +55,20 @@ class Production_Stage {
     function GetCars($locID, $stage_ID){
 
         $strSQL = <<<sqlStmt
+
            SELECT
-                r.RONum, r.Loc_ID, cs.stage_ID,
-                SUBSTRING_INDEX(r.Estimator, ' ', 1) AS Estimator,
-                SUBSTRING_INDEX(r.Owner, ',', 1) AS Owner,
-                r.Vehicle, LCASE(r.Vehicle_Color) AS Vehicle_Color,
-                SUBSTRING_INDEX(r.Technician, ' ', 1) AS Technician,
-                r.Vehicle_In, r.CurrentPhase, r.Scheduled_Out, Insurance
+
+               r.ro_num, r.loc_id, cs.stage_id,
+                SUBSTRING_INDEX(r.estimator, ' ', 1) AS estimator,
+                SUBSTRING_INDEX(r.owner, ',', 1) AS owner,
+                r.vehicle, LCASE(r.vehicle_color) AS vehicle_color,
+                SUBSTRING_INDEX(r.technician, ' ', 1) AS technician,
+                r.vehicle_in, r.current_phase, r.scheduled_out, r.insurance
+
             FROM repairs r INNER JOIN car_stage cs
-                    ON r.RONum = cs.ro_Num AND r.Loc_ID = cs.loc_ID
-            WHERE r.Loc_ID = $locID AND cs.stage_ID = $stage_ID
+                    ON r.ro_num = cs.ro_num AND r.loc_id = cs.loc_id
+
+            WHERE r.loc_id = $locID AND cs.stage_id = $stage_ID
 sqlStmt;
 
         require('db_open.php');

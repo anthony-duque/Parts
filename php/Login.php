@@ -42,8 +42,8 @@ function storeIDsinCookie($companyCode, $dbConn){
                 SELECT
                     s.id
                 From company_shop cs INNER JOIN location_ids s
-                    ON cs.Location_Code = s.location_code
-                WHERE cs.Company_Code = '$companyCode';
+                    ON cs.location_code = s.location_code
+                WHERE cs.company_code = '$companyCode';
             strSQL;
 
     try{
@@ -92,10 +92,10 @@ function Login(){
 
     $sql = <<<strSQL
                 SELECT
-                    Account_End_Date
+                    active_end_date
                 FROM companies
-                WHERE Company_Code = '$username' 
-                    AND Pass_Code = '$password';
+                WHERE company_code = '$username' 
+                    AND pass_code = '$password';
             strSQL;
 
     try{
@@ -113,7 +113,7 @@ function Login(){
             if(isset($r)){
 
                     // Login failed.  Account expired.
-                if ($r["Account_End_Date"] < date("Y-m-d")){ 
+                if ($r["active_end_date"] < date("Y-m-d")){ 
 
                     echo "Account expired.";
 

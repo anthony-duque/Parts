@@ -17,11 +17,11 @@
 
         function __construct($rec){
 
-            $this->ro_quantity       = $rec["RO_Qty"];
-            $this->ordered_quantity  = $rec["Ordered_Qty"];
-            $this->received_quantity = $rec["Received_Qty"];
-            $this->returned_quantity = $rec["Returned_Qty"];
-            $this->part_status       = $rec["Part_Status"];
+            $this->ro_quantity       = $rec["ro_qty"];
+            $this->ordered_quantity  = $rec["ordered_qty"];
+            $this->received_quantity = $rec["received_qty"];
+            $this->returned_quantity = $rec["returned_qty"];
+            $this->part_status       = $rec["part_status"];
 
         }   // Part()
     }   // Part{}
@@ -47,21 +47,21 @@
 
         function __construct($rec){
 
-            $this->ro_num           = $rec["RONum"];
-            $this->owner            = ucwords(strtolower($rec["Owner"]));
-            $this->vehicle          = $rec["Vehicle"];
-            $this->vehicle_color    = $rec["Vehicle_Color"];
-            $this->estimator        = $rec["Estimator"];
+            $this->ro_num           = $rec["ro_num"];
+            $this->owner            = ucwords(strtolower($rec["owner"]));
+            $this->vehicle          = $rec["vehicle"];
+            $this->vehicle_color    = $rec["vehicle_color"];
+            $this->estimator        = $rec["estimator"];
             $this->parts_unordered  = 0;
             $this->parts_waiting    = 0;
             $this->parts_received   = 0;
             $this->parts_returned   = 0;
             $this->parts_percent    = 0;
-            $this->scheduled_out    = GetDisplayDate($rec["Scheduled_Out"]);
+            $this->scheduled_out    = GetDisplayDate($rec["scheduled_out"]);
             $this->scheduled_out   = substr($this->scheduled_out, 0, 5);
-            $this->location         = $rec["Location"];
-            $this->loc_ID           = $rec["Loc_ID"];
-            $this->insurance        = $rec["Insurance"];
+            $this->location         = $rec["location"];
+            $this->loc_ID           = $rec["loc_id"];
+            $this->insurance        = $rec["insurance"];
 
         }   // Car($rec)
     }   // Car{}
@@ -73,8 +73,8 @@
         public $cars = [];
 
         function __construct($rec){
-            $this->name         = $rec["Technician"];
-            $this->location_ID  = $rec["Loc_ID"]; 
+            $this->name         = $rec["technician"];
+            $this->location_ID  = $rec["loc_id"]; 
         }   // Repair($rec)
     };  // Repair{}
 
@@ -84,17 +84,22 @@
         $allParts = [];
 
         $sql =  <<<strSQL
-                    SELECT RO_Qty, Ordered_Qty, Received_Qty,
-                        Returned_Qty, Location, Loc_ID, Part_Status
+
+                    SELECT ro_qty, ordered_qty, received_qty,
+                        returned_qty, location, loc_id, part_status
+
                     FROM parts_status
-                    WHERE Part_Number NOT IN ('Sublet', 'Remanufactured')
-                        AND (Line > 0)
-                        AND (Part_Number > '' OR Vendor_Name > '')
-                        AND Vendor_Name NOT LIKE '**%'
-                        AND Part_Type NOT IN ('Sublet')
-                        AND RO_Num = $roNum
-                        AND Loc_ID = $locID
-                    ORDER BY Ordered_Qty ASC;
+
+                    WHERE part_number NOT IN ('Sublet', 'Remanufactured')
+                        AND (line > 0)
+                        AND (part_number > '' OR vendor_name > '')
+                        AND vendor_name NOT LIKE '**%'
+                        AND part_type NOT IN ('Sublet')
+                        AND ro_num = $roNum
+                        AND loc_id = $locID
+
+                    ORDER BY ordered_qty ASC;
+
                 strSQL;
         try {
 
@@ -117,20 +122,20 @@
         $repairs = [];
 
         if ($locID > 0){
-            $loc_condition = " AND Loc_ID = $locID ";
+            $loc_condition = " AND loc_id = $locID ";
         } else {
             $loc_condition = " ";
         }
 
         $sql = <<<strSQL
-                    SELECT SUBSTRING_INDEX(Technician, ' ', 1) AS Technician,
-                        RONum, SUBSTRING_INDEX(Owner, ',', 1) AS Owner,
-                        Vehicle, Estimator, Scheduled_Out,
-                        LOWER(Vehicle_Color) as Vehicle_Color,
-                        Location, Loc_ID, Insurance
+                    SELECT SUBSTRING_INDEX(technician, ' ', 1) AS technician,
+                        ro_num, SUBSTRING_INDEX(owner, ',', 1) AS owner,
+                        vehicle, estimator, scheduled_out,
+                        LOWER(vehicle_color) as vehicle_color,
+                        location, loc_id, insurance
                     FROM repairs
-                    WHERE Technician > '' $loc_condition
-                    ORDER BY Technician, PartsReceived DESC
+                    WHERE technician > '' $loc_condition
+                    ORDER BY technician, parts_received DESC
                 strSQL;
 
         try{
@@ -140,11 +145,11 @@
 
             while($r = mysqli_fetch_assoc($s)){
 
-                if ($r["Technician"] !== $tech){
+                if ($r["technician"] !== $tech){
                     if ($tech !== ''){
                         array_push($repairs, $repair);
                     }
-                    $tech = $r["Technician"];
+                    $tech = $r["technician"];
                     $repair = new Technician_Repairs($r);
                 }
 

@@ -64,7 +64,7 @@ function ProcessDELETE(){
     $locID  = $_GET["locID"];
 
     $tsql = <<<strSQL
-        DELETE FROM Tech_Car_Priority
+        DELETE FROM tech_car_priority
         WHERE   RO_Num = $ro AND
                 Technician = '$tech' AND
                 LocationID = $locID
@@ -92,7 +92,7 @@ function ProcessGET(){
 
     $sql = <<<strSQL
                 SELECT RO_Num, LocationID, Priority, Dept_Code, Technician
-                FROM Tech_Car_Priority
+                FROM tech_car_priority
             strSQL;
 
     try{
@@ -127,7 +127,7 @@ function ProcessPOST($car){
 
     $tsql = <<<strSQL
 
-        INSERT INTO Tech_Car_Priority
+        INSERT INTO tech_car_priority
             (Technician, RO_Num, Priority, LocationID, Dept_Code)
         VALUES
             ('$car->technician', $car->roNum, $car->priority, $car->locationID, '$car->deptCode');
