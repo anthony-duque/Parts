@@ -122,14 +122,14 @@
         $repairs = [];
 
         if ($locID > 0){
-            $loc_condition = " AND Loc_ID = $locID ";
+            $loc_condition = " AND loc_id = $locID ";
         } else {
             $loc_condition = " ";
         }
 
         $sql = <<<strSQL
                     SELECT SUBSTRING_INDEX(technician, ' ', 1) AS technician,
-                        RONum, SUBSTRING_INDEX(owner, ',', 1) AS owner,
+                        ro_num, SUBSTRING_INDEX(owner, ',', 1) AS owner,
                         vehicle, estimator, scheduled_out,
                         LOWER(vehicle_color) as vehicle_color,
                         location, loc_id, insurance
