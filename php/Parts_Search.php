@@ -63,7 +63,7 @@ require('Utility_Scripts.php');
                       r.vehicle_in, r.current_phase, SUBSTRING_INDEX(r.owner, ',', 1) AS owner
 
                 FROM parts_status pse INNER JOIN repairs r
-                    ON pse.ro_num = r.roNum AND pse.loc_id = r.Loc_ID
+                    ON pse.ro_num = r.ro_num AND pse.loc_id = r.loc_id
 
                 WHERE (pse.line > 0) AND (pse.part_number > '' OR pse.vendor_name > '')
                     AND pse.vendor_name NOT IN ('**in-house', 'Airtight Auto Glass', '*in House Stock',
