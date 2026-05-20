@@ -16,14 +16,15 @@ require('db_open.php');
     $sql = <<<strSQL
 
             SELECT DISTINCT
-                SUBSTRING_INDEX(estimator, ' ', 1),
+
+                SUBSTRING_INDEX(estimator, ' ', 1) AS estimator,
                 loc_id
 
             FROM repairs
 
-            WHERE Estimator > ''
+            WHERE estimator > ''
 
-            ORDER BY Estimator ASC
+            ORDER BY estimator ASC
         strSQL;
 
     try{

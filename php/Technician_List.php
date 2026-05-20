@@ -8,18 +8,24 @@ require('db_open.php');
         public $locID;
 
         function __construct($rec){
-            $this->name    = $rec["Technician"];
-            $this->locID   = $rec["Loc_ID"];
+            $this->name    = $rec["technician"];
+            $this->locID   = $rec["loc_id"];
         }
     }   // Estimator{}
 
     $sql = <<<strSQL
+
             SELECT DISTINCT
-                SUBSTRING_INDEX(Technician, ' ', 1) AS Technician,
-                Loc_ID
+
+                SUBSTRING_INDEX(technician, ' ', 1) AS technician,
+                loc_id
+
             FROM repairs
-            WHERE Technician > '' AND RONum <> 1004
-            ORDER BY Technician ASC
+            
+            WHERE technician > ''
+            
+            ORDER BY technician ASC
+
         strSQL;
 
     try{
@@ -33,7 +39,7 @@ require('db_open.php');
 
     } catch(Exception $e){
 
-        echo "Fetching Technicia List failed." . $e->getMessage();
+        echo "Fetching Technician List failed." . $e->getMessage();
 
     } finally {
 

@@ -77,28 +77,27 @@ require('db_open.php');
 
     $sql = <<<strSQL
 
-            SELECT pse.vendor_name, r.loc_id, li.Location, r.Estimator,
-                r.RONum, r.Vehicle, r.Owner, r.Vehicle_In, r.current_phase,
+            SELECT pse.vendor_name, r.loc_id, li.location, r.estimator,
+                r.ro_num, r.vehicle, r.owner, r.vehicle_in, r.current_phase,
             	pse.part_number, pse.part_description, pse.part_type,
                 pse.ro_qty,	pse.ordered_qty, pse.order_date, pse.part_status,
                 v.phone_number, v.email, siv.VIN, pse.expected_delivery, pse.line
             FROM repairs r INNER JOIN parts_status pse
-               		ON r.RONum = pse.ro_num AND r.Loc_ID = pse.loc_id
+               		ON r.ro_num = pse.ro_num AND r.loc_id = pse.loc_id
                 LEFT JOIN scheduled_in_vin siv
-                    ON r.RONum = siv.ro_num AND r.Loc_ID = siv.loc_id
+                    ON r.ro_num = siv.ro_num AND r.loc_id = siv.loc_id
                INNER JOIN location_ids li
-               		ON r.Loc_ID = li.id
+               		ON r.loc_id = li.id
                LEFT JOIN vendors v
-               		ON pse.vendor_name = v.name AND r.Loc_ID = v.location_ID
+               		ON pse.vendor_name = v.name AND r.loc_id = v.location_id
             WHERE
-                TRIM(r.Estimator) > '' AND
-                r.RONum <> 1004 AND
+                TRIM(r.estimator) > '' AND
                 pse.line > 0 AND 
                 LENGTH(pse.part_number) > 0 AND
                 TRIM(pse.vendor_name) NOT LIKE '*%IN%HOUSE%' AND
                 pse.part_type NOT IN ('Sublet', 'FIX ME', 'Stock', 'Glass', 'Re-Manufactured') AND
                 pse.part_status IN ('NOT_ORDERED', 'ORDERED')
-            ORDER BY pse.vendor_name,r.Loc_ID, r.Estimator, r.RONum;
+            ORDER BY pse.vendor_name,r.loc_id, r.estimator, r.ro_num;
 
         strSQL;
 
@@ -121,11 +120,11 @@ require('db_open.php');
                 // for the same vendor last read
             if (($vendorName == $r["vendor_name"]) && ($locID == $r["loc_id"])){
 
-                if ($roNum != $r["RONum"]){
+                if ($roNum != $r["ro_num"]){
 
                     array_push($vendor->cars, $car);    // push the car from previous RO
 
-                    $roNum      = $r["RONum"];  // the new RO
+                    $roNum      = $r["ro_num"];  // the new RO
                     $car        = new Car($r);  // a new entry in the cars
 
                 }// if ($roNum...)
@@ -148,7 +147,7 @@ require('db_open.php');
 
                 $vendor     = new Vendor($r);   // create a new vendor
                                                 // when it's different from the last one
-                $roNum      = $r["RONum"];
+                $roNum      = $r["ro_num"];
                 $car        = new Car($r);      // create a new car
 
             }   // if (($vendorName...))-else
