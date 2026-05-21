@@ -45,11 +45,11 @@ class PriorityCar{
     public $technician;
 
     function __construct($rec){
-        $this->roNum        = $rec["RO_Num"];
-        $this->locID        = $rec["LocationID"];
-        $this->priority     = $rec["Priority"];
-        $this->deptCode     = $rec["Dept_Code"];
-        $this->technician   = $rec["Dept_Code"];
+        $this->roNum        = $rec["ro_num"];
+        $this->locID        = $rec["location_id"];
+        $this->priority     = $rec["priority"];
+        $this->deptCode     = $rec["dept_code"];
+        $this->technician   = $rec["technician"];
     }   // construct()
 
 }   // PriorityCar{}
@@ -65,9 +65,9 @@ function ProcessDELETE(){
 
     $tsql = <<<strSQL
         DELETE FROM tech_car_priority
-        WHERE   RO_Num = $ro AND
-                Technician = '$tech' AND
-                LocationID = $locID
+        WHERE   ro_num = $ro AND
+                technician = '$tech' AND
+                location_id = $locID
     strSQL;
 
     try{
@@ -91,7 +91,7 @@ function ProcessGET(){
     require 'db_open.php';
 
     $sql = <<<strSQL
-                SELECT RO_Num, LocationID, Priority, Dept_Code, Technician
+                SELECT ro_num, location_id, priority, dept_code, technician
                 FROM tech_car_priority
             strSQL;
 
@@ -128,7 +128,7 @@ function ProcessPOST($car){
     $tsql = <<<strSQL
 
         INSERT INTO tech_car_priority
-            (Technician, RO_Num, Priority, LocationID, Dept_Code)
+            (technician, ro_num, priority, location_id, dept_code)
         VALUES
             ('$car->technician', $car->roNum, $car->priority, $car->locationID, '$car->deptCode');
     strSQL;
