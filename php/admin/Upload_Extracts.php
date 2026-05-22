@@ -30,6 +30,7 @@ try{
     }
 } catch(Exception $e){
     echo "There was an error uploading the " . basename($_FILES["DailyOutCSV"]["name"]);
+    echo "<br/>Error details: " . $e->getMessage();
  //   header("Location: ../Upload_Extracts.html");
 }
 
@@ -56,7 +57,7 @@ $tsql = "UPDATE location_ids " .
 
 if ($conn->query($tsql) === TRUE) {
 
-    $tsql = "CALL spUpdateLocationIDs()";
+    $tsql = "CALL sp_Update_Location_IDs()";
 
     if ($conn->query($tsql) === TRUE) {
       Create_Labels_File(); //echo $ro_num . " uploaded<br/>";

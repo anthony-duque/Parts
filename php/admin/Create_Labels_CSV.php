@@ -13,12 +13,12 @@ function Create_Labels_File(){
 
     $tsql = <<<strSQL
                 SELECT
-                    RONum, Location,
-                    SUBSTRING_INDEX(Estimator, ' ', 1) AS Estimator,
-                    SUBSTRING_INDEX(Owner, ',', 1) AS Owner,
-                    Vehicle, LCASE(Vehicle_Color) AS Vehicle_Color,
-                    SUBSTRING_INDEX(Technician, ' ', 1) AS Technician,
-                    DATE_FORMAT(Vehicle_In, "%M %d %Y") AS Vehicle_In
+                    ro_num, location,
+                    SUBSTRING_INDEX(estimator, ' ', 1) AS estimator,
+                    SUBSTRING_INDEX(owner, ',', 1) AS owner,
+                    vehicle, LCASE(vehicle_color) AS vehicle_color,
+                    SUBSTRING_INDEX(technician, ' ', 1) AS technician,
+                    DATE_FORMAT(vehicle_in, "%M %d %Y") AS vehicle_in
                 FROM repairs
             strSQL;
 
@@ -28,15 +28,15 @@ function Create_Labels_File(){
 
     while($rec = mysqli_fetch_assoc($s)){
 
-        if ($rec["Vehicle"] > ''){
-            $vehicle        = explode(" ", $rec["Vehicle"]);
-            $rec["Vehicle"]   = $vehicle[1] . " " . $vehicle[2];
-            $rec["Vehicle"]   = toProperCase($rec["Vehicle"]);
+        if ($rec["vehicle"] > ''){
+            $vehicle        = explode(" ", $rec["vehicle"]);
+            $rec["vehicle"]   = $vehicle[1] . " " . $vehicle[2];
+            $rec["vehicle"]   = toProperCase($rec["vehicle"]);
         }
 
-        $rec["Technician"]  = toProperCase($rec["Technician"]);
-        $rec["Estimator"]     = toProperCase($rec["Estimator"]);
-        $rec["Owner"]  = toProperCase($rec["Owner"]);
+        $rec["technician"]  = toProperCase($rec["technician"]);
+        $rec["estimator"]     = toProperCase($rec["estimator"]);
+        $rec["owner"]  = toProperCase($rec["owner"]);
 
         fputcsv($csvFile, $rec);
     //    array_push($this->cars, new Car($conn, $r));

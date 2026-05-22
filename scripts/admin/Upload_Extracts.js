@@ -14,7 +14,7 @@ var csvUploadCtrlr = function($scope, $cookies, $filter){
 
     } else {
 
-        window.location.href = './Login.html';
+        window.location.href = '../Login.html';
     
     }   // 
 
