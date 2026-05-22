@@ -65,21 +65,21 @@ require('Utility_Scripts.php');
 
         function __construct($rec){
 
-            $this->line_num             = $rec["Line"];
-            $this->part_number          = $rec["Part_Number"];
-            $this->part_description     = $rec["Part_Description"];
+            $this->line_num             = $rec["line"];
+            $this->part_number          = $rec["part_number"];
+            $this->part_description     = $rec["part_description"];
 
-            $this->vendor_name          = strtolower($rec["Vendor_Name"]);
+            $this->vendor_name          = strtolower($rec["vendor_name"]);
             $this->vendor_name          =  ucwords($this->vendor_name);
 
-            $this->ro_quantity          = $rec["RO_Qty"];
-            $this->ordered_quantity     = $rec["Ordered_Qty"];
-            $this->order_date           = GetDisplayDate($rec["Order_Date"]);
-            $this->received_quantity    = $rec["Received_Qty"];
-            $this->invoice_date         = GetDisplayDate($rec["Invoice_Date"]);
-            $this->returned_quantity    = $rec["Returned_Qty"];
-            $this->expected_delivery    = GetDisplayDate($rec["Expected_Delivery"]);
-            $this->part_status          = $rec["Part_Status"];
+            $this->ro_quantity          = $rec["ro_qty"];
+            $this->ordered_quantity     = $rec["ordered_qty"];
+            $this->order_date           = GetDisplayDate($rec["order_date"]);
+            $this->received_quantity    = $rec["received_qty"];
+            $this->invoice_date         = GetDisplayDate($rec["invoice_date"]);
+            $this->returned_quantity    = $rec["returned_qty"];
+            $this->expected_delivery    = GetDisplayDate($rec["expected_delivery"]);
+            $this->part_status          = $rec["part_status"];
 
         }   // Part()
     }   // Part{}
@@ -92,9 +92,9 @@ require('Utility_Scripts.php');
         public $received_quantity;
 
         function __construct($rec){
-            $this->part_description     = $rec["Part_Description"];
-            $this->vendor_name          = $rec["Vendor_Name"];
-            $this->received_quantity    = $rec["Received_Qty"];
+            $this->part_description     = $rec["part_description"];
+            $this->vendor_name          = $rec["vendor_name"];
+            $this->received_quantity    = $rec["received_qty"];
         }
     }   // Sublet{}
 
