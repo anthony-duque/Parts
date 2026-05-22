@@ -37,9 +37,9 @@ function Upload_Daily_Out_CSV($daily_out_extract_file){
 
 	$tsql = <<<strSQL
 			INSERT INTO repairs
-         		(RONum, Owner, Vehicle, Vehicle_Color, License_Plate,
-                PartsReceived, Vehicle_In, CurrentPhase, Scheduled_Out,
-                Technician, Estimator, Location, Insurance)
+         		(ro_num, owner, vehicle, vehicle_color, license_plate,
+                parts_received, vehicle_in, current_phase, scheduled_out,
+                technician, estimator, location, insurance)
 	        VALUES
 strSQL;
 
