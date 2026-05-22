@@ -30,7 +30,7 @@ function GetShopLocations($dbConn){
 
         function __construct($rec){
             $this->id = $rec["id"];
-            $this->location = $rec["Location"];
+            $this->location = $rec["location"];
         }
     }
 
@@ -38,7 +38,7 @@ function GetShopLocations($dbConn){
 
     try{
 
-        $sql = "SELECT id, Location FROM location_ids";
+        $sql = "SELECT id, location FROM location_ids";
         $s = mysqli_query($dbConn, $sql);
 
         while($r = mysqli_fetch_assoc($s)){
