@@ -4,19 +4,6 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-function deleteCookie($name) {
-
-    unset($_COOKIE[$name]);
-
-    setcookie($name, "", [
-        'expires' => time() + (60 * 60 * 8),  // = 8 Hours
-        'path' => '/',
-        'secure' => true    // only send cookie over secure connections
-//                'httponly' => true, 
-//                'samesite' => 'Strict'
-    ]);
-
-}   // deleteCookie()
 
 ////////////////////////////////////
 
@@ -25,7 +12,6 @@ $method = $_SERVER['REQUEST_METHOD'];
 switch($method){
 
     case 'POST': // logout
-        deleteCookie("locationID");
         break;
 
     default:     // login is always GET
@@ -36,7 +22,7 @@ switch($method){
 ////////////////////////////////////
 
 
-function storeIDsinCookie($companyCode, $dbConn){
+function Get_Shop_IDs($companyCode, $dbConn){
 
     $sql = <<<strSQL
                 SELECT
@@ -45,6 +31,8 @@ function storeIDsinCookie($companyCode, $dbConn){
                     ON cs.location_code = s.location_code
                 WHERE cs.company_code = '$companyCode';
             strSQL;
+
+    $retValue = "";
 
     try{
 
@@ -59,31 +47,36 @@ function storeIDsinCookie($companyCode, $dbConn){
                 $locIDs[] = $r["id"];
             }
 
-            setcookie("locationID", implode(',', $locIDs), [
-                'expires' => time() + (60 * 60 * 8),  // = 8 Hours
-                'path' => '/',
-                'secure' => true    // only send cookie over secure connections
-//                'httponly' => true,
-//                'samesite' => 'Strict'
-            ]);
+            $retValue = implode(',', $locIDs);
 
         } else {
 
-            echo "No shops associated with $companyCode.";
+            $retValue = "ERROR: No shops associated with $companyCode.";
 
-        }
+        }   // if (isset($s))
+
     } catch(Exception $e){
 
-        echo "Login failed." . $e->getMessage();
+        $retValue = "ERROR: Login failed." . $e->getMessage();
 
     } finally {
+
         $dbConn = null;
+
+        return $retValue;
+
     }   // try-catch{}
 
-}   // storeIDsinCookie()
+}   // Get_Shop_IDs()
 
 
 function Login(){
+
+    $loginResult = array(
+        "success" => false,
+        "message" => "",
+        "locationIDs" => ""
+    );
 
     require('db_open.php');
 
@@ -105,7 +98,7 @@ function Login(){
 
         if (!isset($r)){
 
-            echo "Incorrect username or password.";
+            $loginResult["message"] = "ERROR: Incorrect username or password.";
 
         } else {
                 // Account found, check if active
@@ -115,30 +108,41 @@ function Login(){
                     // Login failed.  Account expired.
                 if ($r["active_end_date"] < date("Y-m-d")){ 
 
-                    echo "Account expired.";
+                    $loginResult["message"] = "ERROR: Account expired.";
 
                 } else {    // Login successful, store ID in cookie
 
-                    storeIDsinCookie($username, $conn);
-                    echo "true";
-                
-                }
-            } else{ // Login failed.  Wrong username or password.
+                    $shopIDs = Get_Shop_IDs($username, $conn);
 
-                echo "Account not found.";
+                    if (str_starts_with($shopIDs, "ERROR:")){  // No shops associated with company
+
+                        $loginResult["message"] = $shopIDs;
+
+                    } else {
+
+                        $loginResult["locationIDs"] = $shopIDs;
+                        $loginResult["success"] = true;
+                        $loginResult["message"] = "Login successful!";
+                    
+                    }   // if (str_starts_with($shopIDs, "ERROR:"))
+                
+                }   // if ($r["active_end_date"] < date("Y-m-d"))
+
+            } else { // Login failed.  Wrong username or password.
+
+                $loginResult["message"] = "ERROR: Account '$username' not found.";
 
             }  // if(isset($r))
-
-//            echo json_encode($loginSuccessful);
         }
 
     } catch(Exception $e){
 
-        echo "Fetching Login failed." . $e->getMessage();
+        $loginResult["message"] = "ERROR: Login failed.(" . $e->getMessage() . ")";
 
     } finally {
 
         $conn = null;
+        echo json_encode($loginResult);
 
     }   // try-catch{}
 
