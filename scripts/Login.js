@@ -14,11 +14,13 @@ function loginController($scope, $http, $window) {
 
                 if ($scope.loginResult.success === true){   // company has an account
 
-                    if ($scope.loginResult.locationIDs) {   // company has shops associated with the account
+                    $window.sessionStorage.setItem('companyID', username);
+
+                    if ($scope.loginResult.locationIDs.length > 0) {   // company has shops associated with the account
 
                             // store locationIDs in session storage for use in other pages
                         $window.sessionStorage.setItem('locationIDs', 
-                                JSON.stringify($scope.loginResult.locationIDs));
+                                $scope.loginResult.locationIDs);   // convert array of location IDs to comma-separated string
                         
                         $window.location.href = '../index.html';
 
