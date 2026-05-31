@@ -1,22 +1,35 @@
-var app = angular.module("PartsApp", ['ngCookies', 'ngRoute']);
+var app = angular.module("PartsApp", ['ngRoute']);
 
-var mainController = function($scope, $http, $cookies, utility){
+var mainController = function($scope, $http, $window, utility){
 
     $scope.todaysDate = new Date().toLocaleDateString();
     $scope.locationID = '';
 
-    if ($cookies.get('locationID') > ''){
+    $scope.locationIDs = $window.sessionStorage.getItem('locationIDs');
+    $scope.companyID = $window.sessionStorage.getItem('companyID');
 
-        var loc_IDs = $cookies.get('locationID').split(',');  // split comma-separated location IDs into array
-        $scope.locationID = loc_IDs[0];                       // use first location ID as default (if multiple)
+    if ($scope.companyID === null || $scope.companyID === undefined){
 
-    } else {
+        $window.location.href = './html/Login.html';    
 
-        window.location.href = './html/Login.html';
-    
-    }   // if()
+    } else {    // company is logged in, but check if they have locationIDs stored in session storage
 
-    Get_Shop_Locations();
+        if ($scope.locationIDs > ''){
+
+            var loc_IDs = $scope.locationIDs.split(',');  // split comma-separated location IDs into array
+            $scope.locationID = loc_IDs[0];                       // use first location ID as default (if multiple)
+
+            Get_Shop_Locations();
+        
+        } else {
+
+            alert("No shops are associated with this account. Please upload CSV extracts.");
+            $window.location.href = './html/admin/Admin.html';
+
+        }   // if($scope.locationIDs > '') ... else ...
+
+    }   // if ($scope.companyID === null || $scope.companyID === undefined) ... else ...
+
 
     // To default to a specific shop via the query string, use: index.html?locationID=1 (or 2, 3, etc.)
  /*
@@ -57,19 +70,11 @@ var mainController = function($scope, $http, $cookies, utility){
 
     $scope.Logout = function(){
 
-        $http.post('./php/Login.php')
-        
-            .then(
-                function(response){
-                    console.log("Logged out successfully.");
-                    window.location.href = './html/Login.html';
-                }
-            )
-            .catch(
-                function(response){
-                    console.log("Logout failed.");
-                }
-            );
+        $window.sessionStorage.removeItem('companyID');
+        $window.sessionStorage.removeItem('locationIDs');
+
+        $window.location.href = './html/Login.html';
+
     }   // Logout()
 
 }
