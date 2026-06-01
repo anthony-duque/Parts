@@ -18,12 +18,10 @@
             break;
 */
         case "GET":
+        default:
            $vendors = ProcessGET();
            echo json_encode($vendors);
            break;
-
-        default:
-            break;
     }   // switch()
 
 
@@ -31,6 +29,7 @@
 
         class Vendor{
 
+            public $id;
             public $name;
             public $oem;
             public $phone_number;
@@ -43,6 +42,7 @@
             public $location;
 
             function __construct($rec){
+                $this->id           = $rec["id"];
                 $this->name         = $rec["name"];
                 $this->oem          = $rec["oem"];
                 $this->phone_number = $rec["phone_number"];
@@ -51,7 +51,7 @@
                 $this->state        = $rec["state"];
                 $this->zipcode      = $rec["zipcode"];
                 $this->email        = $rec["email"];
-                $this->location_ID  = $rec["location_ID"];
+                $this->location_ID  = $rec["location_id"];
                 $this->location     = $rec["shop_location"];
             }
         }
@@ -60,9 +60,9 @@
 
         $sql = <<<strSQL
                 SELECT
-                    name, oem, phone_number,
+                    id, name, oem, phone_number,
                     address, city, state, zipcode,
-                    email, location_ID, shop_location
+                    email, location_id, shop_location
                 FROM vendors
                 ORDER BY name
             strSQL;
@@ -76,7 +76,8 @@
 
             while($r = mysqli_fetch_assoc($s)){
                 $eachVendor = new Vendor($r);
-                array_push($vendorList, $eachVendor);
+//                echo "Vendor: " . $eachVendor->name . "<br/>";
+                $vendorList[] = $eachVendor;
             }
 
         } catch(Exception $e){
@@ -84,33 +85,11 @@
             echo "Fetching Vendors failed." . $e->getMessage();
 
         } finally {
-            //echo "reached finally";
+            var_dump($vendorList);
             $conn = null;
             return $vendorList;
         }   // try-catch{}
 
     }   // ProcessGET()
 
-/*
-    function ProcessPOST($delivery){
-
-        require('db_open.php');
-
-        $tsql = "INSERT INTO Deliveries " .
-                "(RONum, Location, Customer, Vehicle, Technician, Vendor, Notes) " .
-                "VALUES ($delivery->RONum, '$delivery->Location', " .
-                         "'$delivery->Customer', '$delivery->Vehicle', " .
-                         "'$delivery->Technician', '$delivery->Vendor', " .
-                         "'$delivery->Notes')";
-       //echo $tsql;
-       try{
-           $result = $conn->query($tsql);
-           echo "New Delivery added successfully!";
-       } catch (PDOException $pe){
-           echo "New Delivery was not added to database." . $pe->getMessage();
-       }
-
-       $conn = null;        // close the database
-   }    // ProcessPOST()
-*/
 ?>

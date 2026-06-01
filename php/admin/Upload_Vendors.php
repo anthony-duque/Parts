@@ -19,7 +19,7 @@ error_reporting(E_ALL);
     const VENDOR_ID     = 12;
     const EMAIL         = 13;
 
-    const TARGET_DIR    = "../extract_files/";  // destination folder on the server
+    const TARGET_DIR    = "../../extract_files/";  // destination folder on the server
     const CSV_FILENAME  = "Vendors.csv";      // Vendors file name
 
     try{
@@ -105,13 +105,14 @@ function Upload_Vendors_Extract($csv_file){
             $tsql = $tsql . $values;
         }   // if-else
     }   // while()
+//    echo $tsql . "<br/><br/>";
 
     fclose($handle);
 
     $tsql = rtrim($tsql, ',');
     $tsql = $tsql . ';';
 
-    require('db_open.php');
+    require('../db_open.php');
 
     $sql = "DELETE FROM vendors";
 
