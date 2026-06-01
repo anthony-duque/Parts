@@ -85,7 +85,7 @@
             echo "Fetching Vendors failed." . $e->getMessage();
 
         } finally {
-            var_dump($vendorList);
+//            var_dump($vendorList);
             $conn = null;
             return $vendorList;
         }   // try-catch{}
