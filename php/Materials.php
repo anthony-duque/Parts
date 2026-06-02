@@ -22,7 +22,7 @@
 
        case "GET":
           $materialsList = ProcessGET();
-          echo json_encode($materialsList);
+          echo json_encode($materialsList, JSON_INVALID_UTF8_SUBSTITUTE);
           break;
 
        case "DELETE":

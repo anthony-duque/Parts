@@ -20,41 +20,49 @@
         case "GET":
         default:
            $vendors = ProcessGET();
-           echo json_encode($vendors);
+//           print_r($vendors);
+
+           if (json_encode($vendors) === null){
+               echo "JSON error: " . json_last_error_msg();
+           } else {
+               echo json_encode($vendors, JSON_INVALID_UTF8_SUBSTITUTE);
+           }
+
            break;
     }   // switch()
 
 
+    class Vendor{
+
+        public $id;
+        public $name;
+        public $oem;
+        public $phone_number;
+        public $address;
+        public $city;
+        public $state;
+        public $zipcode;
+        public $email;
+        public $location_ID;
+        public $location;
+
+        function __construct($rec){
+            $this->id           = $rec["id"];
+            $this->name         = $rec["name"];
+            $this->oem          = $rec["oem"];
+            $this->phone_number = $rec["phone_number"];
+            $this->address      = $rec["address"];
+            $this->city         = $rec["city"];
+            $this->state        = $rec["state"];
+            $this->zipcode      = $rec["zipcode"];
+            $this->email        = $rec["email"];
+            $this->location_ID  = $rec["location_id"];
+            $this->location     = $rec["shop_location"];
+        }
+    }
+
     function ProcessGET(){
 
-        class Vendor{
-
-            public $id;
-            public $name;
-            public $oem;
-            public $phone_number;
-            public $address;
-            public $city;
-            public $state;
-            public $zipcode;
-            public $email;
-            public $location_ID;
-            public $location;
-
-            function __construct($rec){
-                $this->id           = $rec["id"];
-                $this->name         = $rec["name"];
-                $this->oem          = $rec["oem"];
-                $this->phone_number = $rec["phone_number"];
-                $this->address      = $rec["address"];
-                $this->city         = $rec["city"];
-                $this->state        = $rec["state"];
-                $this->zipcode      = $rec["zipcode"];
-                $this->email        = $rec["email"];
-                $this->location_ID  = $rec["location_id"];
-                $this->location     = $rec["shop_location"];
-            }
-        }
 
         require('db_open.php');
 
@@ -76,7 +84,6 @@
 
             while($r = mysqli_fetch_assoc($s)){
                 $eachVendor = new Vendor($r);
-//                echo "Vendor: " . $eachVendor->name . "<br/>";
                 $vendorList[] = $eachVendor;
             }
 
@@ -90,6 +97,6 @@
             return $vendorList;
         }   // try-catch{}
 
-    }   // ProcessGET()
 
+    }   // ProcessGET()
 ?>
