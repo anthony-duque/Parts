@@ -18,20 +18,12 @@ var sampleCtlr = function($scope, $http){
             'Caliber Collision 3'
         ];
 
-    class Shop {
-        
-        constructor(dbIndex) {
-            this.dbIndex = dbIndex;
-                // If the shop from the database matches a shop from the CSV, set csvIndex to the index of that shop in csv_shops; otherwise, set it to null
-            this.csvIndex = $scope.csv_shops.indexOf($scope.db_shops[dbIndex]);
-        }
-    };
 
     $scope.shopList = [];  // Initialize shopList as an empty array]
 
     $scope.db_shops.forEach((dbShop, dbIndex) => {
 
-        $scope.shopList[dbIndex] = new Shop(dbIndex);  // Initialize each index of shopList with a new Shop instance
+        $scope.shopList[dbIndex] = $scope.csv_shops.indexOf(dbShop);  // Initialize each index of shopList with a new Shop instance
  
     });
 
@@ -40,9 +32,9 @@ var sampleCtlr = function($scope, $http){
 
         $scope.shopList.forEach((shop, i, shopList) => {
 
-            if (i !== dbShopIndex && parseInt(shop.csvIndex) === parseInt(csvShopIndex)) {
+            if (i !== dbShopIndex && parseInt(shop) === parseInt(csvShopIndex)) {
                   // If the same shop is selected in both groups, uncheck it in the other group
-                shopList[i].csvIndex = null;  // Uncheck the shop in the other group
+                shopList[i] = -1;  // Uncheck the shop in the other group
             }
         });
     };
