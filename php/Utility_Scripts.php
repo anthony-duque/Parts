@@ -138,6 +138,7 @@ function toProperCase($str){
 
 }	// toProperCase()
 
+
 function GetDisplayDate($dateStr){
 
 	$displayDate = '';
@@ -237,5 +238,18 @@ function Get_Upload_Time(){
 		return $last_upload_date;
 	}   // class{}
 }	// Get_Upload_Time()
+
+
+function Get_Quantity($data){
+
+	$quantity = 0;
+
+	if (strlen($data) > 0){
+		$quantity = str_replace(",", "", $data);
+	}
+
+	return $quantity;
+}	// Get_Quantity()
+
 
 ?>
