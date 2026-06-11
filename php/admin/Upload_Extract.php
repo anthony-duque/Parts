@@ -18,9 +18,15 @@ try{
 
     if ($upload_OK){
 
-        Process_Extract($extractFile, $companyID);
-        echo "<br/> Extract upload successful!";
-    }
+        if (Process_Extract($extractFile, $companyID) == true) {
+            echo "<br/> Extract upload successful!";
+        } else {
+            echo "<br/>Error occurred while processing the extract file.";
+        }
+        
+    } else {
+        echo "<br/>Error uploading the file. Please try again.";
+    }   // 
 
 } catch(Exception $e){
 
