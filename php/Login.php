@@ -75,7 +75,8 @@ function Login(){
     $loginResult = array(
         "success" => false,
         "message" => "",
-        "locationIDs" => ""
+        "locationIDs" => "",
+        "companyID" => null
     );
 
     require('db_open.php');
@@ -85,7 +86,7 @@ function Login(){
 
     $sql = <<<strSQL
                 SELECT
-                    active_end_date
+                    id, active_end_date
                 FROM companies
                 WHERE company_code = '$username' 
                     AND pass_code = '$password';
@@ -123,7 +124,8 @@ function Login(){
                         $loginResult["locationIDs"] = $shopIDs;
                         $loginResult["success"] = true;
                         $loginResult["message"] = "Login successful!";
-                    
+                        $loginResult["companyID"] = $r["id"];
+
                     }   // if (str_starts_with($shopIDs, "ERROR:"))
                 
                 }   // if ($r["active_end_date"] < date("Y-m-d"))
