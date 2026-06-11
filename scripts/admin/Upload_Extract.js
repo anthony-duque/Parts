@@ -1,6 +1,6 @@
 var app = angular.module("csvUploadApp", []);
 
-var csvUploadCtrlr = function($scope, $window, $filter){
+var csvUploadCtrlr = function($scope, $window, $filter, $http, $sce) {
 
     const currDateTime = new Date();
 
@@ -23,6 +23,13 @@ var csvUploadCtrlr = function($scope, $window, $filter){
         window.location.href = '../Login.html';
     
     }   // if ($scope.locationIDs > '')
+
+    $scope.getFormAction = function() {
+
+        var url = "../../php/admin/Upload_Extract.php?companyID=" + $scope.companyID;
+        return $sce.trustAsResourceUrl(url);
+    }
+
 }
 
 app.controller("csvUploadController", csvUploadCtrlr);
