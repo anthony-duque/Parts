@@ -34,6 +34,8 @@ require('../Utility_Scripts.php');
 
 function Process_Extract($extract_file, $companyID){
 
+    $uploadSuccessful = true;   // flag to track upload success
+
     // Open the extract file for reading
     if (($handle = fopen($extract_file, "r")) === FALSE) {
         echo "Error in opening " . $extract_file;
@@ -149,13 +151,15 @@ strSQL;
     $values = rtrim($values, ",");   // remove trailing comma
     $insert_sql .= $values;
 
-    echo $insert_sql . '<br/><br/>';
+  //  echo $insert_sql . '<br/><br/>';
 
     require('../db_open.php');
 
         // Delete all records from the Extract table for the company ID.
     $tsql = "DELETE FROM extract_file_dump " . 
-            "WHERE companyID = $companyID";
+            "WHERE company_id = $companyID";
+
+    try{
 
     if ($conn->query($tsql) === TRUE) {
         echo "<br/><br/>Extract records for $companyID deleted.<br/>";

@@ -19,11 +19,23 @@ try{
 
     if ($upload_OK){
 
+<<<<<<< HEAD
         $shop_names = Process_Extract($extractFile, $companyID);
         echo "<br/> Extract upload successful!";
 
         Check_For_New_Shops($shop_names, $companyID);
     }
+=======
+        if (Process_Extract($extractFile, $companyID) == true) {
+            echo "<br/> Extract upload successful!";
+        } else {
+            echo "<br/>Error occurred while processing the extract file.";
+        }
+        
+    } else {
+        echo "<br/>Error uploading the file. Please try again.";
+    }   // 
+>>>>>>> 7f9728f3c45004f9e42f758bd172aa90d048e283
 
 } catch(Exception $e){
 
