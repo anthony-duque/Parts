@@ -54,6 +54,7 @@ strSQL;
 
     $row    = 0;  // record counter
     $values = '';
+    $unique_shop_names = [];   // array to hold unique shop names for the company ID
 
     while (($data = fgetcsv($handle, 500, ",")) !== FALSE){
 
@@ -67,6 +68,11 @@ strSQL;
             $shop_id        = "'" . $data[SHOP_ID] . "'";
 
             $shop_name      = "'" . $data[SHOP_NAME] . "'";
+
+                // Add shop name to array of unique shop names if it is not already in the array
+            if (in_array($data[SHOP_NAME], $unique_shop_names) == false){ {
+                $unique_shop_names[] = $data[SHOP_NAME];
+            }
 
             $ro_num         = "'" . $data[RO_NUM] . "'";
 
@@ -155,7 +161,6 @@ strSQL;
         echo "<br/><br/>Extract records for $companyID deleted.<br/>";
     } else {
       echo "Error: " . $tsql . "<br> - " . $conn->error;
-      exit;
     }
 
         // Insert the new records from the extract file.
@@ -163,7 +168,8 @@ strSQL;
         echo "<br/><br/>Extract records for $companyID inserted successfully.<br/>";
     } else {
       echo "Error: " . $insert_sql . "<br> - " . $conn->error;
-      exit;
     }
+
+    return $unique_shop_names;
 }
 ?>
