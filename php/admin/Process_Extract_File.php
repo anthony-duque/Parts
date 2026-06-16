@@ -32,6 +32,81 @@ const RETURNED_QTY  = 28;
 
 require('../Utility_Scripts.php');
 
+function Form_Value_String($data, $companyID){
+
+    $shop_id        = "'" . $data[SHOP_ID] . "'";
+
+    $shop_name      = "'" . $data[SHOP_NAME] . "'";
+
+    $ro_num         = "'" . $data[RO_NUM] . "'";
+
+    $estimator      = "'" . Cleanup_Text($data[ESTIMATOR]) . "'";
+
+    $technician     = "'" . Cleanup_Text($data[TECHNICIAN]) . "'";
+
+    $owner          = "'" . Cleanup_Text($data[OWNER]) . "'";
+
+    $vehicle_color  = "'" . $data[VEHICLE_COLOR] . "'";
+
+    $license_plate  = "'" . $data[LICENSE_PLATE] . "'";
+
+    $vin            = "'" . $data[VIN] . "'";
+
+    $vehicle_year   = $data[VEHICLE_YEAR];
+
+    $vehicle_make   = "'" . $data[VEHICLE_MAKE] . "'";
+
+    $vehicle_model  = "'" . $data[VEHICLE_MODEL] . "'";
+
+    $current_phase  = "'" . $data[CURRENT_PHASE] . "'";
+
+    $date_in        = Get_SQL_date($data[DATE_IN]);
+
+    $target_date    = Get_SQL_date($data[TARGET_DATE]);
+
+    $line_no        = $data[LINE_NO];
+
+    $op_code        = "'" . $data[OP_CODE] . "'";
+
+    $part_desc      = "'" . Cleanup_Text($data[PART_DESC]) . "'";
+
+    $part_no        = "'" . Cleanup_Text($data[PART_NO]) . "'";
+
+    $part_type      = "'" . $data[PART_TYPE]. "'";
+
+    $part_status    = $data[PART_STATUS];
+
+    $vendor_name    = "'" . Cleanup_Text($data[VENDOR_NAME]) . "'";
+
+    $part_price     = Get_Quantity(str_replace("$", "", $data[PART_PRICE]));
+
+    $ro_qty         = Get_Quantity($data[RO_QTY]);
+
+    $order_date     = Get_SQL_date($data[ORDER_DATE]);
+
+    $ordered_qty    = Get_Quantity($data[ORDERED_QTY]);
+
+    $received_qty   = Get_Quantity($data[RECEIVED_QTY]);
+
+    $received_date  = Get_SQL_date($data[RECEIVED_DATE]);
+
+    $returned_qty   = Get_Quantity($data[RETURNED_QTY]);
+
+    return "(" . $shop_id . ", " . $shop_name . ", " . $ro_num . ", " .
+                $estimator . ", " . $technician . ", " . $owner . ", " .
+                $vehicle_color . ", " . $license_plate . ", " . $vin . ", " .
+                $vehicle_year . ", " . $vehicle_make . ", " . $vehicle_model . ", " .
+                $current_phase . ", " . $date_in . ", " . $target_date . ", " .
+                $line_no . ", " . $op_code. ", " . $part_desc. ", " .
+                $part_no. ", " . $part_type. ", '" .$part_status. "', ".
+                $vendor_name. ", ". $part_price. ", ". $ro_qty. ", ".
+                $order_date. ", ". $ordered_qty. ", ". $received_qty. ", ".
+                $received_date. ", ". $returned_qty . "," .
+                $companyID . "),";
+
+}   // Form_Value_String($data, $companyID)
+
+
 function Process_Extract($extract_file, $companyID){
 
     $uploadSuccessful = true;   // flag to track upload success
@@ -67,81 +142,13 @@ strSQL;
 
         } else {
 
-            $shop_id        = "'" . $data[SHOP_ID] . "'";
-
-            $shop_name      = "'" . $data[SHOP_NAME] . "'";
+            $values .= Form_Value_String($data, $companyID);
 
                 // Add shop name to array of unique shop names if it is not already in the array
-            if (in_array($data[SHOP_NAME], $unique_shop_names) == false){ {
+            if (in_array($data[SHOP_NAME], $unique_shop_names) == false){
                 $unique_shop_names[] = $data[SHOP_NAME];
             }
-
-            $ro_num         = "'" . $data[RO_NUM] . "'";
-
-            $estimator      = "'" . Cleanup_Text($data[ESTIMATOR]) . "'";
-
-            $technician     = "'" . Cleanup_Text($data[TECHNICIAN]) . "'";
-
-            $owner          = "'" . Cleanup_Text($data[OWNER]) . "'";
-
-            $vehicle_color  = "'" . $data[VEHICLE_COLOR] . "'";
-
-            $license_plate  = "'" . $data[LICENSE_PLATE] . "'";
-
-            $vin            = "'" . $data[VIN] . "'";
-
-            $vehicle_year   = $data[VEHICLE_YEAR];
-
-            $vehicle_make   = "'" . $data[VEHICLE_MAKE] . "'";
-
-            $vehicle_model  = "'" . $data[VEHICLE_MODEL] . "'";
-
-            $current_phase  = "'" . $data[CURRENT_PHASE] . "'";
-
-            $date_in        = Get_SQL_date($data[DATE_IN]);
-
-            $target_date    = Get_SQL_date($data[TARGET_DATE]);
-
-            $line_no        = $data[LINE_NO];
-
-            $op_code        = "'" . $data[OP_CODE] . "'";
-
-            $part_desc      = "'" . Cleanup_Text($data[PART_DESC]) . "'";
-
-            $part_no        = "'" . Cleanup_Text($data[PART_NO]) . "'";
-
-            $part_type      = "'" . $data[PART_TYPE]. "'";
-
-            $part_status    = $data[PART_STATUS];
-
-            $vendor_name    = "'" . Cleanup_Text($data[VENDOR_NAME]) . "'";
-
-            $part_price     = Get_Quantity(str_replace("$", "", $data[PART_PRICE]));
-
-            $ro_qty         = Get_Quantity($data[RO_QTY]);
-
-            $order_date     = Get_SQL_date($data[ORDER_DATE]);
-
-            $ordered_qty    = Get_Quantity($data[ORDERED_QTY]);
-
-            $received_qty   = Get_Quantity($data[RECEIVED_QTY]);
-
-            $received_date  = Get_SQL_date($data[RECEIVED_DATE]);
-
-            $returned_qty   = Get_Quantity($data[RETURNED_QTY]);
-
-            $values .= "(" . $shop_id . ", " . $shop_name . ", " . $ro_num . ", " .
-                        $estimator . ", " . $technician . ", " . $owner . ", " .
-                        $vehicle_color . ", " . $license_plate . ", " . $vin . ", " .
-                        $vehicle_year . ", " . $vehicle_make . ", " . $vehicle_model . ", " .
-                        $current_phase . ", " . $date_in . ", " . $target_date . ", " .
-                        $line_no . ", " . $op_code. ", " . $part_desc. ", " .
-                        $part_no. ", " . $part_type. ", '" .$part_status. "', ".
-                        $vendor_name. ", ". $part_price. ", ". $ro_qty. ", ".
-                        $order_date. ", ". $ordered_qty. ", ". $received_qty. ", ".
-                        $received_date. ", ". $returned_qty . "," .
-                        $companyID . "),";
-  
+                        
             ++$row;
 
         }   // if ($row == 0)
@@ -158,8 +165,6 @@ strSQL;
         // Delete all records from the Extract table for the company ID.
     $tsql = "DELETE FROM extract_file_dump " . 
             "WHERE company_id = $companyID";
-
-    try{
 
     if ($conn->query($tsql) === TRUE) {
         echo "<br/><br/>Extract records for $companyID deleted.<br/>";
