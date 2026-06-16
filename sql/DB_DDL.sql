@@ -39,14 +39,6 @@ CREATE TABLE `companies` (
 );
 
 
-CREATE TABLE `company_shop` (
-  `id` smallint unsigned NOT NULL AUTO_INCREMENT,
-  `company_code` varchar(25) NOT NULL,
-  `location_code` varchar(25) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) COMMENT='A table that links which shops belong to which companies.';
-
-
 CREATE TABLE `departments` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `dept_code` varchar(15) NOT NULL,
@@ -81,8 +73,9 @@ CREATE TABLE `Location_Table` (
 
 CREATE TABLE `location_ids` (
   `id` tinyint unsigned NOT NULL AUTO_INCREMENT,
-  `loc_code` varchar(15) NULL,
   `location` varchar(50) DEFAULT NULL,
+  `company_id` smallint unsigned NOT NULL,
+  `last_data_upload` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) COMMENT='Location ID for each shop.';
 

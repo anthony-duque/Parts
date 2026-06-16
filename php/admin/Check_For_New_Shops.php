@@ -28,10 +28,10 @@ Check unique shop names in the upload.
         $existing_shops[] = $row['shop_name'];
     }
 
+            // If there are no existing shops for this company yet
+            // then insert all shop names from the extract file
     if (empty($existing_shops)){
 
-            // No existing shops for this company yet
-            //  so insert all shop names from the extract file
         $insert_sql = "INSERT INTO location_ids " .
                     "(company_id, shop_name) " .
                     "VALUES ";

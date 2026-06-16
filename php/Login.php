@@ -26,10 +26,10 @@ function Get_Shop_IDs($companyCode, $dbConn){
 
     $sql = <<<strSQL
                 SELECT
-                    s.id
-                From company_shop cs INNER JOIN location_ids s
-                    ON cs.location_code = s.location_code
-                WHERE cs.company_code = '$companyCode';
+                    l.id
+                From location_ids l INNER JOIN companies c 
+                    ON l.company_id = c.id
+                WHERE c.company_code = '$companyCode';
             strSQL;
 
     $retValue = "";
