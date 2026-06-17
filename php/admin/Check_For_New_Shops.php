@@ -1,19 +1,22 @@
 <?php
 
-function Check_For_New_Shops($shop_names, $companyID) {
+function All_Shops_Match($shop_names, $companyID) {
 
 /*
 Check unique shop names in the upload.
 
-		- if there is no shop id values in the session variables:
+		- if there are no existing shops for this company yet:
 			-> write the shop names in location_ids table.
 
-		- if there is shop ids in the session variable:
+		- if there are existing shops for this company:
 			-> fetch the shops from the location_ids table
 			-> check these against the shop names found in the extract
 				-> if they match, proceed with load
 				-> if they don't match, have the user map the old shop names with the new ones 
 */
+
+    $all_shops_match = false;
+
     require('../db_open.php');
 
         // Get all the shop names for this company
@@ -47,6 +50,7 @@ Check unique shop names in the upload.
         if (mysqli_query($conn, $insert_sql)) {
 
             echo "Initial shops added.<br/>";
+            $all_shops_match = true;
 
         } else {
 
@@ -59,11 +63,13 @@ Check unique shop names in the upload.
         echo "Existing shops for company ID $companyID: " . implode(", ", $existing_shops) . "<br/>";
         $new_shops = array_diff($shop_names, $existing_shops);
 
-        if (!empty($new_shops)) {
+        if (empty($new_shops)) {
 
-        } else {
-            echo "No new shops to add for company ID: $companyID.<br/>";
-        }   // if (!empty($new_shops)){
+            echo "All shops match for company ID: $companyID.<br/>";
+            $all_shops_match = true;
+        }
+    
+        return $all_shops_match;
 
     }   // if (empty($existing_shops)){
 }

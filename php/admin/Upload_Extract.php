@@ -24,7 +24,16 @@ try{
 
         var_dump($shop_names);
 
-//        Check_For_New_Shops($shop_names, $companyID);
+        if (All_Shops_Match($shop_names, $companyID)) {
+
+            echo "All shops match for company ID: $companyID.<br/>";
+            header("Location: ../../");
+
+        } else {
+
+            echo "Company shop names in the extract file do not match what is in the database for company ID: $companyID. Please review and update the shop names in the location_ids table.<br/>";
+            header("Location: ../../html/admin/Map_Shop_Names.html");
+        }
     }
 
 } catch(Exception $e){

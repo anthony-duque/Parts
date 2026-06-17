@@ -1,0 +1,39 @@
+<html ng-app="Map_Shop_Names_Page">
+
+<head>
+    <title>Sample Page</title>
+    <script src='../../scripts/angularjs.js'></script>
+    <script src='../../scripts/admin/Map_Shop_Names.js'></script>
+    <link rel="stylesheet" href="../styles/Parts.css">
+</head>
+
+<body ng-controller='Map_Shop_Names_Ctrlr'>
+
+    <br/>
+    <form action="../php/Map_Shop_Names.php" method='POST' enctype='multipart/form-data'>
+        <table border=1>
+        <tr ng-repeat='dbShop in shopList'>
+            <td style="padding: 0px 30px 0px 30px;">
+                {{ db_shops[$index] }}
+            </td>
+            <td align='left' style="padding: 0px 40px 15px 0px;" ng-class="(shopList[$index] < 0) ? 'red' : ''">
+                <br/>
+                <ul style="list-style-type: none;">
+                    <li ng-repeat='csvShop in csv_shops'>
+                        <input  type="radio" 
+                                ng-model="shopList[$parent.$index]" 
+                                ng-value='$index'
+                                ng-click="uncheck_shop_in_other_groups($parent.$index, $index);"
+                                required /> 
+                            {{ csvShop }}
+                    </li>
+                </ul>
+            </td>
+        </tr>
+        </table>
+        Selected Shops: {{ shopList }}
+        <br/><br/>
+        <input type='submit' value='Submit' />
+    </form>
+</body>
+</html>
