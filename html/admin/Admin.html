@@ -1,61 +1,76 @@
-<html>
+<html ng-app="AdminPage">
 <head>
     <title>Parts Department - Main Menu</title>
+    <script src="../../scripts/angularjs.min.js"></script>
+    <script src="../../scripts/admin/Admin.js"></script>
 </head>
-<body>
+<body ng-controller="AdminController">
     <table align='center'>
         <caption>
-            <b>Parts Department - Main Menu</b>
+            <b><u>
+                Parts Department - Main Menu
+            </u></b>
         </caption>
     <tr>
-        <td>
-            <ul>
-                <li>
-                    <a href='../../index.html'>
-                        Parts Department Page
-                    </a>
-                </li>
-                <li>
-                    <a href='Upload_Extracts.html'>
-                        Upload CCC Extracts
-                    </a>
-                </li>
-                <li>
-                    <a href='Materials_Admin.html'>
-                        Materials Admin
-                    </a>
-                </li>
-                <li>
-                    <a href='Upload_Scheduled_In.html'>
-                        Upload Scheduled In VIN Extract
-                    </a>
-                </li>
-                <li>
-                    <a href='Upload_Vendors.html'>
-                        Upload Vendors
-                    </a>
-                </li>
-                <li>
-                    <a href='Upload_Return_Form.html'>
-                        Upload Return Forms
-                    </a>
-                </li>
-                <li>
-                    <a href='Upload_Pending_Returns.html'>
-                        Upload Pending Returns
-                    </a>
-                </li>
-                <li>
-                    <a href='../../extract_files/Labels.csv'>
-                        Download Labels File (Labels.csv)
-                    </a>
-                </li>
-                <li>
-                    <a href='Upload_Extract.html'>
-                        Upload CCC Extract
-                    </a>
-                </li>
-            </ul>
+        <td align="center">
+
+            <br/><br/>
+
+            <a href='../../'>
+                Home Page
+            </a>
+
+            <br/><br/>
+
+            <a href='Upload_Extracts.html'>
+                Upload CCC Extracts
+            </a>
+
+            <br/><br/>
+                                
+            <a href='Materials_Admin.html'>
+                Materials Admin
+            </a>
+
+            <br/><br/>
+                                
+            <a href='Upload_Scheduled_In.html'>
+                Upload Scheduled In VIN Extract
+            </a>
+
+            <br/><br/>
+                                
+            <a href='Upload_Vendors.html'>
+                Upload Vendors
+            </a>
+
+            <br/><br/>
+                                
+            <a href='Upload_Return_Form.html'>
+                Upload Return Forms
+            </a>
+
+            <br/><br/>
+                                
+            <a href='Upload_Pending_Returns.html'>
+                Upload Pending Returns
+            </a>
+
+            <br/><br/>
+                                
+            <a href='../../extract_files/Labels.csv'>
+                Download Labels File (Labels.csv)
+            </a>
+
+            <br/><br/>
+                                
+            <a href='Upload_Extract.html'>
+                Upload CCC Extract
+            </a>
+
+            <br/><br/>
+
+            <input type="button" value="Logout" ng-click="Logout();"/>
         </td>
     </tr>
     </table>
