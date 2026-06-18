@@ -1,34 +1,51 @@
 var app = angular.module("Map_Shop_Names_Page", []);
 
-var mapShopNamesCtlr = function($scope, $http){
+var mapShopNamesCtlr = function($scope, $http, $window){
 
-        // will be read from the database in the actual application; hardcoded here for testing purposes
-    $scope.db_shops =
-        [
-            'Caliber Collision 1',
-            'Caliber Collision 2',
-            'Caliber Collision 3'
-        ];
-
-        // will be read from the CSV extract in the actual application; hardcoded here for testing purposes
-    $scope.csv_shops =
-        [
-            'Caliber Collision 1',
-            'Caliber Collision - Oxnard',
-            'Caliber Collision 3'
-        ];
-
+    $scope.companyID = $window.sessionStorage.getItem('companyID');
 
     $scope.shopList = [];   // shopList will have an index if the database shop name
                             // matches a shop name in the CSV extract
                             // for each shop in db_shops; 
                             // set to -1 if there is no match
 
-    $scope.db_shops.forEach((dbShop, dbIndex) => {
+    Get_Shop_Names($scope.companyID);
 
-        $scope.shopList[dbIndex] = $scope.csv_shops.indexOf(dbShop);  // Initialize each index of shopList with a new Shop instance
+    function Get_Shop_Names(companyID){
+
+        $http.get('../../php/admin/Map_Shop_Names.php?companyID=' + companyID)
+          .then(handleSuccess)
+          .catch(handleError);   // .then()
  
-    });
+    }   // Get_DB_Shops()
+
+
+    function handleSuccess(response)
+    {
+        if (response.data){
+
+            console.log("All Shop Name records fetched successfully!");
+            console.log(response.data);
+
+            $scope.db_shops = response.data.db_shops;
+            $scope.csv_shops = response.data.csv_shops;
+
+
+              // Initialize each index of shopList with a new Shop instance        
+            $scope.db_shops.forEach((dbShop, dbIndex) => {
+                $scope.shopList[dbIndex] = $scope.csv_shops.indexOf(dbShop);
+            });
+
+        }   // if(response.data)
+
+    }   // handleSuccess()
+
+
+    function handleError(response)
+    {
+        console.log("Shop names not fetched.");
+    }   // handleError()
+    
 
         // Uncheck selected shop in the other radio button group when a shop is selected in one group
     $scope.uncheck_shop_in_other_groups = function(dbShopIndex, csvShopIndex){
@@ -41,6 +58,14 @@ var mapShopNamesCtlr = function($scope, $http){
             }
         });
     };
+
+    $scope.FormPostURL = function(url){
+
+        return url + "?companyID=" + $scope.companyID;
+
+    }   // FormPostURL()
+
+    $scope.toJson = angular.toJson;
 
 }   // sampleCtlr
 

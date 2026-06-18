@@ -1,6 +1,6 @@
 var app = angular.module("csvUploadApp", []);
 
-var csvUploadCtrlr = function($scope, $window, $filter, $http, $sce) {
+var csvUploadCtrlr = function($scope, $window, $filter, $http) {
 
     const currDateTime = new Date();
 
@@ -30,7 +30,6 @@ var csvUploadCtrlr = function($scope, $window, $filter, $http, $sce) {
         return "../../php/admin/Upload_Extract.php?companyID=" + $scope.companyID;
     }
 
-
-}
+}   // csvUploadCtrlr()
 
 app.controller("csvUploadController", csvUploadCtrlr);

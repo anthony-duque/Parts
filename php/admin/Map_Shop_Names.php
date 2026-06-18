@@ -10,10 +10,12 @@
     switch($method){
 
        case 'POST':;
-//          $json = file_get_contents('php://input');
-//          $data = json_decode($json);
-//          echo $json;
-//          ProcessPOST($data);
+          $json = file_get_contents('php://input');
+          $data = json_decode($json);
+          var_dump($_POST["dbShops"]);
+          var_dump($_POST["csvShops"]);
+          var_dump($_POST["shopList"]);
+//          ProcessPOST($data, $companyID);
           break;
 
        case "PUT":    // Could read from input and query string
@@ -36,6 +38,13 @@
     }   // switch()
 
 
+    function ProcessPOST($shop_ID_array, $company_id)
+    {
+
+
+    }   // function ProcessPOST()
+
+
     function ProcessGET($company_id){
 
         class Shops {
@@ -56,7 +65,7 @@
 
                 return $shops;
 
-            }   // Get_DB_Shops()
+            }   // Get_Shops()
 
 
             function __construct($comp_ID){
@@ -65,19 +74,19 @@
 
                 $this->dbConn = $conn;
 
-                $field = "shop_name";
+                $field = "location";
                 $query = "SELECT $field FROM location_ids " .
                         "WHERE company_id = $comp_ID " .
                         "ORDER BY $field";
                 
-                $this->db_shops = $this.Get_Shops($query, $field);
+                $this->db_shops = $this->Get_Shops($query, $field);
 
                 $field = "shop_name";
                 $query = "SELECT DISTINCT $field FROM extract_file_dump " .
                         "WHERE company_id = $comp_ID " .
                         "ORDER BY $field";
 
-                $this->csv_shops = $this.Get_Shops($query, $field);
+                $this->csv_shops = $this->Get_Shops($query, $field);
 
                 $this->dbConn->close();
 
