@@ -1,4 +1,4 @@
-var app = angular.module("AdminPage");
+var app = angular.module("AdminPage", []);
 
 var adminController = function($scope, $window){
 
