@@ -25,14 +25,18 @@ try{
         var_dump($shop_names);
 
         if (All_Shops_Match($shop_names, $companyID)) {
-
-            echo "All shops match for company ID: $companyID.<br/>";
-//            header("Location: ../../");
-
+?>
+        All shops match.
+        <br/><br/>
+        <input type='button' value="Back to Admin Menu" onclick='window.location.href="../../html/admin/Admin.html";'>
+<?php
         } else {
-
-            echo "Company shop names in the extract file do not match what is in the database for company ID: $companyID. Please review and update the shop names in the location_ids table.<br/>";
-//            header("Location: ../../html/admin/Map_Shop_Names.html");
+?>
+        Company shop names in the extract file do not match what is in the database<p>
+        Please review and update the shop names in the location_ids table.
+        <br/><br/>
+        <input type='button' value="Map Shop Names" onclick='window.location.href="../../html/admin/Map_Shop_Names.html";'>
+<?php
         }
     }
 

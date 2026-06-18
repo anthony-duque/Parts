@@ -20,7 +20,7 @@ Check unique shop names in the upload.
     require('../db_open.php');
 
         // Get all the shop names for this company
-    $sql = "SELECT shop_name FROM location_ids ".
+    $sql = "SELECT location FROM location_ids ".
             "WHERE company_id = $companyID";
 
     $result = mysqli_query($conn, $sql);
@@ -28,9 +28,9 @@ Check unique shop names in the upload.
     $existing_shops = [];
 
     while ($row = mysqli_fetch_assoc($result)) {
-        $existing_shops[] = $row['shop_name'];
+        $existing_shops[] = $row['location'];
     }
-
+    
             // If there are no existing shops for this company yet
             // then insert all shop names from the extract file
     if (empty($existing_shops)){
