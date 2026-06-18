@@ -93,16 +93,16 @@ function Form_Value_String($data, $companyID){
     $returned_qty   = Get_Quantity($data[RETURNED_QTY]);
 
     return "(" . $shop_id . ", " . $shop_name . ", " . $ro_num . ", " .
-                $estimator . ", " . $technician . ", " . $owner . ", " .
-                $vehicle_color . ", " . $license_plate . ", " . $vin . ", " .
-                $vehicle_year . ", " . $vehicle_make . ", " . $vehicle_model . ", " .
-                $current_phase . ", " . $date_in . ", " . $target_date . ", " .
-                $line_no . ", " . $op_code. ", " . $part_desc. ", " .
-                $part_no. ", " . $part_type. ", '" .$part_status. "', ".
-                $vendor_name. ", ". $part_price. ", ". $ro_qty. ", ".
-                $order_date. ", ". $ordered_qty. ", ". $received_qty. ", ".
-                $received_date. ", ". $returned_qty . "," .
-                $companyID . "),";
+        $estimator . ", " . $technician . ", " . $owner . ", " .
+        $vehicle_color . ", " . $license_plate . ", " . $vin . ", " .
+        $vehicle_year . ", " . $vehicle_make . ", " . $vehicle_model . ", " .
+        $current_phase . ", " . $date_in . ", " . $target_date . ", " .
+        $line_no . ", " . $op_code. ", " . $part_desc. ", " .
+        $part_no. ", " . $part_type. ", '" .$part_status. "', ".
+        $vendor_name. ", ". $part_price. ", ". $ro_qty. ", ".
+        $order_date. ", ". $ordered_qty. ", ". $received_qty. ", ".
+        $received_date. ", ". $returned_qty . "," .
+        $companyID . "),";
 
 }   // Form_Value_String($data, $companyID)
 
@@ -114,19 +114,18 @@ function Process_Extract($extract_file, $companyID){
     // Open the extract file for reading
     if (($handle = fopen($extract_file, "r")) === FALSE) {
         echo "Error in opening " . $extract_file;
-        exit;
     }
 
     $insert_sql = <<<strSQL
-            INSERT INTO extract_file_dump
-                (shop_id, shop_name, ro_num, estimator, technician,
-                owner, vehicle_color, license_plate, vin, vehicle_year,
-                vehicle_make, vehicle_model, current_phase, date_in,
-                target_date, line_num, repair_code, part_desc, 
-                part_num, part_type, part_status, vendor_name, part_price,
-                ro_qty, order_date, order_qty, received_qty, received_date, 
-                return_qty, company_id)
-            VALUES
+        INSERT INTO extract_file_dump
+            (shop_id, shop_name, ro_num, estimator, technician,
+            owner, vehicle_color, license_plate, vin, vehicle_year,
+            vehicle_make, vehicle_model, current_phase, date_in,
+            target_date, line_num, repair_code, part_desc, 
+            part_num, part_type, part_status, vendor_name, part_price,
+            ro_qty, order_date, order_qty, received_qty, received_date, 
+            return_qty, company_id)
+        VALUES
 strSQL;
 
     $row    = 0;  // record counter
@@ -169,14 +168,14 @@ strSQL;
     if ($conn->query($tsql) === TRUE) {
         echo "<br/><br/>Extract records for $companyID deleted.<br/>";
     } else {
-      echo "Error: " . $tsql . "<br> - " . $conn->error;
+        echo "Error: " . $tsql . "<br> - " . $conn->error;
     }
 
         // Insert the new records from the extract file.
     if ($conn->query($insert_sql) === TRUE) {
         echo "<br/><br/>Extract records for $companyID inserted successfully.<br/>";
     } else {
-      echo "Error: " . $insert_sql . "<br> - " . $conn->error;
+        echo "Error: " . $insert_sql . "<br> - " . $conn->error;
     }
 
     return $unique_shop_names;

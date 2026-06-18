@@ -21,7 +21,7 @@ Check unique shop names in the upload.
 
         // Get all the shop names for this company
     $sql = "SELECT shop_name FROM location_ids ".
-            "WHERE company_id = '$companyID'";
+            "WHERE company_id = $companyID";
 
     $result = mysqli_query($conn, $sql);
 
@@ -36,12 +36,12 @@ Check unique shop names in the upload.
     if (empty($existing_shops)){
 
         $insert_sql = "INSERT INTO location_ids " .
-                    "(company_id, shop_name) " .
+                    "(company_id, location) " .
                     "VALUES ";
 
         $values = '';
 
-        foreach ($new_shops as $shop) {
+        foreach ($shop_names as $shop) {
             $values .= "('$companyID', '$shop'),";
         }
 
@@ -69,9 +69,10 @@ Check unique shop names in the upload.
             $all_shops_match = true;
         }
     
-        return $all_shops_match;
-
     }   // if (empty($existing_shops)){
+
+    return $all_shops_match;
+
 }
 
 ?>

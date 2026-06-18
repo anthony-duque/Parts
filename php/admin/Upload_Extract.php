@@ -20,19 +20,19 @@ try{
     if ($upload_OK){
 
         $shop_names = Process_Extract($extractFile, $companyID);
-        echo "<br/> Extract upload successful!";
+        echo "Extract upload successful!";
 
         var_dump($shop_names);
 
         if (All_Shops_Match($shop_names, $companyID)) {
 
             echo "All shops match for company ID: $companyID.<br/>";
-            header("Location: ../../");
+//            header("Location: ../../");
 
         } else {
 
             echo "Company shop names in the extract file do not match what is in the database for company ID: $companyID. Please review and update the shop names in the location_ids table.<br/>";
-            header("Location: ../../html/admin/Map_Shop_Names.html");
+//            header("Location: ../../html/admin/Map_Shop_Names.html");
         }
     }
 
@@ -40,7 +40,7 @@ try{
 
     echo "There was an error uploading the " . basename($_FILES["ExtractCSV"]["name"]);
     echo "<br/>Error details: " . $e->getMessage();
-    header("Location: ../../html/admin/Upload_Extract.html");
+//    header("Location: ../../html/admin/Upload_Extract.html");
 
 }
 ?>

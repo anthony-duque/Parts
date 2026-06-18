@@ -24,11 +24,12 @@ var csvUploadCtrlr = function($scope, $window, $filter, $http, $sce) {
     
     }   // if ($scope.locationIDs > '')
 
-    $scope.getFormAction = function() {
+    
+    $scope.formURL = function() {
 
-        var url = "../../php/admin/Upload_Extract.php?companyID=" + $scope.companyID;
-        return $sce.trustAsResourceUrl(url);
+        return "../../php/admin/Upload_Extract.php?companyID=" + $scope.companyID;
     }
+
 
 }
 
