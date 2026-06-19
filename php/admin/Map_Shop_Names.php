@@ -10,12 +10,9 @@
     switch($method){
 
        case 'POST':;
-          $json = file_get_contents('php://input');
-          $data = json_decode($json);
-          var_dump($_POST["dbShops"]);
-          var_dump($_POST["csvShops"]);
-          var_dump($_POST["shopList"]);
-//          ProcessPOST($data, $companyID);
+//          $json = file_get_contents('php://input');
+//          $data = json_decode($json);
+          ProcessPOST($_POST, $companyID);
           break;
 
        case "PUT":    // Could read from input and query string
@@ -38,9 +35,41 @@
     }   // switch()
 
 
-    function ProcessPOST($shop_ID_array, $company_id)
+    function ProcessPOST($shop_arrays, $company_id)
     {
+        $db_shops   = json_decode($shop_arrays["dbShops"]);
+        $csv_shops  = json_decode($shop_arrays["csvShops"]);
+        $shopList   = json_decode($shop_arrays["shopList"]);
 
+        require('../db_open.php');
+
+        try{
+            foreach($shopList as $i){
+
+                if ($db_shops[$i] !== $csv_shops[$i]){
+
+                    $sql = "UPDATE location_ids " . 
+                            "SET location = '$csv_shops[$i]' " . 
+                            "WHERE company_id = $company_id " . 
+                            " AND location = '$db_shops[$i]';";
+
+                    $result = mysqli_query($conn, $sql);
+
+                    echo "Shop name: '$db_shops[$i]' changed to '$csv_shops[$i]'<br/>";
+                }   // if ($db_shops...)
+
+            }   // foreach
+
+        }catch(Exception $e){
+
+            echo "Updating Shop Names in location_id failed. (" . $e->getMessage() . ")";
+        
+        }finally{
+
+            echo "<br/>Shop names successfully updated!<br/>";
+            $conn->close();
+
+        }   // try-catch
 
     }   // function ProcessPOST()
 
