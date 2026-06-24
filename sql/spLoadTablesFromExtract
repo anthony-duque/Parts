@@ -1,0 +1,61 @@
+SET @company_id = 1;
+
+/*
+SELECT efd.shop_name AS X_Name, li.location AS DB_Name, efd.company_id AS X_cid, li.company_id AS DB_cid, efd.technician
+FROM extract_file_dump efd INNER JOIN location_ids li 
+	ON efd.shop_name = li.location
+	AND efd.company_id = li.company_id
+--	AND efd.shop_name = li.location 
+WHERE efd.company_id = @company_id;
+	-- update the location ids based on the shop name
+*/
+
+-- UPDATE extract_file_dump efd 
+-- SET efd.location_id = 0
+
+/*
+UPDATE extract_file_dump efd 
+INNER JOIN location_ids li
+	ON efd.shop_name = li.location
+	AND efd.company_id = li.company_id 
+SET efd.location_id = li.id
+WHERE efd.company_id = @company_id;
+
+	-- shops associated with the company
+SELECT li.id 
+FROM location_ids li 
+WHERE li.company_id = @company_id;
+
+	-- All cars in the database associated with company's shops
+SELECT r.ro_num, r.owner, r.vehicle 
+FROM repairs r 
+WHERE r.loc_id IN 
+	(SELECT li.id 
+	FROM location_ids li 
+	WHERE li.company_id = @company_id)
+
+	-- All parts assiociated with the company's shops
+SELECT ps.ro_num, ps.part_description, ps.vendor_name 
+FROM parts_status ps 
+WHERE ps.loc_id IN 
+	(SELECT li.id 
+	FROM location_ids li 
+	WHERE li.company_id = @company_id)
+*/
+
+
+	-- Select statement to load the Repairs table from the Extract Table
+SELECT 
+	efd.ro_num, efd.owner, CONCAT(efd.vehicle_year, ' ', efd.vehicle_make, ' ', efd.vehicle_model) AS vehicle,
+	efd.date_in, efd.technician, efd.current_phase, efd.estimator, efd.vehicle_color, efd.license_plate,
+	efd.target_date
+FROM extract_file_dump efd INNER JOIN location_ids li
+	ON efd.location_id = li.id AND
+	efd.company_id = li.company_id
+WHERE efd.company_id = @company_id
+
+
+-- SELECT li.* 
+-- FROM location_ids li 
+
+
