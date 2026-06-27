@@ -44,6 +44,7 @@
         require('../db_open.php');
 
         try{
+
             foreach($shopList as $i){
 
                 if ($db_shops[$i] !== $csv_shops[$i]){
@@ -59,6 +60,12 @@
                 }   // if ($db_shops...)
 
             }   // foreach
+
+            echo "<br/>Loading values from the extract table to repairs and parts tables.<br/>";
+
+            $stmt = $conn->prepare("CALL sp_Load_Values_From_Extract_Table(?)");
+            $stmt->bind_param("i", $company_id);
+            $stmt->execute();
 
         }catch(Exception $e){
 
