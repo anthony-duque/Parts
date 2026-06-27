@@ -71,6 +71,18 @@ Check unique shop names in the upload.
     
     }   // if (empty($existing_shops)){
 
+    if ($all_shops_match){
+        
+        echo "Loading values from the extract table to repairs and parts tables.<br/>";
+
+        $stmt = $conn->prepare("CALL sp_Load_Values_From_Extract_Table(?)");
+        $stmt->bind_param("i", $companyID);
+        $stmt->execute();
+
+    }   // if($all_shops_match())
+
+    $conn->close();
+
     return $all_shops_match;
 
 }
