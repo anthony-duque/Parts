@@ -14,7 +14,7 @@ function loginController($scope, $http, $window) {
 
                 if ($scope.loginResult.success === true){   // company has an account
 
-                    $window.sessionStorage.setItem('companyID', username);
+                    $window.sessionStorage.setItem('companyID', $scope.loginResult.companyID);   // store companyID in session storage for use in other pages
 
                     if ($scope.loginResult.locationIDs.length > 0) {   // company has shops associated with the account
 

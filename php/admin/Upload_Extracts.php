@@ -3,7 +3,6 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-flush();
 
 require('../Utility_Scripts.php');
 require('Upload_Daily_Out.php');
@@ -15,7 +14,7 @@ const D_OUT_FNAME   = "Daily_Out.csv";      // Daily Out destination file name
 const P_STAT_FNAME  = "Parts_Status.csv";   // Parts Status destination file name
 
 
-$locationID = $_COOKIE["locationID"];       // set the location cookie for use in the utility scripts
+$locationID = $_GET["locationID"];       // set the location cookie for use in the utility scripts
 // echo "Location ID: " . $locationID . "<br/><br/>";
 
     // Process the Daily Out extract first
@@ -57,7 +56,7 @@ $tsql = "UPDATE location_ids " .
 
 if ($conn->query($tsql) === TRUE) {
 
-    $tsql = "CALL sp_Update_Location_IDs()";
+    $tsql = "CALL spUpdateLocationIDs()";
 
     if ($conn->query($tsql) === TRUE) {
       Create_Labels_File(); //echo $ro_num . " uploaded<br/>";

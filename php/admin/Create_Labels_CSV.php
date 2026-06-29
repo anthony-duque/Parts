@@ -30,7 +30,11 @@ function Create_Labels_File(){
 
         if ($rec["vehicle"] > ''){
             $vehicle        = explode(" ", $rec["vehicle"]);
-            $rec["vehicle"]   = $vehicle[1] . " " . $vehicle[2];
+            if (count($vehicle) > 2){
+                $rec["vehicle"] = $vehicle[1] . " " . $vehicle[2];
+            } else {
+                $rec["vehicle"] = $vehicle[0] . " " . $vehicle[1];
+            }
             $rec["vehicle"]   = toProperCase($rec["vehicle"]);
         }
 

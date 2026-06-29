@@ -39,14 +39,6 @@ CREATE TABLE `companies` (
 );
 
 
-CREATE TABLE `company_shop` (
-  `id` smallint unsigned NOT NULL AUTO_INCREMENT,
-  `company_code` varchar(25) NOT NULL,
-  `location_code` varchar(25) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) COMMENT='A table that links which shops belong to which companies.';
-
-
 CREATE TABLE `departments` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `dept_code` varchar(15) NOT NULL,
@@ -81,8 +73,9 @@ CREATE TABLE `Location_Table` (
 
 CREATE TABLE `location_ids` (
   `id` tinyint unsigned NOT NULL AUTO_INCREMENT,
-  `loc_code` varchar(15) NULL,
   `location` varchar(50) DEFAULT NULL,
+  `company_id` smallint unsigned NOT NULL,
+  `last_data_upload` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) COMMENT='Location ID for each shop.';
 
@@ -111,28 +104,31 @@ CREATE TABLE `materials` (
 ) COMMENT='List of materials that technicians can order.';
 
 
+-- PartsApp_DB.parts_status definition
+
 CREATE TABLE `parts_status` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `Part_Number` varchar(30) DEFAULT NULL,
-  `Part_Description` varchar(75) DEFAULT NULL,
-  `Part_Type` varchar(50) DEFAULT NULL,
-  `RO_Qty` smallint DEFAULT NULL,
-  `Vendor_Name` varchar(75) DEFAULT NULL,
-  `PO_Number` varchar(25) DEFAULT NULL,
-  `Ordered_Qty` smallint DEFAULT NULL,
-  `Expected_Delivery` date DEFAULT NULL,
-  `Received_Qty` smallint DEFAULT NULL,
-  `Returned_Qty` smallint DEFAULT NULL,
-  `Line` smallint DEFAULT NULL,
-  `RO_Num` int DEFAULT NULL,
-  `Order_Date` datetime DEFAULT NULL,
-  `Invoice_Date` datetime DEFAULT NULL,
-  `Location` varchar(50) DEFAULT NULL,
-  `Loc_ID` tinyint unsigned DEFAULT '0',
-  `Part_Status` varchar(15) DEFAULT NULL,
+  `part_number` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `part_description` varchar(75) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `part_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `ro_qty` smallint DEFAULT NULL,
+  `vendor_name` varchar(75) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `po_number` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `ordered_qty` smallint DEFAULT NULL,
+  `expected_delivery` date DEFAULT NULL,
+  `received_qty` smallint DEFAULT NULL,
+  `returned_qty` smallint DEFAULT NULL,
+  `line` smallint DEFAULT NULL,
+  `ro_num` varchar(15) DEFAULT NULL,
+  `order_date` datetime DEFAULT NULL,
+  `invoice_date` datetime DEFAULT NULL,
+  `location` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `loc_id` tinyint unsigned DEFAULT '0',
+  `part_status` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `repair_code` varchar(20) DEFAULT NULL,
+  `part_price` decimal(10,2) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) COMMENT='Dump table for extract file Parts_Status.csv.';
-
+) ENGINE=InnoDB AUTO_INCREMENT=75567 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Dump table for extract file Parts_Status.csv.';
 
 CREATE TABLE `parts_returns` (
   `id` mediumint unsigned NOT NULL AUTO_INCREMENT,
@@ -162,25 +158,27 @@ CREATE TABLE `pending_returns` (
 );
 
 
-CREATE TABLE `Repairs` (
+-- PartsApp_DB.repairs definition
+
+CREATE TABLE `repairs` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `RONum` mediumint unsigned NOT NULL,
-  `Owner` varchar(50) NOT NULL,
-  `Vehicle` varchar(100) NOT NULL,
-  `Vehicle_In` datetime DEFAULT NULL,
-  `Technician` varchar(30) DEFAULT NULL,
-  `CurrentPhase` varchar(50) NOT NULL,
-  `PartsReceived` float DEFAULT NULL,
-  `Estimator` varchar(30) DEFAULT NULL,
-  `Vehicle_Color` varchar(30) DEFAULT NULL,
-  `License_Plate` varchar(12) DEFAULT NULL,
-  `Scheduled_Out` datetime DEFAULT NULL,
-  `Location` varchar(50) DEFAULT NULL,
-  `Loc_ID` tinyint unsigned DEFAULT '0' COMMENT 'Location ID',
-  `Stage_ID` int DEFAULT NULL,
-  `Insurance` varchar(100) DEFAULT NULL,
+  `ro_num` varchar(15) NOT NULL,
+  `owner` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `vehicle` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `vehicle_in` datetime DEFAULT NULL,
+  `technician` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `current_phase` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `parts_received` float DEFAULT NULL,
+  `estimator` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `vehicle_color` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `license_plate` varchar(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `scheduled_out` datetime DEFAULT NULL,
+  `location` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `loc_id` tinyint unsigned DEFAULT '0' COMMENT 'Location ID',
+  `insurance` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `vin` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) COMMENT='List of active vehicles (pre-ordered and cars in shop).';
+) ENGINE=InnoDB AUTO_INCREMENT=3263 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='List of active vehicles (pre-ordered and cars in shop).';
 
 
 CREATE TABLE `scheduled_in_vin` (

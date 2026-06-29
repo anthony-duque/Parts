@@ -1,14 +1,16 @@
-var app = angular.module("csvUploadApp", ['ngCookies']);
+var app = angular.module("csvUploadApp", []);
 
-var csvUploadCtrlr = function($scope, $cookies, $filter){
+var csvUploadCtrlr = function($scope, $filter, $window){
 
     const currDateTime = new Date();
 
     $scope.currDateTime = $filter('date')(currDateTime, 'yyyy-MM-dd HH:mm:ss');
+    $scope.companyID = $window.sessionStorage.getItem('companyID');
 
-    if ($cookies.get('locationID') > ''){
+    var loc_IDs = $window.sessionStorage.getItem('locationIDs');
+    
+    if (loc_IDs > ''){
 
-        var loc_IDs = $cookies.get('locationID').split(',');  // split comma-separated location IDs into array
         console.log("Location IDs: " + loc_IDs);
         $scope.locationID = loc_IDs[0];                       // use first location ID as default (if multiple)
 
@@ -16,7 +18,13 @@ var csvUploadCtrlr = function($scope, $cookies, $filter){
 
         window.location.href = '../Login.html';
     
-    }   // 
+    }   //
+    
+    $scope.Form_Post_URL = function(){
+
+        return "../../php/admin/Upload_Extracts.php?locationID=" + $scope.locationID;
+
+    }   // $scope.Form_Post_URL()
 
 }
 
