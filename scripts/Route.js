@@ -23,7 +23,7 @@ function($routeProvider, $locationProvider) {
         })
 
         .when('/materials', {
-                templateUrl: './html/Order_Materials.html'
+            templateUrl: './html/Order_Materials.html'
         })
 
         .when('/return-forms', {
@@ -36,6 +36,20 @@ function($routeProvider, $locationProvider) {
 
         .when('/vendors', {
             templateUrl: './html/Vendors.html'
+        })
+
+        .when('/admin', {
+            template: '<div></div>',
+            controller: function($window){
+                $window.location.href = './html/admin/Admin.html';
+            }
+        })
+
+        .when('/super', {
+            template: '<div></div>',
+            controller: function($window){
+                $window.location.href = './html/admin/Super_Admin.html';
+            }
         })
 
         .otherwise({ redirectTo: '/stage' });
