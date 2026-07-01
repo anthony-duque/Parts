@@ -7,7 +7,7 @@ var adminController = function($scope, $window){
         $window.sessionStorage.removeItem('companyID');
         $window.sessionStorage.removeItem('locationIDs');
 
-        $window.location.href = './html/Login.html';
+        $window.location.href = '/';
 
     }   // Logout()
 
