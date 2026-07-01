@@ -19,26 +19,35 @@ try{
 
     if ($upload_OK){
 
-        $shop_names = Process_Extract($extractFile, $companyID);
-        echo "Extract upload successful!";
+        try{
+
+           $shop_names = Process_Extract($extractFile, $companyID);
+           echo "Extract upload successful!";
 
 //        var_dump($shop_names);
 
-        if (All_Shops_Match($shop_names, $companyID)) {
+           if (All_Shops_Match($shop_names, $companyID)) {
 ?>
-        All shops match.
-        <br/><br/>
-        <input type='button' value="Back to Admin Menu" onclick='window.location.href="../../html/admin/Admin.html";'>
+                All shops match.
+                <br/><br/>
+                <input type='button' value="Back to Admin Menu" onclick='window.location.href="../../html/admin/Admin.html";'>
 <?php
-        } else {
+           } else {
 ?>
-        Company shop names in the extract file do not match what is in the database<p>
-        Please review and update the shop names in the location_ids table.
-        <br/><br/>
-        <input type='button' value="Map Shop Names" onclick='window.location.href="../../html/admin/Map_Shop_Names.html";'>
+                Company shop names in the extract file do not match what is in the database<p>
+                Please review and update the shop names in the location_ids table.
+                <br/><br/>
+                <input type='button' value="Map Shop Names" onclick='window.location.href="../../html/admin/Map_Shop_Names.html";'>
 <?php
+           }    // if (All_Shops_Match($shop_names, $companyID))
+    
+        }       // if ($upload_OK)
+        catch(Exception $e){
+            echo "There was an error uploading the file " . basename($_FILES["ExtractCSV"]["name"]);
+            echo "<br/>Error details: " . $e->getMessage();
         }
-    }
+      }    // if ($upload_OK)
+  
 
 } catch(Exception $e){
 

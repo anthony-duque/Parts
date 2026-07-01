@@ -106,7 +106,8 @@ function Form_Value_String($data, $companyID){
 
 }   // Form_Value_String($data, $companyID)
 
-
+    // This function dumps the extract file to a table and returns 
+    // an array of unique shop names for the company ID.
 function Process_Extract($extract_file, $companyID){
 
     $uploadSuccessful = true;   // flag to track upload success
@@ -168,16 +169,16 @@ strSQL;
     if ($conn->query($tsql) === TRUE) {
         echo "<br/><br/>Extract records for $companyID deleted.<br/>";
     } else {
-        throw new Exception("Error deleting records for $companyID: " . $conn->error);
-//        echo "Error: " . $tsql . "<br> - " . $conn->error;
+//        throw new Exception("Error deleting records for $companyID: " . $conn->error);
+        echo "Error: " . $tsql . "<br> - " . $conn->error;
     }
 
         // Insert the new records from the extract file.
     if ($conn->query($insert_sql) === TRUE) {
         echo "<br/><br/>Extract records for $companyID inserted successfully.<br/>";
     } else {
-        throw new Exception("Error inserting records for $companyID: " . $conn->error);
-//        echo "Error: " . $insert_sql . "<br> - " . $conn->error;
+//        throw new Exception("Error inserting records for $companyID: " . $conn->error);
+        echo "Error: " . $insert_sql . "<br> - " . $conn->error;
     }
 
     return $unique_shop_names;
