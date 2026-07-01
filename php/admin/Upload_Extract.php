@@ -22,7 +22,7 @@ try{
         $shop_names = Process_Extract($extractFile, $companyID);
         echo "Extract upload successful!";
 
-        var_dump($shop_names);
+//        var_dump($shop_names);
 
         if (All_Shops_Match($shop_names, $companyID)) {
 ?>
