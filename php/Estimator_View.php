@@ -138,23 +138,17 @@
         $allParts = [];
 
         $sql =  <<<strSQL
-
-                    SELECT ro_qty, ordered_qty, received_qty, returned_qty, part_status
-        
-                    FROM parts_status
-        
+                    SELECT ro_qty, ordered_qty, received_qty, returned_qty, part_status        
+                    FROM parts_status        
                     WHERE part_number NOT IN ('Sublet', 'Remanufactured')
                         AND (line > 0)
                         AND (part_number > '' OR vendor_name > '')
                         AND vendor_name NOT LIKE '**%'
                         AND part_type NOT IN ('Sublet')
-                        AND ro_num = $roNum
-                        AND loc_id = $locID
-        
+                        AND ro_num = '$roNum'
+                        AND loc_id = $locID        
                     ORDER BY ordered_qty ASC
-
                 strSQL;
-
         try {
 
             $s = mysqli_query($dbConn, $sql);
@@ -164,7 +158,7 @@
             }   //while{}
 
         } catch(Exception $e){
-            echo "Fetching List of Cars failed.";
+            echo "Fetching List of Cars failed. " . $e->getMessage();
         }   // try-catch
 
         return $allParts;

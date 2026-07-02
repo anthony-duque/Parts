@@ -95,7 +95,7 @@
                         AND (part_number > '' OR vendor_name > '')
                         AND vendor_name NOT LIKE '**%'
                         AND part_type NOT IN ('Sublet')
-                        AND ro_num = $roNum
+                        AND ro_num = '$roNum'
                         AND loc_id = $locID
 
                     ORDER BY ordered_qty ASC;
