@@ -2,7 +2,8 @@
 
     require('Utility_Scripts.php');
 
-    $repairs = ProcessGET();
+    $companyID = $_GET["companyID"];
+    $repairs = ProcessGET($companyID);
 
     echo json_encode($repairs);
 
@@ -83,20 +84,21 @@
     };  // Repair{}
 
 
-    function GetAllRepairs($dbConn){
+    function GetAllRepairs($dbConn, $companyID){
 
         $repairs = [];
 
         $sql = <<<strSQL
-                    SELECT SUBSTRING_INDEX(Estimator, ' ', 1) AS estimator,
-                    ro_num, SUBSTRING_INDEX(owner, ',', 1) AS owner,
-                    vehicle, LCASE(vehicle_color) AS vehicle_color,
-                    technician, vehicle_in, current_phase, scheduled_out,
-                    location, loc_id, insurance
-                    FROM repairs
-                    WHERE Estimator > ''
-                    ORDER BY estimator, parts_received DESC
-                strSQL;
+                SELECT SUBSTRING_INDEX(r.estimator, ' ', 1) AS estimator,
+                    r.ro_num, SUBSTRING_INDEX(r.owner, ',', 1) AS owner,
+                    r.vehicle, LCASE(r.vehicle_color) AS vehicle_color,
+                    r.technician, r.vehicle_in, r.current_phase, r.scheduled_out,
+                    li.location, r.loc_id, r.insurance
+                FROM repairs r INNER JOIN location_ids li 
+                    ON r.loc_id = li.id
+                WHERE r.estimator > '' AND li.company_id = $companyID
+                ORDER BY estimator, parts_received DESC;
+            strSQL;
 
         try{
 
@@ -165,11 +167,11 @@
     }   // GetAllParts()
 
 
-    function ProcessGET(){
+    function ProcessGET($company_ID){
 
         require('db_open.php');
 
-        $allRepairs = GetAllRepairs($conn);
+        $allRepairs = GetAllRepairs($conn, $company_ID);
 
         foreach($allRepairs as $repair){    // for each car assigned to an estimator
             foreach($repair->cars as $car){ // get the parts list
