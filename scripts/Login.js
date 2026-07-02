@@ -19,8 +19,8 @@ function loginController($scope, $http, $window) {
                     if ($scope.loginResult.locationIDs.length > 0) {   // company has shops associated with the account
 
                             // store locationIDs in session storage for use in other pages
-                        $window.sessionStorage.setItem('locationIDs', 
-                                $scope.loginResult.locationIDs);   // convert array of location IDs to comma-separated string
+//                        $window.sessionStorage.setItem('locationIDs', 
+//                                $scope.loginResult.locationIDs);   // convert array of location IDs to comma-separated string
                         
                         $window.location.href = '../index.html';
 

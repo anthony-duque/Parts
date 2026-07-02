@@ -38,7 +38,7 @@ function GetShopLocations($dbConn){
 
     try{
 
-        $sql = "SELECT id, location FROM location_ids";
+        $sql = "SELECT id, location FROM location_ids WHERE company_id = " . $_GET["companyID"] . " ORDER BY location";
         $s = mysqli_query($dbConn, $sql);
 
         while($r = mysqli_fetch_assoc($s)){
