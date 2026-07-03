@@ -23,7 +23,7 @@ var EstimatorViewCtrlr =
 
         function GetRepairOrders()
         {
-            $http.get('./php/Estimator_View.php')
+            $http.get('./php/Estimator_View.php?companyID=' + $scope.companyID)
                   .then(handleSuccess)
                   .catch(handleError);
         }     // GetRepairOrders()

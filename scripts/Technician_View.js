@@ -1,7 +1,7 @@
 
 var TechnicianViewCtrlr =
 
-    function($scope, $rootScope, $http, utility){
+    function($scope, $http, utility){
 
         GetRepairOrders();
 
@@ -22,8 +22,7 @@ var TechnicianViewCtrlr =
 
         function GetRepairOrders()
         {
-//            $http.get('./php/Technician_View.php?locID=' + $scope.locationID)
-            $http.get('./php/Technician_View.php?locID=0')  // get all locations by default
+            $http.get('./php/Technician_View.php?companyID=' + $scope.companyID)  // get all locations by default
                   .then(handleSuccess)
                   .catch(handleError);   // .then()
         }

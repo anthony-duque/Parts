@@ -4,7 +4,7 @@ var vendorViewCtrlr = function($scope, $http){
 
 	var GetVendorList = function()
     {
-        $http.get('./php/Vendors.php')
+        $http.get('./php/Vendors.php?companyID=' + $scope.companyID)
               .then(handleSuccess)
               .catch(handleError);   // .then()
     }     // GetAllPartsForRO()

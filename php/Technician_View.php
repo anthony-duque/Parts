@@ -2,8 +2,8 @@
 
     require('Utility_Scripts.php');
 
-    $locationID = $_GET["locID"];
-    $repairs = ProcessGET($locationID);
+    $companyID = $_GET["companyID"];
+    $repairs = ProcessGET($companyID);
 
     echo json_encode($repairs);
 
@@ -95,11 +95,9 @@
                         AND (part_number > '' OR vendor_name > '')
                         AND vendor_name NOT LIKE '**%'
                         AND part_type NOT IN ('Sublet')
-                        AND ro_num = $roNum
+                        AND ro_num = '$roNum'
                         AND loc_id = $locID
-
                     ORDER BY ordered_qty ASC;
-
                 strSQL;
         try {
 
@@ -117,26 +115,23 @@
     }   // GetAllParts()
 
 
-    function GetAllRepairs($dbConn, $locID){
+    function GetAllRepairs($dbConn, $companyID){
 
         $repairs = [];
 
-        if ($locID > 0){
-            $loc_condition = " AND loc_id = $locID ";
-        } else {
-            $loc_condition = " ";
-        }
-
         $sql = <<<strSQL
-                    SELECT SUBSTRING_INDEX(technician, ' ', 1) AS technician,
-                        ro_num, SUBSTRING_INDEX(owner, ',', 1) AS owner,
-                        vehicle, estimator, scheduled_out,
-                        LOWER(vehicle_color) as vehicle_color,
-                        location, loc_id, insurance
-                    FROM repairs
-                    WHERE technician > '' $loc_condition
-                    ORDER BY technician, parts_received DESC
-                strSQL;
+
+                SELECT SUBSTRING_INDEX(r.technician, ' ', 1) AS technician,
+                    r.ro_num, SUBSTRING_INDEX(r.owner, ',', 1) AS owner,
+                    r.vehicle, r.estimator, r.scheduled_out,
+                    LOWER(vehicle_color) as vehicle_color,
+                    li.location, r.loc_id, r.insurance
+                FROM repairs r INNER JOIN location_ids li 
+                    ON r.loc_id = li.id 
+                WHERE technician > '' AND li.company_id = $companyID
+                ORDER BY technician, parts_received DESC;
+        
+        strSQL;
 
         try{
 
@@ -171,11 +166,11 @@
     }   // GetAllRepairs()
 
 
-    function ProcessGET($loc_ID){
+    function ProcessGET($company_ID){
 
         require('db_open.php');
 
-        $allRepairs = GetAllRepairs($conn, $loc_ID);
+        $allRepairs = GetAllRepairs($conn, $company_ID);
 
         foreach($allRepairs as $repair){    // for each car assigned to an estimator
             foreach($repair->cars as $car){ // get the parts list
