@@ -24,9 +24,6 @@
         <td ng-click='SortVendors("email");' class="heading">
             Email
         </td>
-        <td ng-click='SortVendors("location");' class="heading">
-            Shop
-        </td>
     </tr>
     </thead>
     <tr ng-repeat='eachVendor in vendorList | filter : { location_ID : locationID } | filter: searchText | orderBy: sortFld' ng-class='ToggleColor($index, "white", "orange");'>
@@ -40,9 +37,6 @@
             <a href= "mailto:{{ eachVendor.email }}">
                 {{ eachVendor.email }}
             </a>
-        </td>
-        <td align='left'>
-            {{ eachVendor.location }}
         </td>
     </tr>
     </table>

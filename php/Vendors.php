@@ -6,6 +6,7 @@
 
     header("Access-Allow-Control-Origin: *");
     $method = $_SERVER['REQUEST_METHOD'];   // See if it is a GET, POST, DELETE, etc
+    $companyID = $_GET["companyID"];   // Get
 
      switch($method){
 /*
@@ -19,7 +20,7 @@
 */
         case "GET":
         default:
-           $vendors = ProcessGET();
+           $vendors = ProcessGET($companyID);
 //           print_r($vendors);
 
            if (json_encode($vendors) === null){
@@ -34,7 +35,6 @@
 
     class Vendor{
 
-        public $id;
         public $name;
         public $oem;
         public $phone_number;
@@ -44,10 +44,9 @@
         public $zipcode;
         public $email;
         public $location_ID;
-        public $location;
+ //       public $location;
 
         function __construct($rec){
-            $this->id           = $rec["id"];
             $this->name         = $rec["name"];
             $this->oem          = $rec["oem"];
             $this->phone_number = $rec["phone_number"];
@@ -57,21 +56,23 @@
             $this->zipcode      = $rec["zipcode"];
             $this->email        = $rec["email"];
             $this->location_ID  = $rec["location_id"];
-            $this->location     = $rec["shop_location"];
+//            $this->location     = $rec["location"];
         }
     }
 
-    function ProcessGET(){
+    function ProcessGET($company_id){
 
 
         require('db_open.php');
 
         $sql = <<<strSQL
                 SELECT
-                    id, name, oem, phone_number,
-                    address, city, state, zipcode,
-                    email, location_id, shop_location
-                FROM vendors
+                    v.name, v.oem, v.phone_number,
+                    v.address, v.city, v.state, v.zipcode,
+                    v.email, v.location_id
+                FROM vendors v INNER JOIN location_ids li
+                    ON v.location_id = li.id
+                WHERE li.company_id = $company_id
                 ORDER BY name
             strSQL;
 
