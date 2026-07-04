@@ -76,7 +76,7 @@
 
             } catch(Exception $e){
 
-                echo "Fetching cars failed." . $e->getMessage();
+                echo "Fetching cars per vendor failed." . $e->getMessage();
                 $dbConn = null;
 
             } finally {
@@ -91,7 +91,7 @@
 
         public $ro_num;
         public $location_ID;
-        public $owner;
+        public $owner;  
         public $vehicle;
         public $estimator;
         public $technician;
@@ -124,7 +124,7 @@
 
                 FROM parts_status
 
-                WHERE ro_num = $this->ro_num
+                WHERE ro_num = '$this->ro_num'
                     AND vendor_name = '$vendorName'
                     AND $sqlDtClause
 

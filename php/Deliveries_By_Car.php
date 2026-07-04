@@ -48,7 +48,7 @@
             $sql = <<<strSQL
                         SELECT part_number, part_description, received_qty, invoice_date
                         FROM parts_status
-                        WHERE ro_num = $ro AND loc_id = $loc_ID
+                        WHERE ro_num = '$ro' AND loc_id = $loc_ID
                             AND vendor_name = '$this->name'
                             AND $sqlDtClause
                     strSQL;
@@ -64,7 +64,7 @@
 
             } catch(Exception $e){
 
-                echo "Fetching parts failed." . $e->getMessage();
+                echo "Fetching parts per car failed." . $e->getMessage();
                 $dbConn = null;
 
             } finally {
@@ -104,7 +104,7 @@
             $sql = <<<strSQL
                         SELECT DISTINCT vendor_name
                         FROM parts_status
-                        WHERE ro_num = $this->ro_num
+                        WHERE ro_num = '$this->ro_num'
                             AND $sqlDtClause
                             AND vendor_name NOT IN ('**IN-HOUSE', 'ASTECH', 'AIRTIGHT AUTO GLASS', 'BIG BRAND','Jim''s Tire Center', 'PRO TECH DIAGNOSTICS')
                     strSQL;
@@ -121,7 +121,7 @@
 
             } catch(Exception $e){
 
-                echo "Fetching vendors failed." . $e->getMessage();
+                echo "Fetching vendors per car failed." . $e->getMessage();
                 $dbConn = null;
 
             } finally {
