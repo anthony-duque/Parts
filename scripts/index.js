@@ -21,9 +21,11 @@ var mainController = function($scope, $http, $window, utility){
     /////////////////////////////////////////////
 
     function Get_Shop_Locations(){
+
         $http.get('./php/index.php?companyID=' + $scope.companyID)
             .then(handleSuccess)
             .catch(handleError);
+
     }   // Get_Shop_Locations()
 
 
@@ -46,7 +48,7 @@ var mainController = function($scope, $http, $window, utility){
 
             }   // if($scope.locationIDs > '') ... else ...
 
-            $scope.last_update = response.data.last_upload_time.toLocaleString();
+            $scope.UpdateUploadDate();
         }
     }   // handleSuccess()
 
@@ -62,11 +64,17 @@ var mainController = function($scope, $http, $window, utility){
     }   // CheckParts()
 
 
+    $scope.UpdateUploadDate = function(){
+
+        let location = $scope.locations.find(loc => loc.id === $scope.locationID);
+        $scope.last_update = location.last_data_upload.toLocaleString();
+        
+    }   // UpdateUploadDate()
+
+
     $scope.Logout = function(){
 
         $window.sessionStorage.removeItem('companyID');
-//        $window.sessionStorage.removeItem('locationIDs');
-
         $window.location.href = './html/Login.html';
 
     }   // Logout()
