@@ -49,7 +49,7 @@
 
                 if ($db_shops[$i] !== $csv_shops[$i]){
 
-                    $sql = "UPDATE shops " . 
+                    $sql = "UPDATE locations " . 
                             "SET location = '$csv_shops[$i]' " . 
                             "WHERE company_id = $company_id " . 
                             " AND location = '$db_shops[$i]';";
@@ -111,7 +111,7 @@
                 $this->dbConn = $conn;
 
                 $field = "location";
-                $query = "SELECT $field FROM shops " .
+                $query = "SELECT $field FROM locations " .
                         "WHERE company_id = $comp_ID " .
                         "ORDER BY $field";
                 

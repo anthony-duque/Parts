@@ -70,7 +70,7 @@
                     v.name, v.oem, v.phone_number,
                     v.address, v.city, v.state, v.zipcode,
                     v.email, v.location_id
-                FROM vendors v INNER JOIN shops li
+                FROM vendors v INNER JOIN locations li
                     ON v.location_id = li.id
                 WHERE li.company_id = $company_id
                 ORDER BY name

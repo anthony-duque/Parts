@@ -42,7 +42,7 @@ try{
 function Update_Location_IDs($dbConn){
 
     $tsql = <<<strSQL
-        UPDATE scheduled_in_vin siv INNER JOIN shops locID
+        UPDATE scheduled_in_vin siv INNER JOIN locations locID
     	SET siv.Loc_ID = locID.id
     	WHERE UPPER(siv.Location) = UPPER(locID.Location);
     strSQL;

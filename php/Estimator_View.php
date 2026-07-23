@@ -94,7 +94,7 @@
                     r.vehicle, LCASE(r.vehicle_color) AS vehicle_color,
                     r.technician, r.vehicle_in, r.current_phase, r.scheduled_out,
                     li.location, r.loc_id, r.insurance
-                FROM repairs r INNER JOIN shops li 
+                FROM repairs r INNER JOIN locations li 
                     ON r.loc_id = li.id
                 WHERE r.estimator > '' AND li.company_id = $companyID
                 ORDER BY estimator, parts_received DESC;

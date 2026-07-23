@@ -217,7 +217,7 @@ function Get_Upload_Time(){
 
 	$sql = <<<strSQL
 		SELECT last_data_upload
-		FROM shops li
+		FROM locations li
 		WHERE id IN ($loc_IDs)
 		LIMIT 1;
 	strSQL;

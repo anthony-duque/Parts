@@ -6,10 +6,10 @@ function All_Shops_Match($shop_names, $companyID) {
 Check unique shop names in the upload.
 
 		- if there are no existing shops for this company yet:
-			-> write the shop names in shops table.
+			-> write the shop names in locations table.
 
 		- if there are existing shops for this company:
-			-> fetch the shops from the shops table
+			-> fetch the shops from the locations table
 			-> check these against the shop names found in the extract
 				-> if they match, proceed with load
 				-> if they don't match, have the user map the old shop names with the new ones 
@@ -20,7 +20,7 @@ Check unique shop names in the upload.
     require('../db_open.php');
 
         // Get all the shop names for this company
-    $sql = "SELECT location FROM shops ".
+    $sql = "SELECT location FROM locations ".
             "WHERE company_id = $companyID";
 
     $result = mysqli_query($conn, $sql);
@@ -35,7 +35,7 @@ Check unique shop names in the upload.
             // then insert all shop names from the extract file
     if (empty($existing_shops)){
 
-        $insert_sql = "INSERT INTO shops " .
+        $insert_sql = "INSERT INTO locations " .
                     "(company_id, location) " .
                     "VALUES ";
 

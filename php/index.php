@@ -45,7 +45,7 @@ function GetShopLocations($companyID){
         require('db_open.php');
 
         $sql = "SELECT id, location, last_data_upload " .
-                "FROM shops " . 
+                "FROM locations " . 
                 "WHERE company_id = " . $companyID . 
                 " ORDER BY location";
 
