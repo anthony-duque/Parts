@@ -126,7 +126,7 @@
                     r.vehicle, r.estimator, r.scheduled_out,
                     LOWER(vehicle_color) as vehicle_color,
                     li.location, r.loc_id, r.insurance
-                FROM repairs r INNER JOIN location_ids li 
+                FROM repairs r INNER JOIN shops li 
                     ON r.loc_id = li.id 
                 WHERE technician > '' AND li.company_id = $companyID
                 ORDER BY technician, parts_received DESC;

@@ -35,7 +35,7 @@ try{
            } else {
 ?>
                 Company shop names in the extract file do not match what is in the database<p>
-                Please review and update the shop names in the location_ids table.
+                Please review and update the shop names in the shops table.
                 <br/><br/>
                 <input type='button' value="Map Shop Names" onclick='window.location.href="../../html/admin/Map_Shop_Names.html";'>
 <?php

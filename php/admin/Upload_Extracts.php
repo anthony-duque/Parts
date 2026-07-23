@@ -50,7 +50,7 @@ try{
 
 require('../db_open.php');
 
-$tsql = "UPDATE location_ids " .
+$tsql = "UPDATE shops " .
          "SET last_data_upload = '" . $_POST['uploadDateTime'] . "' " .
          "WHERE id IN ($locationID)";
 

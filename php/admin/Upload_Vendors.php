@@ -130,7 +130,7 @@ function Upload_Vendors_Extract($csv_file){
       echo $row . " vendors successfully uploaded!";
 
       $tsql = <<<strSQL
-                UPDATE vendors v INNER JOIN location_ids locID
+                UPDATE vendors v INNER JOIN shops locID
   	            SET v.location_ID = locID.id
   	            WHERE v.shop_location = locID.location;
 strSQL;

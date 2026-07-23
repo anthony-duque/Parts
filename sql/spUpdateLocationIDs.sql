@@ -1,18 +1,18 @@
 CREATE PROCEDURE spUpdateLocationIDs()
 BEGIN
 
-	INSERT INTO location_ids
+	INSERT INTO shops
 		(location)
 	SELECT DISTINCT r.location
-	FROM repairs r LEFT JOIN location_ids li
+	FROM repairs r LEFT JOIN shops li
 		ON r.location  = li.location
 	WHERE li.id IS NULL;
 
-	UPDATE repairs r INNER JOIN location_ids locID
+	UPDATE repairs r INNER JOIN shops locID
 	SET r.loc_id = locID.id
 	WHERE r.location = locID.location;
 
-	UPDATE parts_status ps INNER JOIN location_ids li
+	UPDATE parts_status ps INNER JOIN shops li
 	SET ps.loc_id = li.id
 	WHERE ps.location = li.location;
 
@@ -61,7 +61,7 @@ BEGIN
 			AND vehicle_in < DATE_ADD(CURDATE(), INTERVAL 1 DAY)
 	ORDER BY r.ro_num;
 
-	UPDATE scheduled_in_vin siv INNER JOIN location_ids locID
+	UPDATE scheduled_in_vin siv INNER JOIN shops locID
 	SET siv.loc_id = locID.id
 	WHERE UPPER(siv.location) = UPPER(locID.location);
 

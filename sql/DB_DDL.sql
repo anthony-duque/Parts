@@ -71,7 +71,7 @@ CREATE TABLE `Location_Table` (
 ) COMMENT='Location Lookup Table';
 
 
-CREATE TABLE `location_ids` (
+CREATE TABLE `shops` (
   `id` tinyint unsigned NOT NULL AUTO_INCREMENT,
   `location` varchar(50) DEFAULT NULL,
   `company_id` smallint unsigned NOT NULL,
