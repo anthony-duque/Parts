@@ -52,7 +52,7 @@
             <td align='center'>
                 <b>Shop:</b>
                 &nbsp;
-                <select ng-model='locationID' class="form-select">
+                <select ng-model='locationID' class="form-select" ng-change='UpdateUploadDate();'>
                     <option ng-repeat='loc in locations' value='{{ loc.id }}'>{{ loc.location }}</option>
                 </select>
                 <br/>

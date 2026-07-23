@@ -115,7 +115,7 @@ require('Utility_Scripts.php');
                     AND (part_Number > '' OR vendor_name > '')
                     AND vendor_name NOT LIKE '**%'
                     AND part_type NOT IN ('Sublet')
-                    AND ro_num = $ro
+                    AND ro_num = '$ro'
                     AND loc_id = $locID
                 
                 ORDER BY ordered_qty ASC;

@@ -39,7 +39,7 @@ BEGIN
 	
 		-- 3)  Delete all parts from the Parts_Status table associated with the shops belonging to the company passed in.
 	
-	DELETE FROM parts_status ps
+	DELETE FROM parts_status
 	WHERE loc_id IN
 		(SELECT id FROM shops li WHERE li.company_id = companyID);
 	
@@ -58,4 +58,8 @@ BEGIN
 		efd.company_id = li.company_id
 	WHERE efd.company_id = companyID;
 	
+	UPDATE location_ids li
+	SET li.last_update = NOW()
+	WHERE li.company_id = companyID;
+
 END
