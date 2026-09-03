@@ -1,0 +1,85 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "0de97491980d131ab59cf7615f171ae6",
+    "packages": [
+        {
+            "name": "hisamu/php-xbase",
+            "version": "2.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/luads/php-xbase.git",
+                "reference": "97c4e82ec65605fc695a0570808992a934ce5bf5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/luads/php-xbase/zipball/97c4e82ec65605fc695a0570808992a934ce5bf5",
+                "reference": "97c4e82ec65605fc695a0570808992a934ce5bf5",
+                "shasum": ""
+            },
+            "require": {
+                "ext-iconv": "*",
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7.0||^8.0||^9.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "XBase\\": "src"
+                },
+                "exclude-from-classmap": [
+                    "/tests"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Luã de Souza",
+                    "email": "lsouza@codeinc.com.br"
+                },
+                {
+                    "name": "Erwin Kooi",
+                    "email": "info@cyane.nl"
+                },
+                {
+                    "name": "Alexander Strizhak",
+                    "email": "gam6itko@gmail.com"
+                }
+            ],
+            "description": "A simple parser for *.dbf, *.fpt files using PHP",
+            "homepage": "https://github.com/luads/php-xbase",
+            "keywords": [
+                "dbase",
+                "dbf",
+                "foxpro"
+            ],
+            "support": {
+                "issues": "https://github.com/luads/php-xbase/issues",
+                "source": "https://github.com/luads/php-xbase/tree/2.4.0"
+            },
+            "time": "2026-02-04T19:04:13+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {},
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {},
+    "platform-dev": {},
+    "plugin-api-version": "2.9.0"
+}

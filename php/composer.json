@@ -1,0 +1,12 @@
+{
+    "name": "sonny/php",
+    "authors": [
+        {
+            "name": "Sonny",
+            "email": "adduxe@hotmail.com"
+        }
+    ],
+    "require": {
+        "hisamu/php-xbase": "^2.4"
+    }
+}
