@@ -47,31 +47,24 @@ CREATE TABLE `departments` (
 ) COMMENT='Department Lookup Table';
 
 
-CREATE TABLE `Employee_Table` (
+-- PartsApp_DB.employees definition
+
+CREATE TABLE `employees` (
   `id` tinyint unsigned NOT NULL AUTO_INCREMENT,
-  `userName` varchar(15) NOT NULL,
-  `firstName` varchar(15) DEFAULT NULL,
-  `lastName` varchar(20) DEFAULT NULL,
-  `cellNumber` bigint DEFAULT NULL,
-  `cellService` varchar(20) DEFAULT NULL,
-  `deptCode` char(12)  DEFAULT NULL,
+  `user_name` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `first_name` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `last_name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `cell_number` bigint DEFAULT NULL,
+  `cell_service` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `dept_code` char(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
   `notify` tinyint(1) DEFAULT '1',
   `notif_preference` varchar(10) DEFAULT NULL,
-  `locID` tinyint unsigned NOT NULL,
+  `loc_id` tinyint unsigned NOT NULL,
   PRIMARY KEY (`id`)
 ) COMMENT='List of Shop Staff with their name, cell number and departments.';
 
-
-CREATE TABLE `Location_Table` (
-  `id` tinyint unsigned NOT NULL AUTO_INCREMENT,
-  `loc_code` varchar(15) NOT NULL,
-  `description` varchar(30) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) COMMENT='Location Lookup Table';
-
-
-CREATE TABLE `shops` (
+CREATE TABLE `locations` (
   `id` tinyint unsigned NOT NULL AUTO_INCREMENT,
   `location` varchar(50) DEFAULT NULL,
   `company_id` smallint unsigned NOT NULL,
