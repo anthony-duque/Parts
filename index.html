@@ -5,6 +5,17 @@
 
     <title>The Parts App</title>
 
+    <script>
+        // Dynamically inject the correct base href based on the URL path
+        var base = document.createElement('base');
+        if (window.location.pathname.startsWith('/Parts')) {
+            base.href = '/Parts/';
+        } else {
+            base.href = '/';
+        }
+        document.getElementsByTagName('head')[0].appendChild(base);
+    </script>
+    
     <script src='./scripts/angularjs.js'></script>
     <!--script src='./scripts/angularjs.min.js'></script-->
 
