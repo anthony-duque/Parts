@@ -2,6 +2,8 @@ var app = angular.module("AdminPage", []);
 
 var adminController = function($scope, $window){
 
+    $scope.companyID = $window.sessionStorage.getItem('companyID');
+
     $scope.Logout = function(){
 
         $window.sessionStorage.removeItem('companyID');
