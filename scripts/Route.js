@@ -6,6 +6,10 @@ function($routeProvider, $locationProvider) {
 
     $routeProvider
 
+        .when('/admin', {
+            'templateUrl': './html/admin/index.html'
+        })
+    
         .when('/stage', {
             'templateUrl': './html/Stage.html'
         })
@@ -39,5 +43,10 @@ function($routeProvider, $locationProvider) {
         })
 
         .otherwise({ redirectTo: '/stage' });
+
+        $locationProvider.html5Mode(true);
+
     }   // function()
+
+
 ]);     // myApp.config()
