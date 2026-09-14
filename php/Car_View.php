@@ -187,7 +187,7 @@ require('Utility_Scripts.php');
                     SELECT 
                         r.ro_num, r.owner, r.vehicle, r.estimator, r.technician,
                         r.vehicle_color, r.license_plate, r.vehicle_in, r.scheduled_out,
-                        r.location, r.loc_id, r.insurance, siv.vin, s.description AS stage
+                        r.location, r.loc_id, r.insurance, r.vin, s.description AS stage
                     FROM 
                         repairs r LEFT JOIN scheduled_in_vin siv ON r.ro_num = siv.ro_num
                         LEFT JOIN car_stage cs ON r.ro_num = cs.ro_num AND r.loc_id = cs.loc_id
