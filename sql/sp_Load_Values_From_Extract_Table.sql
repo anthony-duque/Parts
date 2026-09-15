@@ -1,65 +1,68 @@
-CREATE DEFINER=`root`@`localhost` PROCEDURE `PartsApp_DB`.`sp_Load_Values_From_Extract_Table`(
-	IN companyID INT
-)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `PartsApp_DB`.`spUpdateLocationIDs`()
 BEGIN
---	USE PartsApp_DB;
-	
-		-- 0)  Update column location_id in the Extract Dump Table accordingly with the shops table.
-	
-		-- update the location ids based on the shop name
-	UPDATE extract_file_dump efd 
-	INNER JOIN shops li
-		ON efd.shop_name = li.location
-		AND efd.company_id = li.company_id 
-	SET efd.location_id = li.id
-	WHERE efd.company_id = companyID;
-	
-	
-		-- 1)  Delete all vehicles in the Repair table associated with the shops belonging to the company passed in.
-	
-	DELETE FROM repairs
-	WHERE loc_id IN 
-	(SELECT id FROM shops li
-	WHERE company_id = companyID);
-	
-		-- 2)  Insert unique vehicles from the Extract Dump table associated with the shops belonging to the company passed in to the Repair table .
-	
-	INSERT INTO repairs
-		(ro_num, owner, vehicle, 
-		vehicle_in, technician, current_phase, estimator, vehicle_color, license_plate, 
-		scheduled_out, loc_id, vin)
-	SELECT DISTINCT
-		efd.ro_num, efd.owner, CONCAT(efd.vehicle_year, ' ', efd.vehicle_make, ' ', efd.vehicle_model) AS vehicle,
-		efd.date_in, efd.technician, efd.current_phase, efd.estimator, efd.vehicle_color, efd.license_plate,
-		efd.target_date, efd.location_id, efd.vin
-	FROM extract_file_dump efd INNER JOIN shops li
-		ON efd.location_id = li.id AND
-		efd.company_id = li.company_id
-	WHERE efd.company_id = companyID;
-	
-		-- 3)  Delete all parts from the Parts_Status table associated with the shops belonging to the company passed in.
-	
-	DELETE FROM parts_status
-	WHERE loc_id IN
-		(SELECT id FROM shops li WHERE li.company_id = companyID);
-	
-		-- 4)  Insert all parts  from the Extract Dump table associated with the shops belonging to the company passed in to the Parts Status table .
-	
-	INSERT INTO parts_status
-		(part_number, part_description, part_type, ro_qty, vendor_name, ordered_qty, repair_code, 
-		line, received_qty, returned_qty, order_date, invoice_date, loc_id, part_status, 
-		part_price, ro_num)
-	SELECT
-		efd.part_num, efd.part_desc, efd.part_type, efd.ro_qty, efd.vendor_name, efd.order_qty, efd.repair_code, 
-		efd.line_num, efd.received_qty, efd.return_qty, efd.order_date, efd.received_date, efd.location_id, efd.part_status, 
-		efd.part_price, efd.ro_num  
-	FROM extract_file_dump efd INNER JOIN shops li
-		ON efd.location_id = li.id AND
-		efd.company_id = li.company_id
-	WHERE efd.company_id = companyID;
-	
-	UPDATE location_ids li
-	SET li.last_update = NOW()
-	WHERE li.company_id = companyID;
+
+	INSERT INTO shops
+		(location)
+	SELECT DISTINCT r.location
+	FROM repairs r LEFT JOIN shops li
+		ON r.location = li.location
+	WHERE li.id IS NULL;
+
+	UPDATE repairs r INNER JOIN shops li
+	SET r.loc_id = li.id
+	WHERE r.location = li.location AND r.loc_id = 0;
+
+	UPDATE parts_status pse INNER JOIN shops li
+	SET pse.loc_id = li.id
+	WHERE pse.location = li.location AND r.loc_id = 0;
+
+	UPDATE parts_status
+	SET part_status =
+			CASE
+
+				WHEN (received_qty = 0) AND (ordered_qty = 0) AND (ro_qty > 0)
+				THEN 'NOT_ORDERED'
+
+				WHEN (received_qty = returned_qty) AND (returned_qty > 0)
+				THEN 'RETURNED'
+
+				WHEN (received_qty = 0) AND (ordered_qty > 0)
+				THEN 'ORDERED'
+
+				WHEN (received_qty < ordered_qty) AND (received_qty > 0)
+				THEN 'ORDERED'
+
+				ELSE 'RECEIVED'
+			END;
+
+	DELETE FROM car_stage
+	WHERE id IN
+		(SELECT * FROM (SELECT cs.id
+						FROM car_stage cs LEFT JOIN repairs r
+							ON cs.ro_num = r.ro_num AND cs.loc_id = r.loc_id
+						WHERE r.id IS NULL) AS p
+		);
+
+	INSERT INTO car_stage
+		(ro_num, loc_id, stage_id)
+	SELECT r.ro_num, r.loc_id,
+		CASE
+			WHEN UPPER(r.current_phase) = '[SCHEDULED]'
+				THEN 0
+			WHEN SUBSTRING_INDEX(r.current_phase, " ", 1) REGEXP '[0-9]'
+				THEN FLOOR(SUBSTRING_INDEX(r.current_phase, " ", 1))
+			ELSE
+				0
+		END AS stageID
+	FROM repairs r LEFT JOIN car_stage cs
+		ON r.ro_num = cs.ro_num AND r.loc_id = cs.loc_id
+	WHERE cs.id IS NULL
+			AND r.current_phase <> '[Completed]'
+			AND vehicle_in < DATE_ADD(CURDATE(), INTERVAL 1 DAY)
+	ORDER BY r.ro_num;
+
+	UPDATE scheduled_in_vin siv INNER JOIN shops li
+	SET siv.Loc_ID = li.id
+	WHERE UPPER(siv.location) = UPPER(li.location);
 
 END
