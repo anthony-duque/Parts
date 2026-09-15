@@ -5,24 +5,23 @@ var csvUploadCtrlr = function($scope, $filter, $window){
     const currDateTime = new Date();
 
     $scope.currDateTime = $filter('date')(currDateTime, 'yyyy-MM-dd HH:mm:ss');
-    $scope.companyID = $window.sessionStorage.getItem('companyID');
 
-    var loc_IDs = $window.sessionStorage.getItem('locationIDs');
-    
-    if (loc_IDs > ''){
+    var company_ID = $window.sessionStorage.getItem('companyID');
 
-        console.log("Location IDs: " + loc_IDs);
-        $scope.locationID = loc_IDs[0];                       // use first location ID as default (if multiple)
+    if (company_ID > ''){
+
+        $scope.companyID = company_ID;
 
     } else {
 
         window.location.href = '../Login.html';
-    
-    }   //
+
+    }   // else (company_ID > '')
+
     
     $scope.Form_Post_URL = function(){
 
-        return "../../php/admin/Upload_Extracts.php?locationID=" + $scope.locationID;
+        return "../../php/admin/Upload_Extracts.php?companyID=" + $scope.companyID;
 
     }   // $scope.Form_Post_URL()
 

@@ -14,7 +14,7 @@ const ESTIMATOR        	= 10;
 const SHOP_LOCATION     = 11;
 const INSURANCE         = 12;
 
-function Upload_Daily_Out_CSV($daily_out_extract_file){
+function Upload_Daily_Out_CSV($daily_out_extract_file, $company_ID) {
 
         // Open the extract file for reading
     if (($handle = fopen($daily_out_extract_file, "r")) === FALSE) {
@@ -25,15 +25,19 @@ function Upload_Daily_Out_CSV($daily_out_extract_file){
     require('../db_open.php');
 
 		// Delete all records in Repairs table
-	$tsql = "DELETE FROM repairs";
-	// WHERE locID = " . $_SESSION['locID'];
+	$tsql = "DELETE FROM repairs" . 
+			" WHERE loc_id IN (SELECT id FROM locations WHERE company_id = $company_ID)";
 
 	if ($conn->query($tsql) === TRUE) {
-		echo "<br/><br/>Repairs Table cleared.<br/>";
+
+		echo "<br/><br/>Company-related repair records cleared.<br/>";
+
 	} else {
-	  echo "Error: " . $tsql . "<br> - " . $conn->error;
-	  exit;
-	}
+
+		echo "Error: " . $tsql . "<br> - " . $conn->error;
+		exit;
+
+	}	// if ($conn->query($tsql) === TRUE)
 
 	$tsql = <<<strSQL
 			INSERT INTO repairs
@@ -86,7 +90,6 @@ strSQL;
 					$license_plate . ", " . $parts_received . ", " . $vehicle_in . ", " .
                   	$current_phase . ", " . $scheduled_out . ", " . $technician . ", " .
                     $estimator . ", " . $location . ", " . $insurance . "),";
-
     }
 
     $values = rtrim($values, ',');
@@ -99,7 +102,6 @@ strSQL;
     } else {
       echo "Error: " . $insert_sql . "<br>" . $conn->error;
     }
-
 
     fclose($handle);
 	$conn = null;

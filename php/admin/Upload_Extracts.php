@@ -13,9 +13,7 @@ const TARGET_DIR    = "../../extract_files/";  // destination folder on the serv
 const D_OUT_FNAME   = "Daily_Out.csv";      // Daily Out destination file name
 const P_STAT_FNAME  = "Parts_Status.csv";   // Parts Status destination file name
 
-
-$locationID = $_GET["locationID"];       // set the location cookie for use in the utility scripts
-// echo "Location ID: " . $locationID . "<br/><br/>";
+$companyID = $_GET["companyID"];       // set the company cookie
 
     // Process the Daily Out extract first
 try{
@@ -24,14 +22,18 @@ try{
     $upload_OK = move_uploaded_file($_FILES["DailyOutCSV"]["tmp_name"], $extractFile);
 
     if ($upload_OK){
-        Upload_Daily_Out_CSV($extractFile);
+
+        Upload_Daily_Out_CSV($extractFile, $companyID);
         echo "<br/> Daily Out upload successful!";
-    }
+
+    }   // if ($upload_OK)
+
 } catch(Exception $e){
+
     echo "There was an error uploading the " . basename($_FILES["DailyOutCSV"]["name"]);
     echo "<br/>Error details: " . $e->getMessage();
- //   header("Location: ../Upload_Extracts.html");
-}
+
+}   // catch(Exception $e)
 
     // Process Parts Status extract file
 try{
@@ -40,7 +42,7 @@ try{
     $upload_OK = move_uploaded_file($_FILES["PartsStatusCSV"]["tmp_name"], $extractFile);
 
     if ($upload_OK){
-        Upload_Parts_Status_CSV($extractFile);
+        Upload_Parts_Status_CSV($extractFile, $companyID);
         echo "<br/> Parts Status upload successful!";
     }
 } catch(Exception $e){
@@ -50,9 +52,9 @@ try{
 
 require('../db_open.php');
 
-$tsql = "UPDATE locations " .
-         "SET last_data_upload = '" . $_POST['uploadDateTime'] . "' " .
-         "WHERE id IN ($locationID)";
+$tsql = "UPDATE locations" .
+        " SET last_data_upload = '" . $_POST['uploadDateTime'] . "'" .
+        " WHERE company_id = $companyID";
 
 if ($conn->query($tsql) === TRUE) {
 

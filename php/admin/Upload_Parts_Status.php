@@ -15,7 +15,8 @@ const INVOICE_DATE		= 11;
 const RETURNED_QTY		= 12;
 const SHOPLOCATION      = 13;
 
-function Upload_Parts_Status_CSV($parts_status_extract_file){
+
+function Upload_Parts_Status_CSV($parts_status_extract_file, $company_ID) {
 
         // Open the extract file and exit if not found.
     if (($handle = fopen($parts_status_extract_file, "r")) === FALSE) {
@@ -26,9 +27,8 @@ function Upload_Parts_Status_CSV($parts_status_extract_file){
     require('../db_open.php');
 
     	//  Delete all records from the Parts Status table.
-    $tsql = "DELETE FROM parts_status";
-    	// WHERE locID IN " . $_SESSION['locID'];
-
+    $tsql = "DELETE FROM parts_status" . 
+            " WHERE loc_ID IN (SELECT id FROM locations WHERE company_ID = $company_ID)";
 
     //echo $tsql;
 
@@ -47,70 +47,69 @@ function Upload_Parts_Status_CSV($parts_status_extract_file){
                 Order_Date, Expected_Delivery, Received_Qty,
                 Invoice_Date, Returned_Qty, Location)
     		VALUES
-strSQL;
+    strSQL;
 
     $row    = 0;	// record counter
     $values = '';
 
     while (($data = fgetcsv($handle, 500, ",")) !== FALSE){
 
-        $second_field = trim($data[1]);
+      $second_field = trim($data[1]);
     	$second_field = strtoupper($second_field);
 
     //		echo $second_field;
-        if (($second_field == '') || ($second_field === 'LINE')) {
-            continue;
-        }
+      if (($second_field == '') || ($second_field === 'LINE')) {
+        continue;
+      }
 
-        ++$row;
+      ++$row;
 
-    	$ro_number 			= $data[RO_NUMBER];
+    	$ro_number 			  = $data[RO_NUMBER];
 
-    	$line 				= $data[LINE];
+    	$line 				    = $data[LINE];
 
-    	$part_number		= "'" . Cleanup_Text($data[PART_NUMBER]) . "'";
+    	$part_number		  = "'" . Cleanup_Text($data[PART_NUMBER]) . "'";
 
     	$part_description	= "'" . Cleanup_Text($data[PART_DESCRIPTION]) . "'";
 
-    	$part_type			= "'" . $data[PART_TYPE] . "'";
+    	$part_type			  = "'" . $data[PART_TYPE] . "'";
 
-    	$vendor_name		=  "'" . Cleanup_Text($data[VENDOR_NAME]) . "'";
+    	$vendor_name		  =  "'" . Cleanup_Text($data[VENDOR_NAME]) . "'";
 
-    	$ro_quantity 		= $data[RO_QUANTITY];
+    	$ro_quantity 		  = $data[RO_QUANTITY];
 
-    	$ordered_quantity 	= $data[ORDERED_QUANTITY];
+    	$ordered_quantity = $data[ORDERED_QUANTITY];
 
-    	$order_date 		= Get_SQL_date($data[ORDER_DATE]);
+    	$order_date 		   = Get_SQL_date($data[ORDER_DATE]);
 
-    	$expected_delivery	= Get_SQL_date($data[EXPECTED_DELIVERY]);
+    	$expected_delivery  = Get_SQL_date($data[EXPECTED_DELIVERY]);
 
     	$received_quantity 	= $data[RECEIVED_QTY];
 
-    	$invoice_date 		= Get_SQL_date($data[INVOICE_DATE]);
+    	$invoice_date 		  = Get_SQL_date($data[INVOICE_DATE]);
 
     	$returned_quantity 	= $data[RETURNED_QTY];
 
-        $location           = "'" . Cleanup_Text($data[SHOPLOCATION]) . "'";
+      $location           = "'" . Cleanup_Text($data[SHOPLOCATION]) . "'";
 
-        $values .= "(" . $ro_number . ", " . $line . ", " . $part_number . ", " .
-                  $part_description . ", " . $part_type . ", " . $vendor_name . ", " .
-    			  $ro_quantity . ", " . $ordered_quantity . ", " . $order_date . ", " .
-    			  $expected_delivery . ", ". $received_quantity . ", " .
-    			  $invoice_date . "," . $returned_quantity ."," . $location . "),";
+      $values .= "(" . $ro_number . ", " . $line . ", " . $part_number . ", " .
+                $part_description . ", " . $part_type . ", " . $vendor_name . ", " .
+          $ro_quantity . ", " . $ordered_quantity . ", " . $order_date . ", " .
+          $expected_delivery . ", ". $received_quantity . ", " .
+          $invoice_date . "," . $returned_quantity ."," . $location . "),";
+    }
 
-        }
+    $values = rtrim($values, ',');
 
-        $values = rtrim($values, ',');
+    $insert_sql = $tsql . $values;
+//	echo $insert_sql . '<br/><br/>';
 
-        $insert_sql = $tsql . $values;
-    //	echo $insert_sql . '<br/><br/>';
-
-    	if ($conn->query($insert_sql) === TRUE) {
-    		;
-          //echo $part_number . " inserted<br/>";
-        } else {
-          echo "Error: " . $insert_sql . "<br>" . $conn->error;
-        }
+    if ($conn->query($insert_sql) === TRUE) {
+      ;
+        //echo $part_number . " inserted<br/>";
+    } else {
+      echo "Error: " . $insert_sql . "<br>" . $conn->error;
+    }
 
     	// to take out the dash and numbers after the actual vendor name
     $sql = 'UPDATE parts_status ' .
