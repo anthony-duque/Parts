@@ -27,7 +27,7 @@
     $tsql = <<<strSQL
      		INSERT INTO parts_status
     			(ro_num, line, part_number, part_description,
-                part_type, vendor_name, ro_qty, ordered_qty,
+                part_type, vendor_name, ro_qty, po_number, ordered_qty,
                 order_date, expected_delivery, received_qty,
                 invoice_date, returned_qty, location_id, company_id)
     		VALUES
@@ -59,6 +59,8 @@
 
     	$ro_quantity 		= $rol->part_quantity;
 
+        $po_number          = "'" . Cleanup_Text($rol->po_number) . "'";
+
     	$ordered_quantity   = $rol->order_quantity;
 
     	$order_date 		= Get_SQL_date($rol->order_date_time);
@@ -79,7 +81,7 @@
         
         $values .= "(" . $ro_number . ", " . $line . ", " . $part_number . ", " .
                     $part_description . ", " . $part_type . ", " . $vendor_name . ", " .
-                    $ro_quantity . ", " . $ordered_quantity . ", " . $order_date . ", " .
+                    $ro_quantity . ", " . $po_number . ", " . $ordered_quantity . ", " . $order_date . ", " .
                     $expected_delivery . ", ". $received_quantity . ", " .
                     $invoice_date . "," . $returned_quantity ."," . $location_id . "," . 
                     $company_ID . "),";
