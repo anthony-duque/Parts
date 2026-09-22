@@ -143,7 +143,7 @@
 
             $estimator      = Cleanup_Text($ro->service_writer_display_name);
 
-            $name       = Cleanup_Text($ro->repair_facility_name);
+            $name           = Cleanup_Text($ro->repair_facility_name);
 
             if (empty($ro->repair_facility_number)) {
                 $location_id     = Cleanup_Text($ro->franchise_id);
@@ -191,10 +191,13 @@
 
             echo "<br/><br/>Company-related repair records cleared.<br/>";
 
-        } else {
+        }else{
+
             echo "Error: " . $tsql . "<br> - " . $conn->error;
             exit;
-        }	
+
+        }  // if ($conn->query($tsql) === TRUE)	
+
         
         if ($conn->query($repairs->insert_sql) === TRUE){
 
@@ -205,7 +208,7 @@
                 echo "Error: " . $repairs->insert_sql . "<br>" . $conn->error;
                 exit;
             }
-        }
+        }   // if ($conn->query($repairs->insert_sql) === TRUE)
 
         $conn = null;
 
