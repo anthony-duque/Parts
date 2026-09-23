@@ -6,17 +6,21 @@
 
     require('../Utility_Scripts.php');
 
-    const TARGET_DIR    = "../../extract_files/";  // destination folder on the server
-    const P_STATUS_FNAME = "Production Schedule_Report.xml";      // Production Schedule destination file name
+    const TARGET_DIR         = "../../extract_files/";  // destination folder on the server
+    const REPAIRS_FILE_NAME  = "Production_Schedule_Report.xml";      // Production Schedule destination file name
 
     $company_ID = $_GET["companyID"];       // set the company cookie
 
+
     class Shop{
 
+        public $company_id;
+        public $shop_id;
         public $location_id;
         public $name;
 
-        function __construct($id, $name){
+        function __construct($id, $name, $companyID){
+            $this->company_id = $companyID;
             $this->location_id = $id;
             $this->name = $name;
         }
@@ -27,41 +31,97 @@
     class Repairs{
 
         public $company_id;
-        public $insert_sql;
-        public $insertedCount;
+        public $repairs;
         public $shops;
 
-        function __construct($companyID, $sql, $count, $shopList){
+        function __construct($companyID, $repairList, $shopList){
    
             $this->company_id = $companyID;
-            $this->insert_sql = $sql;
-            $this->insertedCount = $count;
+            $this->repairs = $repairList;
             $this->shops = $shopList;
         }
+
     }   // class Repairs{}
+
+
+    class Repair{
+
+        public $shop_id;
+        public $location_id;
+        public $shop_name;
+        public $ro_num;
+        public $owner;
+        public $vehicle;
+        public $vehicle_color;
+        public $license_plate;
+        public $parts_received;
+        public $vehicle_in;
+        public $current_phase;
+        public $scheduled_out;
+        public $technician;
+        public $estimator;
+        public $insurance;
+
+        function __construct($ro){
+
+                // use franchise_id if repair_facility_number is empty, otherwise use repair_facility_number
+            if (empty($ro->repair_facility_number)) {
+                $this->location_id     = Cleanup_Text($ro->franchise_id);
+            } else {
+                $this->location_id     = Cleanup_Text($ro->repair_facility_number);
+            }
+
+            $this->shop_name        = Cleanup_Text($ro->repair_facility_name);
+
+            $this->ro_num           = Cleanup_Text($ro->repair_order_number);
+            $this->owner            = Cleanup_Text($ro->owner_name);
+            $this->vehicle          = Cleanup_Text($ro->vehicle_year_make_model);
+            $this->vehicle_color    = Cleanup_Text($ro->vehicle_exterior_paint_color);
+            $this->license_plate    = Cleanup_Text($ro->vehicle_license_number);
+
+            if (empty($ro->parts_received_percent)) {
+                $this->parts_received = 0;
+            } else {
+                $this->parts_received = $ro->parts_received_percent;
+            }
+
+            $this->vehicle_in           = Get_SQL_date($ro->vehicle_in_datetime);
+            $this->current_phase        = Cleanup_Text($ro->repair_phase_name);
+            $this->scheduled_out        = Get_SQL_date($ro->vehicle_out_datetime);
+            $this->technician           = Cleanup_Text($ro->body_technician_display_name);
+            $this->estimator            = Cleanup_Text($ro->service_writer_display_name);
+            $this->insurance            = Cleanup_Text($ro->master_carrier_name);
+
+        }   // function __construct($ro_num, ...)
+
+    }   // class repairOrderLine{}
+
 
     /*   Main Routine  */
 
-    $shops = [];
+        $repairList = Get_Repairs_From_XML($company_ID);
 
-    $repairs = Get_Repairs_From_XML($company_ID);
+        $shopList = Check_Shop_List_Against_DB($repairList->shops);
 
-    Check_Shop_List_Against_DB($repairs);
+        foreach ($shopList as $shop) {
+            echo "<br/>Shop ID: " . $shop->shop_id . ", Location ID: " . $shop->location_id . ", Name: " . $shop->name;
+        }
 
-    Write_Repairs_To_Database($repairs);
+        Write_Repairs_To_Database($repairList, $shopList);
 
     /*  End of Main Routine  */
 
-    function Check_Shop_List_Against_DB($repairs) {
+
+    function Check_Shop_List_Against_DB($shops) {
 
         require('../db_open.php');
 
-        foreach ($repairs->shops as $shop) {
+        foreach ($shops as $shop) {
 
             $location_id = $shop->location_id;
             $name = $shop->name;
 
-            $tsql = "SELECT id FROM shops WHERE location_id = '$location_id' AND company_id = $repairs->company_id";
+            $tsql = "SELECT id FROM shops WHERE location_id = '$location_id' AND company_id = $shop->company_id";
 
             $result = $conn->query($tsql);
 
@@ -70,23 +130,31 @@
                     // Insert the shop into the shops table
                 $insert_sql = "INSERT INTO shops " . 
                                 "(location_id, name, company_id) " . 
-                            "VALUES ('$location_id', '$name', $repairs->company_id)";
+                            "VALUES ('$location_id', '$name', $shop->company_id)";
 
                 $conn->query($insert_sql);
+                $shop->shop_id = $conn->insert_id;
 
                 echo "<br/>Shop with location_id: $location_id and name: $name added to the database.";
-            }
+            } else {
+
+                $row = $result->fetch_assoc();
+                $shop->shop_id = $row['id'];
+
+            }   // if ($result->num_rows == 0)
 
         }   // foreach ($shops as $shop)
 
         $conn->close();
+
+        return $shops;
 
     }   //  Check_Shop_List_Against_DB($company_ID, $shops)
 
 
     function Get_Repairs_From_XML($company_ID) {
     
-        $extractFile = TARGET_DIR . P_STATUS_FNAME;
+        $extractFile = TARGET_DIR . REPAIRS_FILE_NAME;
 
             // Load the XML file
         $xml = simplexml_load_file($extractFile);
@@ -95,19 +163,9 @@
             die("Error: Failed to load or parse the Production Schedule XML file.");
         }
 
-        $insertedCount = 0;
-        $values = '';
-
         $location_ids = [];
         $shops = [];
-
-        $tsql = <<<strSQL
-                    INSERT INTO repairs
-                        (ro_num, owner, vehicle, vehicle_color, license_plate,
-                        parts_received, vehicle_in, current_phase, scheduled_out,
-                        technician, estimator, insurance, company_id, location_id)
-                    VALUES
-        strSQL;
+        $repairs = [];
 
             // Loop through the XML and execute the insertion
         foreach ($xml->data->repairOrder as $ro) {
@@ -117,73 +175,64 @@
             }
             //echo "<br/>Processing Repair Order: " . $ro->repair_order_number;
 
-            $ro_num         = Cleanup_Text($ro->repair_order_number);
-            
-            $owner          = Cleanup_Text($ro->owner_name);
+            $repair = new Repair($ro);
 
-            $vehicle        = Cleanup_Text($ro->vehicle_year_make_model);
-
-            $vehicle_color  = Cleanup_Text($ro->vehicle_exterior_paint_color);
-
-            $license_plate 	= Cleanup_Text($ro->vehicle_license_number);
-
-            if (empty($ro->parts_received_percent)) {
-                $parts_received = 0;
-            } else {
-                $parts_received = $ro->parts_received_percent;
+            if (!in_array($repair->location_id, $location_ids)) {
+                $location_ids[] = $repair->location_id;
+                $shops[] = new Shop($repair->location_id, $repair->shop_name, $company_ID);
             }
 
-            $vehicle_in     = Get_SQL_date($ro->vehicle_in_datetime);
-
-            $current_phase  = Cleanup_Text($ro->repair_phase_name);
-
-            $scheduled_out	= Get_SQL_date($ro->vehicle_out_datetime);
-
-            $technician     = Cleanup_Text($ro->body_technician_display_name);
-
-            $estimator      = Cleanup_Text($ro->service_writer_display_name);
-
-            $name           = Cleanup_Text($ro->repair_facility_name);
-
-            if (empty($ro->repair_facility_number)) {
-                $location_id     = Cleanup_Text($ro->franchise_id);
-            } else {
-                $location_id     = Cleanup_Text($ro->repair_facility_number);
-            }
-
-            if (!in_array($location_id, $location_ids)) {
-                $location_ids[] = $location_id;
-                $shops[] = new Shop($location_id, $name);
-            }
-
-            $insurance      = Cleanup_Text($ro->master_carrier_name);
-
-            $values .= "('" . $ro_num . "', '" . $owner . "', '" . $vehicle . "', '" . $vehicle_color  . "', " .
-                        "'" . $license_plate . "', " . $parts_received . ", " . $vehicle_in . ", " .
-                        "'" . $current_phase . "', " . $scheduled_out . ", '" . $technician . "', " .
-                        "'" . $estimator . "', '" . $insurance . "', " . $company_ID . ", '" . $location_id . "'),";
-
-            $insertedCount++;
+            $repairs[] = $repair;
 
         }   // foreach ($xml->data->repairOrder as $ro)
 
-        $values = rtrim($values, ',');
-        $insert_stmt = $tsql . $values;
-
-        return new Repairs($company_ID, $insert_stmt, $insertedCount, $shops);
+        return new Repairs($company_ID, $repairs, $shops);
 
     }   // function Get_Repairs_From_XML($company_ID, &$shops)
 
 
-    function Write_Repairs_To_Database($repairs) {
+    function Form_Insert_SQL($repairs, $shopList) {
+
+        $tsql = <<<strSQL
+                    INSERT INTO repairs
+                        (ro_num, owner, vehicle, vehicle_color, license_plate,
+                        parts_received, vehicle_in, current_phase, scheduled_out,
+                        technician, estimator, insurance, shop_id)
+                    VALUES
+        strSQL;
+
+        $values = '';
+
+        foreach ($repairs as $repair) {
+
+                // find the shop_id for the repair's location_id in the shopList
+            $shopFound = array_search($repair->location_id, array_column($shopList, 'location_id'));
+
+            $shop_id = $shopFound !== false ? $shopList[$shopFound]->shop_id : null;
+
+            if ($shop_id > 0){
+
+                $values .= "('" . $repair->ro_num . "', '" . $repair->owner . "', '" . $repair->vehicle . "', '" . $repair->vehicle_color  . "', " .
+                            "'" . $repair->license_plate . "', " . $repair->parts_received . ", " . $repair->vehicle_in . ", " .
+                            "'" . $repair->current_phase . "', " . $repair->scheduled_out . ", '" . $repair->technician . "', " .
+                            "'" . $repair->estimator . "', '" . $repair->insurance . "', " . $shop_id . "),";
+            }   // if ($shop_id > 0)
+
+        }   // foreach ($repairs as $repair)
+
+        return rtrim($tsql . $values, ',');
+
+    }   // function Form_Insert_SQL($repairs)
+
+
+    function Write_Repairs_To_Database($repairs, $shop_list) {
 
         require('../db_open.php');
 
             // Delete all records in Repairs table
         $tsql = "DELETE FROM repairs" . 
-                " WHERE company_id = $repairs->company_id" .
-                "   AND location_id IN" . 
-                "   (SELECT location_id " . 
+                " WHERE shop_id IN" . 
+                "   (SELECT id " . 
                 "    FROM shops " .
                 "    WHERE company_id = $repairs->company_id);";
 
@@ -198,17 +247,15 @@
 
         }  // if ($conn->query($tsql) === TRUE)	
 
-        
-        if ($conn->query($repairs->insert_sql) === TRUE){
+        $tsql = Form_Insert_SQL($repairs->repairs, $shop_list);
+//        echo "<br/>$tsql<br/>";
 
-            // echo "<br/>$repairs->insert_sql<br/>";
-            if ($conn->query($repairs->insert_sql) === TRUE) {
-                echo "Successfully inserted {$repairs->insertedCount} repair records into the database.";
-            } else {
-                echo "Error: " . $repairs->insert_sql . "<br>" . $conn->error;
-                exit;
-            }
-        }   // if ($conn->query($repairs->insert_sql) === TRUE)
+        if ($conn->query($tsql) === TRUE) {
+            echo "Successfully inserted $conn->affected_rows repair records into the database.";
+        } else {
+            echo "Error: " . $tsql . "<br>" . $conn->error;
+            exit;
+        }
 
         $conn = null;
 
