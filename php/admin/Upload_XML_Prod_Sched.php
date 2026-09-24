@@ -11,9 +11,20 @@
 
     $company_ID = $_GET["companyID"];       // set the company cookie
 
+/*  Start of Main Routine  */
+
+    $repairList = Get_Repairs_From_XML($company_ID);
+
+    $shopList = Check_Shop_List_Against_DB($repairList->shops);
+
+    Write_Repairs_To_Database($repairList, $shopList);
+
+/*  End of Main Routine  */
+
+/////////////////////////////////////////////////////////////////
 
     class Shop{
-
+    
         public $company_id;
         public $shop_id;
         public $location_id;
@@ -95,21 +106,6 @@
         }   // function __construct($ro_num, ...)
 
     }   // class repairOrderLine{}
-
-
-    /*   Main Routine  */
-
-        $repairList = Get_Repairs_From_XML($company_ID);
-
-        $shopList = Check_Shop_List_Against_DB($repairList->shops);
-
-        foreach ($shopList as $shop) {
-            echo "<br/>Shop ID: " . $shop->shop_id . ", Location ID: " . $shop->location_id . ", Name: " . $shop->name;
-        }
-
-        Write_Repairs_To_Database($repairList, $shopList);
-
-    /*  End of Main Routine  */
 
 
     function Check_Shop_List_Against_DB($shops) {
@@ -222,7 +218,7 @@
 
         return rtrim($tsql . $values, ',');
 
-    }   // function Form_Insert_SQL($repairs)
+    }   // function Form_Insert_SQL($repairs, $shopList)
 
 
     function Write_Repairs_To_Database($repairs, $shop_list) {
