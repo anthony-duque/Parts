@@ -7,7 +7,7 @@
     require('../Utility_Scripts.php');
 
     const TARGET_DIR         = "../../extract_files/";  // destination folder on the server
-    const REPAIRS_FILE_NAME  = "Production_Schedule_Report.xml";      // Production Schedule destination file name
+    const REPAIRS_FILE_NAME  = "Production Schedule_Report.xml";      // Production Schedule destination file name
 
     $company_ID = $_GET["companyID"];       // set the company cookie
 
@@ -16,6 +16,8 @@
     $repairList = Get_Repairs_From_XML($company_ID);
 
     $shopList = Check_Shop_List_Against_DB($repairList->shops);
+
+    Delete_Old_Repair_Records($repairList);
 
     Write_Repairs_To_Database($repairList, $shopList);
 
@@ -187,7 +189,7 @@
     }   // function Get_Repairs_From_XML($company_ID, &$shops)
 
 
-    function Form_Insert_SQL($repairs, $shopList) {
+    function Form_Insert_SQL($repairs_object, $shopList) {
 
         $tsql = <<<strSQL
                     INSERT INTO repairs
@@ -199,7 +201,7 @@
 
         $values = '';
 
-        foreach ($repairs as $repair) {
+        foreach ($repairs_object->repairs as $repair) {
 
                 // find the shop_id for the repair's location_id in the shopList
             $shopFound = array_search($repair->location_id, array_column($shopList, 'location_id'));
@@ -221,7 +223,7 @@
     }   // function Form_Insert_SQL($repairs, $shopList)
 
 
-    function Write_Repairs_To_Database($repairs, $shop_list) {
+    function Delete_Old_Repair_Records($repairs){
 
         require('../db_open.php');
 
@@ -243,7 +245,17 @@
 
         }  // if ($conn->query($tsql) === TRUE)	
 
-        $tsql = Form_Insert_SQL($repairs->repairs, $shop_list);
+        $conn = null;
+
+    }   // function Delete_Old_Repair_Records()
+
+
+    function Write_Repairs_To_Database($repairs, $shop_list) {
+
+        require('../db_open.php');
+
+            // Delete all records in Repairs table for the company
+        $tsql = Form_Insert_SQL($repairs, $shop_list);
 //        echo "<br/>$tsql<br/>";
 
         if ($conn->query($tsql) === TRUE) {
