@@ -44,10 +44,10 @@ function GetShopLocations($companyID){
 
         require('db_open.php');
 
-        $sql = "SELECT id, location, last_data_upload " .
-                "FROM locations " . 
+        $sql = "SELECT id, name, last_data_upload " .
+                "FROM shops " . 
                 "WHERE company_id = " . $companyID . 
-                " ORDER BY location";
+                " ORDER BY name";
 
         $s = mysqli_query($conn, $sql);
 

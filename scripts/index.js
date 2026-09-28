@@ -44,7 +44,7 @@ var mainController = function($scope, $http, $window, utility){
             } else {
 
                 alert("No shops are associated with this account. Please upload CSV extracts.");
-                $window.location.href = './html/admin/Admin.html';
+                $window.location.href = './html/admin/Upload_XML_Extracts.html';
 
             }   // if($scope.locationIDs > '') ... else ...
 
