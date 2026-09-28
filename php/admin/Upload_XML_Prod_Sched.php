@@ -1,28 +1,5 @@
 <?php
 
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
-    error_reporting(E_ALL);
-
-    require('../Utility_Scripts.php');
-
-    const TARGET_DIR         = "../../extract_files/";  // destination folder on the server
-    const REPAIRS_FILE_NAME  = "Production Schedule_Report.xml";      // Production Schedule destination file name
-
-    $company_ID = $_GET["companyID"];       // set the company cookie
-
-/*  Start of Main Routine  */
-
-    $repairList = Get_Repairs_From_XML($company_ID);
-
-    $shopList = Check_Shop_List_Against_DB($repairList->shops);
-
-    Delete_Old_Repair_Records($repairList);
-
-    Write_Repairs_To_Database($repairList, $shopList);
-
-/*  End of Main Routine  */
-
 /////////////////////////////////////////////////////////////////
 
     class Shop{
@@ -150,12 +127,10 @@
     }   //  Check_Shop_List_Against_DB($company_ID, $shops)
 
 
-    function Get_Repairs_From_XML($company_ID) {
+    function Get_Repairs_From_XML($company_ID, $repairsFile) {
     
-        $extractFile = TARGET_DIR . REPAIRS_FILE_NAME;
-
             // Load the XML file
-        $xml = simplexml_load_file($extractFile);
+        $xml = simplexml_load_file($repairsFile);
 
         if ($xml === false) {
             die("Error: Failed to load or parse the Production Schedule XML file.");
@@ -189,7 +164,7 @@
     }   // function Get_Repairs_From_XML($company_ID, &$shops)
 
 
-    function Form_Insert_SQL($repairs_object, $shopList) {
+    function Repairs_Insert_SQL($repairs_object, $shopList) {
 
         $tsql = <<<strSQL
                     INSERT INTO repairs
@@ -255,7 +230,7 @@
         require('../db_open.php');
 
             // Delete all records in Repairs table for the company
-        $tsql = Form_Insert_SQL($repairs, $shop_list);
+        $tsql = Repairs_Insert_SQL($repairs, $shop_list);
 //        echo "<br/>$tsql<br/>";
 
         if ($conn->query($tsql) === TRUE) {

@@ -1,0 +1,36 @@
+<html ng-app="csvUploadApp">
+
+<head>
+    <title>Extracts Upload</title>
+    <script src='../../scripts/angularjs.min.js'></script>
+    <script src='../../scripts/admin/Upload_XML_Extracts.js'></script>
+</head>
+
+<body ng-controller='csvUploadController'>
+    <form action="{{ Form_Post_URL(); }}" method='POST' enctype='multipart/form-data'>
+        <input type='hidden' name='uploadDateTime' value='{{ currDateTime | date:"short" }}'>
+        <table align='center'>
+            <caption>
+                <b>Upload Extract Files</b>
+            </caption>
+            <tr>
+                <th>Production Schedule Report XML file:</th>
+                <td>
+                    <input type='file' name="Repairs_XML_{{ companyID }}" required />
+                </td>
+            </tr>
+            <tr>
+                <th>Parts Status Report XML file:</th>
+                <td>
+                    <input type='file' name="Parts_XML_{{ companyID }}" required />
+                </td>
+            </tr>
+            <tr>
+                <td align='center' colspan='2'>
+                    <input type='submit' value='Upload Files' />
+                </td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>

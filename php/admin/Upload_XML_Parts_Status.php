@@ -1,29 +1,6 @@
 <?php
 
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
-    error_reporting(E_ALL);
-
-    require('../Utility_Scripts.php');
-  
-    const TARGET_DIR            = "../../extract_files/";  // destination folder on the server
-    const PARTS_STAT_FILE_NAME  = "Part Status_Report.xml";      // Part Status destination file name
-
-    $company_ID = $_GET["companyID"];       // set the company cookie
-
-/*  Start of Main Routine  */
-
-    $repairsList = Get_Repairs_List_From_DB($company_ID);
-
-    $partsList = Get_Parts_List_From_XML($company_ID, $repairsList);
-
-//    Display_Parts_List($partsList);
-
-    Write_New_Parts_Records_To_Database($partsList, $repairsList);
-
-/*  End of Main Routine  */
-
-    class Repair {
+    class RepairOrder {
 
         public $repair_id;
         public $ro_num;
@@ -158,6 +135,7 @@
 
     function Get_Repairs_List_From_DB($company_ID){
 
+        echo "Get_Repairs_List_From_DB";
         require('../db_open.php');
 
         $repairsList = [];
@@ -175,7 +153,7 @@
         if ($repairs->num_rows > 0) {
 
             while ($repair = $repairs->fetch_assoc()) {
-                $repairsList[] = new Repair($repair);
+                $repairsList[] = new RepairOrder($repair);
             }
 
         } else {
@@ -189,12 +167,10 @@
     }   // function Get_Repairs_List_From_DB($company_ID)
 
 
-    function Get_Parts_List_From_XML($company_ID, $repair_ID_Lookup){
+    function Get_Parts_List_From_XML($company_ID, $repair_ID_Lookup, $partsXMLfile){
 
-        $extractFile = TARGET_DIR . PARTS_STAT_FILE_NAME;
-
-        // Load the XML file
-        $xml = simplexml_load_file($extractFile);
+            // Load the XML file
+        $xml = simplexml_load_file($partsXMLfile);
 
         if ($xml === false) {
             die("Error: Failed to load or parse the Part Status XML file.");
@@ -218,7 +194,7 @@
     }   // function Get_Parts_List_From_XML($company_ID)
 
 
-    function Form_Insert_SQL($partsList){
+    function Parts_Insert_SQL($partsList){
 
         $tsql = <<<strSQL
                 INSERT INTO parts_status
@@ -266,7 +242,7 @@
 
         require ('../db_open.php');
 
-        $sql = Form_Insert_SQL($parts_list);
+        $sql = Parts_Insert_SQL($parts_list);
 
         if ($conn->query($sql) === TRUE){
 
