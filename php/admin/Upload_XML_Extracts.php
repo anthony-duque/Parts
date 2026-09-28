@@ -40,7 +40,7 @@ try{
 
 } catch(Exception $e){
 
-    echo "There was an error uploading the " . basename($_FILES["Repairs_XML_$companyID"]["name"]);
+    echo "<br/>There was an error uploading the " . basename($_FILES["Repairs_XML_$companyID"]["name"]);
     echo "<br/>Error details: " . $e->getMessage();
 
 }   // catch(Exception $e)
@@ -67,6 +67,7 @@ try{
         Write_New_Parts_Records_To_Database($partsList, $repairsList);
 
         echo "<br/> Parts Status upload successful!";
+
     } else {
 
         echo "Upload failed!<br>";
@@ -83,13 +84,13 @@ try{
                         echo "Error: The file is too large."; // Configured in php.ini or HTML form
                         break;
                     case UPLOAD_ERR_PARTIAL:
-                        echo "Error: The file was only partially uploaded.";
+                        echo "<br/>Error: The file was only partially uploaded.";
                         break;
                     case UPLOAD_ERR_NO_FILE:
-                        echo "Error: No file was uploaded.";
+                        echo "<br/>Error: No file was uploaded.";
                         break;
                     default:
-                        echo "Error code: " . $file['error']; // Covers other codes (4, 6, 7, 8)
+                        echo "<br/>Error code: " . $file['error']; // Covers other codes (4, 6, 7, 8)
                         break;
                 }
             } else {
@@ -98,10 +99,10 @@ try{
                 $targetFile = $targetDir . basename($file['name']);
 
                 if (move_uploaded_file($file['tmp_name'], $targetFile)) {
-                    echo "Success: File uploaded and moved successfully.";
+                    echo "<br/>Success: File uploaded and moved successfully.";
                 } else {
                     // If it returns false here, check your PHP warnings (Permissions/Paths)
-                    echo "Error: Failed to move the file. Check server permissions or directory paths.";
+                    echo "<br/>Error: Failed to move the file. Check server permissions or directory paths.";
                 }
             }
         }
@@ -109,28 +110,11 @@ try{
         echo $_FILES["Parts_XML_$companyID"]['error'];
     }
 } catch(Exception $e){
-    echo "There was an error uploading the " . basename($_FILES["Parts_XML_$companyID"]["name"]);
+    echo "<br/>There was an error uploading the " . basename($_FILES["Parts_XML_$companyID"]["name"]);
 //    header("Location: ./Upload_Extracts.html");
 }
 
 
-function Debug_Load_Error($filePath){
-// Enable internal error handling
-libxml_use_internal_errors(true);
-
-// Attempt to load your second XML file
-$xml2 = simplexml_load_file("../../extract_files/Part_Status_Report.xml");
-
-if ($xml2 === false) {
-    echo "<strong>Failed loading the second XML file:</strong><br>";
-    foreach (libxml_get_errors() as $error) {
-        echo "Error on line {$error->line}, column {$error->column}: {$error->message}<br>";
-    }
-    libxml_clear_errors();
-} else {
-    echo "Second file loaded successfully!";
-}}
-/*
 require('../db_open.php');
 
 $tsql = "CALL sp_Update_XML_Upload(?)";
@@ -138,13 +122,36 @@ $stmt = $conn->prepare($tsql);
 $stmt->bind_param("i", $companyID);
 
 if ($stmt->execute() === TRUE) {
-    Create_Labels_File();
+    echo "<br/>Stored Procedure sp_Update_XML_Upload executed successfully.";
+//    Create_Labels_File();
 } else {
     echo "Error: " . $tsql . "<br>" . $conn->error;
 }
 
+$stmt->close();
 $conn = null;
-*/
+
+
+function Debug_Load_Error($filePath){
+    
+        // Enable internal error handling
+    libxml_use_internal_errors(true);
+
+    // Attempt to load your second XML file
+    $xml2 = simplexml_load_file("../../extract_files/Part_Status_Report.xml");
+
+    if ($xml2 === false) {
+        echo "<br/><strong>Failed loading the second XML file:</strong><br>";
+        foreach (libxml_get_errors() as $error) {
+            echo "<br/>Error on line {$error->line}, column {$error->column}: {$error->message}<br>";
+        }
+        libxml_clear_errors();
+    } else {
+        echo "<br/>Second file loaded successfully!";
+    }
+}
+
 ?>
+
 <br/><br/>
 <input type='button' value="Back to Admin Menu" onclick='window.location.href="../../html/admin/Admin.html";'>

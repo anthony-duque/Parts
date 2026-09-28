@@ -2,19 +2,21 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `PartsApp_DB`.`spUpdateLocationIDs`(
 BEGIN
 
 	INSERT INTO shops
-		(location)
-	SELECT DISTINCT r.location
-	FROM repairs r LEFT JOIN shops li
-		ON r.location = li.location
-	WHERE li.id IS NULL;
+		(location, loc_id, company_ID)
+	SELECT DISTINCT r.location, r.loc_id, r.company_ID
+	FROM repairs r LEFT JOIN shops s
+		ON r.loc_id = s.loc_id
+	WHERE s.id IS NULL;
 
-	UPDATE repairs r INNER JOIN shops li
-	SET r.loc_id = li.id
-	WHERE r.location = li.location AND r.loc_id = 0;
+/*
+	UPDATE repairs r INNER JOIN shops s
+	SET r.loc_id = s.id
+	WHERE r.location = s.location AND r.loc_id = 0;
 
-	UPDATE parts_status pse INNER JOIN shops li
-	SET pse.loc_id = li.id
-	WHERE pse.location = li.location AND r.loc_id = 0;
+	UPDATE parts_status pse INNER JOIN shops s
+	SET pse.loc_id = s.id
+	WHERE pse.location = s.location AND pse.loc_id = 0;
+*/
 
 	UPDATE parts_status
 	SET part_status =
