@@ -133,10 +133,7 @@
     }   // function Display_Parts_List($partsList)
 
 
-    function Get_Repairs_List_From_DB($company_ID){
-
-        echo "Get_Repairs_List_From_DB";
-        require('../db_open.php');
+    function Get_Repairs_List_From_DB($company_ID, $db_conn){
 
         $repairsList = [];
 
@@ -148,7 +145,7 @@
                     ORDER BY s.location_id, r.ro_num;
         strSQL;
 
-        $repairs = $conn->query($tsql);
+        $repairs = $db_conn->query($tsql);
 
         if ($repairs->num_rows > 0) {
 
@@ -159,8 +156,6 @@
         } else {
             echo "No repair records found for the specified company ID.";
         }
-
-        $conn->close();
 
         return $repairsList;
 
@@ -238,24 +233,20 @@
     }   // function Form_Insert_SQL()
 
 
-    function Write_New_Parts_Records_To_Database($parts_list){
-
-        require ('../db_open.php');
+    function Write_New_Parts_Records_To_Database($parts_list, $db_conn){
 
         $sql = Parts_Insert_SQL($parts_list);
 
-        if ($conn->query($sql) === TRUE){
+        if ($db_conn->query($sql) === TRUE){
 
-            echo "Successfully inserted $conn->affected_rows parts status records into the database.";
+            echo "<br/>Successfully inserted $db_conn->affected_rows parts status records into the database.";
 
         }else{
 
-            echo "Error: " . $sql . "<br>" . $conn->error;
+            echo "<br/>Error: " . $sql . "<br>" . $db_conn->error;
             exit;
 
-        }   // if ($conn->query($sql) === TRUE)
-
-        $conn->close();    
+        }   // if ($db_conn->query($sql) === TRUE)
 
     }   // function Write_New_Parts_Records_To_Database()
 ?>

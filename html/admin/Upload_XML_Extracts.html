@@ -11,16 +11,16 @@
         <input type='hidden' name='uploadDateTime' value='{{ currDateTime | date:"short" }}'>
         <table align='center'>
             <caption>
-                <b>Upload Extract Files</b>
+                <b>Upload XML Extract Files</b>
             </caption>
             <tr>
-                <th>Production Schedule Report XML file:</th>
+                <th>Production Schedule Report file:</th>
                 <td>
                     <input type='file' name="Repairs_XML_{{ companyID }}" required />
                 </td>
             </tr>
             <tr>
-                <th>Parts Status Report XML file:</th>
+                <th>Parts Status Report file:</th>
                 <td>
                     <input type='file' name="Parts_XML_{{ companyID }}" required />
                 </td>

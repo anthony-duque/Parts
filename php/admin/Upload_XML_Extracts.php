@@ -10,15 +10,16 @@ require('Upload_XML_Prod_Sched.php');
 require('Upload_XML_Parts_Status.php');
 
 require('Create_Labels_CSV.php');
-
-$companyID = $_GET["companyID"];       // set the company cookie
+require('../db_open.php');
 
 const TARGET_DIR    = "../../extract_files/";  // destination folder on the server
+
+$companyID = $_GET["companyID"];       // set the company cookie
 
 $repairsFileName    = "Production_Schedule_Report_" . $companyID . ".xml";      // Daily Out destination file name
 $partsFileName      = "Parts_Status_Report_" . $companyID . ".xml";   // Parts Status destination file name
 
-    // Process the Daily Out extract first
+    // Process the Production Schedule extract file first
 try{
 
     $extractFile = TARGET_DIR . $repairsFileName;
@@ -28,13 +29,13 @@ try{
 
         $repairList = Get_Repairs_From_XML($companyID, $extractFile);
 
-        $shopList = Check_Shop_List_Against_DB($repairList->shops);
+        $shopList = Check_Shop_List_Against_DB($repairList->shops, $conn);
 
-        Delete_Old_Repair_Records($repairList);
+        Delete_Old_Repair_Records($repairList, $conn);
 
-        Write_Repairs_To_Database($repairList, $shopList);
+        Write_Repairs_To_Database($repairList, $shopList, $conn);
 
-        echo "<br/> Repair Order records upload successful!";
+        echo "<br/> Repair Order records uploaded successfully!<br/>";
 
     }   // if ($upload_OK)
 
@@ -49,7 +50,6 @@ try{
     // Process Parts Status extract file
 try{
 
-    echo "Entered here";
     $extractFile = TARGET_DIR . $partsFileName;
     $upload_OK = move_uploaded_file($_FILES["Parts_XML_$companyID"]["tmp_name"], $extractFile);
 
@@ -58,19 +58,19 @@ try{
 
     if ($upload_OK){
 
-        $repairsList = Get_Repairs_List_From_DB($companyID);
+        $repairsList = Get_Repairs_List_From_DB($companyID, $conn);
 
         $partsList = Get_Parts_List_From_XML($companyID, $repairsList, $extractFile);
 
     //    Display_Parts_List($partsList);
 
-        Write_New_Parts_Records_To_Database($partsList, $repairsList);
+        Write_New_Parts_Records_To_Database($partsList, $conn);
 
-        echo "<br/> Parts Status upload successful!";
+        echo "<br/> Parts Status upload successful!<br/>";
 
     } else {
 
-        echo "Upload failed!<br>";
+        echo "<br/>Upload failed!<br>";
 
         // Replace 'file' with the actual 'name' attribute of your HTML <input type="file">
         if (isset($_FILES["Parts_XML_$companyID"])) {
@@ -95,8 +95,7 @@ try{
                 }
             } else {
                 // Step 2: Attempt to move the file if step 1 passes
-                $targetDir = __DIR__ . "/uploads/";
-                $targetFile = $targetDir . basename($file['name']);
+                $targetFile = TARGET_DIR . basename($file['name']);
 
                 if (move_uploaded_file($file['tmp_name'], $targetFile)) {
                     echo "<br/>Success: File uploaded and moved successfully.";
@@ -115,8 +114,6 @@ try{
 }
 
 
-require('../db_open.php');
-
 $tsql = "CALL sp_Update_XML_Upload(?)";
 $stmt = $conn->prepare($tsql);
 $stmt->bind_param("i", $companyID);
@@ -129,7 +126,7 @@ if ($stmt->execute() === TRUE) {
 }
 
 $stmt->close();
-$conn = null;
+$conn->close();
 
 
 function Debug_Load_Error($filePath){

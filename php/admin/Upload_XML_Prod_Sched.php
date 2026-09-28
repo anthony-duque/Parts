@@ -10,11 +10,10 @@
         public $name;
 
         function __construct($id, $name, $companyID){
-            $this->company_id = $companyID;
-            $this->location_id = $id;
-            $this->name = $name;
+            $this->company_id   = $companyID;
+            $this->location_id  = $id;
+            $this->name         = $name;
         }
-
     }   // class Shop{}
 
 
@@ -30,7 +29,6 @@
             $this->repairs = $repairList;
             $this->shops = $shopList;
         }
-
     }   // class Repairs{}
 
 
@@ -83,13 +81,12 @@
             $this->insurance            = Cleanup_Text($ro->master_carrier_name);
 
         }   // function __construct($ro_num, ...)
-
     }   // class repairOrderLine{}
 
 
-    function Check_Shop_List_Against_DB($shops) {
+    function Check_Shop_List_Against_DB($shops, $db_conn) {
 
-        require('../db_open.php');
+//        require('../db_open.php');
 
         foreach ($shops as $shop) {
 
@@ -98,7 +95,7 @@
 
             $tsql = "SELECT id FROM shops WHERE location_id = '$location_id' AND company_id = $shop->company_id";
 
-            $result = $conn->query($tsql);
+            $result = $db_conn->query($tsql);
 
             if ($result->num_rows == 0) {
 
@@ -107,10 +104,11 @@
                                 "(location_id, name, company_id) " . 
                             "VALUES ('$location_id', '$name', $shop->company_id)";
 
-                $conn->query($insert_sql);
-                $shop->shop_id = $conn->insert_id;
+                $db_conn->query($insert_sql);
+                $shop->shop_id = $db_conn->insert_id;
 
                 echo "<br/>Shop with location_id: $location_id and name: $name added to the database.";
+
             } else {
 
                 $row = $result->fetch_assoc();
@@ -119,8 +117,6 @@
             }   // if ($result->num_rows == 0)
 
         }   // foreach ($shops as $shop)
-
-        $conn->close();
 
         return $shops;
 
@@ -133,7 +129,7 @@
         $xml = simplexml_load_file($repairsFile);
 
         if ($xml === false) {
-            die("Error: Failed to load or parse the Production Schedule XML file.");
+            die("<br/>Error: Failed to load or parse the Production Schedule XML file.");
         }
 
         $location_ids = [];
@@ -198,9 +194,9 @@
     }   // function Form_Insert_SQL($repairs, $shopList)
 
 
-    function Delete_Old_Repair_Records($repairs){
+    function Delete_Old_Repair_Records($repairs, $db_conn){
 
-        require('../db_open.php');
+//        require('../db_open.php');
 
             // Delete all records in Repairs table
         $tsql = "DELETE FROM repairs" . 
@@ -209,38 +205,32 @@
                 "    FROM shops " .
                 "    WHERE company_id = $repairs->company_id);";
 
-        if ($conn->query($tsql) === TRUE) {
+        if ($db_conn->query($tsql) === TRUE) {
 
-            echo "<br/><br/>Company-related repair records cleared.<br/>";
+            echo "<br/>Company-related repair records cleared.<br/>";
 
         }else{
 
-            echo "Error: " . $tsql . "<br> - " . $conn->error;
+            echo "<br/>Error: " . $tsql . "<br> - " . $db_conn->error;
             exit;
 
-        }  // if ($conn->query($tsql) === TRUE)	
-
-        $conn = null;
+        }  // if ($db_conn->query($tsql) === TRUE)	
 
     }   // function Delete_Old_Repair_Records()
 
 
-    function Write_Repairs_To_Database($repairs, $shop_list) {
-
-        require('../db_open.php');
+    function Write_Repairs_To_Database($repairs, $shop_list, $db_conn) {
 
             // Delete all records in Repairs table for the company
         $tsql = Repairs_Insert_SQL($repairs, $shop_list);
 //        echo "<br/>$tsql<br/>";
 
-        if ($conn->query($tsql) === TRUE) {
-            echo "Successfully inserted $conn->affected_rows repair records into the database.";
+        if ($db_conn->query($tsql) === TRUE) {
+            echo "<br/>Successfully inserted $db_conn->affected_rows repair records into the database.";
         } else {
-            echo "Error: " . $tsql . "<br>" . $conn->error;
+            echo "<br/>Error: " . $tsql . "<br>" . $db_conn->error;
             exit;
         }
-
-        $conn = null;
 
     }   // function Write_Repairs_To_Database($insert_sql, $insertedCount)
 ?>
