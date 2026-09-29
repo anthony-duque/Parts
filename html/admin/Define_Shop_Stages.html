@@ -1,0 +1,87 @@
+<html ng-app="DefineShopStagesApp">
+    <head>
+        <title>Define Company Stages</title>
+        <script src="../../scripts/angularjs.js"></script>
+        <script src="../../scripts/admin/Define_Shop_Stages.js"></script>
+        <style>
+            .selectedStage {
+                background-color: lightgreen;
+            }
+        </style>
+    </head>
+    <body ng-controller="DefineShopStagesCtrlr">
+
+        <!--table align="center">
+        <tr>
+            <td>Shops:</td>
+            <td>
+                <select>
+                    <option>Shop 1</option>
+                    <option>Shop 2</option>
+                </select>
+            </td>
+        </tr>
+        </table-->
+        
+        <br/>
+        
+        <table id="tblMain" align="center" border="1" width="35%">
+        <caption>Define Shop Stages</caption>    
+        <thead>
+            <tr>
+                <th width="47%">
+                    Stage Headers
+                </th>
+                <th width="47%">
+                    Shop Stages
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <table width="100%">
+                    <tr ng-repeat="heading in stageHeadings | orderBy:'id'">
+                        <td>
+                            <a ng-href="#" ng-dblclick="addHeadingToCompany(heading);">
+                                {{ heading.name }}
+                            </a>
+                        </td>
+                    </tr>
+                    </table>
+                </td>
+                <td>
+                    <table width="100%">
+                    <tr ng-repeat="stage in companyStages">
+                        <td ng-click="selectStage(stage);" ng-class="(stage.id == stageSelected.id) ? 'selectedStage' : ''">
+                            <a ng-href="#" ng-dblclick="removeCompanyHeading(stage);">
+                                {{ stage.name }}
+                            </a>
+                        </td>
+                    </tr>
+                    </table>
+                </td>
+                <td>
+                    <table valign="middle" align="left" border="1" ng-hide="!stageSelected">
+                    <tr>
+                        <td>
+                           <a href="#" ng-click="moveStageUp(stageSelected.id);">
+                                &uarr;
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="#" ng-click="moveStageDown(stageSelected.id);">
+                                &darr;
+                            </a>
+                        </td>
+                    </tr>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+        </table>
+
+    </body>
+</html>
