@@ -7,7 +7,7 @@ error_reporting(E_ALL);
 require('Utility_Scripts.php');
 
 $method     = $_SERVER['REQUEST_METHOD'];
-$locationID = $_GET["locationID"];
+//$locationID = $_GET["locationID"];
 
 switch($method){
 
@@ -32,8 +32,8 @@ switch($method){
       break;
 
    case "GET":  // get cars on the Paint List
-      $production_stages = Process_GET($locationID);
-      echo json_encode($production_stages);
+      $stage_headings = Process_GET();
+      echo json_encode($stage_headings);
       break;
 
    default:
@@ -44,28 +44,27 @@ switch($method){
 ////////////////////////////
 
 
-class Stage {
+class Heading {
 
+    public     $id;
     public     $description;
-    public     $order_no;
 
     function __construct($rec){
-        $this->description  = $rec["Description"];
-        $this->order_no     = $rec["Order_no"];
+        $this->id           = $rec["id"];
+        $this->description  = $rec["description"];
     }
 
-}   // Stage{}
+}   // Heading{}
 
 
-function Process_GET($locID){
+function Process_GET(){
 
-    $stages = [];
+    $headings = [];
 
     $sqlQuery = <<<strSQL
-                SELECT Description, Order_no
+                SELECT id, description
                 FROM stage_headings
-                WHERE Loc_ID = $locID
-                ORDER BY Order_no
+                ORDER BY description
             strSQL;
 
     require('db_open.php');
@@ -73,11 +72,11 @@ function Process_GET($locID){
     $s = mysqli_query($conn, $sqlQuery);
 
     while($r = mysqli_fetch_assoc($s)){
-        array_push($stages, new Stage($r));
+        array_push($headings, new Heading($r));
     }   // while()
 
     $conn = null;
-    return $stages;
+    return $headings;
 
 }   //  Process_GET()
 

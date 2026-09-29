@@ -2,12 +2,19 @@ var app = angular.module("DefineShopStagesApp", []);
 
 var defineShopStagesCtrlr = function($scope, $http){
 
+//     $scope.companyID = $window.sessionStorage.getItem('companyID');
+    var companyID = 2;
+
+        //  Pull from shops table
     $scope.shops = [
         { shop_id: 1, name: "World Class Collision I"},
         { shop_id: 2, name: "World Class Collision II"},
     ];
 
-    $scope.stageHeadings = [
+        // Pull from stage_headings table
+/*   
+        $scope.stageHeadings = [
+
         { id: 1,    name: "Check-In/Pre-Scan"},
         { id: 2,    name: "Disassembly"},
         { id: 3,    name: "Repair Plan"},
@@ -22,10 +29,41 @@ var defineShopStagesCtrlr = function($scope, $http){
         { id: 12,   name: "Final QC"},
         { id: 13,   name: "Ready for Delivery"},
     ];
+*/
 
+        // Pull from company_stages table
     $scope.companyStages = [];
+
     $scope.stageSelected = null;
 
+    Get_Stage_Headings();   // Get all the available Stage Heading values
+
+///////////////////////////////////////////
+
+    function Get_Stage_Headings()
+    {
+        $http.get('../../php/Stage_Headings.php')
+            .then(StageHeadingSuccess)
+            .catch(StageHeadingFailure);
+
+    }   // function Get_Stage_Headings()
+
+
+    function StageHeadingSuccess(response)
+    {
+        if (response.data)
+        {
+            console.log("Stage Headings fetched successfully!");
+            console.log(response.data);
+             $scope.stageHeadings = response.data;
+        }
+    }   // function StageHeadingsSuccess()
+
+
+    function StageHeadingFailure(response)
+    {
+        console.log("Fetching Stage Headings failed.");
+    }
 
     $scope.addHeadingToCompany = function(stage){
 

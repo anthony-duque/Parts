@@ -44,7 +44,7 @@
                     <tr ng-repeat="heading in stageHeadings | orderBy:'id'">
                         <td>
                             <a ng-href="#" ng-dblclick="addHeadingToCompany(heading);">
-                                {{ heading.name }}
+                                {{ heading.description }}
                             </a>
                         </td>
                     </tr>
@@ -55,7 +55,7 @@
                     <tr ng-repeat="stage in companyStages">
                         <td ng-click="selectStage(stage);" ng-class="(stage.id == stageSelected.id) ? 'selectedStage' : ''">
                             <a ng-href="#" ng-dblclick="removeCompanyHeading(stage);">
-                                {{ stage.name }}
+                                {{ stage.description }}
                             </a>
                         </td>
                     </tr>

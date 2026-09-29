@@ -87,3 +87,7 @@ ADD CONSTRAINT fk_repair_stage_stage_heading_id
 FOREIGN KEY (stage_heading_id)
 REFERENCES stage_headings(id)
 ON DELETE SET NULL;
+
+    -- Make the Stage Headings value unique
+ALTER TABLE PartsApp_DB.stage_headings
+ADD UNIQUE (description);
