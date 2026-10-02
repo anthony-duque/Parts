@@ -2,8 +2,8 @@ var app = angular.module("DefineShopStagesApp", []);
 
 var defineShopStagesCtrlr = function($scope, $http){
 
-//     $scope.companyID = $window.sessionStorage.getItem('companyID');
-    var companyID = 2;
+    $scope.companyID = $window.sessionStorage.getItem('companyID');
+    //$scope.companyID = 2;
 
         //  Pull from shops table
     $scope.shops = [
@@ -11,34 +11,43 @@ var defineShopStagesCtrlr = function($scope, $http){
         { shop_id: 2, name: "World Class Collision II"},
     ];
 
-        // Pull from stage_headings table
-/*   
-        $scope.stageHeadings = [
-
-        { id: 1,    name: "Check-In/Pre-Scan"},
-        { id: 2,    name: "Disassembly"},
-        { id: 3,    name: "Repair Plan"},
-        { id: 4,    name: "Waiting Approval"},
-        { id: 5,    name: "Waiting for Parts"},
-        { id: 6,    name: "Body"},
-        { id: 7,    name: "Primer"},
-        { id: 8,    name: "Paint"},
-        { id: 9,    name: "Delay"},
-        { id: 10,   name: "Reassembly"},
-        { id: 11,   name: "Sublet"},
-        { id: 12,   name: "Final QC"},
-        { id: 13,   name: "Ready for Delivery"},
-    ];
-*/
 
         // Pull from company_stages table
-    $scope.companyStages = [];
+//    $scope.companyStages = [];
 
     $scope.stageSelected = null;
 
     Get_Stage_Headings();   // Get all the available Stage Heading values
 
+    Get_Company_Stages($scope.companyID);
+
 ///////////////////////////////////////////
+
+    function Get_Company_Stages(company_id)
+    {
+        $http.get('../../php/Company_Stages.php?companyID=' + company_id)
+            .then(CompanyStagesSuccess)
+            .catch(CompanyStagesFailure);
+
+    }   // function Get_Company_Stages()
+
+
+    function CompanyStagesSuccess(response)
+    {
+        if (response.data)
+        {
+            console.log("Company Stage Headings fetched successfully!");
+            console.log(response.data);
+            $scope.companyStages = response.data;
+        }
+    }   // function StageHeadingsSuccess()
+
+
+    function CompanyStagesFailure(response)
+    {
+        console.log("Fetching Company Stage Headings failed.");
+    }
+
 
     function Get_Stage_Headings()
     {
@@ -126,6 +135,12 @@ var defineShopStagesCtrlr = function($scope, $http){
             $scope.companyStages[index + 1] = $scope.stageSelected;
         }
     };
+
+
+    $scope.Update_Stages = function()
+    {
+
+    }
 
 }   // defineShopStagesCtrlr()
 
