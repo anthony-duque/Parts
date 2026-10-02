@@ -86,8 +86,6 @@
 
     function Check_Shop_List_Against_DB($shops, $db_conn) {
 
-//        require('../db_open.php');
-
         foreach ($shops as $shop) {
 
             $location_id = $shop->location_id;
@@ -121,6 +119,54 @@
         return $shops;
 
     }   //  Check_Shop_List_Against_DB($company_ID, $shops)
+
+
+    function Populate_Shop_IDs($repair_list, $shop_lookup)
+    {
+        foreach($repair_list->repairs as $repair)
+        {
+            $shopFound = array_search($repair->location_id, array_column($shop_lookup, 'location_id'));
+
+            $shopID = $shopFound !== false ? $shop_lookup[$shopFound]->shop_id : null;
+
+            $repair->shop_id = $shopID;
+        }
+
+        return $repair_list->repairs;
+    }
+
+
+    function Display_Repairs_List($repList)
+    {
+        $header =   "<br/>" .
+                    "<table border=1>" .
+                    "<thead>" .
+                    "  <tr>" .
+                    "      <th>Shop ID</th>" .
+                    "      <th>Location ID</th>" .
+                    "      <th>Shop name</th>" .
+                    "      <th>RO Number</th>" .
+                    "      <th>Owner</th>" .
+                    "      <th>Vehicle</th>" .
+                    "  </tr>" .
+                    "</thead>";
+        echo $header;
+
+        foreach($repList as $r)
+        {
+            $repairRow = 
+                "  <tr>" .
+                "      <td>$r->shop_id</td>" .
+                "      <td>$r->location_id</td>" .
+                "      <td>$r->shop_name</td>" .
+                "      <td>$r->ro_num</td>" .
+                "      <td>$r->owner</td>" .
+                "      <td>$r->vehicle</td>" .
+                "  </tr>";
+            echo $repairRow;
+        }
+
+    }   // function Display_Repairs_List()
 
 
     function Get_Repairs_From_XML($company_ID, $repairsFile) {
@@ -194,17 +240,75 @@
     }   // function Form_Insert_SQL($repairs, $shopList)
 
 
-    function Delete_Old_Repair_Records($repairs, $db_conn){
+        //   Delete records from the database that is 
+        // not on the new load.
+        //
+        //      1) Get the list of repairs in the database
+        //          - if nothing was fetched, therefore this is a new load.
+        //              just write all the new records to the database and you're done.
 
-//        require('../db_open.php');
+        //         if records were fetched:
 
-            // Delete all records in Repairs table
-        $tsql = "DELETE FROM repairs" . 
-                " WHERE shop_id IN" . 
-                "   (SELECT id " . 
-                "    FROM shops " .
-                "    WHERE company_id = $repairs->company_id);";
+        //      2) Compare the repairs on the database with the new load
+        //          - If a repair on the database doesn't exist in the new load 
+        //              delete it.
+        //          - If it exists, update it.
 
+    function Delete_Old_Repair_Records($repairsObj, $db_conn, $repairsOldList)
+    {
+        $rep_IDs_to_delete = [];     // Will contain the repair id's to be deleted from the database
+
+            // Cycle through the repairs found in the database
+        foreach($repairsOldList as $rep_in_db)
+        {
+            $repID = $rep_in_db["id"];
+            $locID = $rep_in_db["location_id"];
+            $roNum = $rep_in_db["ro_num"];
+
+            $foundRepair = array_filter(        // check if this repair is still in the new load
+                                $repairsObj->repairs, 
+                                function($r) use ($locID, $roNum){
+                                            return ($r->location_id == $locID && $r->ro_num == $roNum);
+                                }
+                            );
+
+            if (!$foundRepair)   // repair in db not found in the new load
+            {
+                $rep_IDs_to_delete[] = $repID;      // add the repair id to the list to be deleted
+            }
+        }
+
+        if (count($rep_IDs_to_delete) > 0)
+        {
+
+            $deleted_rep_ids = implode(',', $rep_IDs_to_delete);
+            $sql = "DELETE FROM repairs WHERE id IN (" . $deleted_rep_ids . ")";
+            $db_conn->query($sql);
+            echo "Old repairs deleted from the database: $deleted_rep_ids";
+        }
+
+    }   // function Delete_Old_Repair_Records()
+
+
+    function Perform_UPSERT_on_new_load($repsObj)
+    {
+        $insert_sql = <<<strSQL
+
+                INSERT INTO repairs
+                    (ro_num, shop_id, owner, vehicle, vehicle_color,
+                    license_plate, parts_received, vehicle_in, current_phase,
+                    scheduled_out, technician, estimator, insurance)
+        strSQL;
+
+        foreach($repsObj->repairs as $r)
+        {
+            $shopFound = array_search($r->location_id, array_column($shopList, 'location_id'));
+
+            $shop_id = $shopFound !== false ? $shopList[$shopFound]->shop_id : null;
+
+//            $strValues = "VALUES ('$r->ro_num', $shop_id, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+        }
+/*
         if ($db_conn->query($tsql) === TRUE) {
 
             echo "<br/>Company-related repair records cleared.<br/>";
@@ -215,8 +319,8 @@
             exit;
 
         }  // if ($db_conn->query($tsql) === TRUE)	
-
-    }   // function Delete_Old_Repair_Records()
+*/
+    }
 
 
     function Write_Repairs_To_Database($repairs, $shop_list, $db_conn) {

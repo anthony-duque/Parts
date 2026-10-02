@@ -29,11 +29,35 @@ try{
 
         $repairList = Get_Repairs_From_XML($companyID, $extractFile);
 
+//        Display_Repairs_List($repairList->repairs);
+
         $shopList = Check_Shop_List_Against_DB($repairList->shops, $conn);
 
-        Delete_Old_Repair_Records($repairList, $conn);
+            // determine the shop id for each repair then populate shop_id field
+        $updatedRepairList = Populate_Shop_IDs($repairList, $shopList);
 
-        Write_Repairs_To_Database($repairList, $shopList, $conn);
+//        Display_Repairs_List($updatedRepairList);
+
+            // Get the list of repairs for this company
+        $sql = "SELECT r.id, s.location_id, r.ro_num " .
+                "FROM repairs r INNER JOIN shops s" .
+                    " ON r.shop_id = s.id" .
+                " WHERE s.company_id = $companyID";
+
+        $repairs_old_list = $conn->query($sql);
+        
+        if ($repairs_old_list->num_rows > 0) 
+        {
+                // Delete vehicles that are not in the current Production Schedule 
+            Delete_Old_Repair_Records($repairList, $conn, $repairs_old_list);
+//            Perform_UPSERT_on_new_load($repairList);
+
+        } else {      // no previous repairs found.  (New load)
+
+            echo "<br/>No company-related repair records fetched.<br/>";
+
+            Write_Repairs_To_Database($updatedRepairList, $shopList, $conn);
+        }
 
         echo "<br/> Repair Order records uploaded successfully!<br/>";
 
@@ -54,7 +78,6 @@ try{
     $upload_OK = move_uploaded_file($_FILES["Parts_XML_$companyID"]["tmp_name"], $extractFile);
 
 //    Debug_Load_Error($extractFile);
-//    exit;
 
     if ($upload_OK){
 
@@ -72,7 +95,7 @@ try{
 
         echo "<br/>Upload failed!<br>";
 
-        // Replace 'file' with the actual 'name' attribute of your HTML <input type="file">
+            // Replace 'file' with the actual 'name' attribute of your HTML <input type="file">
         if (isset($_FILES["Parts_XML_$companyID"])) {
             $file = $_FILES["Parts_XML_$companyID"];
 
