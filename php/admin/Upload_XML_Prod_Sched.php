@@ -1,11 +1,9 @@
 <?php
 
-/////////////////////////////////////////////////////////////////
-
     class Shop{
     
+        public $shop_id;        // determined in Check_Shop_List_Against_DB() function
         public $company_id;
-        public $shop_id;
         public $location_id;
         public $name;
 
@@ -103,10 +101,10 @@
                             "VALUES ('$location_id', '$name', $shop->company_id)";
 
                 $db_conn->query($insert_sql);
-                $shop->shop_id = $db_conn->insert_id;
+                $shop->shop_id = $db_conn->insert_id;   // insert the primary key generated for the new shop
 
                 echo "<br/>Shop with location_id: $location_id and name: $name added to the database.";
-
+                    // for future development: email admin that a new shop was added to this company
             } else {
 
                 $row = $result->fetch_assoc();
@@ -206,41 +204,8 @@
     }   // function Get_Repairs_From_XML($company_ID, &$shops)
 
 
-    function Repairs_Insert_SQL($repairs_object, $shopList) {
 
-        $tsql = <<<strSQL
-                    INSERT INTO repairs
-                        (ro_num, owner, vehicle, vehicle_color, license_plate,
-                        parts_received, vehicle_in, current_phase, scheduled_out,
-                        technician, estimator, insurance, shop_id)
-                    VALUES
-        strSQL;
-
-        $values = '';
-
-        foreach ($repairs_object->repairs as $repair) {
-
-                // find the shop_id for the repair's location_id in the shopList
-            $shopFound = array_search($repair->location_id, array_column($shopList, 'location_id'));
-
-            $shop_id = $shopFound !== false ? $shopList[$shopFound]->shop_id : null;
-
-            if ($shop_id > 0){
-
-                $values .= "('" . $repair->ro_num . "', '" . $repair->owner . "', '" . $repair->vehicle . "', '" . $repair->vehicle_color  . "', " .
-                            "'" . $repair->license_plate . "', " . $repair->parts_received . ", " . $repair->vehicle_in . ", " .
-                            "'" . $repair->current_phase . "', " . $repair->scheduled_out . ", '" . $repair->technician . "', " .
-                            "'" . $repair->estimator . "', '" . $repair->insurance . "', " . $shop_id . "),";
-            }   // if ($shop_id > 0)
-
-        }   // foreach ($repairs as $repair)
-
-        return rtrim($tsql . $values, ',');
-
-    }   // function Form_Insert_SQL($repairs, $shopList)
-
-
-        //   Delete records from the database that is 
+        //   Delete repairs from the database that is 
         // not on the new load.
         //
         //      1) Get the list of repairs in the database
@@ -290,51 +255,63 @@
     }   // function Delete_Old_Repair_Records()
 
 
-    function Perform_UPSERT_on_new_load($repsObj)
+    function Perform_UPSERT_on_new_load($repsObj, $shopList, $db_conn)
     {
         $insert_sql = <<<strSQL
 
                 INSERT INTO repairs
-                    (ro_num, shop_id, owner, vehicle, vehicle_color,
+                    (shop_id, ro_num, owner, vehicle, vehicle_color,
                     license_plate, parts_received, vehicle_in, current_phase,
                     scheduled_out, technician, estimator, insurance)
+                VALUES
         strSQL;
+
+        $strValues = '';
 
         foreach($repsObj->repairs as $r)
         {
+                // look up the shop_id for this repair from the shop lookup list
             $shopFound = array_search($r->location_id, array_column($shopList, 'location_id'));
 
             $shop_id = $shopFound !== false ? $shopList[$shopFound]->shop_id : null;
 
-//            $strValues = "VALUES ('$r->ro_num', $shop_id, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+            $strValues .= <<<strSQL
+                            ($r->shop_id, '$r->ro_num', '$r->owner', '$r->vehicle', '$r->vehicle_color', 
+                            '$r->license_plate', $r->parts_received, $r->vehicle_in, '$r->current_phase', 
+                            $r->scheduled_out, '$r->technician', '$r->estimator', '$r->insurance'),
+                        strSQL;       
         }
-/*
-        if ($db_conn->query($tsql) === TRUE) {
+        
+        $strValues = rtrim($strValues, ',') . " AS new_repair ";  // Remove the trailing comma
 
-            echo "<br/>Company-related repair records cleared.<br/>";
+        $upsert_sql = $insert_sql . $strValues . " ON DUPLICATE KEY UPDATE " .
+                        "shop_id = new_repair.shop_id, " .
+                        "ro_num = new_repair.ro_num, " .
+                        "owner = new_repair.owner, " .
+                        "vehicle = new_repair.vehicle, " .
+                        "vehicle_color = new_repair.vehicle_color, " .
+                        "license_plate = new_repair.license_plate, " .
+                        "parts_received = new_repair.parts_received, " .
+                        "vehicle_in = new_repair.vehicle_in, " .
+                        "current_phase = new_repair.current_phase, " .
+                        "scheduled_out = new_repair.scheduled_out, " .
+                        "technician = new_repair.technician, " .
+                        "estimator = new_repair.estimator, " .
+                        "insurance = new_repair.insurance;";
+
+//        echo "<br/>$upsert_sql<br/>";
+
+        if ($db_conn->query($upsert_sql) === TRUE) {
+
+            echo "<br/>Repair records inserted/updated successfully.<br/>";
 
         }else{
 
-            echo "<br/>Error: " . $tsql . "<br> - " . $db_conn->error;
+            echo "<br/>Error: " . $upsert_sql . "<br> - " . $db_conn->error;
             exit;
 
         }  // if ($db_conn->query($tsql) === TRUE)	
-*/
-    }
 
+    }   // function Perform_UPSERT_on_new_load($repsObj, $shopList, $db_conn)
 
-    function Write_Repairs_To_Database($repairs, $shop_list, $db_conn) {
-
-            // Delete all records in Repairs table for the company
-        $tsql = Repairs_Insert_SQL($repairs, $shop_list);
-//        echo "<br/>$tsql<br/>";
-
-        if ($db_conn->query($tsql) === TRUE) {
-            echo "<br/>Successfully inserted $db_conn->affected_rows repair records into the database.";
-        } else {
-            echo "<br/>Error: " . $tsql . "<br>" . $db_conn->error;
-            exit;
-        }
-
-    }   // function Write_Repairs_To_Database($insert_sql, $insertedCount)
 ?>

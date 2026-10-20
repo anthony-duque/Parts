@@ -30,7 +30,7 @@ class Location{
 
     function __construct($rec){
         $this->id = $rec["id"];
-        $this->location = $rec["location"];
+        $this->location = $rec["name"];
         $this->last_data_upload = $rec["last_data_upload"];
     }
 }

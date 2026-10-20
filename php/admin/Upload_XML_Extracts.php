@@ -31,10 +31,11 @@ try{
 
 //        Display_Repairs_List($repairList->repairs);
 
-        $shopList = Check_Shop_List_Against_DB($repairList->shops, $conn);
+            // Insert shops found in the load that is not yet in the database
+        $shopLookupList = Check_Shop_List_Against_DB($repairList->shops, $conn);
 
             // determine the shop id for each repair then populate shop_id field
-        $updatedRepairList = Populate_Shop_IDs($repairList, $shopList);
+        $updatedRepairList = Populate_Shop_IDs($repairList, $shopLookupList);
 
 //        Display_Repairs_List($updatedRepairList);
 
@@ -48,16 +49,12 @@ try{
         
         if ($repairs_old_list->num_rows > 0) 
         {
+            echo "<br/>Found " . $repairs_old_list->num_rows . " previous repair records for this company.<br/>";
                 // Delete vehicles that are not in the current Production Schedule 
             Delete_Old_Repair_Records($repairList, $conn, $repairs_old_list);
-//            Perform_UPSERT_on_new_load($repairList);
-
-        } else {      // no previous repairs found.  (New load)
-
-            echo "<br/>No company-related repair records fetched.<br/>";
-
-            Write_Repairs_To_Database($updatedRepairList, $shopList, $conn);
         }
+
+        Perform_UPSERT_on_new_load($repairList, $shopLookupList, $conn);
 
         echo "<br/> Repair Order records uploaded successfully!<br/>";
 
@@ -135,7 +132,6 @@ try{
     echo "<br/>There was an error uploading the " . basename($_FILES["Parts_XML_$companyID"]["name"]);
 //    header("Location: ./Upload_Extracts.html");
 }
-
 
 $tsql = "CALL sp_Update_XML_Upload(?)";
 $stmt = $conn->prepare($tsql);
