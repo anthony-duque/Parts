@@ -41,7 +41,7 @@
             <tr>
                 <td>
                     <table width="100%">
-                    <tr ng-repeat="heading in stageHeadings | orderBy:'id'">
+                    <tr ng-repeat="heading in stageHeadings | orderBy:'description'">
                         <td>
                             <a ng-href="#" ng-dblclick="addHeadingToCompany(heading);">
                                 {{ heading.description }}

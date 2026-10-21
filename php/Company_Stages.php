@@ -14,7 +14,7 @@ switch($method){
    case 'POST':;
       $json = file_get_contents('php://input');
       $data = json_decode($json);
-      ProcessPOST($data);
+      ProcessPOST($data, $companyID);
       break;
 
    case "PUT":    // Could read from input and query string
@@ -27,7 +27,7 @@ switch($method){
       fclose($putData);
 
       $jsonData = json_decode($rawJson);
-      //var_dump($jsonData);
+      var_dump($jsonData);
       ProcessPUT($jsonData);
       break;
 
@@ -67,9 +67,9 @@ function Process_GET($cID){
 
     $sqlQuery = <<<strSQL
                     SELECT cs.id, cs.sequence_num, cs.stage_heading_id, sh.description
-                    FROM company_stages cs INNER JOIN stage_headings sh
+                    FROM company_stage_headings cs INNER JOIN stage_headings sh
                         ON cs.stage_heading_id = sh.id
-                    WHERE company_id = $cID
+                    WHERE cs.company_id = $cID
                     ORDER BY cs.sequence_num
             strSQL;
 
@@ -85,5 +85,46 @@ function Process_GET($cID){
     return $stages;
 
 }   //  Process_GET()
+
+
+function ProcessPOST($companyHeadings, $company_ID){
+
+    $sql = "DELETE FROM company_stage_headings WHERE company_id = $company_ID";
+
+    require('db_open.php');
+
+    $s = mysqli_query($conn, $sql);
+
+    if (!$s){
+
+        echo "Error deleting records: " . mysqli_error($conn);
+    
+    } else {
+
+        $insertSQL = <<<strSQL
+                INSERT INTO company_stage_headings (company_id, sequence_num, stage_heading_id)
+                VALUES 
+            strSQL;
+
+        foreach($companyHeadings as $index => $heading){
+
+            $insertSQL .= " ($company_ID, $index, $heading->id),";
+
+        }   //  foreach()
+    
+        $insertSQL = rtrim($insertSQL, ",") . ";";
+
+        $s = mysqli_query($conn, $insertSQL);
+
+        if($s){
+            echo "Record added successfully";
+        } else {
+            echo "Error adding record: " . mysqli_error($conn);
+        }
+    }
+
+    $conn->close();
+
+}   //  Process_POST()
 
 ?>

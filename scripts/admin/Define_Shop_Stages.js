@@ -1,19 +1,8 @@
 var app = angular.module("DefineShopStagesApp", []);
 
-var defineShopStagesCtrlr = function($scope, $http){
+var defineShopStagesCtrlr = function($scope, $http, $window) {
 
     $scope.companyID = $window.sessionStorage.getItem('companyID');
-    //$scope.companyID = 2;
-
-        //  Pull from shops table
-    $scope.shops = [
-        { shop_id: 1, name: "World Class Collision I"},
-        { shop_id: 2, name: "World Class Collision II"},
-    ];
-
-
-        // Pull from company_stages table
-//    $scope.companyStages = [];
 
     $scope.stageSelected = null;
 
@@ -74,6 +63,7 @@ var defineShopStagesCtrlr = function($scope, $http){
         console.log("Fetching Stage Headings failed.");
     }
 
+
     $scope.addHeadingToCompany = function(stage){
 
             // add the heading to the company
@@ -81,7 +71,7 @@ var defineShopStagesCtrlr = function($scope, $http){
 
             // remove it from the stage heading list
         $scope.stageHeadings = $scope.stageHeadings.filter(heading => heading.id !== stage.id);
-    };
+    }
 
 
     $scope.removeCompanyHeading = function(stage){
@@ -90,7 +80,7 @@ var defineShopStagesCtrlr = function($scope, $http){
 
             // remove it from the stage heading list
         $scope.companyStages = $scope.companyStages.filter(heading => heading.id !== stage.id);
-    };
+    }
 
 
     $scope.selectStage = function(stage){
@@ -100,7 +90,7 @@ var defineShopStagesCtrlr = function($scope, $http){
         } else {
             $scope.stageSelected = null;
         }
-    };
+    }
 
 
         // move up the selected stage in the list
@@ -117,7 +107,7 @@ var defineShopStagesCtrlr = function($scope, $http){
             $scope.companyStages[index] = $scope.companyStages[index - 1];
             $scope.companyStages[index - 1] = $scope.stageSelected;
         }
-    };
+    }
 
 
         // move down the selected stage in the list
@@ -134,13 +124,21 @@ var defineShopStagesCtrlr = function($scope, $http){
             $scope.companyStages[index] = $scope.companyStages[index + 1];
             $scope.companyStages[index + 1] = $scope.stageSelected;
         }
-    };
+    }
 
 
     $scope.Update_Stages = function()
     {
-
-    }
+        console.log(JSON.stringify($scope.companyStages));
+        $http.post('../../php/Company_Stages.php?companyID=' + $scope.companyID, JSON.stringify($scope.companyStages))
+            .then(function(response) {
+                console.log("Company stages updated successfully!");
+                console.log(response.data);
+            })
+            .catch(function(error) {
+                console.error("Error updating company stages:", error);
+            });
+    }   // $scope.Update_Stages()
 
 }   // defineShopStagesCtrlr()
 
