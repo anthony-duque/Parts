@@ -7,7 +7,6 @@ error_reporting(E_ALL);
 require('Utility_Scripts.php');
 
 $method     = $_SERVER['REQUEST_METHOD'];
-//$locationID = $_GET["locationID"];
 
 switch($method){
 
@@ -46,11 +45,11 @@ switch($method){
 
 class Heading {
 
-    public     $id;
+    public     $heading_id;
     public     $description;
 
     function __construct($rec){
-        $this->id           = $rec["id"];
+        $this->heading_id = $rec["id"];
         $this->description  = $rec["description"];
     }
 

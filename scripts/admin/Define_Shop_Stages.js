@@ -6,15 +6,17 @@ var defineShopStagesCtrlr = function($scope, $http, $window) {
 
     $scope.stageSelected = null;
 
-    Get_Stage_Headings();   // Get all the available Stage Heading values
+    Get_Shop_List($scope.companyID);   // Get all the available Shops for this company
 
     Get_Company_Stages($scope.companyID);
+
+    Get_Stage_Headings();   // Get all the available Stage Heading values
 
 ///////////////////////////////////////////
 
     function Get_Company_Stages(company_id)
     {
-        $http.get('../../php/Company_Stages.php?companyID=' + company_id)
+        $http.get('../../php/Company_Stage_Headings.php?companyID=' + company_id)
             .then(CompanyStagesSuccess)
             .catch(CompanyStagesFailure);
 
@@ -53,8 +55,12 @@ var defineShopStagesCtrlr = function($scope, $http, $window) {
         {
             console.log("Stage Headings fetched successfully!");
             console.log(response.data);
-             $scope.stageHeadings = response.data;
-        }
+            $scope.stageHeadings = response.data;
+
+                // remove any stage headings that are already assigned to the company
+            $scope.stageHeadings = $scope.stageHeadings.filter(heading => !$scope.companyStages.some(stage => stage.heading_id === heading.id));
+
+            }
     }   // function StageHeadingsSuccess()
 
 
@@ -64,22 +70,48 @@ var defineShopStagesCtrlr = function($scope, $http, $window) {
     }
 
 
+    function Get_Shop_List(company_id)
+    {
+        $http.get('../../php/Shops.php?companyID=' + company_id)
+            .then(ShopListSuccess)
+            .catch(ShopListFailure);
+
+    }   // function Get_Shop_List()
+
+
+    function ShopListSuccess(response)
+    {
+        if (response.data)
+        {
+            console.log("Shop List fetched successfully!");
+            console.log(response.data);
+             $scope.shopList = response.data;
+        }
+    }   // function ShopListSuccess()
+
+
+    function ShopListFailure(response)
+    {
+        console.log("Fetching Shop List failed.");
+    }
+
     $scope.addHeadingToCompany = function(stage){
 
             // add the heading to the company
         $scope.companyStages.push(stage);
 
             // remove it from the stage heading list
-        $scope.stageHeadings = $scope.stageHeadings.filter(heading => heading.id !== stage.id);
+        $scope.stageHeadings = $scope.stageHeadings.filter(heading => heading.heading_id !== stage.heading_id);
     }
 
 
     $scope.removeCompanyHeading = function(stage){
 
+        console.log(stage);
         $scope.stageHeadings.push(stage);
 
             // remove it from the stage heading list
-        $scope.companyStages = $scope.companyStages.filter(heading => heading.id !== stage.id);
+        $scope.companyStages = $scope.companyStages.filter(heading => heading.heading_id !== stage.heading_id);
     }
 
 
@@ -96,7 +128,7 @@ var defineShopStagesCtrlr = function($scope, $http, $window) {
         // move up the selected stage in the list
     $scope.moveStageUp = function(selectedID){
 
-        const index = $scope.companyStages.findIndex(stage => stage.id === selectedID);
+        const index = $scope.companyStages.findIndex(stage => stage.heading_id === selectedID);
         
         if (index == 0){
             
@@ -113,7 +145,7 @@ var defineShopStagesCtrlr = function($scope, $http, $window) {
         // move down the selected stage in the list
     $scope.moveStageDown = function(selectedID){
 
-        const index = $scope.companyStages.findIndex(stage => stage.id === selectedID);
+        const index = $scope.companyStages.findIndex(stage => stage.heading_id === selectedID);
         
         if (index == ($scope.companyStages.length - 1)){
             
@@ -129,8 +161,8 @@ var defineShopStagesCtrlr = function($scope, $http, $window) {
 
     $scope.Update_Stages = function()
     {
-        console.log(JSON.stringify($scope.companyStages));
-        $http.post('../../php/Company_Stages.php?companyID=' + $scope.companyID, JSON.stringify($scope.companyStages))
+//        console.log(JSON.stringify($scope.companyStages));
+        $http.post('../../php/Company_Stage_Headings.php?companyID=' + $scope.companyID, JSON.stringify($scope.companyStages))
             .then(function(response) {
                 console.log("Company stages updated successfully!");
                 console.log(response.data);

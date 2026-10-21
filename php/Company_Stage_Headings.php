@@ -46,16 +46,15 @@ switch($method){
 
 class Stage {
 
-    public $id;
-    public $sequence_num;
     public $heading_id;
+    public $sequence_num;
     public $description;
 
     function __construct($rec){
-        $this->id           = $rec["id"];
-        $this->sequence_num = $rec["sequence_num"];
+
         $this->heading_id   = $rec["stage_heading_id"];
         $this->description  = $rec["description"];
+        $this->sequence_num = $rec["sequence_num"];
     }
 
 }   // Heading{}
@@ -65,17 +64,17 @@ function Process_GET($cID){
 
     $stages = [];
 
-    $sqlQuery = <<<strSQL
-                    SELECT cs.id, cs.sequence_num, cs.stage_heading_id, sh.description
-                    FROM company_stage_headings cs INNER JOIN stage_headings sh
-                        ON cs.stage_heading_id = sh.id
-                    WHERE cs.company_id = $cID
-                    ORDER BY cs.sequence_num
+    $sql = <<<strSQL
+                SELECT cs.sequence_num, cs.stage_heading_id, sh.description
+                FROM company_stage_headings cs INNER JOIN stage_headings sh
+                    ON cs.stage_heading_id = sh.id
+                WHERE cs.company_id = $cID
+                ORDER BY cs.sequence_num
             strSQL;
 
     require('db_open.php');
 
-    $s = mysqli_query($conn, $sqlQuery);
+    $s = mysqli_query($conn, $sql);
 
     while($r = mysqli_fetch_assoc($s)){
         array_push($stages, new Stage($r));
@@ -106,9 +105,9 @@ function ProcessPOST($companyHeadings, $company_ID){
                 VALUES 
             strSQL;
 
-        foreach($companyHeadings as $index => $heading){
+        foreach($companyHeadings as $index => $stage){
 
-            $insertSQL .= " ($company_ID, $index, $heading->id),";
+            $insertSQL .= " ($company_ID, $index, $stage->heading_id),";
 
         }   //  foreach()
     
