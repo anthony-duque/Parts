@@ -11,30 +11,41 @@
     </head>
     <body ng-controller="DefineShopStagesCtrlr">
 
-        <!-- table align="center">
+        <table align="center">
         <tr>
-            <td>Shops:</td>
+            <th>
+                <h2><u>
+                    Define Shop Stages
+                </u></h2>
+            </th>
+        </tr>
+        </table>
+
+        <br/>
+
+        <table align="center">
+        <tr>
+            <td>Shop:</td>
             <td>
-                <select ng -model="selectedShop">
+                <select ng-model="selectedShop" ng-change="Get_Shop_Stages(selectedShop.id);">
                     <option value="">Select a Shop</option>
-                    <option ng -repeat="shop in shopList" value="{{ shop.id }}">
+                    <option ng-repeat="shop in shopList" value="{{ shop.id }}">
                         {{ shop.name }}
                     </option>
                 </select>
             </td>
         </tr>
-        </table -->
+        </table>
         
         <br/>
         
-        <table id="tblMain" align="center" border="1" width="35%">
-        <caption>Define Shop Stages</caption>    
+        <table id="tblMain" align="center" border="1" width="35%" ng-show="selectedShop">
         <thead>
             <tr>
-                <th width="47%">
+                <th>
                     Stage Headers
                 </th>
-                <th width="47%">
+                <th>
                     Shop Stages
                 </th>
             </tr>
@@ -54,8 +65,8 @@
                 </td>
                 <td>
                     <table width="100%">
-                    <tr ng-repeat="stage in companyStages">
-                        <td ng-click="selectStage(stage);" ng-class="(stage.heading_id === stageSelected.heading_id) ? 'selectedStage' : ''" -->
+                    <tr ng-repeat="stage in shopStages">
+                        <td ng-click="selectStage(stage);" ng-class="(stage.heading_id === stageSelected.heading_id) ? 'selectedStage' : ''">
                             <a ng-href="#" ng-dblclick="removeCompanyHeading(stage);">
                                 {{ stage.description }}
                             </a>
@@ -63,7 +74,7 @@
                     </tr>
                     </table>
                 </td>
-                <td>
+                <td rowspan="2" width="10%" ng-show="stageSelected">
                     <table valign="middle" align="left" border="1" ng-hide="!stageSelected">
                     <tr>
                         <td>
