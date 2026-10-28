@@ -65,7 +65,7 @@ var stageCtrlr = function($scope, $http, $window, utility){
     function Switch_To_Shop(loc_ID){
 
         if (loc_ID > 0){
-            $http.get('./php/Stage_Headings.php?locationID=' + loc_ID)  // get all locations by default
+            $http.get('./php/Company_Stages.php?shopID=' + loc_ID)  // get all locations by default
                   .then(
                         function(response){
                             if (response.data){

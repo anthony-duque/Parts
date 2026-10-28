@@ -5,38 +5,40 @@ var defineShopStagesCtrlr = function($scope, $http, $window) {
     $scope.companyID = $window.sessionStorage.getItem('companyID');
 
     $scope.stageSelected = null;
+    $scope.shopStages = [];
+    $scope.stageHeadings = [];
 
     Get_Shop_List($scope.companyID);   // Get all the available Shops for this company
 
-    Get_Company_Stages($scope.companyID);
+//    Get_Shop_Stages($scope.companyID);
 
     Get_Stage_Headings();   // Get all the available Stage Heading values
 
 ///////////////////////////////////////////
 
-    function Get_Company_Stages(company_id)
+    function Get_Shop_Stages(shop_id)
     {
-        $http.get('../../php/Company_Stage_Headings.php?companyID=' + company_id)
-            .then(CompanyStagesSuccess)
-            .catch(CompanyStagesFailure);
+        $http.get('../../php/Shop_Stage_Headings.php?shopID=' + shop_id)
+            .then(ShopStagesSuccess)
+            .catch(ShopStagesFailure);
 
-    }   // function Get_Company_Stages()
+    }   // function Get_Shop_Stages()
 
 
-    function CompanyStagesSuccess(response)
+    function ShopStagesSuccess(response)
     {
         if (response.data)
         {
-            console.log("Company Stage Headings fetched successfully!");
+            console.log("Shop Stage Headings fetched successfully!");
             console.log(response.data);
-            $scope.companyStages = response.data;
+            $scope.shopStages = response.data;
         }
-    }   // function StageHeadingsSuccess()
+    }   // function ShopStagesSuccess()
 
 
-    function CompanyStagesFailure(response)
+    function ShopStagesFailure(response)
     {
-        console.log("Fetching Company Stage Headings failed.");
+        console.log("Fetching Shop Stage Headings failed.");
     }
 
 
@@ -58,7 +60,7 @@ var defineShopStagesCtrlr = function($scope, $http, $window) {
             $scope.stageHeadings = response.data;
 
                 // remove any stage headings that are already assigned to the company
-            $scope.stageHeadings = $scope.stageHeadings.filter(heading => !$scope.companyStages.some(stage => stage.heading_id === heading.id));
+            $scope.stageHeadings = $scope.stageHeadings.filter(heading => !$scope.shopStages.some(stage => stage.heading_code === heading.code));
 
             }
     }   // function StageHeadingsSuccess()
@@ -98,10 +100,10 @@ var defineShopStagesCtrlr = function($scope, $http, $window) {
     $scope.addHeadingToCompany = function(stage){
 
             // add the heading to the company
-        $scope.companyStages.push(stage);
+        $scope.shopStages.push(stage);
 
             // remove it from the stage heading list
-        $scope.stageHeadings = $scope.stageHeadings.filter(heading => heading.heading_id !== stage.heading_id);
+        $scope.stageHeadings = $scope.stageHeadings.filter(heading => heading.code !== stage.code);
     }
 
 
@@ -111,7 +113,7 @@ var defineShopStagesCtrlr = function($scope, $http, $window) {
         $scope.stageHeadings.push(stage);
 
             // remove it from the stage heading list
-        $scope.companyStages = $scope.companyStages.filter(heading => heading.heading_id !== stage.heading_id);
+        $scope.shopStages = $scope.shopStages.filter(heading => heading.code !== stage.code);
     }
 
 
@@ -126,9 +128,9 @@ var defineShopStagesCtrlr = function($scope, $http, $window) {
 
 
         // move up the selected stage in the list
-    $scope.moveStageUp = function(selectedID){
+    $scope.moveStageUp = function(stageCode){
 
-        const index = $scope.companyStages.findIndex(stage => stage.heading_id === selectedID);
+        const index = $scope.shopStages.findIndex(stage => stage.code === stageCode);
         
         if (index == 0){
             
@@ -136,39 +138,39 @@ var defineShopStagesCtrlr = function($scope, $http, $window) {
 
         } else {
 
-            $scope.companyStages[index] = $scope.companyStages[index - 1];
-            $scope.companyStages[index - 1] = $scope.stageSelected;
+            $scope.shopStages[index] = $scope.shopStages[index - 1];
+            $scope.shopStages[index - 1] = $scope.stageSelected;
         }
     }
 
 
         // move down the selected stage in the list
-    $scope.moveStageDown = function(selectedID){
+    $scope.moveStageDown = function(stageCode){
 
-        const index = $scope.companyStages.findIndex(stage => stage.heading_id === selectedID);
+        const index = $scope.shopStages.findIndex(stage => stage.code === stageCode);
         
-        if (index == ($scope.companyStages.length - 1)){
+        if (index == ($scope.shopStages.length - 1)){
             
             return;     // if there is only one stage do nothing
 
         } else {
 
-            $scope.companyStages[index] = $scope.companyStages[index + 1];
-            $scope.companyStages[index + 1] = $scope.stageSelected;
+            $scope.shopStages[index] = $scope.shopStages[index + 1];
+            $scope.shopStages[index + 1] = $scope.stageSelected;
         }
     }
 
 
     $scope.Update_Stages = function()
     {
-//        console.log(JSON.stringify($scope.companyStages));
-        $http.post('../../php/Company_Stage_Headings.php?companyID=' + $scope.companyID, JSON.stringify($scope.companyStages))
+//        console.log(JSON.stringify($scope.shopStages));
+        $http.post('../../php/Shop_Stage_Headings.php?shopID=' + $scope.selectedShop.id, JSON.stringify($scope.shopStages))
             .then(function(response) {
-                console.log("Company stages updated successfully!");
+                console.log("Shop stages updated successfully!");
                 console.log(response.data);
             })
             .catch(function(error) {
-                console.error("Error updating company stages:", error);
+                console.error("Error updating shop stages:", error);
             });
     }   // $scope.Update_Stages()
 

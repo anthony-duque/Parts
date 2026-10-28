@@ -45,11 +45,11 @@ switch($method){
 
 class Heading {
 
-    public     $heading_id;
+    public     $code;
     public     $description;
 
     function __construct($rec){
-        $this->heading_id = $rec["id"];
+        $this->code         = $rec["code"];
         $this->description  = $rec["description"];
     }
 
@@ -61,8 +61,8 @@ function Process_GET(){
     $headings = [];
 
     $sqlQuery = <<<strSQL
-                SELECT id, description
-                FROM stage_headings
+                SELECT code, description
+                FROM stages
                 ORDER BY description
             strSQL;
 
