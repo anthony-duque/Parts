@@ -7,14 +7,14 @@ error_reporting(E_ALL);
 require('Utility_Scripts.php');
 
 $method     = $_SERVER['REQUEST_METHOD'];
-$companyID  = $_GET["companyID"];
+$shopID  = $_GET["shopID"];
 
 switch($method){
 
    case 'POST':;
       $json = file_get_contents('php://input');
       $data = json_decode($json);
-      ProcessPOST($data, $companyID);
+      ProcessPOST($data, $shopID);
       break;
 
    case "PUT":    // Could read from input and query string
@@ -32,7 +32,7 @@ switch($method){
       break;
 
    case "GET":  // get cars on the Paint List
-      $stage_headings = Process_GET($companyID);
+      $stage_headings = Process_GET($shopID);
       echo json_encode($stage_headings);
       break;
 
@@ -46,29 +46,29 @@ switch($method){
 
 class Stage {
 
-    public $heading_id;
-    public $sequence_num;
+    public $code;
     public $description;
+    public $sequence_num;
 
     function __construct($rec){
 
-        $this->heading_id   = $rec["stage_heading_id"];
+        $this->code         = $rec["stage_heading_code"];
         $this->description  = $rec["description"];
         $this->sequence_num = $rec["sequence_num"];
     }
 
-}   // Heading{}
+}   // Stage{}
 
 
-function Process_GET($cID){
+function Process_GET($shopID){
 
     $stages = [];
 
     $sql = <<<strSQL
-                SELECT cs.sequence_num, cs.stage_heading_id, sh.description
-                FROM company_stage_headings cs INNER JOIN stage_headings sh
-                    ON cs.stage_heading_id = sh.id
-                WHERE cs.company_id = $cID
+                SELECT cs.sequence_num, cs.stage_heading_code, sh.description
+                FROM shop_stage_headings cs INNER JOIN stages sh
+                    ON cs.stage_heading_code = sh.code
+                WHERE cs.shop_id = $shopID
                 ORDER BY cs.sequence_num
             strSQL;
 
@@ -86,9 +86,9 @@ function Process_GET($cID){
 }   //  Process_GET()
 
 
-function ProcessPOST($companyHeadings, $company_ID){
+function ProcessPOST($shopHeadings, $shop_ID){
 
-    $sql = "DELETE FROM company_stage_headings WHERE company_id = $company_ID";
+    $sql = "DELETE FROM shop_stage_headings WHERE shop_id = $shop_ID";
 
     require('db_open.php');
 
@@ -101,13 +101,13 @@ function ProcessPOST($companyHeadings, $company_ID){
     } else {
 
         $insertSQL = <<<strSQL
-                INSERT INTO company_stage_headings (company_id, sequence_num, stage_heading_id)
+                INSERT INTO shop_stage_headings (shop_id, sequence_num, stage_heading_code)
                 VALUES 
             strSQL;
 
-        foreach($companyHeadings as $index => $stage){
+        foreach($shopHeadings as $index => $stage){
 
-            $insertSQL .= " ($company_ID, $index, $stage->heading_id),";
+            $insertSQL .= " ($shop_ID, $index, '$stage->code'),";
 
         }   //  foreach()
     
@@ -124,6 +124,6 @@ function ProcessPOST($companyHeadings, $company_ID){
 
     $conn->close();
 
-}   //  Process_POST()
+}   //  ProcessPOST()
 
 ?>
