@@ -84,6 +84,8 @@ try{
 
     //    Display_Parts_List($partsList);
 
+        Delete_Old_Parts_Records($companyID, $conn);
+
         Write_New_Parts_Records_To_Database($partsList, $conn);
 
         echo "<br/> Parts Status upload successful!<br/>";
@@ -145,6 +147,8 @@ if ($stmt->execute() === TRUE) {
 }
 
 $stmt->close();
+
+
 $conn->close();
 
 

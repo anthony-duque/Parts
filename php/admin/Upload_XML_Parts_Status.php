@@ -192,7 +192,7 @@
     function Parts_Insert_SQL($partsList){
 
         $tsql = <<<strSQL
-                INSERT INTO parts_status
+                INSERT INTO parts
                     (line, part_number, part_description, part_type, 
                     vendor_name, ro_qty, 
                     po_number, ordered_qty, 
@@ -249,4 +249,27 @@
         }   // if ($db_conn->query($sql) === TRUE)
 
     }   // function Write_New_Parts_Records_To_Database()
+
+
+    function Delete_Old_Parts_Records($company_ID, $db_conn){
+
+        $sql = "DELETE p
+                FROM parts p INNER JOIN repairs r
+                    ON p.repair_id = r.id 
+                INNER JOIN shops s
+                    ON s.id = r.shop_id
+                WHERE s.company_id = $company_ID";
+
+        if ($db_conn->query($sql) === TRUE){
+
+            echo "<br/>Successfully deleted $db_conn->affected_rows parts records from the database.";
+
+        }else{
+
+            echo "<br/>Error: " . $sql . "<br>" . $db_conn->error;
+            exit;
+
+        }   // if ($db_conn->query($sql) === TRUE)
+
+    }
 ?>

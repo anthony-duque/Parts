@@ -1,7 +1,7 @@
 CREATE PROCEDURE sp_Update_XML_Upload (IN companyID INT)
 BEGIN
 
-	UPDATE PartsApp_DB.parts_status
+	UPDATE PartsApp_DB.parts
 	SET part_status =
 		CASE
 	
