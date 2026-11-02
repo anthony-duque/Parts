@@ -16,9 +16,14 @@ var defineShopStagesCtrlr = function($scope, $http, $window) {
 
 ///////////////////////////////////////////
 
-    function Get_Shop_Stages(shop_id)
+    $scope.Shop_Selected = function(x) {
+        alert(x);
+    };
+
+    $scope.Get_Shop_Stages = function(shop)
     {
-        $http.get('../../php/Shop_Stage_Headings.php?shopID=' + shop_id)
+        $scope.shopStages = [];
+        $http.get('../../php/Shop_Stage_Headings.php?shopID=' + shop.id)
             .then(ShopStagesSuccess)
             .catch(ShopStagesFailure);
 
@@ -29,7 +34,7 @@ var defineShopStagesCtrlr = function($scope, $http, $window) {
     {
         if (response.data)
         {
-            console.log("Shop Stage Headings fetched successfully!");
+            console.log("Shop Stage Headings for " + shop.name + " fetched successfully!");
             console.log(response.data);
             $scope.shopStages = response.data;
         }
@@ -163,10 +168,9 @@ var defineShopStagesCtrlr = function($scope, $http, $window) {
 
     $scope.Update_Stages = function()
     {
-//        console.log(JSON.stringify($scope.shopStages));
         $http.post('../../php/Shop_Stage_Headings.php?shopID=' + $scope.selectedShop.id, JSON.stringify($scope.shopStages))
             .then(function(response) {
-                console.log("Shop stages updated successfully!");
+                alert("Stages for " + $scope.selectedShop.name + " updated successfully!");
                 console.log(response.data);
             })
             .catch(function(error) {

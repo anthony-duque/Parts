@@ -56,8 +56,6 @@ try{
 
         Perform_UPSERT_on_new_load($repairList, $shopLookupList, $conn);
 
-        echo "<br/> Repair Order records uploaded successfully!<br/>";
-
     }   // if ($upload_OK)
 
 } catch(Exception $e){
@@ -147,7 +145,6 @@ if ($stmt->execute() === TRUE) {
 }
 
 $stmt->close();
-
 
 $conn->close();
 

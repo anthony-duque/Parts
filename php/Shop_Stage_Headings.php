@@ -48,13 +48,13 @@ class Stage {
 
     public $code;
     public $description;
-    public $sequence_num;
+    public $sequence;
 
     function __construct($rec){
 
-        $this->code         = $rec["stage_heading_code"];
+        $this->code         = $rec["stage_code"];
         $this->description  = $rec["description"];
-        $this->sequence_num = $rec["sequence_num"];
+        $this->sequence = $rec["sequence"];
     }
 
 }   // Stage{}
@@ -65,11 +65,11 @@ function Process_GET($shopID){
     $stages = [];
 
     $sql = <<<strSQL
-                SELECT cs.sequence_num, cs.stage_heading_code, sh.description
+                SELECT cs.sequence, cs.stage_code, sh.description
                 FROM shop_stage_headings cs INNER JOIN stages sh
-                    ON cs.stage_heading_code = sh.code
+                    ON cs.stage_code = sh.code
                 WHERE cs.shop_id = $shopID
-                ORDER BY cs.sequence_num
+                ORDER BY cs.sequence
             strSQL;
 
     require('db_open.php');
@@ -101,7 +101,7 @@ function ProcessPOST($shopHeadings, $shop_ID){
     } else {
 
         $insertSQL = <<<strSQL
-                INSERT INTO shop_stage_headings (shop_id, sequence_num, stage_heading_code)
+                INSERT INTO shop_stage_headings (shop_id, sequence, stage_code)
                 VALUES 
             strSQL;
 

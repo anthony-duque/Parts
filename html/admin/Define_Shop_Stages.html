@@ -27,9 +27,9 @@
         <tr>
             <td>Shop:</td>
             <td>
-                <select ng-model="selectedShop" ng-change="Get_Shop_Stages(selectedShop.id);">
-                    <option value="">Select a Shop</option>
-                    <option ng-repeat="shop in shopList" value="{{ shop.id }}">
+                <select ng-model="selectedShop" ng-change="Get_Shop_Stages(selectedShop);" id="shop">
+                    <option ng-value="">Select a Shop</option>
+                    <option ng-repeat="shop in shopList" ng-value="shop">
                         {{ shop.name }}
                     </option>
                 </select>

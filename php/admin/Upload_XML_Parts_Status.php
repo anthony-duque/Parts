@@ -193,7 +193,7 @@
 
         $tsql = <<<strSQL
                 INSERT INTO parts
-                    (line, part_number, part_description, part_type, 
+                    (line, number, description, type, 
                     vendor_name, ro_qty, 
                     po_number, ordered_qty, 
                     order_date, expected_delivery, 
@@ -227,6 +227,9 @@
         $values = rtrim($values, ',');
 
         $insert_sql = $tsql . $values;
+
+//        echo $insert_sql;
+//        exit;
 
         return $insert_sql;
 
