@@ -62,17 +62,17 @@ var stageCtrlr = function($scope, $http, $window, utility){
 
 
         // Fetches the stage headings and cars for the selected shop
-    function Switch_To_Shop(loc_ID){
+    function Switch_To_Shop(shop_ID){
 
-        if (loc_ID > 0){
-            $http.get('./php/Company_Stages.php?shopID=' + loc_ID)  // get all locations by default
+        if (shop_ID > 0){
+            $http.get('./php/Shop_Stage_Headings.php?shopID=' + shop_ID)  // get all locations by default
                   .then(
                         function(response){
                             if (response.data){
-                                console.log("Stages fetched successfully!");
+                                console.log("Stages for Shop ID " + shop_ID + " fetched successfully!");
                                 console.log(response.data);
                                 $scope.stages = response.data;
-                                GetCars($scope.stages.length, loc_ID);
+                                GetCars($scope.stages.length, shop_ID);
                             }
                         }
                   )         // then()
@@ -141,9 +141,9 @@ var stageCtrlr = function($scope, $http, $window, utility){
     }    // GetPriorityCars()
 
 
-    function GetCars(num_of_stages, locationID){
+    function GetCars(num_of_stages, shop_ID){
 
-        $http.get('./php/Stage.php?stages_count=' + num_of_stages + '&locID=' + locationID)  // get all locations by default
+        $http.get('./php/Stage.php?stages_count=' + num_of_stages + '&shopID=' + shop_ID)  // get all locations by default
               .then(
                     function(response){
                         if (response.data){

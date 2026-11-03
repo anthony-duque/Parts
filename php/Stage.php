@@ -37,8 +37,8 @@ switch($method){
 
    case "GET":  // get cars that are in production for a given location and stage
         $stage_count = $_GET["stages_count"];
-        $loc_id = $_GET["locID"];
-        Process_GET($loc_id, $stage_count);
+        $shop_id = $_GET["shopID"];
+        Process_GET($shop_id, $stage_count);
       break;
 
    default:
@@ -91,7 +91,7 @@ sqlStmt;
 }   // Production_Stage {}
 
 
-function Process_GET($locID, $stageCount){
+function Process_GET($shopID, $stageCount){
 
 //    $update = $_GET["update"];
     class ProdStage{
@@ -100,6 +100,7 @@ function Process_GET($locID, $stageCount){
         public $last_upload_time;
 
         function __construct($sc){
+
             $this->stageCars = $sc;
             $this->last_upload_time = Get_Upload_Time();
         }
@@ -109,7 +110,7 @@ function Process_GET($locID, $stageCount){
     $production_cars = [];
 
     for($stage = 0; $stage < $stageCount; ++$stage){
-        $production_cars[$stage] = new Production_Stage($locID, $stage);
+        $production_cars[$stage] = new Production_Stage($shopID, $stage);
     }
 
     ComputePartsReceived($production_cars);
