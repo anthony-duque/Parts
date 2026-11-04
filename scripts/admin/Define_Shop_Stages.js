@@ -12,16 +12,14 @@ var defineShopStagesCtrlr = function($scope, $http, $window) {
 
 //    Get_Shop_Stages($scope.companyID);
 
-    Get_Stage_Headings();   // Get all the available Stage Heading values
+//    Get_Stage_Headings();   // Get all the available Stage Heading values
 
 ///////////////////////////////////////////
 
-    $scope.Shop_Selected = function(x) {
-        alert(x);
-    };
 
     $scope.Get_Shop_Stages = function(shop)
     {
+        $scope.stageHeadings = [];
         $scope.shopStages = [];
         $http.get('../../php/Shop_Stage_Headings.php?shopID=' + shop.id)
             .then(ShopStagesSuccess)
@@ -37,6 +35,8 @@ var defineShopStagesCtrlr = function($scope, $http, $window) {
             console.log("Shop Stage Headings for " + shop.name + " fetched successfully!");
             console.log(response.data);
             $scope.shopStages = response.data;
+
+            Get_Stage_Headings();
         }
     }   // function ShopStagesSuccess()
 
@@ -59,15 +59,21 @@ var defineShopStagesCtrlr = function($scope, $http, $window) {
     function StageHeadingSuccess(response)
     {
         if (response.data)
-        {
+        {    
             console.log("Stage Headings fetched successfully!");
             console.log(response.data);
-            $scope.stageHeadings = response.data;
+            stageHeadings = response.data;
+                // remove any stage headings that are already assigned to the shop
+//            $scope.stageHeadings = stageHeadings.filter(heading => !$scope.shopStages.some(stage => stage.heading_code === heading.code));
 
-                // remove any stage headings that are already assigned to the company
-            $scope.stageHeadings = $scope.stageHeadings.filter(heading => !$scope.shopStages.some(stage => stage.heading_code === heading.code));
-
-            }
+            var headingUsed = false;
+            stageHeadings.forEach(stageHeading => {
+                headingUsed = $scope.shopStages.find(stage => stage.code === stageHeading.code);
+                if (!headingUsed) {
+                    $scope.stageHeadings.push(stageHeading);
+                }
+            });
+        }
     }   // function StageHeadingsSuccess()
 
 
@@ -101,6 +107,7 @@ var defineShopStagesCtrlr = function($scope, $http, $window) {
     {
         console.log("Fetching Shop List failed.");
     }
+
 
     $scope.addHeadingToCompany = function(stage){
 
