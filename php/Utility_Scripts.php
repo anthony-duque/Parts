@@ -206,7 +206,7 @@ function ComputePartsReceived(&$repairs){
 }	// ComputePartsReceived
 
 
-function Get_Upload_Time(){
+function Get_Upload_Time($shop_id){
 
 	require('db_open.php');
 
@@ -217,9 +217,8 @@ function Get_Upload_Time(){
 
 	$sql = <<<strSQL
 		SELECT last_data_upload
-		FROM locations li
-		WHERE id IN ($loc_IDs)
-		LIMIT 1;
+		FROM shops s
+		WHERE id = $shop_id;
 	strSQL;
 
 	try{

@@ -65,11 +65,11 @@ function Process_GET($shopID){
     $stages = [];
 
     $sql = <<<strSQL
-                SELECT cs.sequence, cs.stage_code, sh.description
-                FROM shop_stage_headings cs INNER JOIN stages sh
-                    ON cs.stage_code = sh.code
-                WHERE cs.shop_id = $shopID
-                ORDER BY cs.sequence
+                SELECT ssh.sequence, ssh.stage_code, s.description
+                FROM shop_stage_headings ssh INNER JOIN stages s
+                    ON ssh.stage_code = s.code
+                WHERE ssh.shop_id = $shopID
+                ORDER BY ssh.sequence
             strSQL;
 
     require('db_open.php');

@@ -2,6 +2,7 @@
 
 class Car{
 
+    public $repair_id;
     public $ro_num;
     public $owner;
     public $vehicle;
@@ -18,7 +19,7 @@ class Car{
     public $parts_returned;
     public $parts_percent;
     public $scheduled_out;
-    public $locID;
+    public $shop_id;
     public $insurance;
     public $stageID;
 
@@ -28,13 +29,10 @@ class Car{
 
         $sql =  <<<strSQL
 
-                    SELECT part_description, vendor_name, received_qty
-        
-                    FROM parts_status
-        
-                    WHERE part_type = 'Sublet'
-                        AND ro_num = $this->ro_num AND loc_id = $this->locID
-
+                    SELECT description, vendor_name, received_qty
+                    FROM parts
+                    WHERE type = 'Sublet'
+                            AND repair_id = $this->repair_id;
                     ORDER BY received_qty
 
                 strSQL;
@@ -61,19 +59,17 @@ class Car{
 
         $sql =  <<<strSQL
 
-                    SELECT ro_qty, ordered_qty, received_qty, returned_qty, part_status
+                    SELECT ro_qty, ordered_qty, received_qty, returned_qty, status
 
-                    FROM parts_status
+                    FROM parts
 
-                    WHERE part_number NOT IN ('Sublet', 'Remanufactured')
+                    WHERE number NOT IN ('Sublet', 'Remanufactured')
                         AND (Line > 0)
-                        AND (part_number > '' OR vendor_name > '')
+                        AND (number > '' OR vendor_name > '')
                         AND vendor_name NOT LIKE '**%'
-                        AND part_number NOT LIKE 'Aftermarket%'
-                        AND part_type NOT IN ('FIX ME','Sublet')
-                        AND ro_num = $this->ro_num
-                        AND loc_id = $this->locID
-
+                        AND number NOT LIKE 'Aftermarket%'
+                        AND type NOT IN ('FIX ME','Sublet')
+                        AND repair_id = $this->repair_id
                     ORDER BY ordered_qty ASC
                 strSQL;
 
@@ -95,14 +91,15 @@ class Car{
 
     function __construct($dbConn, $rec){
 
+        $this->repair_id        = $rec["id"];
         $this->ro_num           = $rec["ro_num"];
         $this->owner            = toProperCase($rec["owner"]);
         $this->vehicle          = toProperCase($rec["vehicle"]);
-        $this->vehicle_color    = $rec["vehicle_color"];
         $this->vehicle_in       = $rec["vehicle_in"];
         $this->technician       = toProperCase($rec["technician"]);
-        $this->estimator        = toProperCase($rec["estimator"]);
         $this->current_phase    = $rec["current_phase"];
+        $this->estimator        = toProperCase($rec["estimator"]);
+        $this->vehicle_color    = $rec["vehicle_color"];
         $this->parts_unordered  = 0;
         $this->parts_waiting    = 0;
         $this->parts_received   = 0;
@@ -110,9 +107,9 @@ class Car{
         $this->parts_percent    = 0;
         $this->scheduled_out    = GetDisplayDate($rec["scheduled_out"]);
         $this->scheduled_out    = substr($this->scheduled_out, 0, 5);
-        $this->locID            = $rec["loc_id"];
+        $this->shop_id          = $rec["shop_id"];
         $this->insurance        = $rec["insurance"];
-        $this->stageID          = $rec["stage_id"];
+        $this->stage_code       = $rec["stage_code"];
         $this->parts            = $this->Get_Parts_List($dbConn);
         $this->sublets          = $this->Get_Sublet_List($dbConn);
 
@@ -147,7 +144,7 @@ class Sublet{
     public $received_quantity;
 
     function __construct($rec){
-        $this->part_description     = $rec["part_description"];
+        $this->part_description     = $rec["description"];
         $this->vendor_name          = $rec["vendor_name"];
         $this->received_quantity    = $rec["received_qty"];
     }

@@ -3,6 +3,7 @@ var stageCtrlr = function($scope, $http, $window, utility){
     $scope.locID = $scope.$parent.locationID;  // needed because routing destroys the parent scope's variables
                                                     // so we need to save the location ID in this controller's scope 
                                                     // before routing
+
     Switch_To_Shop($scope.locID);
 
     $scope.filterOn         = false;
@@ -72,13 +73,13 @@ var stageCtrlr = function($scope, $http, $window, utility){
                                 console.log("Stages for Shop ID " + shop_ID + " fetched successfully!");
                                 console.log(response.data);
                                 $scope.stages = response.data;
-                                GetCars($scope.stages.length, shop_ID);
+                                GetCars($scope.stages, shop_ID);
                             }
                         }
                   )         // then()
                   .catch(
                         function(response){
-                            console.log("Stages list not fetched.");
+                            console.log("Stages list for Shop " + shop_ID + " not fetched.");
                         }
                  );
         }
@@ -135,15 +136,19 @@ var stageCtrlr = function($scope, $http, $window, utility){
               )         // then()
               .catch(
                     function(response){
-                        console.log("Stages list not fetched.");
+                        console.log("Tech Car List not fetched.");
                     }
              );
     }    // GetPriorityCars()
 
 
-    function GetCars(num_of_stages, shop_ID){
+    function GetCars(shop_stages, shop_ID){
 
-        $http.get('./php/Stage.php?stages_count=' + num_of_stages + '&shopID=' + shop_ID)  // get all locations by default
+        const str_stage_codes = shop_stages.map(stage => stage.code).join(",");
+
+        //        const str_stage_codes = implode(",", shop_stages.map(stage => stage.stage_code));
+
+        $http.get('./php/Stage.php?stages=' + str_stage_codes + '&shopID=' + shop_ID)  // get all locations by default
               .then(
                     function(response){
                         if (response.data){
