@@ -192,9 +192,9 @@
     function Parts_Insert_SQL($partsList){
 
         $tsql = <<<strSQL
-                INSERT INTO parts_status
-                    (line, part_number, part_description, part_type, 
-                    vendor_name, ro_qty, 
+                INSERT INTO parts
+                    (line, number, description, 
+                    type, vendor_name, ro_qty, 
                     po_number, ordered_qty, 
                     order_date, expected_delivery, 
                     received_qty, invoice_date, 
@@ -233,20 +233,40 @@
     }   // function Form_Insert_SQL()
 
 
-    function Write_New_Parts_Records_To_Database($parts_list, $db_conn){
+    function Write_New_Parts_Records_To_Database($company_id, $parts_list, $db_conn){
 
-        $sql = Parts_Insert_SQL($parts_list);
+        $insert_sql = Parts_Insert_SQL($parts_list);
 
-        if ($db_conn->query($sql) === TRUE){
+        $delete_sql = <<<strSQL
+                        DELETE p
+                        FROM parts p INNER JOIN repairs r
+                                ON p.repair_id = r.id
+                            INNER JOIN shops s 
+                                ON r.shop_id = s.id 
+                        WHERE s.company_id = $company_id;        
+        strSQL;
 
-            echo "<br/>Successfully inserted $db_conn->affected_rows parts status records into the database.";
+        if ($db_conn->query($delete_sql) === TRUE){
 
-        }else{
+            echo "<br/>Successfully deleted old parts status records from the database.";
 
-            echo "<br/>Error: " . $sql . "<br>" . $db_conn->error;
+            if ($db_conn->query($insert_sql) === TRUE){
+
+                echo "<br/>Successfully inserted $db_conn->affected_rows parts status records into the database.";
+
+            }else{
+
+                echo "<br/>Error: " . $insert_sql . "<br>" . $db_conn->error;
+                exit;
+
+            }   // if ($db_conn->query($sql) === TRUE)
+
+        } else {
+
+            echo "<br/>Error: " . $delete_sql . "<br>" . $db_conn->error;
             exit;
 
-        }   // if ($db_conn->query($sql) === TRUE)
+        }   // if ($db_conn->query($delete_sql) === TRUE)
 
     }   // function Write_New_Parts_Records_To_Database()
 ?>
