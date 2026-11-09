@@ -15,21 +15,6 @@
     }   // class Shop{}
 
 
-    class Repairs{
-
-        public $company_id;
-        public $repairs;
-        public $shops;
-
-        function __construct($companyID, $repairList, $shopList){
-   
-            $this->company_id = $companyID;
-            $this->repairs = $repairList;
-            $this->shops = $shopList;
-        }
-    }   // class Repairs{}
-
-
     class Repair{
 
         public $shop_id;
@@ -71,14 +56,55 @@
                 $this->parts_received = $ro->parts_received_percent;
             }
 
-            $this->vehicle_in           = Get_SQL_date($ro->vehicle_in_datetime);
-            $this->current_phase        = Cleanup_Text($ro->repair_phase_name);
-            $this->scheduled_out        = Get_SQL_date($ro->vehicle_out_datetime);
-            $this->technician           = Cleanup_Text($ro->body_technician_display_name);
-            $this->estimator            = Cleanup_Text($ro->service_writer_display_name);
-            $this->insurance            = Cleanup_Text($ro->master_carrier_name);
+            $this->vehicle_in       = Get_SQL_date($ro->vehicle_in_datetime);
+            $this->current_phase    = Cleanup_Text($ro->repair_phase_name);
+            $this->scheduled_out    = Get_SQL_date($ro->vehicle_out_datetime);
+            $this->technician       = Cleanup_Text($ro->body_technician_display_name);
+            $this->estimator        = Cleanup_Text($ro->service_writer_display_name);
+            $this->insurance        = Cleanup_Text($ro->master_carrier_name);
 
         }   // function __construct($ro_num, ...)
     }   // class repairOrderLine{}
+
+
+    class Repairs{
+
+        public $company_id;
+        public $repairs = [];
+        public $shops = [];
+
+        function __construct($companyID, $repairsFile){
+   
+                // Load the XML file
+            $xml = simplexml_load_file($repairsFile);
+
+            if ($xml === false) {
+                die("<br/>Error: Failed to load or parse the Production Schedule XML file.");
+            }
+
+            $location_ids = [];
+
+                // Loop through the XML and execute the insertion
+            foreach ($xml->data->repairOrder as $ro) {
+
+                if (empty($ro->repair_order_number)) {
+                    continue;
+                }
+                //echo "<br/>Processing Repair Order: " . $ro->repair_order_number;
+
+                $repair = new Repair($ro);
+
+                if (!in_array($repair->location_id, $location_ids)) {
+                    $location_ids[] = $repair->location_id;
+                    $this->shops[] = new Shop($repair->location_id, $repair->shop_name, $companyID);
+                }
+
+                $this->repairs[] = $repair;
+
+            }   // foreach ($xml->data->repairOrder as $ro)
+
+            $this->company_id = $companyID;
+        }
+    }   // class Repairs{}
 
 ?>

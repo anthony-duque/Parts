@@ -216,43 +216,6 @@ class Upload_XML_Methods {
         return $repair_list->repairs;
     }
 
-
-    public static function Get_Repairs_From_XML($company_ID, $repairsFile) {
-    
-            // Load the XML file
-        $xml = simplexml_load_file($repairsFile);
-
-        if ($xml === false) {
-            die("<br/>Error: Failed to load or parse the Production Schedule XML file.");
-        }
-
-        $location_ids = [];
-        $shops = [];
-        $repairs = [];
-
-            // Loop through the XML and execute the insertion
-        foreach ($xml->data->repairOrder as $ro) {
-
-            if (empty($ro->repair_order_number)) {
-                continue;
-            }
-            //echo "<br/>Processing Repair Order: " . $ro->repair_order_number;
-
-            $repair = new Repair($ro);
-
-            if (!in_array($repair->location_id, $location_ids)) {
-                $location_ids[] = $repair->location_id;
-                $shops[] = new Shop($repair->location_id, $repair->shop_name, $company_ID);
-            }
-
-            $repairs[] = $repair;
-
-        }   // foreach ($xml->data->repairOrder as $ro)
-
-        return new Repairs($company_ID, $repairs, $shops);
-
-    }   // function Get_Repairs_From_XML($company_ID, &$shops)
-
 }
 
 ?>

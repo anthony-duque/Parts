@@ -28,7 +28,8 @@ try{
 
     if ($upload_OK){
 
-        $repairList = Upload_XML_Methods::Get_Repairs_From_XML($companyID, $extractFile);
+//        $repairList = Upload_XML_Methods::Get_Repairs_From_XML($companyID, $extractFile);
+        $repairList = new Repairs($companyID, $extractFile);
 
 //        Upload_XML_Methods::Display_Repairs_List($repairList->repairs);
 
