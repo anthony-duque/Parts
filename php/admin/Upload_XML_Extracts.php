@@ -6,6 +6,7 @@ error_reporting(E_ALL);
 
 require('../Utility_Scripts.php');
 
+require('Upload_XML_Methods.php');
 require('Upload_XML_Prod_Sched.php');
 require('Upload_XML_Parts_Status.php');
 
@@ -27,17 +28,18 @@ try{
 
     if ($upload_OK){
 
-        $repairList = Get_Repairs_From_XML($companyID, $extractFile);
+//        $repairList = Upload_XML_Methods::Get_Repairs_From_XML($companyID, $extractFile);
+        $repairList = new Repairs($companyID, $extractFile);
 
-//        Display_Repairs_List($repairList->repairs);
+//        Upload_XML_Methods::Display_Repairs_List($repairList->repairs);
 
             // Insert shops found in the load that is not yet in the database
-        $shopLookupList = Check_Shop_List_Against_DB($repairList->shops, $conn);
+        $shopLookupList = Upload_XML_Methods::Check_Shop_List_Against_DB($repairList->shops, $conn);
 
             // determine the shop id for each repair then populate shop_id field
-        $updatedRepairList = Populate_Shop_IDs($repairList, $shopLookupList);
+        $updatedRepairList = Upload_XML_Methods::Populate_Shop_IDs($repairList, $shopLookupList);
 
-//        Display_Repairs_List($updatedRepairList);
+//        Upload_XML_Methods::Display_Repairs_List($updatedRepairList);
 
             // Get the list of repairs for this company
         $sql = "SELECT r.id, s.location_id, r.ro_num " .
@@ -51,10 +53,10 @@ try{
         {
             echo "<br/>Found " . $repairs_old_list->num_rows . " previous repair records for this company.<br/>";
                 // Delete vehicles that are not in the current Production Schedule 
-            Delete_Old_Repair_Records($repairList, $conn, $repairs_old_list);
+            Upload_XML_Methods::Delete_Old_Repair_Records($repairList, $conn, $repairs_old_list);
         }
 
-        Perform_UPSERT_on_new_load($repairList, $shopLookupList, $conn);
+        $repairList->Perform_UPSERT_on_new_load($shopLookupList, $conn);
 
     }   // if ($upload_OK)
 
@@ -72,7 +74,7 @@ try{
     $extractFile = TARGET_DIR . $partsFileName;
     $upload_OK = move_uploaded_file($_FILES["Parts_XML_$companyID"]["tmp_name"], $extractFile);
 
-//    Debug_Load_Error($extractFile);
+//    Upload_XML_Methods::Debug_Load_Error($extractFile);
 
     if ($upload_OK){
 
@@ -80,11 +82,8 @@ try{
 
         $partsList = Get_Parts_List_From_XML($companyID, $repairsList, $extractFile);
 
-    //    Display_Parts_List($partsList);
-
-        Delete_Old_Parts_Records($companyID, $conn);
-
-        Write_New_Parts_Records_To_Database($partsList, $conn);
+    //    Upload_XML_Methods::Display_Parts_List($partsList);
+        Write_New_Parts_Records_To_Database($companyID, $partsList, $conn);
 
         echo "<br/> Parts Status upload successful!<br/>";
 
@@ -133,9 +132,9 @@ try{
 //    header("Location: ./Upload_Extracts.html");
 }
 
-$tsql = "CALL sp_Update_XML_Upload(?)";
+$tsql = "CALL sp_Update_XML_Upload(?,?)";
 $stmt = $conn->prepare($tsql);
-$stmt->bind_param("i", $companyID);
+$stmt->bind_param("is", $companyID, $_POST['uploadDateTime']);
 
 if ($stmt->execute() === TRUE) {
     echo "<br/>Stored Procedure sp_Update_XML_Upload executed successfully.";
@@ -147,26 +146,6 @@ if ($stmt->execute() === TRUE) {
 $stmt->close();
 
 $conn->close();
-
-
-function Debug_Load_Error($filePath){
-    
-        // Enable internal error handling
-    libxml_use_internal_errors(true);
-
-    // Attempt to load your second XML file
-    $xml2 = simplexml_load_file("../../extract_files/Part_Status_Report.xml");
-
-    if ($xml2 === false) {
-        echo "<br/><strong>Failed loading the second XML file:</strong><br>";
-        foreach (libxml_get_errors() as $error) {
-            echo "<br/>Error on line {$error->line}, column {$error->column}: {$error->message}<br>";
-        }
-        libxml_clear_errors();
-    } else {
-        echo "<br/>Second file loaded successfully!";
-    }
-}
 
 ?>
 
