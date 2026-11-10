@@ -2,65 +2,6 @@
 
 class Upload_XML_Methods {
 
-    public static function Perform_UPSERT_on_new_load($repsObj, $shopList, $db_conn){
-
-        $insert_sql = <<<strSQL
-
-                INSERT INTO repairs
-                    (shop_id, ro_num, owner, vehicle, vehicle_color,
-                    license_plate, parts_received, vehicle_in, current_phase,
-                    scheduled_out, technician, estimator, insurance)
-                VALUES
-        strSQL;
-
-        $strValues = '';
-
-        foreach($repsObj->repairs as $r)
-        {
-                // look up the shop_id for this repair from the shop lookup list
-            $shopFound = array_search($r->location_id, array_column($shopList, 'location_id'));
-
-            $shop_id = $shopFound !== false ? $shopList[$shopFound]->shop_id : null;
-
-            $strValues .= <<<strSQL
-                            ($r->shop_id, '$r->ro_num', '$r->owner', '$r->vehicle', '$r->vehicle_color', 
-                            '$r->license_plate', $r->parts_received, $r->vehicle_in, '$r->current_phase', 
-                            $r->scheduled_out, '$r->technician', '$r->estimator', '$r->insurance'),
-                        strSQL;       
-        }
-        
-        $strValues = rtrim($strValues, ',') . " AS new_repair ";  // Remove the trailing comma
-
-        $upsert_sql = $insert_sql . $strValues . " ON DUPLICATE KEY UPDATE " .
-                        "shop_id = new_repair.shop_id, " .
-                        "ro_num = new_repair.ro_num, " .
-                        "owner = new_repair.owner, " .
-                        "vehicle = new_repair.vehicle, " .
-                        "vehicle_color = new_repair.vehicle_color, " .
-                        "license_plate = new_repair.license_plate, " .
-                        "parts_received = new_repair.parts_received, " .
-                        "vehicle_in = new_repair.vehicle_in, " .
-                        "current_phase = new_repair.current_phase, " .
-                        "scheduled_out = new_repair.scheduled_out, " .
-                        "technician = new_repair.technician, " .
-                        "estimator = new_repair.estimator, " .
-                        "insurance = new_repair.insurance;";
-
-//        echo "<br/>$upsert_sql<br/>";
-
-        if ($db_conn->query($upsert_sql) === TRUE) {
-
-            echo "<br/>Repair records inserted/updated successfully.<br/>";
-
-        }else{
-
-            echo "<br/>Error: " . $upsert_sql . "<br> - " . $db_conn->error;
-            exit;
-
-        }  // if ($db_conn->query($tsql) === TRUE)	
-
-    }   // function Perform_UPSERT_on_new_load($repsObj, $shopList, $db_conn)
-
 
         //   Delete repairs from the database that is 
         // not on the new load.
@@ -216,6 +157,6 @@ class Upload_XML_Methods {
         return $repair_list->repairs;
     }
 
-}
+}   // class Upload_XML_Methods{}
 
 ?>

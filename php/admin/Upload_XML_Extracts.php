@@ -56,7 +56,7 @@ try{
             Upload_XML_Methods::Delete_Old_Repair_Records($repairList, $conn, $repairs_old_list);
         }
 
-        Upload_XML_Methods::Perform_UPSERT_on_new_load($repairList, $shopLookupList, $conn);
+        $repairList->Perform_UPSERT_on_new_load($shopLookupList, $conn);
 
     }   // if ($upload_OK)
 

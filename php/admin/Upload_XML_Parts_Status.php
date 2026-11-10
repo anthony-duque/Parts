@@ -8,9 +8,9 @@
     
         function __construct($repairRecord){
 
-            $this->repair_id = $repairRecord['repair_id'];
-            $this->ro_num = $repairRecord['ro_num'];
-            $this->location_id = $repairRecord['location_id'];
+            $this->repair_id    = $repairRecord['repair_id'];
+            $this->ro_num       = $repairRecord['ro_num'];
+            $this->location_id  = $repairRecord['location_id'];
 
         }   // function __construct(...)
     }   // class Repair{}
