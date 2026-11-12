@@ -178,6 +178,10 @@ var defineShopStagesCtrlr = function($scope, $http, $window) {
         $http.post('../../php/Shop_Stage_Headings.php?shopID=' + $scope.selectedShop.id, JSON.stringify($scope.shopStages))
             .then(function(response) {
                 alert("Stages for " + $scope.selectedShop.name + " updated successfully!");
+                $scope.selectedShop = null;
+                $scope.stageHeadings = [];
+                $scope.shopStages = [];
+                console.log("Shop Stage Headings updated successfully!");
                 console.log(response.data);
             })
             .catch(function(error) {
