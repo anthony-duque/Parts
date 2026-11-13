@@ -11,8 +11,6 @@ var stageCtrlr = function($scope, $http, $window, utility){
 
     $scope.priorityCars = [];
 
-//    alert($cookies.get('locationID'));
-
 ////////////////////////////////////
 
     $scope.$watch('locationID', 
@@ -308,11 +306,11 @@ var stageCtrlr = function($scope, $http, $window, utility){
 
                         carFound = true;
 
-                        newStageID = parseInt($scope.production_stage[i].cars[j].stageID) + incr;
+                        newStageID = parseInt($scope.production_stage[i].cars[j].stage_sequence) + incr;
 
                         $scope.ChangeBorder(car);  // highlight the car
 
-                        $scope.production_stage[i].cars[j].stageID = newStageID;
+                        $scope.production_stage[i].cars[j].stage_sequence = newStageID;
 
                             // insert the car to its new stage
                         carToMove = $scope.production_stage[i].cars[j];
@@ -361,7 +359,7 @@ var stageCtrlr = function($scope, $http, $window, utility){
             ;
         } else {
 
-            var currStageID = $scope.carPicked.stageID;
+            var currStageID = $scope.carPicked.stage_sequence;
             var incr = stageID - currStageID;
 
             if (incr == 0){
@@ -409,13 +407,14 @@ var stageCtrlr = function($scope, $http, $window, utility){
         var technician  = null;
         var nameFound   = false;
 
-        $scope.production_stage.forEach((stage, i) => {
-            stage.cars.forEach((car, j) => {
+        $scope.production_stage.forEach((stage, i) => { // for each stage
+
+            stage.cars.forEach((car, j) => {    // for each car in the stage
 
                 nameFound = false;
 
-                $scope.techList.forEach((technician, i) => {
-                    if (technician.name == car.technician){
+                $scope.techList.some((tech) => {    // see if the technician is already in the list
+                    if (tech.name == car.technician){
                         nameFound = true;
                     }
                 });
@@ -445,12 +444,13 @@ var stageCtrlr = function($scope, $http, $window, utility){
         var estimator   = null;
         var nameFound   = false;
 
-        $scope.production_stage.forEach((stage, i) => {
-            stage.cars.forEach((car, j) => {
+        $scope.production_stage.forEach((stage, i) => { // for each stage
+
+            stage.cars.forEach((car, j) => {    // for each car in the stage
 
                 nameFound = false;
 
-                $scope.estimatorList.forEach((estimator, i) => {
+                $scope.estimatorList.some((estimator) => {    // see if the estimator is already in the list
                     if (estimator.name == car.estimator){
                         nameFound = true;
                     }

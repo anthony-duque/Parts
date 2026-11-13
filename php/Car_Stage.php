@@ -87,10 +87,9 @@ function ProcessPUT($carObj)
     require('db_open.php');
 
     $tsql = <<<strSQL
-            UPDATE car_stage
-            SET stage_id = $carObj->stageID
-            WHERE ro_num = $carObj->ro_num
-                AND loc_id = $carObj->locID
+            UPDATE repairs
+            SET stage_sequence = $carObj->stage_sequence
+            WHERE id = $carObj->repair_id;
         strSQL;
 
     try{
