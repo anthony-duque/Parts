@@ -36,9 +36,9 @@ switch($method){
       break;
 
    case "GET":  // get cars that are in production for a given location and stage
-        $stages = explode(",", $_GET["stages"]);
         $shop_id = $_GET["shopID"];
-        Process_GET($shop_id, $stages);
+        $stage_count = intval($_GET["stage_count"]);
+        Process_GET($shop_id, $stage_count);
       break;
 
    default:
@@ -52,24 +52,23 @@ class Production_Stage {
 
     public $cars = [];
 
-    function GetCars($shop_id, $stageCode){
+        // Get all the cars that are in production for each stage 
+    function __construct($shop_id, $stageSequence){
 
         $strSQL = <<<sqlStmt
 
            SELECT
-                
-                r.id, r.ro_num, r.shop_id, r.stage_code,
+                r.id, r.ro_num, r.shop_id, r.stage_sequence,
                 SUBSTRING_INDEX(r.estimator, ' ', 1) AS estimator,
                 SUBSTRING_INDEX(r.owner, ',', 1) AS owner,
                 r.vehicle, LCASE(r.vehicle_color) AS vehicle_color,
                 SUBSTRING_INDEX(r.technician, ' ', 1) AS technician,
                 r.vehicle_in, r.current_phase, r.scheduled_out, 
                 r.insurance
-
             FROM repairs r
+            WHERE r.shop_id = $shop_id AND r.stage_sequence = $stageSequence;
 
-            WHERE r.shop_id = $shop_id AND r.stage_code = '$stageCode';
-sqlStmt;
+        sqlStmt;
 
         require('db_open.php');
 
@@ -81,44 +80,33 @@ sqlStmt;
 
         $conn = null;
 
-        return $this->cars;
-    }   // GetCars()
+    }   // Production_Stage()
 
-        // Get all the cars that are in production for each stage 
-    function __construct($shop_id, $stage_code){
-        $this->cars = $this->GetCars($shop_id, $stage_code);
-    }
 }   // Production_Stage {}
 
 
-function Process_GET($shopID, $shopStages){
+function Process_GET($shop_id, $stage_count){
 
     class ProdStage{
 
         public $stageCars = [];
         public $last_upload_time;
 
-        function __construct($shop_ID, $production_cars){
+        function __construct($shopID, $stageCount){
 
-            $this->stageCars = $production_cars;
-            $this->last_upload_time = Get_Upload_Time($shop_ID);
+            for($stage = 0; $stage < $stageCount; ++$stage){
+                    array_push($this->stageCars, new Production_Stage($shopID, $stage));
+            }
+            
+            $this->last_upload_time = Get_Upload_Time($shopID);
+
+            ComputePartsReceived($this->stageCars);
         }
+    
     }   // prodStage{}
 
 
-    $production_cars = [];
-
-    foreach($shopStages as $stage){
-        array_push($production_cars, new Production_Stage($shopID, $stage));
-    }
-    // 
-    // for($stage = 0; $stage < $stageCount; ++$stage){
-    //     $production_cars[$stage] = new Production_Stage($shopID, $stage);
-    // }
-
-    ComputePartsReceived($production_cars);
-
-    echo json_encode(new ProdStage($shopID, $production_cars));
+    echo json_encode(new ProdStage($shop_id, $stage_count));
 
 }   //  Process_GET()
 

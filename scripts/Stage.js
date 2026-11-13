@@ -73,7 +73,7 @@ var stageCtrlr = function($scope, $http, $window, utility){
                                 console.log("Stages for Shop ID " + shop_ID + " fetched successfully!");
                                 console.log(response.data);
                                 $scope.stages = response.data;
-                                GetCars($scope.stages, shop_ID);
+                                GetCars($scope.stages.length, shop_ID);
                             }
                         }
                   )         // then()
@@ -142,13 +142,9 @@ var stageCtrlr = function($scope, $http, $window, utility){
     }    // GetPriorityCars()
 
 
-    function GetCars(shop_stages, shop_ID){
+    function GetCars(no_of_stages, shop_ID){
 
-        const str_stage_codes = shop_stages.map(stage => stage.code).join(",");
-
-        //        const str_stage_codes = implode(",", shop_stages.map(stage => stage.stage_code));
-
-        $http.get('./php/Stage.php?stages=' + str_stage_codes + '&shopID=' + shop_ID)  // get all locations by default
+        $http.get('./php/Stage.php?stage_count=' + no_of_stages + '&shopID=' + shop_ID)  // get all locations by default
               .then(
                     function(response){
                         if (response.data){

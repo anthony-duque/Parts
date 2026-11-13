@@ -71,7 +71,7 @@
                 <td ng-repeat='stage in stages' 
                     width='{{ colWidth }}%'  
                     class="whiteBorders" 
-                    ng-click='MoveCar(stage.order_no);' 
+                    ng-click='MoveCar(stage.sequence);' 
                     align="center">
                     <b>
                         {{ stage.description  }}
@@ -81,11 +81,10 @@
         </thead>
         <tbody>
             <tr>
-                <td valign='top' ng-repeat='stage in stages' ng-click='MoveCar(stage.order_no);' class="thinBorders">
+                <td valign='top' ng-repeat='stage in stages' ng-click='MoveCar(stage.sequence);' class="thinBorders">
                     <table width='100%'>
-                    <tr ng-init='lastCarIndex = production_stage[stage.order_no].cars.length - 1'
-                        ng-repeat='eachCar in production_stage[stage.order_no].cars
-                                    | filter: { locID: locationID }
+                    <tr ng-init='lastCarIndex = production_stage[stage.sequence].cars.length - 1'
+                        ng-repeat='eachCar in production_stage[stage.sequence].cars
                                     | filter: { technician: tech}
                                     | filter: { estimator: estim }
                                     | filter : searchText
