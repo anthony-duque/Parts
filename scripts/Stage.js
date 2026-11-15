@@ -31,8 +31,7 @@ var stageCtrlr = function($scope, $http, $window, utility){
         var carIndex = -1;
 
         $scope.priorityCars.forEach((eachCar, i) => {
-            if ((eachCar.ro_num == car.ro_num) &&
-                (eachCar.locationID == car.locationID)){
+            if (eachCar.repair_id == car.repair_id){
                 carIndex = i;
             }
         });
@@ -40,17 +39,16 @@ var stageCtrlr = function($scope, $http, $window, utility){
         if (carIndex > -1){
             $scope.priorityCars.splice(carIndex, 1);
 
-            $http.delete('./php/Tech_Car_Priority.php?ro=' + car.ro_num
-                                + '&tech=' + car.technician + '&locID=' + car.locationID)
+            $http.delete('./php/Tech_Car_Priority.php?repairID=' + car.repair_id)
                 .then(
                     function(response){
                         if(response.data){
-                            console.log("Car RO no. $car.ro_num deleted from the Priority Queue.");
+                            console.log("Car repair ID $car.repair_id deleted from the Priority Queue.");
                             console.log(response.data);
                         }
                     },
                     function(response){
-                        console.log("RO no. $car.ro_num was not deleted from the Priority List");
+                        console.log("Car repair ID $car.repair_id was not deleted from the Priority List");
                         console.log(response.status);
                         console.log(response.statusText);
                         console.log(response.headers());
@@ -84,9 +82,9 @@ var stageCtrlr = function($scope, $http, $window, utility){
     }    // function GetStageHeadings()
 
 
-    function GetPriorityCars(){
+    function GetPriorityCars(shop_ID){
 
-        $http.get('./php/Tech_Car_Priority.php')  // get all locations by default
+        $http.get('./php/Tech_Car_Priority.php?shopID=' + shop_ID)  // get all locations by default
               .then(
                     function(response){
 
@@ -95,28 +93,25 @@ var stageCtrlr = function($scope, $http, $window, utility){
                             console.log("Priority Cars fetched successfully!");
                             console.log(response.data);
 
-                            var priorityROs = response.data;
+                            const priorityCars = response.data;
 
-                            var priorityRO  = 0, priorityLocID  = 0;
-                            var prodRO      = 0, prodLocID   = 0;
-                            var carFound    = false;
-//                            var priorityCar = null;
+                            var priority_repair_id      = 0;
+                            var production_repair_id    = 0;
+                            var carFound                = false;
 
-                            priorityROs.forEach((eachRO, i) => {
+                            priorityCars.forEach((eachCar, i) => {
 
-                                priorityRO      = eachRO.roNum;
-                                priorityLocID   = eachRO.locID;
+                                priority_repair_id = eachCar.repair_id;
 
-                                for(var i = 0; i < $scope.production_stage.length; ++i){
+                                for(var i = 0; i < $scope.production_stage.length; ++i){    // for each stage
 
                                     carFound    = false;
 
-                                    for(var j = 0; j < $scope.production_stage[i].cars.length; ++j){
+                                    for(var j = 0; j < $scope.production_stage[i].cars.length; ++j){    // for each car in the stage
 
-                                        prodRO      = $scope.production_stage[i].cars[j].ro_num;
-                                        prodLocID   = $scope.production_stage[i].cars[j].locationID;
+                                        production_repair_id      = $scope.production_stage[i].cars[j].repair_id;
 
-                                        if ((priorityRO == prodRO) && (priorityLocID == prodLocID)){
+                                        if (priority_repair_id == production_repair_id){
 
                                             $scope.priorityCars.push($scope.production_stage[i].cars[j]);
                                             carFound = true;
@@ -157,7 +152,7 @@ var stageCtrlr = function($scope, $http, $window, utility){
                             GetTechList();      // to populate Tech List dropdown
                             GetEstimatorList(); // to populate Estimator List dropdown
 
-                            GetPriorityCars();
+                            GetPriorityCars(shop_ID);  // to populate Priority Cars list
 
                             SetProperShop();
 
@@ -187,8 +182,7 @@ var stageCtrlr = function($scope, $http, $window, utility){
             
             for(let j=0; j < $scope.production_stage[i].cars.length; ++j){
 
-                if (($scope.production_stage[i].cars[j].ro_num === selectedCar.ro_num) &&
-                    ($scope.production_stage[i].cars[j].locationID === selectedCar.locationID)){
+                if (($scope.production_stage[i].cars[j].repair_id === selectedCar.repair_id)){
 
                     $scope.production_stage[i].cars[j].borderColor = 'red';
 
@@ -227,8 +221,7 @@ var stageCtrlr = function($scope, $http, $window, utility){
 
         if ($scope.carPicked != null){
 
-            if ((car.ro_num == $scope.carPicked.ro_num) &&
-                (car.locationID == $scope.carPicked.locationID)){
+            if (car.repair_id == $scope.carPicked.repair_id){
                     sameAsPicked = true;
                 }
         }
@@ -301,8 +294,7 @@ var stageCtrlr = function($scope, $http, $window, utility){
 
                 for(let j=0; j < $scope.production_stage[i].cars.length; ++j){
 
-                    if (($scope.production_stage[i].cars[j].ro_num === car.ro_num) &&
-                        ($scope.production_stage[i].cars[j].locationID === car.locationID)){
+                    if ($scope.production_stage[i].cars[j].repair_id === car.repair_id){
 
                         carFound = true;
 
@@ -425,7 +417,6 @@ var stageCtrlr = function($scope, $http, $window, utility){
                         $scope.techList.push(technician);       // add him
                     }
                 }
-
             });
         });
         console.log($scope.techList);

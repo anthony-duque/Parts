@@ -13,7 +13,7 @@ var StageCarCtrlr = function($scope, $window, $http){
                 // check if the car is already in the priorityList
             $scope.priorityCars.forEach((eachCar, i) => {
 
-                if (eachCar.ro_num == car.ro_num){
+                if (eachCar.repair_id == car.repair_id){
                     foundCarInQueue = true;
                 }
             });     // forEach()
@@ -32,9 +32,8 @@ var StageCarCtrlr = function($scope, $window, $http){
             var pCar = {
                 priority    : carIndex,
                 technician  : car.technician,
-                roNum       : car.ro_num,
-                locationID  : car.locationID,
-                deptCode    : 'BODY'
+                repair_id   : car.repair_id,
+                dept_code   : 'BODY'
             };  // pCar{}
 
                 // insert car in the database

@@ -5,8 +5,17 @@ var carViewCtrlr = function($scope, $http, utility){
     $scope.showSublet = false;
         // get the value of ro num from the queryString
     var params = getQueryParams(window.location.href);
-    $scope.roNum = params.roNum;
-    $scope.locationID = params.locationID;
+
+//    $scope.roNum = params.roNum;
+//    $scope.locationID = params.locationID;
+//    GetAllPartsForRO($scope.roNum, $scope.locationID);
+
+    repairID = params.repairID;
+
+    GetAllPartsForRO(repairID);
+    GetUploadTimeStamp();
+
+/////////////////////////////////////////////////////////////
 
     function GetAllPartsForRO(ROnum, locationID)
     {
@@ -15,10 +24,6 @@ var carViewCtrlr = function($scope, $http, utility){
               .catch(handleError);   // .then()
     }     // GetAllPartsForRO()
 
-    GetAllPartsForRO($scope.roNum, $scope.locationID);
-    GetUploadTimeStamp();
-
-/////////////////////////////////////////////////////////////
 
     $scope.GoBackToMainPage = function(){
         self.close();
@@ -107,7 +112,7 @@ var carViewCtrlr = function($scope, $http, utility){
 
     function GetUploadTimeStamp(timeObj){
 
-        $http.get('../php/Get_Upload_Time.php')  // get all locations by default
+        $http.get('../php/Get_Upload_Time.php')
               .then(
                     function(response){
                         if (response.data){
