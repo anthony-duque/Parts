@@ -9,21 +9,17 @@ require('db_open.php');
 
         function __construct($rec){
             $this->name    = $rec["technician"];
-            $this->locID   = $rec["loc_id"];
+            $this->locID   = $rec["shop_id"];
         }
     }   // Estimator{}
 
     $sql = <<<strSQL
 
             SELECT DISTINCT
-
                 SUBSTRING_INDEX(technician, ' ', 1) AS technician,
-                loc_id
-
+                shop_id
             FROM repairs
-            
             WHERE technician > ''
-            
             ORDER BY technician ASC
 
         strSQL;

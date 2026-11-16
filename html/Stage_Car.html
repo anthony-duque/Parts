@@ -2,20 +2,20 @@
         width='100%'
         align='center'
         border=0
-        ng-dblclick='DoubleClicked("Car_View.html?roNum=" + eachCar.ro_num + "&locationID=" + eachCar.locID)'>
+        ng-dblclick='DoubleClicked("Car_View.html?repairID=" + eachCar.repair_id)'>
 <tr>
-    <td rowspan='2' valign='middle'>
-        <a ng-click='MoveStage(eachCar, -1);' href='' class='arrow' ng-hide='eachCar.stageID == 0'>
+    <td rowspan='2' valign='middle' id="leftArrow">
+        <a ng-click='MoveStage(eachCar, -1);' href='' class='arrow' ng-hide='eachCar.stage_sequence == 0'>
             &#x2190;
         </a>
     </td>
-    <td align='center'>
+    <td align='center' id="upArrow">
         <a href='' class='arrow' ng-click='PlaceInQueue(eachCar);' ng-show='tech > ""'>
             &#x2191;
         </a>
     </td>
-    <td rowspan='2' valign='middle'>
-        <a ng-click='MoveStage(eachCar, 1);' href='' class='arrow' ng-hide='eachCar.stageID == (stages.length - 1)'>
+    <td rowspan='2' valign='middle' id="rightArrow">
+        <a ng-click='MoveStage(eachCar, 1);' href='' class='arrow' ng-hide='eachCar.stage_sequence == (stages.length - 1)'>
             &#x2192;
         </a>
     </td>

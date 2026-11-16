@@ -1,4 +1,5 @@
 <?php
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -21,13 +22,15 @@ header('Access-Allow-Control-Origin: *');
             break;
 
        case "GET":  // get cars on the Paint List
-            $priorityList = ProcessGET();
+            $shopID = $_GET["shopID"];
+            $priorityList = ProcessGET($shopID);
             echo json_encode($priorityList);
             break;
 
        case "DELETE":
             echo "DELETE";
-            ProcessDELETE();
+            $repairID = $_GET["repairID"];
+            ProcessDELETE($repairID);
             break;
 
        default:
@@ -38,36 +41,28 @@ header('Access-Allow-Control-Origin: *');
 
 class PriorityCar{
 
-    public $roNum;
-    public $locID;
-    public $priority;
-    public $deptCode;
     public $technician;
+    public $repair_id;
+    public $dept_code;
+    public $priority;
 
     function __construct($rec){
-        $this->roNum        = $rec["ro_num"];
-        $this->locID        = $rec["location_id"];
-        $this->priority     = $rec["priority"];
-        $this->deptCode     = $rec["dept_code"];
         $this->technician   = $rec["technician"];
+        $this->repair_id    = $rec["repair_id"];
+        $this->dept_code    = $rec["dept_code"];
+        $this->priority     = $rec["priority"];
     }   // construct()
 
 }   // PriorityCar{}
 
 
-function ProcessDELETE(){
+function ProcessDELETE($repair_id){
 
     require 'db_open.php';
 
-    $ro     = $_GET["ro"];
-    $tech   = $_GET["tech"];
-    $locID  = $_GET["locID"];
-
     $tsql = <<<strSQL
         DELETE FROM tech_car_priority
-        WHERE   ro_num = $ro AND
-                technician = '$tech' AND
-                location_id = $locID
+        WHERE repair_id = $repair_id
     strSQL;
 
     try{
@@ -86,13 +81,16 @@ function ProcessDELETE(){
 }   // ProcessDELETE()
 
 
-function ProcessGET(){
+function ProcessGET($shop_id){
 
     require 'db_open.php';
 
     $sql = <<<strSQL
-                SELECT ro_num, location_id, priority, dept_code, technician
-                FROM tech_car_priority
+                SELECT tcp.repair_id, tcp.technician, tcp.priority, tcp.dept_code
+                FROM tech_car_priority tcp INNER JOIN repairs r
+                    ON tcp.repair_id = r.id
+                WHERE r.shop_id = $shop_id
+                ORDER BY tcp.priority ASC
             strSQL;
 
     try{
@@ -112,7 +110,7 @@ function ProcessGET(){
     } finally {
 
         $conn = null;
-         return $priorityCars;
+        return $priorityCars;
 
     }   // try-catch{}
 
@@ -128,9 +126,9 @@ function ProcessPOST($car){
     $tsql = <<<strSQL
 
         INSERT INTO tech_car_priority
-            (technician, ro_num, priority, location_id, dept_code)
+            (technician, priority, repair_id, dept_code)
         VALUES
-            ('$car->technician', $car->roNum, $car->priority, $car->locationID, '$car->deptCode');
+            ('$car->technician', $car->priority, $car->repair_id, '$car->dept_code');
     strSQL;
 
     try{
@@ -148,6 +146,5 @@ function ProcessPOST($car){
     }   // try-catch
 
 }   // ProcessPOST()
-
 
 ?>

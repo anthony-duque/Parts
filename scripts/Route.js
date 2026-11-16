@@ -10,6 +10,14 @@ function($routeProvider, $locationProvider) {
             'templateUrl': './html/admin/index.html'
         })
     
+        .when('/xml', {
+            'templateUrl': './html/admin/Upload_XML_Extracts.html'
+        })
+
+        .when('/stages', {
+            'templateUrl': './html/admin/Define_Shop_Stages.html'
+        })
+
         .when('/stage', {
             'templateUrl': './html/Stage.html'
         })
