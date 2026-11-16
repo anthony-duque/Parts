@@ -2,21 +2,19 @@
         width='100%'
         align='center'
         border=0
-        ng-dblclick='DoubleClicked("Car_View.html?roNum=" + eachCar.ro_num + "&locationID=" + eachCar.locationID)'>
-<tr ng-hide='true'>
+        ng-dblclick='DoubleClicked("Car_View.html?repairID=" + eachCar.repair_id);'>
+<tr>
     <td rowspan='2' valign='middle' ng-hide='$index == 0'>
         <a ng-click='MovePriority(eachCar, -1);' href='' class='arrow'>
-            &#x2190;
+            <h4>&Larr;</h4>
         </a>
     </td>
     <td align='center'>
-        <a ng-click='' href='' class='arrow' ng-hide='true'>
-            &#x2191;
-        </a>
+        <br/>
     </td>
-    <td rowspan='2' valign='middle' ng-hide='$index == (priorityCars.length - 1)'>
-        <a ng-click='MovePriority(eachCar, 1);' href='' class='arrow' ng-hide='eachCar.stageID == (stages.length - 1)'>
-            &#x2192;
+    <td rowspan='2' valign='middle'>
+        <a ng-click='MovePriority(eachCar, 1);' href='' class='arrow' ng-hide='$index == (filteredCars.length - 1)'>
+            <h4>&Rarr;</h4>
         </a>
     </td>
 </tr>
@@ -27,8 +25,8 @@
 </tr>
 <tr>
     <td colspan='3' align='center'>
-        <a ng-click='RemoveFromQueue(eachCar);' href='' ng-show='tech > ""' class='arrow'>
-            &#x2193;
+        <a ng-click='RemoveFromQueue(eachCar);' href='' class='arrow'>
+            <h4>&Darr;</h4>
         </a>
     </td>
 </tr>

@@ -55,7 +55,7 @@
             <b>{{ tech }}</b>
             <br/>
         </td>
-        <td ng-repeat='eachCar in priorityCars | filter : { technician : tech }'
+        <td ng-repeat='eachCar in priorityCars | filter : { technician : tech } as filteredCars' ng-show='tech > ""'
             ng-class='eachCar.borderColor'
             ng-click='ChangeBorder(eachCar);'
             width='150'>

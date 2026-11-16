@@ -6,17 +6,17 @@
 <tr>
     <td rowspan='2' valign='middle' id="leftArrow">
         <a ng-click='MoveStage(eachCar, -1);' href='' class='arrow' ng-hide='eachCar.stage_sequence == 0'>
-            &#x2190;
+            <h5>&Larr;</h5>
         </a>
     </td>
     <td align='center' id="upArrow">
         <a href='' class='arrow' ng-click='PlaceInQueue(eachCar);' ng-show='tech > ""'>
-            &#x2191;
+            <h5>&Uarr;</h5>
         </a>
     </td>
     <td rowspan='2' valign='middle' id="rightArrow">
         <a ng-click='MoveStage(eachCar, 1);' href='' class='arrow' ng-hide='eachCar.stage_sequence == (stages.length - 1)'>
-            &#x2192;
+            <h5>&Rarr;</h5>
         </a>
     </td>
 </tr>
@@ -30,7 +30,7 @@
 <tr>
     <td align='center' colspan="3">
         <a ng-click='' href='' ng-hide='$index === $index' class='arrow'>
-            &#x2193;
+            <h5>&Darr;</h5>
         </a>
     </td>
 </tr>
