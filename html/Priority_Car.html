@@ -5,7 +5,7 @@
         ng-dblclick='DoubleClicked("Car_View.html?repairID=" + eachCar.repair_id);'>
 <tr>
     <td rowspan='2' valign='middle' ng-hide='$index == 0'>
-        <a ng-click='MovePriority(eachCar, -1);' href='' class='arrow'>
+        <a ng-click='MovePriority($index, -1);' href='' class='arrow'>
             <h4>&Larr;</h4>
         </a>
     </td>
@@ -13,11 +13,11 @@
         <br/>
     </td>
     <td rowspan='2' valign='middle'>
-        <a ng-click='MovePriority(eachCar, 1);' href='' class='arrow' ng-hide='$index == (filteredCars.length - 1)'>
+        <a ng-click='MovePriority($index, 1);' href='' class='arrow' ng-hide='$index == (filteredCars.length - 1)'>
             <h4>&Rarr;</h4>
         </a>
     </td>
-</tr>
+</tr
 <tr>
     <td>
         <div ng-include='"./html/Car.html"'></div>

@@ -11,14 +11,19 @@ header('Access-Allow-Control-Origin: *');
     switch($method){
 
        case 'POST':
+        
             $json = file_get_contents('php://input');
             $data = json_decode($json);
             ProcessPOST($data);
             break;
 
        case "PUT":    // Could read from input and query string
-            echo 'PUT';
-            ProcessPUT();
+
+            $carToMoveID = $_GET["carToMoveID"];
+            $bumpedCarID = $_GET["bumpedCarID"];
+            $increment = $_GET["incr"];
+    
+            ProcessPUT($carToMoveID, $bumpedCarID, $increment);
             break;
 
        case "GET":  // get cars on the Paint List
@@ -146,5 +151,55 @@ function ProcessPOST($car){
     }   // try-catch
 
 }   // ProcessPOST()
+
+
+function ProcessPUT($car_to_move_id, $bumped_car_id, $increment){
+        
+    require 'db_open.php';
+
+    $tsql = <<<strSQL
+        UPDATE tech_car_priority
+        SET priority = priority + $increment
+        WHERE repair_id = $car_to_move_id
+    strSQL;
+
+    $retValue = true;
+
+    try{
+
+        $conn->query($tsql);
+
+    } catch(Exception $e){
+
+        echo "Error: " . $tsql . "<br>" . $conn->error;
+        $retValue = false;
+
+    } finally {
+
+        if ($retValue == false){
+            $conn = null;
+            return $retValue;
+        }   // if
+
+        $tsql = <<<strSQL
+            UPDATE tech_car_priority
+            SET priority = priority - $increment
+            WHERE repair_id = $bumped_car_id
+        strSQL;
+
+        try{
+
+            $conn->query($tsql);
+
+        } catch(Exception $e){
+
+            echo "Error: " . $tsql . "<br>" . $conn->error;
+
+        } finally {
+            $conn = null;
+            return $retValue;
+        }   // try-catch
+    }   // try-catch
+}   // ProcessPUT()
 
 ?>

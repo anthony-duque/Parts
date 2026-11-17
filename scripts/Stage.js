@@ -82,7 +82,7 @@ var stageCtrlr = function($scope, $http, $window, utility){
     }    // function GetStageHeadings()
 
 
-    function GetPriorityCars(shop_ID){
+    GetPriorityCars = function(shop_ID){
 
         $http.get('./php/Tech_Car_Priority.php?shopID=' + shop_ID)  // get all locations by default
               .then(
@@ -109,10 +109,11 @@ var stageCtrlr = function($scope, $http, $window, utility){
 
                                     for(var j = 0; j < $scope.production_stage[i].cars.length; ++j){    // for each car in the stage
 
-                                        production_repair_id      = $scope.production_stage[i].cars[j].repair_id;
+                                        production_repair_id = $scope.production_stage[i].cars[j].repair_id;
 
                                         if (priority_repair_id == production_repair_id){
 
+                                            $scope.production_stage[i].cars[j].priority = eachCar.priority;   // add the priority to the car in the production stage
                                             $scope.priorityCars.push($scope.production_stage[i].cars[j]);
                                             carFound = true;
                                             break;  // quit searching for the car in the current stage
@@ -124,6 +125,8 @@ var stageCtrlr = function($scope, $http, $window, utility){
                                     }
                                 }   // for()
                             });
+                            console.log("Priority Cars in Production Stages:");
+                            console.log($scope.priorityCars);
                         }
                     }
               )         // then()
