@@ -26,11 +26,13 @@ var StageCarCtrlr = function($scope, $window, $http){
 
         } else {
 
-                // place the car in queue if not already there
-            carIndex = ($scope.priorityCars.push(car) - 1);
+                // place the car in queue
+//            carIndex = ($scope.priorityCars.push(car) - 1);
+            $scope.priorityCars.push(car);
+            queuePriority = $scope.filteredCars.length;   // priority is 1-based, not 0-based
 
             var pCar = {
-                priority    : carIndex,
+                priority    : queuePriority,
                 technician  : car.technician,
                 repair_id   : car.repair_id,
                 dept_code   : 'BODY'
