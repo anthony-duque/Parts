@@ -167,7 +167,7 @@ function ProcessPUT($car_to_move_id, $bumped_car_id, $increment){
                     ELSE 
                         priority 
                     END;
-        strSQL;
+strSQL;
 
     $retValue = 200;
 
@@ -183,10 +183,29 @@ function ProcessPUT($car_to_move_id, $bumped_car_id, $increment){
 
     } finally {
 
-        $conn = null;
-        http_response_code($retValue);
-        return $retValue;
+        if ($retValue == false){
+            $conn = null;
+            return $retValue;
+        }   // if
 
+        $tsql = <<<strSQL
+            UPDATE tech_car_priority
+            SET priority = priority - $increment
+            WHERE repair_id = $bumped_car_id
+        strSQL;
+
+        try{
+
+            $conn->query($tsql);
+
+        } catch(Exception $e){
+
+            echo "Error: " . $tsql . "<br>" . $conn->error;
+
+        } finally {
+            $conn = null;
+            return $retValue;
+        }   // try-catch
     }   // try-catch
 }   // ProcessPUT()
 
