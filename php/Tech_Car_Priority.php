@@ -11,7 +11,7 @@ header('Access-Allow-Control-Origin: *');
     switch($method){
 
        case 'POST':
-        
+
             $json = file_get_contents('php://input');
             $data = json_decode($json);
             ProcessPOST($data);
@@ -158,10 +158,16 @@ function ProcessPUT($car_to_move_id, $bumped_car_id, $increment){
     require 'db_open.php';
 
     $tsql = <<<strSQL
-        UPDATE tech_car_priority
-        SET priority = priority + $increment
-        WHERE repair_id = $car_to_move_id
-    strSQL;
+                UPDATE tech_car_priority
+                SET priority = CASE repair_id 
+                    WHEN $car_to_move_id 
+                        THEN priority + $increment 
+                    WHEN $bumped_car_id 
+                        THEN priority - $increment 
+                    ELSE 
+                        priority 
+                    END;
+        strSQL;
 
     $retValue = true;
 
@@ -176,29 +182,9 @@ function ProcessPUT($car_to_move_id, $bumped_car_id, $increment){
 
     } finally {
 
-        if ($retValue == false){
-            $conn = null;
-            return $retValue;
-        }   // if
+        $conn = null;
+        return $retValue;
 
-        $tsql = <<<strSQL
-            UPDATE tech_car_priority
-            SET priority = priority - $increment
-            WHERE repair_id = $bumped_car_id
-        strSQL;
-
-        try{
-
-            $conn->query($tsql);
-
-        } catch(Exception $e){
-
-            echo "Error: " . $tsql . "<br>" . $conn->error;
-
-        } finally {
-            $conn = null;
-            return $retValue;
-        }   // try-catch
     }   // try-catch
 }   // ProcessPUT()
 
