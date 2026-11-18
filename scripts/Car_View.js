@@ -13,13 +13,13 @@ var carViewCtrlr = function($scope, $http, utility){
     repairID = params.repairID;
 
     GetAllPartsForRO(repairID);
-    GetUploadTimeStamp();
+    GetUploadTimeStamp(repairID);
 
 /////////////////////////////////////////////////////////////
 
-    function GetAllPartsForRO(ROnum, locationID)
+    function GetAllPartsForRO(repairID)
     {
-        $http.get('../php/Car_View.php?roNum=' + ROnum + '&locationID=' + locationID)
+        $http.get('../php/Car_View.php?repairID=' + repairID)
               .then(handleSuccess)
               .catch(handleError);   // .then()
     }     // GetAllPartsForRO()
@@ -110,9 +110,9 @@ var carViewCtrlr = function($scope, $http, utility){
     }
 
 
-    function GetUploadTimeStamp(timeObj){
+    function GetUploadTimeStamp(repairID){
 
-        $http.get('../php/Get_Upload_Time.php')
+        $http.get('../php/Get_Upload_Time.php?repairID=' + repairID)
               .then(
                     function(response){
                         if (response.data){

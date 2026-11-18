@@ -2,15 +2,15 @@
 
 require('Utility_Scripts.php');
 
-    $ro_num = $_GET["roNum"];
-    $locationID = $_GET["locationID"];
+    $repairID = $_GET["repairID"];
 
-    $CarParts = ProcessGET($ro_num, $locationID);
+    $CarParts = ProcessGET($repairID);
 
     echo json_encode($CarParts);
 
     class Car{
 
+        public $repair_id;
         public $ro_num;
         public $owner;
         public $vehicle;
@@ -29,6 +29,7 @@ require('Utility_Scripts.php');
 
         function __construct($rec){
 
+            $this->repair_id        = $rec["id"];
             $this->ro_num           = $rec["ro_num"];
             $this->owner            = $rec["owner"];
             $this->vehicle          = $rec["vehicle"];
@@ -38,7 +39,7 @@ require('Utility_Scripts.php');
             $this->scheduled_out    = GetDisplayDate($rec["scheduled_out"]);
             $this->estimator        = $rec["estimator"];
             $this->technician       = toProperCase($rec["technician"]);
-            $this->location         = $rec["location"];
+            $this->location         = $rec["name"];
             $this->insurance        = $rec["insurance"];
             $this->vin              = $rec["vin"];
             $this->stage            = $rec["stage"];
@@ -66,8 +67,8 @@ require('Utility_Scripts.php');
         function __construct($rec){
 
             $this->line_num             = $rec["line"];
-            $this->part_number          = $rec["part_number"];
-            $this->part_description     = $rec["part_description"];
+            $this->part_number          = $rec["number"];
+            $this->part_description     = $rec["description"];
 
             $this->vendor_name          = strtolower($rec["vendor_name"]);
             $this->vendor_name          =  ucwords($this->vendor_name);
@@ -79,7 +80,7 @@ require('Utility_Scripts.php');
             $this->invoice_date         = GetDisplayDate($rec["invoice_date"]);
             $this->returned_quantity    = $rec["returned_qty"];
             $this->expected_delivery    = GetDisplayDate($rec["expected_delivery"]);
-            $this->part_status          = $rec["part_status"];
+            $this->part_status          = $rec["status"];
 
         }   // Part()
     }   // Part{}
@@ -92,31 +93,30 @@ require('Utility_Scripts.php');
         public $received_quantity;
 
         function __construct($rec){
-            $this->part_description     = $rec["part_description"];
+            $this->part_description     = $rec["description"];
             $this->vendor_name          = $rec["vendor_name"];
             $this->received_quantity    = $rec["received_qty"];
         }
     }   // Sublet{}
 
 
-    function GetPartsList($ro, $locID, $dbConn){
+    function GetPartsList($repair_id, $dbConn){
 
         $sql = <<<strSQL
 
-                SELECT line, part_number, part_description, order_date,
+                SELECT line, number, description, order_date,
                         vendor_name, ro_qty, ordered_qty, received_qty,
                         returned_qty, expected_delivery, invoice_date,
-                        part_status
+                        status
 
-                FROM parts_status
+                FROM parts
                 
-                WHERE part_number NOT IN ('Sublet', 'Remanufactured')
+                WHERE number NOT IN ('Sublet', 'Remanufactured')
                     AND line > 0
-                    AND (part_Number > '' OR vendor_name > '')
+                    AND (number > '' OR vendor_name > '')
                     AND vendor_name NOT LIKE '**%'
-                    AND part_type NOT IN ('Sublet')
-                    AND ro_num = '$ro'
-                    AND loc_id = $locID
+                    AND type NOT IN ('Sublet')
+                    AND repair_id = $repair_id
                 
                 ORDER BY ordered_qty ASC;
 
@@ -144,20 +144,19 @@ require('Utility_Scripts.php');
     }   // GetPartsList()
 
 
-    function GetSubletList($ro_num, $loc_id, $dbConn){
+    function GetSubletList($repair_id, $dbConn){
 
         $sublets = [];
 
         $sql =  <<<strSQL
 
-                    SELECT part_description, vendor_name,
+                    SELECT description, vendor_name,
                         received_qty
         
-                    FROM parts_status
+                    FROM parts
                     
-                    WHERE part_type = 'Sublet'
-                        AND ro_num = $ro_num
-                        AND loc_id = $loc_id
+                    WHERE type = 'Sublet'
+                        AND repair_id = $repair_id
                     
                     ORDER BY received_qty
 
@@ -179,13 +178,13 @@ require('Utility_Scripts.php');
     }   // Get_Sublet_List()
 
 
-    function ProcessGET($roNum, $locID){
+    function ProcessGET($repair_id){
 
         require('db_open.php');
 
         $sql = <<<strSQL
                     SELECT 
-                        r.ro_num, r.owner, r.vehicle, r.estimator, r.technician,
+                        r.id, r.ro_num, r.owner, r.vehicle, r.estimator, r.technician,
                         r.vehicle_color, r.license_plate, r.vehicle_in, r.scheduled_out,
                         r.location, r.loc_id, r.insurance, r.vin, s.description AS stage
                     FROM 
@@ -193,8 +192,25 @@ require('Utility_Scripts.php');
                         LEFT JOIN car_stage cs ON r.ro_num = cs.ro_num AND r.loc_id = cs.loc_id
                         LEFT JOIN stage_headings s ON cs.stage_id = s.Order_No AND s.loc_id = cs.loc_id
 
-                    WHERE r.ro_num = $roNum AND r.loc_id = $locID
+                    WHERE r.id = $repair_id
                 strSQL;
+
+        $sql = <<<strSQL
+                    SELECT 
+                        r.id, r.ro_num, r.owner, r.vehicle, r.estimator, r.technician,
+                        r.vehicle_color, r.license_plate, r.vehicle_in, r.scheduled_out,
+                        s.name, r.shop_id, r.insurance, r.vin, st.description AS stage
+                    FROM 
+                        repairs r INNER JOIN shops s
+                        	ON r.shop_id = s.id
+                        INNER JOIN shop_stage_headings ssh 
+                        	ON r.shop_id = ssh.shop_id
+                        	AND r.stage_sequence = ssh.sequence
+                        INNER JOIN stages st
+                        	ON st.code = ssh.stage_code
+                    WHERE r.id = $repair_id
+                strSQL;
+
 
         try{
 
@@ -202,8 +218,8 @@ require('Utility_Scripts.php');
             $r = mysqli_fetch_assoc($s);
 
             $car = new Car($r);
-            $car->partsList = GetPartsList($roNum, $locID, $conn);
-            $car->subletList = GetSubletList($roNum, $locID, $conn);
+            $car->partsList = GetPartsList($repair_id, $conn);
+            $car->subletList = GetSubletList($repair_id, $conn);
 
         } catch(Exception $e){
 
