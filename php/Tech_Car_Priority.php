@@ -159,14 +159,16 @@ function ProcessPUT($car_to_move_id, $bumped_car_id, $increment){
 
     $tsql = <<<strSQL
                 UPDATE tech_car_priority
-                SET priority = CASE repair_id 
-                    WHEN $car_to_move_id 
-                        THEN priority + $increment 
-                    WHEN $bumped_car_id 
-                        THEN priority - $increment 
-                    ELSE 
-                        priority 
-                    END;
+                SET priority = 
+                    CASE repair_id 
+                        WHEN $car_to_move_id 
+                            THEN priority + $increment 
+                        WHEN $bumped_car_id 
+                            THEN priority 
+                        ELSE 
+                            priority 
+                    END
+                WHERE repair_id IN ($car_to_move_id, $bumped_car_id);
 strSQL;
 
     $retValue = 200;
