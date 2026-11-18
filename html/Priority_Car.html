@@ -4,8 +4,8 @@
         border=0
         ng-dblclick='DoubleClicked("Car_View.html?roNum=" + eachCar.ro_num + "&locationID=" + eachCar.locationID)'>
 <tr>
-    <td rowspan='2' valign='middle' ng-hide='$index == 0'>
-        <a ng-click='MovePriority(eachCar, -1);' href='' class='arrow'>
+    <td rowspan='2' valign='middle'>
+        <a ng-click='MovePriority($index, -1);' href='' class='arrow' ng-hide='$index == 0'>
             <h4>&Larr;</h4>
         </a>
     </td>
@@ -14,8 +14,8 @@
             <h4>&Uarr;</h4>
         </a>
     </td>
-    <td rowspan='2' valign='middle' ng-hide='$index == (priorityCars.length - 1)'>
-        <a ng-click='MovePriority(eachCar, 1);' href='' class='arrow' ng-hide='eachCar.stageID == (stages.length - 1)'>
+    <td rowspan='2' valign='middle'>
+        <a ng-click='MovePriority($index, 1);' href='' class='arrow' ng-hide='$index == (filteredCars.length - 1)'>
             <h4>&Rarr;</h4>
         </a>
     </td>
