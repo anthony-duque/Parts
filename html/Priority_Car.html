@@ -1,8 +1,9 @@
 <table  ng-controller='PriorityCarController'
+        style="height: 100%;"
         width='100%'
         align='center'
         border=0
-        ng-dblclick='DoubleClicked("Car_View.html?roNum=" + eachCar.ro_num + "&locationID=" + eachCar.locationID)'>
+        ng-dblclick='DoubleClicked("Car_View.html?repairID=" + eachCar.repair_id);'>
 <tr>
     <td rowspan='2' valign='middle'>
         <a ng-click='MovePriority($index, -1);' href='' class='arrow' ng-hide='$index == 0'>
@@ -10,9 +11,7 @@
         </a>
     </td>
     <td align='center'>
-        <a ng-click='' href='' class='arrow' ng-hide='true'>
-            <h4>&Uarr;</h4>
-        </a>
+        <br/>
     </td>
     <td rowspan='2' valign='middle'>
         <a ng-click='MovePriority($index, 1);' href='' class='arrow' ng-hide='$index == (filteredCars.length - 1)'>
