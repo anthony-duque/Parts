@@ -58,7 +58,7 @@ class Production_Stage {
 
            SELECT
 
-               r.ro_num, r.loc_id, cs.stage_id,
+               r.ro_num, r.loc_id, cs.stage_id, r.parts_received,
                 SUBSTRING_INDEX(r.estimator, ' ', 1) AS estimator,
                 SUBSTRING_INDEX(r.owner, ',', 1) AS owner,
                 r.vehicle, LCASE(r.vehicle_color) AS vehicle_color,
@@ -69,6 +69,8 @@ class Production_Stage {
                     ON r.ro_num = cs.ro_num AND r.loc_id = cs.loc_id
 
             WHERE r.loc_id = $locID AND cs.stage_id = $stage_ID
+
+            ORDER BY r.parts_received DESC
 sqlStmt;
 
         require('db_open.php');
@@ -111,8 +113,6 @@ function Process_GET($locID, $stageCount){
     for($stage = 0; $stage < $stageCount; ++$stage){
         $production_cars[$stage] = new Production_Stage($locID, $stage);
     }
-
-    ComputePartsReceived($production_cars);
 
     echo json_encode(new ProdStage($production_cars));
 

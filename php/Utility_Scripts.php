@@ -151,61 +151,6 @@ function GetDisplayDate($dateStr){
 }
 
 
-function ComputePartsReceived(&$repairs){
-
-	$unordered = 0;
-	$ordered = 0;
-	$received = 0;
-	$returned = 0;
-
-	foreach($repairs as $repair){    // for each estimator/technician/shop
-		foreach($repair->cars as $car){ // for each car assigned to an estimator/technician/shop
-			foreach($car->parts as $part){ // get the parts list for each car
-
-				switch($part->part_status){
-
-					case "NOT_ORDERED":
-						++$unordered;
-						break;
-
-					case "RETURNED":
-						 ++$returned;
-						 break;
-
-					case "ORDERED":
-						++$ordered;
-						break;
-
-						// "RECEIVED"
-					default:
-						++$received;
-						break;
-				}
-			}
-
-			$car->parts_unordered   = $unordered;
-			$car->parts_waiting     = $ordered;
-			$car->parts_received    = $received;
-			$car->parts_returned    = $returned;
-
-			$totalParts = $unordered + $ordered + $received + $returned;
-
-			if ($totalParts == 0){
-				$car->parts_percent = 100;
-			} else {
-				$car->parts_percent = ($received / $totalParts) * 100;
-			}
-
-				// reset the counters
-			$unordered = 0;
-			$ordered = 0;
-			$received = 0;
-			$returned = 0;
-		}
-	}
-}	// ComputePartsReceived
-
-
 function Get_Upload_Time(){
 
 	require('db_open.php');
