@@ -104,7 +104,7 @@ class Car{
         $this->parts_waiting    = 0;
         $this->parts_received   = 0;
         $this->parts_returned   = 0;
-        $this->parts_percent    = 0;
+        $this->parts_percent    = $rec["parts_received"];
         $this->scheduled_out    = GetDisplayDate($rec["scheduled_out"]);
         $this->scheduled_out    = substr($this->scheduled_out, 0, 5);
         $this->shop_id          = $rec["shop_id"];

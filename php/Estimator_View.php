@@ -40,9 +40,11 @@
             $this->parts_waiting    = 0;
             $this->parts_received   = 0;
             $this->parts_returned   = 0;
-            $this->parts_percent    = 0;
+            $this->parts_percent    = $rec["parts_received"];
+
             $this->scheduled_out    = GetDisplayDate($rec["scheduled_out"]);
             $this->scheduled_out    = substr($this->scheduled_out, 0, 5);
+            
             $this->location         = $rec["location"];
             $this->loc_ID           = $rec["loc_id"];
             $this->insurance        = $rec["insurance"];
@@ -93,7 +95,7 @@
                     r.ro_num, SUBSTRING_INDEX(r.owner, ',', 1) AS owner,
                     r.vehicle, LCASE(r.vehicle_color) AS vehicle_color,
                     r.technician, r.vehicle_in, r.current_phase, r.scheduled_out,
-                    li.location, r.loc_id, r.insurance
+                    li.location, r.loc_id, r.insurance, parts_received
                 FROM repairs r INNER JOIN locations li 
                     ON r.loc_id = li.id
                 WHERE r.estimator > '' AND li.company_id = $companyID
@@ -178,8 +180,6 @@
                 $car->parts = GetAllParts($conn, $car->ro_num, $car->loc_ID);
             }
         }
-
-        ComputePartsReceived($allRepairs);
 
         return $allRepairs;
 

@@ -51,7 +51,7 @@
                         &nbsp;{{ eachCar.technician.split(' ')[0] }}
                     </td>
                 </tr>
-                <tr ng-show='eachCar.parts_percent == 100'>
+                <tr ng-show='eachCar.parts_percent > 99'>
                     <td align='center'>
                         <table align='center' border=1>
                         <tr>
@@ -62,7 +62,7 @@
                         </table>
                     </td>
                 </tr>
-                <tr ng-show='eachCar.parts_percent < 100'>
+                <tr ng-hide='eachCar.parts_percent > 99'>
                     <td valign='bottom'>
                         <table height='10' width='100%' border=1 valign='bottom'>
                         <tr>
