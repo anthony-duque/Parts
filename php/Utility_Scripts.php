@@ -158,9 +158,9 @@ function ComputePartsReceived(&$repairs){
 	$received = 0;
 	$returned = 0;
 
-	foreach($repairs as $repair){    // for each car assigned to an estimator
-		foreach($repair->cars as $car){ // get the parts list
-			foreach($car->parts as $part){ // get the parts list
+	foreach($repairs as $repair){    // for each estimator/technician/shop
+		foreach($repair->cars as $car){ // for each car assigned to an estimator/technician/shop
+			foreach($car->parts as $part){ // get the parts list for each car
 
 				switch($part->part_status){
 

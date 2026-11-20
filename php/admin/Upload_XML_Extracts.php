@@ -9,6 +9,7 @@ require('../Utility_Scripts.php');
 require('Upload_XML_Methods.php');
 require('Upload_XML_Prod_Sched.php');
 require('Upload_XML_Parts_Status.php');
+require('Update_Parts_Received.php');
 
 require('Create_Labels_CSV.php');
 require('../db_open.php');
@@ -142,6 +143,9 @@ if ($stmt->execute() === TRUE) {
 } else {
     echo "Error: " . $tsql . "<br>" . $conn->error;
 }
+
+   // Compute the parts received and update the Repairs table.
+Update_Parts_Received($companyID, $conn);
 
 $stmt->close();
 $conn->close();
