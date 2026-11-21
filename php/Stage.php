@@ -64,7 +64,7 @@ class Production_Stage {
                 r.vehicle, LCASE(r.vehicle_color) AS vehicle_color,
                 SUBSTRING_INDEX(r.technician, ' ', 1) AS technician,
                 r.vehicle_in, r.current_phase, r.scheduled_out, 
-                r.insurance
+                r.insurance, r.parts_percent_received
             FROM repairs r
             WHERE r.shop_id = $shop_id AND r.stage_sequence = $stageSequence;
 

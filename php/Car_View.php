@@ -106,18 +106,14 @@ require('Utility_Scripts.php');
                 SELECT line, part_number, part_description, order_date,
                         vendor_name, ro_qty, ordered_qty, received_qty,
                         returned_qty, expected_delivery, invoice_date,
-                        part_status
-
-                FROM parts_status
-                
-                WHERE part_number NOT IN ('Sublet', 'Remanufactured')
+                        status
+                FROM parts
+                WHERE number NOT IN ('Sublet', 'Remanufactured')
                     AND line > 0
                     AND (part_Number > '' OR vendor_name > '')
                     AND vendor_name NOT LIKE '**%'
-                    AND part_type NOT IN ('Sublet')
-                    AND ro_num = '$ro'
-                    AND loc_id = $locID
-                
+                    AND type NOT IN ('Sublet')
+                    AND repair_id = $repair_id
                 ORDER BY ordered_qty ASC;
 
             strSQL;
@@ -152,13 +148,9 @@ require('Utility_Scripts.php');
 
                     SELECT part_description, vendor_name,
                         received_qty
-        
-                    FROM parts_status
-                    
-                    WHERE part_type = 'Sublet'
-                        AND ro_num = $ro_num
-                        AND loc_id = $loc_id
-                    
+                    FROM parts
+                    WHERE type = 'Sublet'
+                        AND repair_id = $repair_id
                     ORDER BY received_qty
 
                 strSQL;
@@ -187,13 +179,18 @@ require('Utility_Scripts.php');
                     SELECT 
                         r.ro_num, r.owner, r.vehicle, r.estimator, r.technician,
                         r.vehicle_color, r.license_plate, r.vehicle_in, r.scheduled_out,
-                        r.location, r.loc_id, r.insurance, r.vin, s.description AS stage
+                        s.name, r.shop_id, r.insurance, r.vin, st.description AS stage,
+                        r.parts_ordered, r.parts_unordered, r.parts_returned, r.parts_received,
+                        r.parts_percent_received
                     FROM 
-                        repairs r LEFT JOIN scheduled_in_vin siv ON r.ro_num = siv.ro_num
-                        LEFT JOIN car_stage cs ON r.ro_num = cs.ro_num AND r.loc_id = cs.loc_id
-                        LEFT JOIN stage_headings s ON cs.stage_id = s.Order_No AND s.loc_id = cs.loc_id
-
-                    WHERE r.ro_num = $roNum AND r.loc_id = $locID
+                        repairs r INNER JOIN shops s
+                        	ON r.shop_id = s.id
+                        INNER JOIN shop_stage_headings ssh 
+                        	ON r.shop_id = ssh.shop_id
+                        	AND r.stage_sequence = ssh.sequence
+                        INNER JOIN stages st
+                        	ON st.code = ssh.stage_code
+                    WHERE r.id = $repair_id
                 strSQL;
 
         try{
