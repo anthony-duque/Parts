@@ -164,7 +164,10 @@
 
     function Get_Parts_List_From_XML($company_ID, $repair_ID_Lookup, $partsXMLfile){
 
-            // Load the XML file
+        // Note: $repair_ID_Lookup is a lookup array of what the repair id
+        //  given the RO number and location ID
+        
+        // Load the XML file
         $xml = simplexml_load_file($partsXMLfile);
 
         if ($xml === false) {

@@ -151,12 +151,9 @@ function GetDisplayDate($dateStr){
 }
 
 
-function Get_Upload_Time(){
+function Get_Upload_Time($shop_id){
 
 	require('db_open.php');
-
-	// $loc_IDs = $_COOKIE["locationID"];       // set the location cookie for use in the utility scripts
-	$loc_IDs = "1,2";     // test until cookies are working
 
 	$last_upload_date = '';
 
