@@ -108,16 +108,13 @@ require('Utility_Scripts.php');
                         vendor_name, ro_qty, ordered_qty, received_qty,
                         returned_qty, expected_delivery, invoice_date,
                         status
-
                 FROM parts
-                
                 WHERE number NOT IN ('Sublet', 'Remanufactured')
                     AND line > 0
                     AND (number > '' OR vendor_name > '')
                     AND vendor_name NOT LIKE '**%'
                     AND type NOT IN ('Sublet')
                     AND repair_id = $repair_id
-                
                 ORDER BY ordered_qty ASC;
 
             strSQL;
@@ -152,12 +149,9 @@ require('Utility_Scripts.php');
 
                     SELECT description, vendor_name,
                         received_qty
-        
                     FROM parts
-                    
                     WHERE type = 'Sublet'
                         AND repair_id = $repair_id
-                    
                     ORDER BY received_qty
 
                 strSQL;
@@ -186,20 +180,9 @@ require('Utility_Scripts.php');
                     SELECT 
                         r.id, r.ro_num, r.owner, r.vehicle, r.estimator, r.technician,
                         r.vehicle_color, r.license_plate, r.vehicle_in, r.scheduled_out,
-                        r.location, r.loc_id, r.insurance, r.vin, s.description AS stage
-                    FROM 
-                        repairs r LEFT JOIN scheduled_in_vin siv ON r.ro_num = siv.ro_num
-                        LEFT JOIN car_stage cs ON r.ro_num = cs.ro_num AND r.loc_id = cs.loc_id
-                        LEFT JOIN stage_headings s ON cs.stage_id = s.Order_No AND s.loc_id = cs.loc_id
-
-                    WHERE r.id = $repair_id
-                strSQL;
-
-        $sql = <<<strSQL
-                    SELECT 
-                        r.id, r.ro_num, r.owner, r.vehicle, r.estimator, r.technician,
-                        r.vehicle_color, r.license_plate, r.vehicle_in, r.scheduled_out,
-                        s.name, r.shop_id, r.insurance, r.vin, st.description AS stage
+                        s.name, r.shop_id, r.insurance, r.vin, st.description AS stage,
+                        r.parts_ordered, r.parts_unordered, r.parts_returned, r.parts_received,
+                        r.parts_percent_received
                     FROM 
                         repairs r INNER JOIN shops s
                         	ON r.shop_id = s.id
