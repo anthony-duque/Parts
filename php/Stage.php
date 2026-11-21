@@ -63,15 +63,12 @@ class Production_Stage {
                 SUBSTRING_INDEX(r.owner, ',', 1) AS owner,
                 r.vehicle, LCASE(r.vehicle_color) AS vehicle_color,
                 SUBSTRING_INDEX(r.technician, ' ', 1) AS technician,
-                r.vehicle_in, r.current_phase, r.scheduled_out, r.insurance
+                r.vehicle_in, r.current_phase, r.scheduled_out, 
+                r.insurance, r.parts_received
+            FROM repairs r
+            WHERE r.shop_id = $shop_id AND r.stage_sequence = $stageSequence;
 
-            FROM repairs r INNER JOIN car_stage cs
-                    ON r.ro_num = cs.ro_num AND r.loc_id = cs.loc_id
-
-            WHERE r.loc_id = $locID AND cs.stage_id = $stage_ID
-
-            ORDER BY r.parts_received DESC
-sqlStmt;
+        sqlStmt;
 
         require('db_open.php');
 
@@ -101,9 +98,14 @@ function Process_GET($locID, $stageCount){
         public $stageCars = [];
         public $last_upload_time;
 
-        function __construct($sc){
-            $this->stageCars = $sc;
-            $this->last_upload_time = Get_Upload_Time();
+        function __construct($shopID, $stageCount){
+
+            for($stage = 0; $stage < $stageCount; ++$stage){
+                    array_push($this->stageCars, new Production_Stage($shopID, $stage));
+            }
+            
+            $this->last_upload_time = Get_Upload_Time($shopID);
+
         }
     }   // prodStage{}
 
