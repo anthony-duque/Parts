@@ -60,9 +60,7 @@ class Car{
         $sql =  <<<strSQL
 
                     SELECT ro_qty, ordered_qty, received_qty, returned_qty, status
-
                     FROM parts
-
                     WHERE number NOT IN ('Sublet', 'Remanufactured')
                         AND (Line > 0)
                         AND (number > '' OR vendor_name > '')
@@ -100,11 +98,11 @@ class Car{
         $this->current_phase    = $rec["current_phase"];
         $this->estimator        = toProperCase($rec["estimator"]);
         $this->vehicle_color    = $rec["vehicle_color"];
-        $this->parts_unordered  = 0;
-        $this->parts_waiting    = 0;
-        $this->parts_received   = 0;
-        $this->parts_returned   = 0;
-        $this->parts_percent    = $rec["parts_received"];
+        $this->parts_unordered  = $rec["parts_unordered"];
+        $this->parts_waiting    = $rec["parts_ordered"];
+        $this->parts_received   = $rec["parts_received"];
+        $this->parts_returned   = $rec["parts_returned"];
+        $this->parts_percent    = $rec["parts_percent_received"];
         $this->scheduled_out    = GetDisplayDate($rec["scheduled_out"]);
         $this->scheduled_out    = substr($this->scheduled_out, 0, 5);
         $this->shop_id          = $rec["shop_id"];
