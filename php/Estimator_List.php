@@ -2,45 +2,91 @@
 
 require('db_open.php');
 
-    class Estimator{
+$method = $_SERVER['REQUEST_METHOD'];
 
-        public $name;
-        public $locID;
+switch(strtoupper($method)){
 
-        function __construct($rec){
-            $this->name    = $rec["estimator"];
-            $this->locID   = $rec["shop_id"];
-        }
-    }   // Estimator{}
+    case 'GET':
+        Process_GET($conn);
+        break;
 
-    $sql = <<<strSQL
+    case 'POST':
+        Process_POST($conn);
+        break;
 
-            SELECT DISTINCT
-                SUBSTRING_INDEX(estimator, ' ', 1) AS estimator,
-                shop_id
-            FROM repairs
-            WHERE estimator > ''
-            ORDER BY estimator ASC
-        strSQL;
+    default:
+        break;
+}
 
-    try{
+//////////////////////////////////////////////////
 
-        $s = mysqli_query($conn, $sql);
-        $estim_list = [];
 
-        while($r = mysqli_fetch_assoc($s)){
-            array_push($estim_list, new Estimator($r));
-        }   // while()
+class Estimator{
 
-    } catch(Exception $e){
+    public $name;
+    public $locID;
 
-        echo "Fetching Estimator List failed." . $e->getMessage();
+    function __construct($rec){
+        $this->name    = $rec["estimator"];
+        $this->locID   = $rec["shop_id"];
+    }
+}   // Estimator{}
 
-    } finally {
 
-        $conn = null;
-        echo json_encode($estim_list);
+function Process_GET($db_conn){
 
-    }   // try-catch{}
+        $sql = "";
+
+        switch(true){
+
+            case isset($_GET["repairID"]):
+
+                $sql =  "SELECT estimator, shop_id " . 
+                        "FROM repairs " . 
+                        "WHERE repair_id = {$_GET['repairID']};";
+                break;
+
+            case isset($_GET["shopID"]):
+
+                $sql =  "SELECT DISTINCT estimator, shop_id " . 
+                        "FROM repairs" . 
+                        "WHERE shop_id = {$_GET['shopID']};";
+                break;
+
+            case isset($_GET["companyID"]):
+
+                $sql =  "SELECT DISTINCT r.estimator, r.shop_id " .
+                        "FROM repairs r INNER JOIN shops s " .
+                        " ON r.shop_id = s.id " .  
+                        "WHERE s.company_id = {$_GET['companyID']};";
+                break;                
+                
+            default:
+                $sql =  "SELECT DISTINCT r.estimator, r.shop_id " .
+                        "FROM repairs r";
+                break;
+        };
+
+        try{
+
+            $s = mysqli_query($db_conn, $sql);
+            $estimator_list = [];
+
+            while($r = mysqli_fetch_assoc($s)){
+                array_push($estimator_list, new Estimator($r));
+            }   // while()
+
+        } catch(Exception $e){
+
+            echo "Fetching Estimatorr List failed." . $e->getMessage();
+
+        } finally {
+
+            $conn = null;
+            echo json_encode($estimator_list);
+
+        }   // try-catch{}
+
+    }   // function ProcessGET()
 
 ?>

@@ -6,27 +6,26 @@ var prodController = function($scope, $http, utility){
     $scope.sortMode     = 'Sort by Parts Received';
     $scope.dueMode      = "What's not Due";
 
-    // default View is Technician View
+        // default View is Technician View
     $scope.productionView = './html/Technician_View.html';
 
-    Get_Technician_List();
-    Get_Estimator_List();
+    Get_Technician_List($scope.companyID);
+    Get_Estimator_List($scope.companyID);
 
 //////////////////////////////////////////////////////////
 
 
     function Handle_Success(fetchedList){
-            console.log(fetchedList + " fetch successful.")
-
-        }
+        console.log(fetchedList + " fetch successful.")
+    }
 
     function Handle_Error(response){
         console.log(response);
     }
 
-    function Get_Technician_List(){
+    function Get_Technician_List(companyID){
 
-        $http.get('./php/Technician_List.php')  // get all locations by default
+        $http.get('./php/Technician_List.php?companyID=' + companyID)  // get all locations by default
               .then(function(response){
                   if(response.data){
                       console.log(response.data);
@@ -34,21 +33,19 @@ var prodController = function($scope, $http, utility){
                       Handle_Success("Technician List");
                   }
               }).catch(Handle_Error);
-
     }     // Get_Technician_List()
 
 
-    function Get_Estimator_List(){
+    function Get_Estimator_List(companyID){
 
-        $http.get('./php/Estimator_List.php')  // get all locations by default
+        $http.get('./php/Estimator_List.php?companyID=' + companyID)  // get all locations by default
         .then(function(response){
             if(response.data){
                 console.log(response.data);
                 $scope.estim_list = response.data;
-                Handle_Success("Technician List");
+                Handle_Success("Estimator List");
             }
         }).catch(Handle_Error);
-
     }     // Get_Estimator_List()
 
 
@@ -65,7 +62,8 @@ var prodController = function($scope, $http, utility){
             $scope.DueButtonClass = "partsComplete";
             $scope.dueMode = "By what's Due";
         }
-    }
+    }   // SortCarsDue()
+
 
     $scope.SortCars = function (sortField){
 
@@ -80,7 +78,8 @@ var prodController = function($scope, $http, utility){
             $scope.buttonClass = "partsComplete";
             $scope.sortMode = "What's Ready";
         }
-    }
+    }   // SortCars()
+
 
     $scope.SortCars($scope.sortCars);   //initialize the screen
 
