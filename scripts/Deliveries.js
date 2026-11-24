@@ -24,12 +24,15 @@ var DeliveriesCtrlr = function($scope, $http, utility){
         }   // switch()
     }   // Get_All_Parts()
 
+
     $scope.Get_All_Vendors = function(days)
     {
         $http.get('./php/Deliveries_By_Vendor.php?numDays=' + days)
               .then(getVendorPartsSuccess)
-              .catch(getVendorPartsError);   // .then()
-    }
+              .catch(getVendorPartsError);
+
+    }   // Get_All_Vendors()
+
                                 //  parts regardless of date
     function getVendorPartsSuccess(response)
     {
@@ -42,17 +45,20 @@ var DeliveriesCtrlr = function($scope, $http, utility){
         }
     }   // handleSuccess()
 
+
     function getVendorPartsError(response)
     {
         console.log("Vendor Parts records not fetched.");
-    }
+    }   // getVendorPartsError()
+
 
     $scope.Get_All_Cars = function(days)
     {
-        $http.get('./php/Deliveries_By_Car.php?numDays=' + days)
+        $http.get('./php/Deliveries_By_Car.php?numDays=' + days + '&companyID=' + $scope.companyID)
               .then(getCarPartsSuccess)
               .catch(getCarPartsError);   // .then()
-    }
+    }   // Get_All_Cars()
+
 
     function getCarPartsSuccess(response)
     {
@@ -65,11 +71,11 @@ var DeliveriesCtrlr = function($scope, $http, utility){
         }
     }   // handleSuccess()
 
+
     function getCarPartsError(response)
     {
         console.log("Car Parts records not fetched.");
     }
-
-}
+}   // DeliveriesCtrlr()
 
 app.controller("DeliveriesController", DeliveriesCtrlr);
