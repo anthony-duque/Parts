@@ -76,8 +76,23 @@
                 $this->parts = $partsList;
             }   // try-catch{}
         }
-
     }   // Vendor{}
+
+
+    class Part{
+
+        public $part_number;
+        public $part_description;
+        public $received_quantity;
+        public $invoice_date;
+
+        function __construct($rec){
+            $this->part_number          = $rec["number"];
+            $this->part_description     = $rec["description"];
+            $this->received_quantity    = $rec["received_qty"];
+            $this->invoice_date         = GetDisplayDate($rec["invoice_date"]);
+        }   // Part()
+    }   // Part{}
 
 
     class Car {
@@ -93,7 +108,10 @@
         public $current_phase;
         public $vendors = [];
 
-        function __construct($rec){
+        private $db_conn;
+        private $sqlDateRange;
+
+        function __construct($rec, $sqlDtClause, $dbConn){
 
             $this->repair_id        = $rec["repair_id"];
             $this->ro_num           = $rec["ro_num"];
@@ -104,18 +122,25 @@
             $this->technician       = $rec["technician"];
             $this->vehicle_in       = $rec["vehicle_in"];
             $this->current_phase    = $rec["current_phase"];
+            $this->db_conn          = $dbConn;
+            $this->sqlDateRange     = $sqlDtClause;
+
+            $this->vendors          = $this->Get_Vendors_for_Car($sqlDtClause);
         }
 
-        function Get_Vendors_for_Car($db_conn, $sqlDtClause){
+        function Get_Vendors_for_Car($sqlDtClause){
 
             $sql = <<<strSQL
 
-                        SELECT DISTINCT vendor_name
-                        FROM parts p
-                        WHERE repair_id = $this->repair_id
-                            AND $sqlDtClause
-                            AND vendor_name NOT IN ('**IN-HOUSE', 'ASTECH', 'AIRTIGHT AUTO GLASS', 'BIG BRAND','Jim''s Tire Center', 'PRO TECH DIAGNOSTICS')
-                    strSQL;
+                SELECT DISTINCT vendor_name
+                FROM parts p
+                WHERE repair_id = $this->repair_id
+                    AND $sqlDtClause
+                    AND vendor_name NOT IN (%s)
+
+            strSQL;
+
+            $sql = sprintf($sql, IN_HOUSE_VENDORS);
 
             try{
 
@@ -138,42 +163,30 @@
             }   // try-catch{}
 
         }   // Get_Vendors_for_Car()
-
     }   // Car{}
-
-
-    class Part{
-
-        public $part_number;
-        public $part_description;
-        public $received_quantity;
-        public $invoice_date;
-
-        function __construct($rec){
-            $this->part_number          = $rec["number"];
-            $this->part_description     = $rec["description"];
-            $this->received_quantity    = $rec["received_qty"];
-            $this->invoice_date         = GetDisplayDate($rec["invoice_date"]);
-        }   // Part()
-    }   // Part{}
 
 
     function Get_All_Cars($dbConn, $sqlDtClause, $company_id){
 
         $sql = <<<strSQL
 
-                    SELECT DISTINCT p.repair_id, r.ro_num, SUBSTRING_INDEX(r.owner, ',', 1) AS owner,
-                        r.vehicle, r.technician, r.estimator, r.vehicle_in, r.current_phase,
-                        r.shop_id
-                    FROM parts p INNER JOIN repairs r
-                            ON p.repair_id = r.id
+                SELECT r.id AS repair_id, r.ro_num, SUBSTRING_INDEX(r.owner, ',', 1) AS owner,
+                    r.vehicle, r.technician, r.estimator, r.vehicle_in, r.current_phase,
+                    r.shop_id
+                FROM repairs r
+                WHERE r.id IN (
+                    SELECT DISTINCT r.id
+                    FROM repairs r INNER JOIN parts p 
+                            ON r.id = p.repair_id
                         INNER JOIN shops s
                             ON r.shop_id = s.id
-                    WHERE vendor_name NOT IN ('**IN-HOUSE', 'ASTECH', 'AIRTIGHT AUTO GLASS', 'BIG BRAND','Jim''s Tire Center', 'PRO TECH DIAGNOSTICS')
+                    WHERE vendor_name NOT IN (%s)
                         AND $sqlDtClause
                         AND s.company_id = $company_id
-                    ORDER BY ro_num DESC
-                strSQL;
+                );
+        strSQL;
+
+        $sql = sprintf($sql, IN_HOUSE_VENDORS);
 
         try {
 

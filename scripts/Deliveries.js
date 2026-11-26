@@ -27,7 +27,7 @@ var DeliveriesCtrlr = function($scope, $http, utility){
 
     $scope.Get_All_Vendors = function(days)
     {
-        $http.get('./php/Deliveries_By_Vendor.php?numDays=' + days)
+        $http.get('./php/Deliveries_By_Vendor.php?numDays=' + days + "&companyID=" + $scope.companyID)
               .then(getVendorPartsSuccess)
               .catch(getVendorPartsError);
 

@@ -5,82 +5,174 @@
     error_reporting(E_ALL);
 
     require('Utility_Scripts.php');
-    require('db_open.php');
 
-    $numDays = $_GET["numDays"];
+    final class Global_Consts{
 
-    if ($numDays > 1){
-        $dateClause = "Invoice_Date IS NOT NULL";
-    } else {
-        $dateClause = "DATEDIFF(CURDATE(), Invoice_Date) = $numDays";
-    }
+        private static ?mysqli $dbConn = null;
+        private static $dateRangeStr = '';
 
-    $allVendors = Get_All_Vendors($conn, $dateClause);     // Get all cars with deiiveries (invoice_date not null)
+        public static function getConn() : mysqli{
 
-    foreach($allVendors as $vendor){
+            if (is_null(self::$dbConn)){  // to make sure connection is only once.
 
-        $vendor->Get_Cars_for_Vendor($conn, $dateClause, $vendor->name);   // Get all the vendors that delivered per car
+                require('db_open.php');
+                self::$dbConn = $conn;
 
-        foreach($vendor->cars as $car){
+            }   // if(is_null)
+            
+            return self::$dbConn;
 
-            $car->Get_Parts_for_Car($conn, $dateClause, $vendor->name);  // Get the parts delivered by the vendor for each car
+        }   // getConn()
 
-        }   // foreach($car)
 
-    }   // foreach($allVendors)
+        public static function closeConn(){
 
-   echo json_encode($allVendors);
+            if(self::$dbConn){
+                self::$dbConn->close();
+            }
+        }   // closeConn()
+
+
+        public static function getDateRangeStr()
+        {
+            if (empty(self::$dateRangeStr)){
+
+                $numDays = $_GET["numDays"];
+
+                $dateClause = '';
+
+                if ($numDays > 1){
+                    $dateClause = "invoice_date IS NOT NULL";
+                } else {
+                    $dateClause = "DATEDIFF(CURDATE(), Invoice_Date) = $numDays";
+                }
+
+                self::$dateRangeStr = $dateClause;
+            }   // if (empty...)
+
+            return self::$dateRangeStr;
+
+        }   // getDateRangeStr()
+
+    
+        private function __construct(){}
+
+    }   // Global_Constants{}
+
+////////////////////////////////////////////////////
+
+    $companyID  = $_GET["companyID"];
+
+    $dateStrFilter = Global_Consts::getDateRangeStr();
+
+    $sql = <<<strSQL
+
+                SELECT DISTINCT p.vendor_name, r.shop_id 
+
+                FROM parts p INNER JOIN repairs r
+                        ON p.repair_id = r.id
+                    INNER JOIN shops s
+                        ON r.shop_id = s.id
+
+                WHERE p.vendor_name NOT IN (%s)
+                        AND $dateStrFilter
+                        AND s.company_id = $companyID
+
+                ORDER BY p.vendor_name
+
+            strSQL;
+
+    $sql = sprintf($sql, IN_HOUSE_VENDORS);
+
+//    echo $sql;
+//    exit;
+    
+    try {
+
+        $vendors = [];
+        $s = mysqli_query(Global_Consts::getConn(), $sql);
+
+        while($r = mysqli_fetch_assoc($s)){
+            $vendor = new Vendor($r);
+            array_push($vendors, $vendor);
+        }
+
+    } catch (Exception $e){
+
+        echo "Fetching vendors failed." . $e->getMessage();
+
+    } finally {
+
+        Global_Consts::closeConn();
+
+    }   // try-catch{}
+
+   echo json_encode($vendors);
+
+   ////////////////////////////////////////////
+
 
         // Deliveries by Vendor - Cars - Parts
     class Vendor {
 
-        public $name;
-        public $location_ID;
-        public $cars = [];
+        public  $name;
+        public  $shop_id;
+        public  $cars = [];
 
-        function __construct($rec, $dbConn){
-            $this->name = str_replace("'", "''", $rec["vendor_name"]);
-            $this->location_ID = $rec["loc_id"];
+        function __construct($rec){
+
+            $this->name     = str_replace("'", "''", $rec["vendor_name"]);
+            $this->shop_id  = $rec["shop_id"];
+            $this->cars     = $this->Get_Cars_for_Vendor();
+
         }   // Vendor()
 
-        function Get_Cars_for_Vendor($dbConn, $sqlDtClause){
+
+        function Get_Cars_for_Vendor(){
 
             $carList = [];
 
+            $sqlDateClause = Global_Consts::getDateRangeStr();
+
             $sql = <<<strSQL
 
-                SELECT DISTINCT
+                SELECT
+                    r.id AS repair_id, r.shop_id,
                     r.ro_num, r.vehicle, r.owner,
                     r.estimator, r.technician,
-                    r.vehicle_in, r.current_phase,
-                    r.loc_id
+                    r.vehicle_in, r.current_phase
 
-                FROM parts_status pse INNER JOIN repairs r
+                FROM repairs r
 
-                WHERE vendor_name = '$this->name'
-                    AND pse.ro_num = r.ro_num
-                    AND pse.loc_id = r.loc_id
-                    AND $sqlDtClause
+                WHERE r.id IN (
 
-                ORDER BY r.ro_num
+                    SELECT DISTINCT r.id 
+                    FROM repairs r INNER JOIN parts p
+                        ON r.id = p.repair_id
+                    WHERE 
+                        r.shop_id       = $this->shop_id AND 
+                        p.vendor_name   = '$this->name' AND
+                        $sqlDateClause
+                );
             strSQL;
 
             try{
 
-                $s = mysqli_query($dbConn, $sql);
+                $s = mysqli_query(Global_Consts::getConn(), $sql);
 
                 while($r = mysqli_fetch_assoc($s)){
-                    $car = new Car($r);
+                    $car = new Car($r, $this->name);
                     array_push($carList, $car);
                 }
 
             } catch(Exception $e){
 
                 echo "Fetching cars per vendor failed." . $e->getMessage();
-                $dbConn = null;
+                Global_Consts::closeConn();
 
             } finally {
-                $this->cars = $carList;
+
+                return $carList;
             }   // try-catch{}
         }
 
@@ -89,6 +181,7 @@
 
     class Car {
 
+        public $repair_id;
         public $ro_num;
         public $location_ID;
         public $owner;  
@@ -99,41 +192,45 @@
         public $current_phase;
         public $parts = [];
 
-        function __construct($rec){
+        function __construct($rec, $vendorName){
 
+            $this->repair_id        = $rec["repair_id"];
             $this->ro_num           = $rec["ro_num"];
-            $this->location_ID      = $rec["loc_id"];
+            $this->location_ID      = $rec["shop_id"];
             $this->vehicle          = $rec["vehicle"];
             $this->owner            = ucwords(strtolower($rec["owner"]));
             $this->estimator        = $rec["estimator"];
             $this->technician       = $rec["technician"];
             $this->vehicle_in       = $rec["vehicle_in"];
             $this->current_phase    = $rec["current_phase"];
+            $this->parts            = $this->Get_Parts_for_Car($vendorName);
 
-        }
+        }   // __construct()
 
-        function Get_Parts_for_Car($dbConn, $sqlDtClause, $vendorName){
+        function Get_Parts_for_Car($vendor_name){
+
+            $sqlDateClause = Global_Consts::getDateRangeStr();
 
             $sql = <<<strSQL
 
                 SELECT
-                    part_number,
-                    part_description,
+                    number,
+                    description,
                     received_qty,
                     invoice_date
 
-                FROM parts_status
+                FROM parts
 
-                WHERE ro_num = '$this->ro_num'
-                    AND vendor_name = '$vendorName'
-                    AND $sqlDtClause
+                WHERE repair_id = $this->repair_id
+                    AND vendor_name = '$vendor_name'
+                    AND $sqlDateClause
 
             strSQL;
 
             try{
 
                 $partsList = [];
-                $s = mysqli_query($dbConn, $sql);
+                $s = mysqli_query(Global_Consts::getConn(), $sql);
 
                 while($r = mysqli_fetch_assoc($s)){
                     $part = new Part($r);
@@ -143,11 +240,11 @@
             } catch(Exception $e){
 
                 echo "Fetching parts failed." . $e->getMessage();
-                $dbConn = null;
+                Global_Consts::closeConn();
 
             } finally {
 
-                $this->parts = $partsList;
+                return $partsList;
             }   // try-catch{}
 
         }   // Get_Vendors_for_Car()
@@ -163,51 +260,11 @@
         public $invoice_date;
 
         function __construct($rec){
-            $this->part_number          = $rec["part_number"];
-            $this->part_description     = $rec["part_description"];
+            $this->part_number          = $rec["number"];
+            $this->part_description     = $rec["description"];
             $this->received_quantity    = $rec["received_qty"];
             $this->invoice_date         = GetDisplayDate($rec["invoice_date"]);
         }   // Part()
     }   // Part{}
-
-
-    function Get_All_Vendors($dbConn, $sqlDateClause){
-
-        $sql = <<<strSQL
-
-                    SELECT DISTINCT pse.vendor_name, pse.loc_id 
-
-                    FROM parts_status pse INNER JOIN repairs r
-                        ON pse.ro_num = r.ro_num
-
-                    WHERE pse.vendor_name NOT IN (%s)
-                         AND $sqlDateClause
-
-                    ORDER BY pse.vendor_name
-
-                strSQL;
-        $sql = sprintf($sql, IN_HOUSE_VENDORS);
-        //echo $sql;
-        try {
-
-            $vendors = [];
-            $s = mysqli_query($dbConn, $sql);
-
-            while($r = mysqli_fetch_assoc($s)){
-                $vendor = new Vendor($r, $dbConn);
-                array_push($vendors, $vendor);
-            }
-
-        } catch (Exception $e){
-
-            echo "Fetching vendors failed." . $e->getMessage();
-            $dbConn = null;
-
-        } finally {
-
-            return $vendors;
-
-        }   // try-catch{}
-    }   // Get_All_Cars()
 
 ?>

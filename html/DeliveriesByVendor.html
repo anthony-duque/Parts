@@ -46,7 +46,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat='eachVendor in allVendors | filter: searchText | filter : { location_ID : locationID }' ng-class='ToggleColor($index, "lightGreen", "white");'>
+        <tr ng-repeat='eachVendor in allVendors | filter: searchText | filter : { shop_id : locationID }' ng-class='ToggleColor($index, "lightGreen", "white");'>
             <td align='center' width='15%' id='carColumn'>
                 {{ eachVendor.name }}
             </td>
