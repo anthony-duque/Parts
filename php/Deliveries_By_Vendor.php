@@ -140,7 +140,7 @@
                     r.id AS repair_id, r.shop_id,
                     r.ro_num, r.vehicle, r.owner,
                     r.estimator, r.technician,
-                    r.vehicle_in, r.current_phase
+                    r.vehicle_in
 
                 FROM repairs r
 
@@ -189,7 +189,6 @@
         public $estimator;
         public $technician;
         public $vehicle_in;
-        public $current_phase;
         public $parts = [];
 
         function __construct($rec, $vendorName){
@@ -202,7 +201,6 @@
             $this->estimator        = $rec["estimator"];
             $this->technician       = $rec["technician"];
             $this->vehicle_in       = $rec["vehicle_in"];
-            $this->current_phase    = $rec["current_phase"];
             $this->parts            = $this->Get_Parts_for_Car($vendorName);
 
         }   // __construct()

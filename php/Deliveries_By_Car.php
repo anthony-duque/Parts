@@ -68,9 +68,9 @@
         // Get all Repairs associated with company
     $sql = <<<strSQL
 
-            SELECT r.id AS repair_id, r.ro_num, SUBSTRING_INDEX(r.owner, ',', 1) AS owner,
-                r.vehicle, r.technician, r.estimator, r.vehicle_in, r.current_phase,
-                r.shop_id
+            SELECT r.id AS repair_id, r.shop_id, r.ro_num,
+                    SUBSTRING_INDEX(r.owner, ',', 1) AS owner,
+                    r.vehicle, r.technician, r.estimator, r.vehicle_in
             FROM repairs r
             WHERE r.id IN (
                 SELECT DISTINCT r.id
@@ -85,9 +85,6 @@
     strSQL;
 
     $sql = sprintf($sql, IN_HOUSE_VENDORS);
-
-//        echo $sql;
-//        exit;
 
     try {
 
@@ -123,7 +120,6 @@
         public $estimator;
         public $technician;
         public $vehicle_in;
-        public $current_phase;
         public $vendors;
 
         function __construct($rec){
@@ -136,7 +132,6 @@
             $this->estimator        = $rec["estimator"];
             $this->technician       = $rec["technician"];
             $this->vehicle_in       = $rec["vehicle_in"];
-            $this->current_phase    = $rec["current_phase"];
 
             $this->vendors          = $this->Get_Vendors_for_Car();
         }
