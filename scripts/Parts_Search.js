@@ -24,7 +24,7 @@ var partsSearchController = function($scope, $http, utility){
 
     function GetAllParts()
     {
-        $http.get('./php/Parts_Search.php')
+        $http.get('./php/Parts_Search.php?companyID=' + $scope.companyID)
           .then(handleSuccess)
           .catch(handleError);   // .then()
     } // GetAllParts()
