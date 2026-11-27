@@ -63,7 +63,7 @@
 
         public $repair_id;
         public $ro_num;
-        public $location_ID;
+        public $shop_id;
         public $owner;
         public $vehicle;
         public $estimator;
@@ -75,7 +75,7 @@
 
             $this->repair_id        = $rec["repair_id"];
             $this->ro_num           = $rec["ro_num"];
-            $this->location_ID      = $rec["shop_id"];
+            $this->shop_id          = $rec["shop_id"];
             $this->vehicle          = $rec["vehicle"];
             $this->owner            = ucwords(strtolower($rec["owner"]));
             $this->estimator        = $rec["estimator"];
